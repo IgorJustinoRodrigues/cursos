@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get("/ver", [SiteController::class, 'ver']);
+Route::get("/login-aluno", [SiteController::class, 'login']);
+Route::get("/ver-curso", [SiteController::class, 'ver'])->name('ver');
+Route::get("/ver-quiz", [SiteController::class, 'quiz'])->name('quiz');
+Route::get("/info-aluno", [SiteController::class, 'info'])->name('info-aluno');
+Route::get("/painel-aluno", [SiteController::class, 'painel'])->name('painel-aluno');
