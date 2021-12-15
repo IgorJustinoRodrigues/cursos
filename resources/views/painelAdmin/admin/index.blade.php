@@ -17,19 +17,20 @@
 
         <div class="mb-4 d-flex align-items-center">
             <small class="text-black-70 mr-3">
-                @if($paginacao->total() > 1)
-                Exibindo {{ $paginacao->firstItem() }} ao {{ $paginacao->lastItem() }} de {{ $paginacao->total() }} Registros
+                @if ($paginacao->total() > 1)
+                    Exibindo {{ $paginacao->firstItem() }} ao {{ $paginacao->lastItem() }} de
+                    {{ $paginacao->total() }} Registros
                 @elseif($paginacao->total() == 1)
-                {{ $paginacao->total() }} Registro
+                    {{ $paginacao->total() }} Registro
                 @else
-                Não há registros
+                    Não há registros
                 @endif
             </small>
             <!-- Search -->
             <form class="flex search-form form-control-rounded search-form--light mb-2 col-md-12"
                 action="{{ route('adminIndex') }}" method="GET" style="min-width: 200px;">
                 <input type="hidden" name="page" value="1" />
-                <input type="text" class="form-control" placeholder="Digite sua busca" id="busca" name="busca" required>
+                <input type="text" class="form-control" placeholder="Digite sua busca" id="busca" value="{{ $busca }}" name="busca" required>
                 <button class="btn pr-3" type="submit" role="button"><i class="material-icons">search</i></button>
                 @if (@$busca)
                     <a href="{{ route('adminIndex') }}" class="btn pr-3 text-danger" type="button" role="button"><i
@@ -53,15 +54,27 @@
                     @foreach ($paginacao as $item)
                         <tr>
                             <td class="text-center">
-                                <img src="{{ URL::asset('storage/' . $item->avatar) }}" alt=""
-                                    class="avatar-img rounded-circle">
+                                <a href="{{ route('adminEditar', $item->id) }}">
+                                    <img src="{{ URL::asset('storage/' . $item->avatar) }}" alt=""
+                                        class="avatar-img rounded-circle">
+                                </a>
                             </td>
-                            <td>{{ $item->nome }}</td>
+                            <td>
+                                <a href="{{ route('adminEditar', $item->id) }}">
+                                    {{ $item->nome }}
+                                </a>
+                            </td>
                             <td>{{ $item->email }}</td>
                             <td>{{ app(App\Http\Controllers\AdminController::class)->tipo($item->tipo) }}</td>
                             <td class="table-dropdown text-center">
-                                <a href="{{ route('adminEditar', $item->id) }}" class="btn btn-success"><i
-                                        class="fa fa-edit"></i></a>
+                                <a href="{{ route('adminEditar', $item->id) }}" class="btn btn-success mb-1">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                @if($item->id != $_SESSION['admin_cursos_start']['id_admin'])
+                                <a onclick="confirmacao('{{ route('adminDeletar', $item->id)}}', '<h3>Realmente deseja excluir esse administrador?</h3><p>{{$item->nome}}</p>')" class="btn btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

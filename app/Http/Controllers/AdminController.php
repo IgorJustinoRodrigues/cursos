@@ -96,8 +96,8 @@ class AdminController extends Controller
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required',
-            'email' => 'required|max:100',
-            'senha' => 'required',
+            'email' => 'required|max:100|unique:admins,email',
+            'senha' => 'required|min:6',
         ]);
 
         //Nova instância do Model Admin
@@ -188,7 +188,7 @@ class AdminController extends Controller
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required',
-            'email' => 'required|max:100',
+            'email' => "required|max:100|unique:admins,email,{$item->id}"
         ]);
 
         //Atribuição dos valores recebidos da váriavel $request para o objeto $item
@@ -256,6 +256,7 @@ class AdminController extends Controller
                 $logado['tipo_numero_admin'] = $item->tipo;
                 $logado['anotacoes_admin'] = $item->anotacoes;
                 $logado['cadastro_admin'] = $item->cadastro;
+                $logado['ultimo_acesso_admin'] = $item->updated_at->format('d/m/Y') . ' às ' . $item->updated_at->format('H:i');
 
                 //Substitui os valos da sessão ativa
                 $_SESSION['admin_cursos_start'] = $logado;
@@ -288,15 +289,12 @@ class AdminController extends Controller
     - Responsável por excluir as informações de um administrador
     - $request: Recebe o Id do um administrador a ser excluido
     */
-    public function deletar(Request $request)
+    public function deletar(Admin $item)
     {
         //Validação de acesso
         if (!(new Services())->validarAdmin())
             //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
-
-        //Realiza uma busca pelo Id
-        $item = Admin::find($request->id);
 
         //Inícia a Sessão
         @session_start();

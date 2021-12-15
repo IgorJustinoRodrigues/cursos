@@ -31,7 +31,7 @@ Route::get('/admin-cadastro', [AdminController::class, 'cadastro'])->name('admin
 Route::post('/admin-inserir', [AdminController::class, 'inserir'])->name('adminInserir');
 Route::get('/admin-editar/{item}', [AdminController::class, 'editar'])->name('adminEditar');
 Route::put('/admin-salvar/{item}', [AdminController::class, 'salvar'])->name('adminSalvar');
-Route::delete('/admin-delete', [AdminController::class, 'deletar'])->name('adminDeletar');
+Route::get('/admin-delete/{item}', [AdminController::class, 'deletar'])->name('adminDeletar');
 
 /*
 ROTAS DE LOGIN E LOGOFF
