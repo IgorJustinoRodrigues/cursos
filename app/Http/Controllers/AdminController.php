@@ -26,6 +26,22 @@ class AdminController extends Controller
     }
 
     /*
+    Função Acesso de Admin do Site
+    - Responsável por mostrar a tela de login de Admin no site
+    */
+    public function recuperacaoAdmin()
+    {
+        //Exibe a view
+        return view('painelAdmin.admin.recuperaSenhaAdmin');
+    }
+
+    public function verificaEmailAdmin()
+    {
+        //Exibe a view
+        dd('3');
+    }
+
+    /*
     Função Painel
     - Responsável por mostrar a tela inícial do painel de administradores
     */

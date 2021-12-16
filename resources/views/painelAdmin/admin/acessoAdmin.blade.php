@@ -31,7 +31,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-label" for="email">E-mail:</label>
+                            <label class="form-label" for="senha">Senha:</label>
                             <div class="input-group input-group-merge">
                                 <input id="senha" type="password" name="senha" value="<?= Cookie::get('admin_senha') ?>"
                                     required class="form-control form-control-prepended" placeholder="********"

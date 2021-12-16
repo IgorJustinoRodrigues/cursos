@@ -24,8 +24,6 @@ Route::get('/painel-admin', [AdminController::class, 'painel'])->name('painelAdm
 /*
 ROTAS DE ADMIN
 */
-Route::get('/acesso-admin', [AdminController::class, 'acessoAdmin'])->name('acessoAdmin');
-
 Route::get('/admin', [AdminController::class, 'index'])->name('adminIndex');
 Route::get('/admin-cadastro', [AdminController::class, 'cadastro'])->name('adminCadastro');
 Route::post('/admin-inserir', [AdminController::class, 'inserir'])->name('adminInserir');
@@ -36,9 +34,11 @@ Route::get('/admin-delete/{item}', [AdminController::class, 'deletar'])->name('a
 /*
 ROTAS DE LOGIN E LOGOFF
 */
+Route::get('/acesso-admin', [AdminController::class, 'acessoAdmin'])->name('acessoAdmin');
 Route::post('/login-admin', [AdminController::class, 'login'])->name('loginAdmin');
 Route::get('/sair-admin', [AdminController::class, 'sair'])->name('sairAdmin');
-Route::get('/recuperar-senha-admin', [AdminController::class, 'recuperar'])->name('recuperacaoAdmin');
+Route::get('/recuperar-senha-admin', [AdminController::class, 'recuperacaoAdmin'])->name('recuperacaoAdmin');
+Route::get('/verifica-email-admin', [AdminController::class, 'verificaEmailAdmin'])->name('verificaEmailAdmin');
 
 Route::get("/login-aluno", [SiteController::class, 'login']);
 Route::get("/ver-curso", [SiteController::class, 'ver'])->name('ver');
