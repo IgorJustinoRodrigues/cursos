@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AlunoController;
 use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,30 @@ Route::post('/login-admin', [AdminController::class, 'login'])->name('loginAdmin
 Route::get('/sair-admin', [AdminController::class, 'sair'])->name('sairAdmin');
 Route::get('/recuperar-senha-admin', [AdminController::class, 'recuperacaoAdmin'])->name('recuperacaoAdmin');
 Route::get('/verifica-email-admin', [AdminController::class, 'verificaEmailAdmin'])->name('verificaEmailAdmin');
+
+
+//Rota Painel Aluno Raiz
+Route::get('/painel-aluno', [AlunoController::class, 'painel'])->name('painelAluno');
+
+/*
+ROTAS DE ADMIN
+*/
+Route::get('/aluno', [AlunoController::class, 'index'])->name('alunoIndex');
+Route::get('/aluno-cadastro', [AlunoController::class, 'cadastro'])->name('alunoCadastro');
+Route::post('/aluno-inserir', [AlunoController::class, 'inserir'])->name('alunoInserir');
+Route::get('/aluno-editar/{item}', [AlunoController::class, 'editar'])->name('alunoEditar');
+Route::put('/aluno-salvar/{item}', [AlunoController::class, 'salvar'])->name('alunoSalvar');
+Route::get('/aluno-delete/{item}', [AlunoController::class, 'deletar'])->name('alunoDeletar');
+
+/*
+ROTAS DE LOGIN E LOGOFF
+*/
+Route::get('/acesso-aluno', [AlunoController::class, 'acessoAluno'])->name('acessoAluno');
+Route::post('/login-aluno', [AlunoController::class, 'login'])->name('loginAluno');
+Route::get('/sair-aluno', [AlunoController::class, 'sair'])->name('sairAluno');
+Route::get('/recuperar-senha-aluno', [AlunoController::class, 'recuperacaoAluno'])->name('recuperacaoAluno');
+Route::get('/verifica-email-aluno', [AlunoController::class, 'verificaEmailAluno'])->name('verificaEmailAluno');
+
 
 Route::get("/login-aluno", [SiteController::class, 'login']);
 Route::get("/ver-curso", [SiteController::class, 'ver'])->name('ver');
