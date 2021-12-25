@@ -15,12 +15,17 @@ class CreateAdminsTable extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
+
             $table->string('nome', 100);
             $table->string('email', 200)->unique();
-            $table->string('senha', 32)->default('123456');
+            $table->string('senha', 32);
+            $table->string('token', 32);
+            $table->dateTime('validade_token', 32);
             $table->string('avatar', 150);
             $table->string('tipo', 2);
             $table->text('anotacoes')->nullable();
+            $table->string('status', 1);
+            
             $table->timestamps();
         });
     }
