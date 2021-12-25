@@ -20,7 +20,7 @@ class CreateAdminsTable extends Migration
             $table->string('email', 200)->unique();
             $table->string('senha', 32);
             $table->string('token', 32);
-            $table->dateTime('validade_token', 32);
+            $table->dateTime('validade_token');
             $table->string('avatar', 150);
             $table->string('tipo', 2);
             $table->text('anotacoes')->nullable();

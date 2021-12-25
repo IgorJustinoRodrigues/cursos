@@ -19,7 +19,7 @@ class CreateCursoPacotesTable extends Migration
 
             $table->primary(['pacote_id', 'curso_id']); 
 
-            $table->foreign('pacote_id')->references('id')->on('pacotes');
+            $table->foreign('pacote_id')->references('id')->on('pacote_cursos');
             $table->foreign('curso_id')->references('id')->on('cursos');
         });
     }
