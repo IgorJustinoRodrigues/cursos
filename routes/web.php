@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlunoController;
+use App\Http\Controllers\ParceiroController;
 use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,7 +47,7 @@ Route::get('/verifica-email-admin', [AdminController::class, 'verificaEmailAdmin
 Route::get('/painel-aluno', [AlunoController::class, 'painel'])->name('painelAluno');
 
 /*
-ROTAS DE ADMIN
+ROTAS DE ALUNO
 */
 Route::get('/aluno', [AlunoController::class, 'index'])->name('alunoIndex');
 Route::get('/aluno-cadastro', [AlunoController::class, 'cadastro'])->name('alunoCadastro');
@@ -54,6 +55,7 @@ Route::post('/aluno-inserir', [AlunoController::class, 'inserir'])->name('alunoI
 Route::get('/aluno-editar/{item}', [AlunoController::class, 'editar'])->name('alunoEditar');
 Route::put('/aluno-salvar/{item}', [AlunoController::class, 'salvar'])->name('alunoSalvar');
 Route::get('/aluno-delete/{item}', [AlunoController::class, 'deletar'])->name('alunoDeletar');
+
 
 /*
 ROTAS DE LOGIN E LOGOFF
@@ -65,8 +67,33 @@ Route::get('/recuperar-senha-aluno', [AlunoController::class, 'recuperacaoAluno'
 Route::get('/verifica-email-aluno', [AlunoController::class, 'verificaEmailAluno'])->name('verificaEmailAluno');
 
 
+//Rota Painel Parceiro Raiz
+Route::get('/painel-parceiro', [ParceiroController::class, 'painel'])->name('painelParceiro');
+
+/*
+ROTAS DE PARCEIRO
+*/
+Route::get('/parceiro', [ParceiroController::class, 'index'])->name('parceiroIndex');
+Route::get('/parceiro-cadastro', [ParceiroController::class, 'cadastro'])->name('parceiroCadastro');
+Route::post('/parceiro-inserir', [ParceiroController::class, 'inserir'])->name('parceiroInserir');
+Route::get('/parceiro-editar/{item}', [ParceiroController::class, 'editar'])->name('parceiroEditar');
+Route::put('/parceiro-salvar/{item}', [ParceiroController::class, 'salvar'])->name('parceiroSalvar');
+Route::get('/parceiro-delete/{item}', [ParceiroController::class, 'deletar'])->name('parceiroDeletar');
+Route::get('/parceiro-resete-senha/{item}', [ParceiroController::class, 'reseteSenha'])->name('parceiroReseteSenha');
+
+
+/*
+ROTAS DE LOGIN E LOGOFF
+*/
+Route::get('/acesso-parceiro', [ParceiroController::class, 'acessoParceiro'])->name('acessoParceiro');
+Route::post('/login-parceiro', [ParceiroController::class, 'login'])->name('loginParceiro');
+Route::get('/sair-parceiro', [ParceiroController::class, 'sair'])->name('sairParceiro');
+
+
+
 Route::get("/login-aluno", [SiteController::class, 'login']);
 Route::get("/ver-curso", [SiteController::class, 'ver'])->name('ver');
 Route::get("/ver-quiz", [SiteController::class, 'quiz'])->name('quiz');
 Route::get("/info-aluno", [SiteController::class, 'info'])->name('info-aluno');
 Route::get("/painel-aluno", [SiteController::class, 'painel'])->name('painel-aluno');
+

@@ -201,25 +201,25 @@
                             <!-- User dropdown -->
                             <li class="nav-item dropdown ml-1 ml-md-3">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"><img
-                                        src="{{ URL::asset('storage/' . $_SESSION['admin_cursos_start']['avatar_admin']) }}"
+                                        src="{{ URL::asset('storage/' . $_SESSION['parceiro_cursos_start']['logo_parceiro']) }}"
                                         alt="Avatar" class="rounded-circle" width="40"></a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <p class="dropdown-item">
-                                        {{ $_SESSION['admin_cursos_start']['nome_admin'] }}
+                                        {{ $_SESSION['parceiro_cursos_start']['nome_parceiro'] }}
                                     </p>
-                                    <a class="dropdown-item" href="{{ route('painelAdmin') }}">
+                                    <a class="dropdown-item" href="{{ route('painelParceiro') }}">
                                         <i class="material-icons">person</i> Perfil
                                     </a>
                                     <a class="dropdown-item"
-                                        href="{{ route('adminEditar', $_SESSION['admin_cursos_start']['id_admin']) }}">
+                                        href="{{ route('parceiroEditar', $_SESSION['parceiro_cursos_start']['id_parceiro']) }}">
                                         <i class="material-icons">edit</i> Editar Conta
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('sairAdmin') }}">
+                                    <a class="dropdown-item" href="{{ route('sairParceiro') }}">
                                         <i class="material-icons">lock</i> Sair
                                     </a>
                                     <p class="dropdown-item" style="font-size: 10px">
                                         Último acesso
-                                        em:<br>{{ $_SESSION['admin_cursos_start']['ultimo_acesso_admin'] }}
+                                        em:<br>{{ $_SESSION['parceiro_cursos_start']['ultimo_acesso_parceiro'] }}
                                     </p>
                                 </div>
                             </li>
@@ -256,39 +256,15 @@
                                 <!-- Account menu -->
                                 <div class="sidebar-heading">Administrativo</div>
                                 <ul class="sidebar-menu">
-                                    <li class="sidebar-menu-item @hasSection('menu-admin') active @endif">
+                                    <li class="sidebar-menu-item @hasSection('menu-parceiro') active @endif">
                                         <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
                                             href="#account_menu">
                                             <i
                                                 class="sidebar-menu-icon sidebar-menu-icon--left material-icons">person_outline</i>
-                                            Administradores
+                                            Parceiro
                                             <span class="ml-auto sidebar-menu-toggle-icon"></span>
                                         </a>
                                         <ul class="sidebar-submenu sm-indent collapse" id="account_menu">
-                                            <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('adminIndex') }}">
-                                                    <span class="sidebar-menu-text">Listar</span>
-                                                </a>
-                                            </li>
-                                            <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('adminCadastro') }}">
-                                                    <span class="sidebar-menu-text">Cadastro</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                                <div class="sidebar-heading">Gerenciar</div>
-                                <ul class="sidebar-menu">
-                                    <li class="sidebar-menu-item @hasSection('menu-admin') active @endif">
-                                        <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
-                                            href="#menuParceiro">
-                                            <i
-                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">supervised_user_circle</i>
-                                           Parceiros
-                                            <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                                        </a>
-                                        <ul class="sidebar-submenu sm-indent collapse" id="menuParceiro">
                                             <li class="sidebar-menu-item">
                                                 <a class="sidebar-menu-button" href="{{ route('parceiroIndex') }}">
                                                     <span class="sidebar-menu-text">Listar</span>
@@ -302,6 +278,8 @@
                                         </ul>
                                     </li>
                                 </ul>
+                                <div class="sidebar-heading">Cursos</div>
+
                             </div>
                         </div>
                     </div>
@@ -310,8 +288,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalConfirmacao" tabindex="-1" aria-labelledby="confirmacaoLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="modalConfirmacao" tabindex="-1" aria-labelledby="confirmacaoLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">

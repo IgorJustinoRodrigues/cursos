@@ -1,0 +1,39 @@
+Deixar as Mensagens do Laravel em português:
+Executar os comandos contidos em: https://github.com/lucascudo/laravel-pt-BR-localization
+
+
+Criar um novo projeto
+
+Abrir o CMD na pasta do Projeto
+Comando: laravel new nomeProjeto
+
+Criar um controller no Visual Studio pelo Terminal
+Comando: php artisan make:controller NomeController
+
+Criar Models e Migrations Juntos (cria tabelas no Bd)
+Comando: php artisan make:model (Nome Singular) --migration
+
+Criar Apenas Models
+Comando: php artisan make:model (Nome Singular)
+
+Executar Migrations
+Comando: php artisan migrate
+
+Status Migrations
+Comando: php artisan migrate:status
+
+Drop tables (executar 2x)
+comando: php artisan migrate:rollback
+
+Comando para Link Storage
+php artisan storage:link
+
+Drop tables (executar 2x)
+comando: php artisan migrate:refresh
+
+Laravel 8 Limpar Cache de Route, View, Config
+Comandos:
+->php artisan cache:clear
+->php artisan route:cache
+->php artisan view:clear
+->php artisan config:cache

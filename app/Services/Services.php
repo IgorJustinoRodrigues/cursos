@@ -64,6 +64,36 @@ class Services
         return redirect()->route('acessoAluno')->with('erro', 'Para acessar esse conteúdo é necessário fazer login no sistema!');
     }
 
+
+        /*
+    Função Validar Parceiro
+    - Responsável por verificar se há uma sessão ativa de um parceiro
+    */
+    public function validarParceiro()
+    {
+        //Inícia a Sessão
+        @session_start();
+
+        //Verifica se não existe uma sessão ativa de parceiro
+        if (!isset($_SESSION['parceiro_cursos_start']) or !is_numeric($_SESSION['parceiro_cursos_start']['id_parceiro'])) {
+            //Expira a sessão
+            unset($_SESSION['parceiro_cursos_start']);
+            return false;
+
+        } else {
+            //Redirecionamento para a rota sairParceiro após 10 minutos sem uma nova requisição
+            header("Refresh:6000; url=" . route('sairParceiro'));
+
+            //Retorna verdade para a sessão ativa
+            return true;
+        }
+    }
+    
+    public function redirecionarParceiro(){
+        return redirect()->route('acessoParceiro')->with('erro', 'Para acessar esse conteúdo é necessário fazer login no sistema!');
+    }
+
+
     public function data_atual(){
         return $this->diaSemana(date('w')) . ', ' . date('d') . ' de ' . $this->mes(date('n'));
     }
