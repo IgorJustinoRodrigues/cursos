@@ -14,7 +14,7 @@ class ProfessorController extends Controller
 
     /*
     Função Index de Professor
-    - Responsável por mostrar a tela de listagem de parceiros 
+    - Responsável por mostrar a tela de listagem de professors 
     - $request: Recebe valores de busca e paginação
     */
     public function index(Request $request)
@@ -157,7 +157,7 @@ class ProfessorController extends Controller
     {
         //Validação de acesso
         if (!(new Services())->validarAdmin())
-            //Redirecionamento para a rota acessoParceiro, com mensagem de erro, sem uma sessão ativa
+            //Redirecionamento para a rota acessoProfessor, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
         //Validação das informações recebidas
@@ -236,7 +236,7 @@ class ProfessorController extends Controller
         //Deleta o professor informado
         if ($item->save()) {
 
-            //Redirecionamento para a rota parceiroIndex, com mensagem de sucesso
+            //Redirecionamento para a rota professorIndex, com mensagem de sucesso
             return redirect()->route('professorIndex')->with('sucesso', 'Professor excluido!');
         } else {
             //Redirecionamento para a rota professorIndex, com mensagem de erro
@@ -247,13 +247,13 @@ class ProfessorController extends Controller
 
    
     /*
-    Função status de Parceiro
-    - Responsável por exibir o status do parceiro
-    - $status: Recebe o Id do status do parceiro
+    Função status de Professor
+    - Responsável por exibir o status do professor
+    - $status: Recebe o Id do status do professor
     */
     public function status($status)
     {
-        //Verifica o status do parceiro
+        //Verifica o status do professor
         switch ($status) {
             case 1:
                 //Retorna o status Ativo
