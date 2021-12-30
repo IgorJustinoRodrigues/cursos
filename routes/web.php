@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlunoController;
+use App\Http\Controllers\CategoriaCursoController;
 use App\Http\Controllers\ParceiroController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\SiteController;
@@ -100,6 +101,17 @@ Route::post('/professor-inserir', [ProfessorController::class, 'inserir'])->name
 Route::get('/professor-editar/{item}', [ProfessorController::class, 'editar'])->name('professorEditar');
 Route::put('/professor-salvar/{item}', [ProfessorController::class, 'salvar'])->name('professorSalvar');
 Route::get('/professor-delete/{item}', [ProfessorController::class, 'deletar'])->name('professorDeletar');
+
+/*
+ROTAS DE CATEGORIA DE CURSO
+*/
+Route::get('/categoria-curso', [CategoriaCursoController::class, 'index'])->name('categoriaCursoIndex');
+Route::get('/categoria-curso-cadastro', [CategoriaCursoController::class, 'cadastro'])->name('categoriaCursoCadastro');
+Route::post('/categoria-curso-inserir', [CategoriaCursoController::class, 'inserir'])->name('categoriaCursoInserir');
+Route::get('/categoria-curso-editar/{item}', [CategoriaCursoController::class, 'editar'])->name('categoriaCursoEditar');
+Route::put('/categoria-curso-salvar/{item}', [CategoriaCursoController::class, 'salvar'])->name('categoriaCursoSalvar');
+Route::get('/categoria-curso-delete/{item}', [CategoriaCursoController::class, 'deletar'])->name('categoriaCursoDeletar');
+
 
 Route::get("/login-aluno", [SiteController::class, 'login']);
 Route::get("/ver-curso", [SiteController::class, 'ver'])->name('ver');
