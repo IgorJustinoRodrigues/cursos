@@ -3,7 +3,72 @@
 @section('menu-admin', 'true')
 
 @section('footer')
+<script>    
+    function validaUsuario() {
+        var tabela = 'administrador';
+        var usuario = $("#email").val();
+        var id = $("#id").val();
+        
+        if(usuario == ''){
+            $("#retorno-usuario").text('');
+            return null;
+        }
 
+        $.ajax({
+            type: 'post',
+            url: "{{ route('adminValidaUsuario') }}",
+            data: {
+                usuario: usuario,
+                tabela: tabela,
+                id: id,
+                _token: $("input[name='_token']").val()
+            },
+            dataType: 'json',
+            beforeSend: function() {
+                //Aguardando
+            },
+            success: function(data) {
+                if (data.status == '1') {
+                    $("#retorno-usuario").removeClass('text-success');
+                    $("#retorno-usuario").removeClass('text-danger');
+                    $("#retorno-usuario").removeClass('text-primary');
+                    
+                    if(data.tipo == 1){
+                        $("#retorno-usuario").addClass('text-success');
+                    } else if(data.tipo == 2){
+                        $("#retorno-usuario").addClass('text-danger');
+                        $("#email").val('');
+                    } else {
+                        $("#retorno-usuario").addClass('text-primary');
+                    }
+
+                    $("#retorno-usuario").text(data.msg);
+                } else {
+                    Lobibox.notify('warning', {
+                        size: 'mini',
+                        sound: false,
+                        icon: false,
+                        position: 'top right',
+                        msg: data.msg
+                    });
+                    $("#retorno-usuario").text('');
+                    $("#email").val('');
+                }
+            },
+            error: function(data) {
+                Lobibox.notify('error', {
+                    size: 'mini',
+                    sound: false,
+                    icon: false,
+                    position: 'top right',
+                    msg: "O sistema está passando por instabilidades no momento! Tente novamente mais tarde."
+                });
+            }
+        });
+    }
+
+    validaUsuario();
+</script>
 @endsection
 
 @section('conteudo')
@@ -19,7 +84,7 @@
                     <form method="POST" action="{{ route('adminSalvar', $item) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-                        <input type="hidden" name="id" value="{{ $item->id }}">
+                        <input type="hidden" name="id" id="id" value="{{ $item->id }}">
                         <div class="form-row">
                             <div class="col-9 col-md-11 mb-3">
                                 <label class="form-label" for="nome">Nome</label>
@@ -46,8 +111,9 @@
                             @endif
                             <div class="col-12 col-md-6 mb-3">
                                 <label class="form-label" for="email">E-mail</label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="E-mail"
+                                <input type="email" class="form-control" id="email" name="email" onchange="validaUsuario()" placeholder="E-mail"
                                     value="{{ $item->email }}" required="">
+                                    <small id="retorno-usuario" class="form-text"></small>
                             </div>
                             <div class="col-12 col-md-6 mb-3">
                                 <label class="form-label" for="senha">Editar Senha</label>

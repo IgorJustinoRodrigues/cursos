@@ -482,7 +482,29 @@ class AdminController extends Controller
                     break;
 
                 case 'administrador':
+                    $resultado = Admin::where('email', '=', $usuario)->first();
 
+                    if($resultado){
+                        if($resultado->id == $id){
+                            $retorno = [
+                                'msg' => 'E-mail atual!',
+                                'tipo' => '3',
+                                'status' => 1
+                            ];
+                        } else {
+                            $retorno = [
+                                'msg' => 'E-mail "'.$usuario.'", não está disponível!',
+                                'tipo' => '2',
+                                'status' => 1
+                            ];
+                        }
+                    } else {
+                        $retorno = [
+                            'msg' => 'E-mail disponível!',
+                            'tipo' => '1',
+                            'status' => 1
+                        ]; 
+                    }
                     break;
 
                 default:
