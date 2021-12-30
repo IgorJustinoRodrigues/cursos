@@ -31,27 +31,27 @@
                             <div class="col-12 col-md-6 mb-3">
                                 <label class="form-label" for="email">E-mail</label>
                                 <input type="email" class="form-control" id="email" name="email" placeholder="E-mail"
-                                    value="{{ old('email') }}" required="">
+                                    value="{{ old('email') }}">
                             </div>
                             <div class="col-12 col-md-6 mb-3">
                                 <label class="form-label" for="facebook">Facebook</label>
                                 <input type="url" class="form-control" id="facebook" name="facebook" placeholder="URL do Facebook"
-                                    value="{{ old('facebook') }}" required="">
+                                    value="{{ old('facebook') }}">
                             </div>
                             <div class="col-12 col-md-6 mb-3">
                                 <label class="form-label" for="instagram">Instagram</label>
                                 <input type="url" class="form-control" id="instagram" name="instagram" placeholder="URL do Instagram"
-                                    value="{{ old('instagram') }}" required="">
+                                    value="{{ old('instagram') }}">
                             </div>
                             <div class="col-12 col-md-6 mb-3">
                                 <label class="form-label" for="linkedin">Linkedin</label>
                                 <input type="url" class="form-control" id="linkedin" name="linkedin" placeholder="URL do Linkedin"
-                                    value="{{ old('linkedin') }}" required="">
+                                    value="{{ old('linkedin') }}">
                             </div>
                             <div class="col-12 col-md-12 mb-3">
                                 <label class="form-label" for="site">Site</label>
                                 <input type="url" class="form-control" id="site" name="site" placeholder="URL do Site"
-                                    value="{{ old('site') }}" required="">
+                                    value="{{ old('site') }}">
                             </div>
                             <div class="col-12 mb-3">
                                 <label class="form-label" for="curriculo">Currículo</label>

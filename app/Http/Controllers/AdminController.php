@@ -6,11 +6,13 @@ namespace App\Http\Controllers;
 use App\Services\Services;
 use App\Models\Admin;
 use App\Models\Canvas;
+use App\Models\Parceiro;
 use App\Models\Servico;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 //Class AdminController
 class AdminController extends Controller
@@ -433,5 +435,70 @@ class AdminController extends Controller
                 return 'Atendimento';
                 break;
         }
+    }
+
+
+    /*
+    Função Valida Usuário
+    - Responsável por verificar se usuário de login já existe
+    */
+    public function validaUsuario(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarAdmin())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionar();
+
+        $tabela = $request->tabela;
+        $usuario = $request->usuario;
+        $id = @$request->id;
+        if(Str::length($usuario) >= 3){
+            switch ($tabela) {
+                case 'parceiro':
+                    $resultado = Parceiro::where('usuario', '=', $usuario)->first();
+
+                    if($resultado){
+                        if($resultado->id == $id){
+                            $retorno = [
+                                'msg' => 'Usuário atual!',
+                                'tipo' => '3',
+                                'status' => 1
+                            ];
+                        } else {
+                            $retorno = [
+                                'msg' => 'Usuário "'.$usuario.'", não está disponível!',
+                                'tipo' => '2',
+                                'status' => 1
+                            ];
+                        }
+                    } else {
+                        $retorno = [
+                            'msg' => 'Usuário disponível!',
+                            'tipo' => '1',
+                            'status' => 1
+                        ]; 
+                    }
+
+                    break;
+
+                case 'administrador':
+
+                    break;
+
+                default:
+                    $retorno = [
+                        'msg' => 'Paramêtros incorretos!',
+                        'status' => 0
+                    ]; 
+                    break;
+            }
+        } else {
+            $retorno = [
+                'msg' => 'O usuário deve ter no mínimo 3 caracteres!',
+                'status' => 0
+            ]; 
+        }
+
+        return response()->json($retorno);
     }
 }

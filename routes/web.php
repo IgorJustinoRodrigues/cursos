@@ -33,6 +33,7 @@ Route::post('/admin-inserir', [AdminController::class, 'inserir'])->name('adminI
 Route::get('/admin-editar/{item}', [AdminController::class, 'editar'])->name('adminEditar');
 Route::put('/admin-salvar/{item}', [AdminController::class, 'salvar'])->name('adminSalvar');
 Route::get('/admin-delete/{item}', [AdminController::class, 'deletar'])->name('adminDeletar');
+Route::post('/admin-valida-usuario', [AdminController::class, 'validaUsuario'])->name('adminValidaUsuario');
 
 /*
 ROTAS DE LOGIN E LOGOFF

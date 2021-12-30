@@ -8,6 +8,79 @@
 @endsection
 
 @section('footer')
+    <script>
+        function prepararSubmit() {
+            var sobre = $(".ql-editor").html();
+            $("#input-sobre").val(sobre);
+
+            return true;
+        }
+
+        function validaUsuario() {
+            var tabela = 'parceiro';
+            var usuario = $("#usuario").val();
+            var id = $("#id").val();
+            
+            if(usuario == ''){
+                $("#retorno-usuario").text('');
+                return null;
+            }
+
+            $.ajax({
+                type: 'post',
+                url: "{{ route('adminValidaUsuario') }}",
+                data: {
+                    usuario: usuario,
+                    tabela: tabela,
+                    id: id,
+                    _token: $("input[name='_token']").val()
+                },
+                dataType: 'json',
+                beforeSend: function() {
+                    //Aguardando
+                },
+                success: function(data) {
+                    if (data.status == '1') {
+                        $("#retorno-usuario").removeClass('text-success');
+                        $("#retorno-usuario").removeClass('text-danger');
+                        $("#retorno-usuario").removeClass('text-primary');
+                        
+                        if(data.tipo == 1){
+                            $("#retorno-usuario").addClass('text-success');
+                        } else if(data.tipo == 2){
+                            $("#retorno-usuario").addClass('text-danger');
+                            $("#usuario").val('');
+                        } else {
+                            $("#retorno-usuario").addClass('text-primary');
+                        }
+
+                        $("#retorno-usuario").text(data.msg);
+                    } else {
+                        Lobibox.notify('warning', {
+                            size: 'mini',
+                            sound: false,
+                            icon: false,
+                            position: 'top right',
+                            msg: data.msg
+                        });
+                        $("#retorno-usuario").text('');
+                        $("#usuario").val('');
+                    }
+                },
+                error: function(data) {
+                    Lobibox.notify('error', {
+                        size: 'mini',
+                        sound: false,
+                        icon: false,
+                        position: 'top right',
+                        msg: "O sistema está passando por instabilidades no momento! Tente novamente mais tarde."
+                    });
+                }
+            });
+        }
+
+        validaUsuario();
+    </script>
     <!-- Quill -->
     <script src="{{ URL::asset('template/vendor/quill.min.js') }}"></script>
     <script src="{{ URL::asset('template/js/quill.js') }}"></script>
@@ -23,10 +96,12 @@
         <div class="card card-body">
             <div class="row">
                 <div class="col-lg-12">
-                    <form method="POST" action="{{ route('parceiroSalvar', $item) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('parceiroSalvar', $item) }}" onsubmit="return prepararSubmit();"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-                        <input type="hidden" name="id" value="{{ $item->id }}">
+                        <input type="hidden" name="id" id="id" value="{{ $item->id }}">
+                        <input type="hidden" name="sobre" id="input-sobre">
                         <div class="form-row">
                             <div class="col-9 col-md-11 mb-3">
                                 <label class="form-label" for="nome">Nome</label>
@@ -47,17 +122,18 @@
                                 <label class="form-label" for="logo">Logo</label>
                                 <input type="file" class="form-control" id="logo" name="logo">
                             </div>
-                                             
+
                             <div class="col-12 col-md-6 mb-3">
                                 <label class="form-label" for="usuario">Usuário</label>
-                                <input type="usuario" class="form-control" id="usuario" name="usuario"
-                                    placeholder="E-mail" value="{{ $item->usuario }}" required="">
+                                <input type="usuario" class="form-control" id="usuario" onchange="validaUsuario()" name="usuario"
+                                    placeholder="Usuário" value="{{ $item->usuario }}" required="">
+                                <small id="retorno-usuario" class="form-text"></small>
                             </div>
                             <!-- deixar para o Igor me mostrar -->
                             <div class="col-12 col-md-12 mb-3">
                                 <label class="form-label">Sobre</label>
-                                <div class="form-control" id="sobre" name="sobre" data-toggle="quill"
-                                    style="height: 150px;">{{ $item->sobre }}</div>
+                                <div class="form-control" id="sobre" data-toggle="quill" style="height: 150px;">
+                                    {!! $item->sobre !!}</div>
                             </div>
 
                             <div class="col-12 col-md-6 mb-3">

@@ -71,7 +71,7 @@
                             </td>
                             <td>{{ $item->email }}</td>
                             <td class="table-dropdown text-center">
-                                <a href="{{ route('professorEditar', $item->id) }}" class="btn btn-success mb-1">
+                                <a href="{{ route('professorEditar', $item->id) }}" class="btn btn-success">
                                     <i class="fa fa-edit"></i>
                                 </a>
 
