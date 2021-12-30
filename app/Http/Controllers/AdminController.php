@@ -449,22 +449,32 @@ class AdminController extends Controller
             //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
+        //Atribuição dos valores
         $tabela = $request->tabela;
         $usuario = $request->usuario;
         $id = @$request->id;
+
+        //Verificação do tamanho do usuário informado
         if(Str::length($usuario) >= 3){
+            //Direcionamento para a tabela desejada
             switch ($tabela) {
+                //Caso de parceiro
                 case 'parceiro':
+                    //Consulta que busca se já existe um usuario no banco com o mesmo usuario
                     $resultado = Parceiro::where('usuario', '=', $usuario)->first();
 
+                    //Verifica se existe
                     if($resultado){
+                        //Verifica se o id informado é igual ao da consulta
                         if($resultado->id == $id){
+                            //Retorno de usuário atual 
                             $retorno = [
                                 'msg' => 'Usuário atual!',
                                 'tipo' => '3',
                                 'status' => 1
                             ];
                         } else {
+                            //Retorno de usuário não disponível
                             $retorno = [
                                 'msg' => 'Usuário "'.$usuario.'", não está disponível!',
                                 'tipo' => '2',
@@ -472,13 +482,13 @@ class AdminController extends Controller
                             ];
                         }
                     } else {
+                        //Retorno do usuário disponível
                         $retorno = [
                             'msg' => 'Usuário disponível!',
                             'tipo' => '1',
                             'status' => 1
                         ]; 
                     }
-
                     break;
 
                 case 'administrador':
@@ -521,6 +531,7 @@ class AdminController extends Controller
             ]; 
         }
 
+        //Resposta JSON
         return response()->json($retorno);
     }
 }

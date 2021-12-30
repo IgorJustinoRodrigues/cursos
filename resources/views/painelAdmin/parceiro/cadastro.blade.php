@@ -36,7 +36,7 @@
                 },
                 dataType: 'json',
                 beforeSend: function() {
-                    //Aguardando
+                    $("#retorno-usuario").text('Consultado...');
                 },
                 success: function(data) {
                     if (data.status == '1') {
