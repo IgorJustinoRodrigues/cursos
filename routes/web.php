@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlunoController;
 use App\Http\Controllers\ParceiroController;
+use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
 
@@ -58,7 +59,7 @@ Route::get('/aluno-delete/{item}', [AlunoController::class, 'deletar'])->name('a
 
 
 /*
-ROTAS DE LOGIN E LOGOFF
+ROTAS DE LOGIN E LOGOFF DE ALUNO
 */
 Route::get('/acesso-aluno', [AlunoController::class, 'acessoAluno'])->name('acessoAluno');
 Route::post('/login-aluno', [AlunoController::class, 'login'])->name('loginAluno');
@@ -83,13 +84,21 @@ Route::get('/parceiro-resete-senha/{item}', [ParceiroController::class, 'reseteS
 
 
 /*
-ROTAS DE LOGIN E LOGOFF
+ROTAS DE LOGIN E LOGOFF DE PARCEIRO
 */
 Route::get('/acesso-parceiro', [ParceiroController::class, 'acessoParceiro'])->name('acessoParceiro');
 Route::post('/login-parceiro', [ParceiroController::class, 'login'])->name('loginParceiro');
 Route::get('/sair-parceiro', [ParceiroController::class, 'sair'])->name('sairParceiro');
 
-
+/*
+ROTAS DE PROFESSOR
+*/
+Route::get('/professor', [ProfessorController::class, 'index'])->name('professorIndex');
+Route::get('/professor-cadastro', [ProfessorController::class, 'cadastro'])->name('professorCadastro');
+Route::post('/professor-inserir', [ProfessorController::class, 'inserir'])->name('professorInserir');
+Route::get('/professor-editar/{item}', [ProfessorController::class, 'editar'])->name('professorEditar');
+Route::put('/professor-salvar/{item}', [ProfessorController::class, 'salvar'])->name('professorSalvar');
+Route::get('/professor-delete/{item}', [ProfessorController::class, 'deletar'])->name('professorDeletar');
 
 Route::get("/login-aluno", [SiteController::class, 'login']);
 Route::get("/ver-curso", [SiteController::class, 'ver'])->name('ver');

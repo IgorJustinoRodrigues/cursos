@@ -28,6 +28,9 @@ class CreateProfessorsTable extends Migration
 
             $table->text('curriculo')->nullable();
 
+            $table->string('status', 2);
+
+
             $table->timestamps();
         });
     }
