@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoriaCursoController;
 use App\Http\Controllers\ParceiroController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\SiteController;
+use App\Http\Controllers\UnidadeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -111,6 +112,16 @@ Route::post('/categoria-curso-inserir', [CategoriaCursoController::class, 'inser
 Route::get('/categoria-curso-editar/{item}', [CategoriaCursoController::class, 'editar'])->name('categoriaCursoEditar');
 Route::put('/categoria-curso-salvar/{item}', [CategoriaCursoController::class, 'salvar'])->name('categoriaCursoSalvar');
 Route::get('/categoria-curso-delete/{item}', [CategoriaCursoController::class, 'deletar'])->name('categoriaCursoDeletar');
+
+/*
+ROTAS DE UNIDADE
+*/
+Route::get('/unidade', [UnidadeController::class, 'index'])->name('unidadeIndex');
+Route::get('/unidade-cadastro', [UnidadeController::class, 'cadastro'])->name('unidadeCadastro');
+Route::post('/unidade-inserir', [UnidadeController::class, 'inserir'])->name('unidadeInserir');
+Route::get('/unidade-editar/{item}', [UnidadeController::class, 'editar'])->name('unidadeEditar');
+Route::put('/unidade-salvar/{item}', [UnidadeController::class, 'salvar'])->name('unidadeSalvar');
+Route::get('/unidade-delete/{item}', [UnidadeController::class, 'deletar'])->name('unidadeDeletar');
 
 
 Route::get("/login-aluno", [SiteController::class, 'login']);

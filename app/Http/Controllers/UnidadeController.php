@@ -3,35 +3,42 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Canvas;
+use App\Models\Parceiro;
 use App\Models\Unidade;
 use App\Services\Services;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UnidadeController extends Controller
 {
 
- 
+
     /*
     Função Index de Unidade
-    - Responsável por mostrar a tela de listagem de parceiros 
+    - Responsável por mostrar a tela de listagem de unidade 
     - $request: Recebe valores de busca e paginação
     */
     public function index(Request $request)
     {
         //Validação de acesso
         if (!(new Services())->validarAdmin())
-            //Redirecionamento para a rota acessoUnidade, com mensagem de erro, sem uma sessão ativa
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-        $consulta = Unidade::orderby('nome', 'asc')->where('status', '<>', '0');
+        $consulta = Unidade::join('parceiros', 'unidades.parceiro_id', '=', 'parceiros.id')
+            ->orderby('parceiros.nome', 'asc')
+            ->where('parceiros.status', '<>', '0');
 
         //Verifica se existe uma busca
         if (@$request->busca != '') {
             //Paginação dos registros com busca busca
-            $consulta->where('nome', 'like', '%' . $request->busca . '%');
+            $consulta->where('parceiros.nome', 'like', '%' . $request->busca . '%');
         }
 
-        $items = $consulta->paginate();
+
+        $items = $consulta->selectRaw('unidades.*, parceiros.nome as parceiro')
+            ->paginate();
 
         //Exibe a tela de listagem de unidade passando parametros para view
         return view('painelAdmin.unidade.index', ['paginacao' => $items, 'busca' => @$request->busca]);
@@ -39,7 +46,7 @@ class UnidadeController extends Controller
 
     /*
     Função Cadastro de Unidade
-    - Responsável por mostrar a tela de cadastro de parceiroistradores
+    - Responsável por mostrar a tela de cadastro de unidade
     */
     public function cadastro()
     {
@@ -48,14 +55,16 @@ class UnidadeController extends Controller
             //Redirecionamento para a rota acessoUnidade, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-        //Exibe a tela de cadastro de parceiroistradores
-        return view('painelAdmin.parceiro.cadastro');
+        $parceiro = Parceiro::where('status', '=', '1')->get();
+
+        //Exibe a tela de cadastro de unidadeistradores
+        return view('painelAdmin.unidade.cadastro', ['parceiro' => $parceiro]);
     }
 
     /*
     Função Inserir de Unidade
-    - Responsável por inserir as informações de um novo parceiroistrador
-    - $request: Recebe valores do novo parceiroistrador
+    - Responsável por inserir as informações de um novo unidade
+    - $request: Recebe valores do novo unidade
     */
     public function inserir(Request $request)
     {
@@ -67,7 +76,8 @@ class UnidadeController extends Controller
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required',
-            'usuario' => 'required|max:20|unique:parceiros,usuario',
+            'usuario' => 'required|max:20|unique:unidades,usuario',
+            'senha' => 'required'
         ]);
 
         //Nova instância do Model Unidade
@@ -76,10 +86,18 @@ class UnidadeController extends Controller
         //Atribuição dos valores recebidos da váriavel $request
         $item->nome = $request->nome;
         $item->usuario = $request->usuario;
-        $item->senha = '123456';
+        $item->senha = $request->senha;
+        $item->email = $request->email;
+        $item->whatsapp = $request->whatsapp;
+        $item->contato = $request->contato;
+        $item->endereco = $request->endereco;
+        $item->cidade = $request->cidade;
+        $item->estado = $request->estado;
+        $item->facebook = $request->facebook;
+        $item->instagram = $request->instagram;
+        $item->site = $request->site;
+        $item->parceiro_id = $request->parceiro_id;
         $item->status = $request->status;
-        $item->visibilidade = $request->visibilidade;
-        $item->sobre = $request->sobre;
 
         //Verificação se imagem de logo foi informado, caso seja verifica-se sua integridade
         if (@$request->file('logo') and $request->file('logo')->isValid()) {
@@ -109,8 +127,8 @@ class UnidadeController extends Controller
 
         //Verificação do insert
         if ($resposta) {
-            //Redirecionamento para a rota parceiroIndex, com mensagem de sucesso
-            return redirect()->route('parceiroIndex')->with('sucesso', '"' . $item->nome . '", inserido!');
+            //Redirecionamento para a rota unidadeIndex, com mensagem de sucesso
+            return redirect()->route('unidadeIndex')->with('sucesso', '"' . $item->nome . '", inserido!');
         } else {
 
             //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
@@ -120,35 +138,42 @@ class UnidadeController extends Controller
 
     /*
     Função Editar de Unidade
-    - Responsável por mostrar a tela de edição de parceiroistradores
-    - $item: Recebe o Id do parceiro que deverá ser editado
+    - Responsável por mostrar a tela de edição de unidadeistradores
+    - $item: Recebe o Id do unidade que deverá ser editado
     */
-    public function editar(Unidade $item)
+    public function editar($id)
     {
         //Validação de acesso
         if (!(new Services())->validarAdmin())
             //Redirecionamento para a rota acessoUnidade, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-        //Verifica se há algum parceiro selecionado
+        $item = Unidade::join('parceiros', 'unidades.parceiro_id', '=', 'parceiros.id')
+            ->orderby('parceiros.nome', 'asc')
+            ->where('parceiros.status', '<>', '0')
+            ->selectRaw('unidades.*, parceiros.nome as parceiro')
+            ->find($id);
+
+        //Verifica se há algum unidade selecionado
         if (@$item) {
 
-            if($item->status == 0){
-                return redirect()->route('parceiroIndex')->with('atencao', 'Unidade excluido!');
+
+            if ($item->status == 0) {
+                return redirect()->route('unidadeIndex')->with('atencao', 'Unidade excluido!');
             }
 
-            //Exibe a tela de edição de parceiroistradores passando parametros para view
-            return view('painelAdmin.parceiro.editar', ['item' => $item]);
+            //Exibe a tela de edição de unidadeistradores passando parametros para view
+            return view('painelAdmin.unidade.editar', ['item' => $item]);
         } else {
-            //Redirecionamento para a rota parceiroIndex, com mensagem de erro
-            return redirect()->route('parceiroIndex')->with('erro', 'Unidade não encontrado!');
+            //Redirecionamento para a rota unidadeIndex, com mensagem de erro
+            return redirect()->route('unidadeIndex')->with('erro', 'Unidade não encontrado!');
         }
     }
 
     /*
     Função Salvar de Unidade
-    - Responsável por editar as informações de um parceiroistrador já cadastrado
-    - $request: Recebe valores de um parceiroistrador
+    - Responsável por editar as informações de um unidadeistrador já cadastrado
+    - $request: Recebe valores de um unidadeistrador
     - $item: Recebe uma objeto de Unidade vázio para edição
     */
     public function salvar(Request $request, Unidade $item)
@@ -161,15 +186,36 @@ class UnidadeController extends Controller
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required',
-            'usuario' => "required|max:20|unique:parceiros,usuario,{$item->id}"
+            'usuario' => "required|max:20|unique:unidades,usuario,{$item->id}",
+            'nome' => 'required'
         ]);
+
 
         //Atribuição dos valores recebidos da váriavel $request
         $item->nome = $request->nome;
         $item->usuario = $request->usuario;
+        
+        //Verificação se uma nova senha foi informada
+        if (@$request->senha != '') {
+            //Validação das informações recebidas
+            $validated = $request->validate([
+                'senha' => 'required|min:6',
+            ]);
+
+            //Atribuição dos valores recebidos da váriavel $request para o objeto $item
+            $item->senha = $request->senha;
+        }
+
+        $item->email = $request->email;
+        $item->whatsapp = $request->whatsapp;
+        $item->contato = $request->contato;
+        $item->endereco = $request->endereco;
+        $item->cidade = $request->cidade;
+        $item->estado = $request->estado;
+        $item->facebook = $request->facebook;
+        $item->instagram = $request->instagram;
+        $item->site = $request->site;
         $item->status = $request->status;
-        $item->visibilidade = $request->visibilidade;
-        $item->sobre = $request->sobre;
 
 
         //Verificação se uma nova imagem de logo foi informado, caso seja verifica-se sua integridade
@@ -206,8 +252,8 @@ class UnidadeController extends Controller
                 Storage::delete($logoApagar);
             }
 
-            //Redirecionamento para a rota parceiroIndex, com mensagem de sucesso
-            return redirect()->route('parceiroIndex')->with('sucesso', '"' . $item->nome . '", salvo!');
+            //Redirecionamento para a rota unidadeIndex, com mensagem de sucesso
+            return redirect()->route('unidadeIndex')->with('sucesso', '"' . $item->nome . '", salvo!');
         } else {
             //Redirecionamento para tela anterior com mensagem de erro
             return redirect()->back()->with('atencao', 'Não foi possível salvar as informações, tente novamente!');
@@ -216,8 +262,8 @@ class UnidadeController extends Controller
 
     /*
     Função Deletar de Unidade
-    - Responsável por excluir as informações de um parceiro
-    - $request: Recebe o Id do um parceiro a ser excluido
+    - Responsável por excluir as informações de um unidade
+    - $request: Recebe o Id do um unidade a ser excluido
     */
     public function deletar(Unidade $item)
     {
@@ -229,22 +275,22 @@ class UnidadeController extends Controller
 
         $item->status = 0;
 
-        //Deleta o parceiroi informado
+        //Deleta o unidadei informado
         if ($item->save()) {
 
-            //Redirecionamento para a rota parceiroIndex, com mensagem de sucesso
-            return redirect()->route('parceiroIndex')->with('sucesso', 'Unidade excluido!');
+            //Redirecionamento para a rota unidadeIndex, com mensagem de sucesso
+            return redirect()->route('unidadeIndex')->with('sucesso', 'Unidade excluido!');
         } else {
-            //Redirecionamento para a rota parceiroIndex, com mensagem de erro
-            return redirect()->route('parceiroIndex')->with('erro', 'Unidade não excluido!');
+            //Redirecionamento para a rota unidadeIndex, com mensagem de erro
+            return redirect()->route('unidadeIndex')->with('erro', 'Unidade não excluido!');
         }
     }
 
 
     /*
     Função Resetar Senha de Unidade
-    - Responsável por Resetar a senha de um parceiro
-    - $request: Recebe o Id do um parceiro para a senha ser resetada
+    - Responsável por Resetar a senha de um unidade
+    - $request: Recebe o Id do um unidade para a senha ser resetada
     */
     public function reseteSenha(Unidade $item)
     {
@@ -256,21 +302,21 @@ class UnidadeController extends Controller
 
         $item->senha = '123456';
 
-        //Deleta o parceiroi informado
+        //Deleta o unidadei informado
         if ($item->save()) {
 
-            //Redirecionamento para a rota parceiroIndex, com mensagem de sucesso
-            return redirect()->route('parceiroIndex')->with('sucesso', 'Senha resetada com sucesso!');
+            //Redirecionamento para a rota unidadeIndex, com mensagem de sucesso
+            return redirect()->route('unidadeIndex')->with('sucesso', 'Senha resetada com sucesso!');
         } else {
-            //Redirecionamento para a rota parceiroIndex, com mensagem de erro
-            return redirect()->route('parceiroIndex')->with('erro', 'A senha não pode ser resetada!');
+            //Redirecionamento para a rota unidadeIndex, com mensagem de erro
+            return redirect()->route('unidadeIndex')->with('erro', 'A senha não pode ser resetada!');
         }
     }
 
 
     /*
     Função Login de Unidade
-    - Responsável pelo login do parceiroistrador ao painel
+    - Responsável pelo login do unidadeistrador ao painel
     - $request: Recebe as credênciais de acesso informadas pelo internauta
     */
     public function login(Request $request)
@@ -285,43 +331,43 @@ class UnidadeController extends Controller
         $usuario = $request->usuario;
         $senha = $request->senha;
 
-        //Seleciona o parceiro no banco de dados, usando as credencias de acesso
+        //Seleciona o unidade no banco de dados, usando as credencias de acesso
         $item = Unidade::where('usuario', '=', $usuario)->where('senha', '=', $senha)->where('status', '=', 1)->first();
 
-        //Verifica se existe um parceiro com as credênciais informadas
+        //Verifica se existe um unidade com as credênciais informadas
         if (@$item->id != null and is_numeric($item->id)) {
             //Inícia a Sessão
             @session_start();
 
-            //Obtem e preenche as informaçõs do parceiro encontrado
-            $logado['id_parceiro'] = $item->id;
-            $logado['nome_parceiro'] = $item->nome;
-            $logado['logo_parceiro'] = $item->logo;
-            $logado['usuario_parceiro'] = $item->usuario;
-            $logado['status_parceiro'] = $item->status;
-            $logado['visibilidade_parceiro'] = $item->visibilidade;
-            $logado['cadastro_parceiro'] = $item->created_at->format('d/m/Y') . ' às ' . $item->created_at->format('H:i');
-            $logado['ultimo_acesso_parceiro'] = $item->updated_at->format('d/m/Y') . ' às ' . $item->updated_at->format('H:i');
+            //Obtem e preenche as informaçõs do unidade encontrado
+            $logado['id_unidade'] = $item->id;
+            $logado['nome_unidade'] = $item->nome;
+            $logado['logo_unidade'] = $item->logo;
+            $logado['usuario_unidade'] = $item->usuario;
+            $logado['status_unidade'] = $item->status;
+            $logado['visibilidade_unidade'] = $item->visibilidade;
+            $logado['cadastro_unidade'] = $item->created_at->format('d/m/Y') . ' às ' . $item->created_at->format('H:i');
+            $logado['ultimo_acesso_unidade'] = $item->updated_at->format('d/m/Y') . ' às ' . $item->updated_at->format('H:i');
 
             //Cria uma sessão com as informações
-            $_SESSION['parceiro_cursos_start'] = $logado;
+            $_SESSION['unidade_cursos_start'] = $logado;
 
             //Verifica se o campo lembrar senha estava selecionado
             if (@$request->remember) {
                 //Criar o Cookie com as credênciais com validade de 3 dias
-                Cookie::queue('parceiro_usuario', $request->usuario, 4320);
-                Cookie::queue('parceiro_senha', $request->senha, 4320);
+                Cookie::queue('unidade_usuario', $request->usuario, 4320);
+                Cookie::queue('unidade_senha', $request->senha, 4320);
             } else {
                 //Expira os Cookies de credências
-                Cookie::expire('parceiro_usuario');
-                Cookie::expire('parceiro_senha');
+                Cookie::expire('unidade_usuario');
+                Cookie::expire('unidade_senha');
             }
 
             //Atualiza a data e hora do campo updated_at
             $item->touch();
 
             //Redirecionamento para a rota painelUnidade, com mensagem de sucesso, com uma sessão ativa
-            return redirect()->route('painelUnidade')->with('sucesso', 'Olá ' . $item->nome . ', você acessou o sistema com o perfil de parceiros!');
+            return redirect()->route('painelUnidade')->with('sucesso', 'Olá ' . $item->nome . ', você acessou o sistema com o perfil de unidade!');
         } else {
             //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
             return redirect()->back()->with('atencao', 'Usuário e/ou senha incorretos!')->withInput(
@@ -332,7 +378,7 @@ class UnidadeController extends Controller
 
     /*
     Função Sair de Unidade
-    - Responsável pelo logoff do painel do parceiro
+    - Responsável pelo logoff do painel do unidade
     */
     public function sair()
     {
@@ -340,19 +386,19 @@ class UnidadeController extends Controller
         @session_start();
 
         //Expira a sessão atual
-        unset($_SESSION['parceiro_cursos_start']);
+        unset($_SESSION['unidade_cursos_start']);
         //Redirecionamento para a rota inicio, com mensagem de sucesso, sem uma sessão ativa
         return redirect()->route('acessoUnidade')->with('sucesso', 'Sessão encerrada com sucesso!');
     }
 
     /*
     Função status de Unidade
-    - Responsável por exibir o status do parceiro
-    - $status: Recebe o Id do status do parceiro
+    - Responsável por exibir o status do unidade
+    - $status: Recebe o Id do status do unidade
     */
     public function status($status)
     {
-        //Verifica o status do parceiro
+        //Verifica o status do unidade
         switch ($status) {
             case 1:
                 //Retorna o status Ativo
@@ -373,12 +419,12 @@ class UnidadeController extends Controller
 
     /*
     Função visibilidade de Unidade
-    - Responsável por exibir o visibilidade do parceiro
-    - $visibilidade: Recebe o Id do visibilidade do parceiro
+    - Responsável por exibir o visibilidade do unidade
+    - $visibilidade: Recebe o Id do visibilidade do unidade
     */
     public function visibilidade($visibilidade)
     {
-        //Verifica o visibilidade do parceiro
+        //Verifica o visibilidade do unidade
         switch ($visibilidade) {
             case 1:
                 //Retorna o visibilidade Vísivel

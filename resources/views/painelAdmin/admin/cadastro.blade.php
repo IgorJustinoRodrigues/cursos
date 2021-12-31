@@ -107,7 +107,7 @@
                             </div>
                             <div class="col-12 col-md-6 mb-3">
                                 <label class="form-label" for="senha">Senha</label>
-                                <input type="senha" class="form-control" id="senha" name="senha" placeholder="******" required>
+                                <input type="password" class="form-control" id="senha" name="senha" placeholder="******" required>
                             </div>
 
                             <div class="col-12 mb-3">
