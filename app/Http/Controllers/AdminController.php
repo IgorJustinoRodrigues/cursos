@@ -8,6 +8,7 @@ use App\Models\Admin;
 use App\Models\Canvas;
 use App\Models\Parceiro;
 use App\Models\Servico;
+use App\Models\Unidade;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
@@ -455,18 +456,18 @@ class AdminController extends Controller
         $id = @$request->id;
 
         //Verificação do tamanho do usuário informado
-        if(Str::length($usuario) >= 3){
+        if (Str::length($usuario) >= 3) {
             //Direcionamento para a tabela desejada
             switch ($tabela) {
-                //Caso de parceiro
+                    //Caso de parceiro
                 case 'parceiro':
                     //Consulta que busca se já existe um usuario no banco com o mesmo usuario
                     $resultado = Parceiro::where('usuario', '=', $usuario)->first();
 
                     //Verifica se existe
-                    if($resultado){
+                    if ($resultado) {
                         //Verifica se o id informado é igual ao da consulta
-                        if($resultado->id == $id){
+                        if ($resultado->id == $id) {
                             //Retorno de usuário atual 
                             $retorno = [
                                 'msg' => 'Usuário atual!',
@@ -476,7 +477,7 @@ class AdminController extends Controller
                         } else {
                             //Retorno de usuário não disponível
                             $retorno = [
-                                'msg' => 'Usuário "'.$usuario.'", não está disponível!',
+                                'msg' => 'Usuário "' . $usuario . '", não está disponível!',
                                 'tipo' => '2',
                                 'status' => 1
                             ];
@@ -487,15 +488,48 @@ class AdminController extends Controller
                             'msg' => 'Usuário disponível!',
                             'tipo' => '1',
                             'status' => 1
-                        ]; 
+                        ];
                     }
                     break;
 
+                    //Caso de unidade
+                case 'unidade':
+                    //Consulta que busca se já existe um usuario no banco com o mesmo usuario
+                    $resultado = Unidade::where('usuario', '=', $usuario)->first();
+
+                    //Verifica se existe
+                    if ($resultado) {
+                        //Verifica se o id informado é igual ao da consulta
+                        if ($resultado->id == $id) {
+                            //Retorno de usuário atual 
+                            $retorno = [
+                                'msg' => 'Usuário atual!',
+                                'tipo' => '3',
+                                'status' => 1
+                            ];
+                        } else {
+                            //Retorno de usuário não disponível
+                            $retorno = [
+                                'msg' => 'Usuário "' . $usuario . '", não está disponível!',
+                                'tipo' => '2',
+                                'status' => 1
+                            ];
+                        }
+                    } else {
+                        //Retorno do usuário disponível
+                        $retorno = [
+                            'msg' => 'Usuário disponível!',
+                            'tipo' => '1',
+                            'status' => 1
+                        ];
+                    }
+                    break;
+                    //Caso Administrador
                 case 'administrador':
                     $resultado = Admin::where('email', '=', $usuario)->first();
 
-                    if($resultado){
-                        if($resultado->id == $id){
+                    if ($resultado) {
+                        if ($resultado->id == $id) {
                             $retorno = [
                                 'msg' => 'E-mail atual!',
                                 'tipo' => '3',
@@ -503,7 +537,7 @@ class AdminController extends Controller
                             ];
                         } else {
                             $retorno = [
-                                'msg' => 'E-mail "'.$usuario.'", não está disponível!',
+                                'msg' => 'E-mail "' . $usuario . '", não está disponível!',
                                 'tipo' => '2',
                                 'status' => 1
                             ];
@@ -513,7 +547,7 @@ class AdminController extends Controller
                             'msg' => 'E-mail disponível!',
                             'tipo' => '1',
                             'status' => 1
-                        ]; 
+                        ];
                     }
                     break;
 
@@ -521,14 +555,14 @@ class AdminController extends Controller
                     $retorno = [
                         'msg' => 'Paramêtros incorretos!',
                         'status' => 0
-                    ]; 
+                    ];
                     break;
             }
         } else {
             $retorno = [
                 'msg' => 'O usuário deve ter no mínimo 3 caracteres!',
                 'status' => 0
-            ]; 
+            ];
         }
 
         //Resposta JSON

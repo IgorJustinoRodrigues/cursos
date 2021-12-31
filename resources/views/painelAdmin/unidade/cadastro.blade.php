@@ -4,11 +4,74 @@
 
 @section('footer')
 
- <!-- jQuery Mask Plugin -->
- <script src="{{ URL::asset('template/vendor/jquery.mask.min.js')}}"></script>
-<script>
-    $("#whatsapp").mask("(99) 99999-9999");
-</script>
+    <!-- jQuery Mask Plugin -->
+    <script src="{{ URL::asset('template/vendor/jquery.mask.min.js') }}"></script>
+    <script>
+        $("#whatsapp").mask("(99) 99999-9999");
+
+        function validaUsuario() {
+            var tabela = 'unidade';
+            var usuario = $("#usuario").val();
+            var id = null;
+
+            if (usuario == '') {
+                $("#retorno-usuario").text('');
+                return null;
+            }
+
+            $.ajax({
+                type: 'post',
+                url: "{{ route('adminValidaUsuario') }}",
+                data: {
+                    usuario: usuario,
+                    tabela: tabela,
+                    id: id,
+                    _token: $("input[name='_token']").val()
+                },
+                dataType: 'json',
+                beforeSend: function() {
+                    $("#retorno-usuario").text('Consultado...');
+                },
+                success: function(data) {
+                    if (data.status == '1') {
+                        $("#retorno-usuario").removeClass('text-success');
+                        $("#retorno-usuario").removeClass('text-danger');
+                        $("#retorno-usuario").removeClass('text-primary');
+
+                        if (data.tipo == 1) {
+                            $("#retorno-usuario").addClass('text-success');
+                        } else if (data.tipo == 2) {
+                            $("#retorno-usuario").addClass('text-danger');
+                            $("#usuario").val('');
+                        } else {
+                            $("#retorno-usuario").addClass('text-primary');
+                        }
+
+                        $("#retorno-usuario").text(data.msg);
+                    } else {
+                        Lobibox.notify('warning', {
+                            size: 'mini',
+                            sound: false,
+                            icon: false,
+                            position: 'top right',
+                            msg: data.msg
+                        });
+                        $("#retorno-usuario").text('');
+                        $("#usuario").val('');
+                    }
+                },
+                error: function(data) {
+                    Lobibox.notify('error', {
+                        size: 'mini',
+                        sound: false,
+                        icon: false,
+                        position: 'top right',
+                        msg: "O sistema está passando por instabilidades no momento! Tente novamente mais tarde."
+                    });
+                }
+            });
+        }
+    </script>
 
 @endsection
 
@@ -25,7 +88,7 @@
                     <form method="POST" action="{{ route('unidadeInserir') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-row">
-                            
+
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label" for="parceiro_id">Parceiro</label>
                                 <select id="parceiro_id" class="form-control custom-select" name="parceiro_id">
@@ -34,20 +97,20 @@
                                         <option value="{{ $item->id }}">{{ $item->nome }}</option>
                                     @endforeach
                                 </select>
-                            </div>                            
+                            </div>
                             <div class="col-12 col-md-8 mb-3">
                                 <label class="form-label" for="nome">Nome</label>
                                 <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome"
                                     value="{{ old('nome') }}" required="">
                             </div>
-                            
+
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label" for="logo">Logo da Unidade</label>
                                 <input type="file" class="form-control" id="logo" name="logo">
                             </div>
                             <div class="col-6 col-md-4 mb-3">
                                 <label class="form-label" for="usuario">Usuário</label>
-                                <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Usuário"
+                                <input type="text" class="form-control" onchange="validaUsuario()" id="usuario" name="usuario"  placeholder="Usuário"
                                     value="{{ old('usuario') }}" required="">
                                 <small id="retorno-usuario" class="form-text"></small>
                             </div>

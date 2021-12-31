@@ -3,11 +3,76 @@
 @section('menu-unidade', 'true')
 
 @section('footer')
-<!-- jQuery Mask Plugin -->
-<script src="{{ URL::asset('template/vendor/jquery.mask.min.js')}}"></script>
-<script>
-    $("#whatsapp").mask("(99) 99999-9999");
-</script>
+    <!-- jQuery Mask Plugin -->
+    <script src="{{ URL::asset('template/vendor/jquery.mask.min.js') }}"></script>
+    <script>
+        $("#whatsapp").mask("(99) 99999-9999");
+
+        function validaUsuario() {
+            var tabela = 'unidade';
+            var usuario = $("#usuario").val();
+            var id = $("#id").val();
+
+            if (usuario == '') {
+                $("#retorno-usuario").text('');
+                return null;
+            }
+
+            $.ajax({
+                type: 'post',
+                url: "{{ route('adminValidaUsuario') }}",
+                data: {
+                    usuario: usuario,
+                    tabela: tabela,
+                    id: id,
+                    _token: $("input[name='_token']").val()
+                },
+                dataType: 'json',
+                beforeSend: function() {
+                    $("#retorno-usuario").text('Consultado...');
+                },
+                success: function(data) {
+                    if (data.status == '1') {
+                        $("#retorno-usuario").removeClass('text-success');
+                        $("#retorno-usuario").removeClass('text-danger');
+                        $("#retorno-usuario").removeClass('text-primary');
+
+                        if (data.tipo == 1) {
+                            $("#retorno-usuario").addClass('text-success');
+                        } else if (data.tipo == 2) {
+                            $("#retorno-usuario").addClass('text-danger');
+                            $("#usuario").val('');
+                        } else {
+                            $("#retorno-usuario").addClass('text-primary');
+                        }
+
+                        $("#retorno-usuario").text(data.msg);
+                    } else {
+                        Lobibox.notify('warning', {
+                            size: 'mini',
+                            sound: false,
+                            icon: false,
+                            position: 'top right',
+                            msg: data.msg
+                        });
+                        $("#retorno-usuario").text('');
+                        $("#usuario").val('');
+                    }
+                },
+                error: function(data) {
+                    Lobibox.notify('error', {
+                        size: 'mini',
+                        sound: false,
+                        icon: false,
+                        position: 'top right',
+                        msg: "O sistema está passando por instabilidades no momento! Tente novamente mais tarde."
+                    });
+                }
+            });
+        }
+
+        validaUsuario();
+    </script>
 
 @endsection
 
@@ -24,12 +89,11 @@
                     <form method="POST" action="{{ route('unidadeSalvar', $item) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-                        <input type="hidden" name="id" value="{{ $item->id }}">
+                        <input type="hidden" name="id" id="id" value="{{ $item->id }}">
                         <div class="form-row">
                             <div class="col-9 col-md-5 mb-3">
                                 <label class="form-label" for="nome">Parceiro</label>
-                                <input type="text" class="form-control" id="nome" 
-                                    value="{{ $item->parceiro }}" readonly>
+                                <input type="text" class="form-control" id="nome" value="{{ $item->parceiro }}" readonly>
                             </div>
                             <div class="col-9 col-md-6 mb-3">
                                 <label class="form-label" for="nome">Nome</label>
@@ -53,12 +117,14 @@
 
                             <div class="col-9 col-md-4 mb-3">
                                 <label class="form-label" for="usuario">Usuário</label>
-                                <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Usuário"
+                                <input type="text" class="form-control"   onchange="validaUsuario()"  id="usuario" name="usuario" placeholder="Usuário"
                                     value="{{ $item->usuario }}" required="">
+                                    <small id="retorno-usuario" class="form-text"></small>
                             </div>
                             <div class="col-9 col-md-4 mb-3">
                                 <label class="form-label" for="senha">senha</label>
-                                <input type="password" class="form-control" id="senha"  minlength="6" name="senha" placeholder="********">
+                                <input type="password" class="form-control" id="senha" minlength="6" name="senha"
+                                    placeholder="********">
                             </div>
 
                             <div class="col-12 col-md-6 mb-3">
@@ -68,8 +134,8 @@
                             </div>
                             <div class="col-12 col-md-6 mb-3">
                                 <label class="form-label" for="whatsapp">WhatsApp</label>
-                                <input type="text" class="form-control" id="whatsapp" name="whatsapp" placeholder="WhatsApp"
-                                    value="{{ $item->whatsapp }}">
+                                <input type="text" class="form-control" id="whatsapp" name="whatsapp"
+                                    placeholder="WhatsApp" value="{{ $item->whatsapp }}">
                             </div>
 
                             <div class="col-12 mb-3">
@@ -98,22 +164,22 @@
 
                             <div class="col-12 col-md-6 mb-3">
                                 <label class="form-label" for="facebook">Facebook</label>
-                                <input type="url" class="form-control" id="facebook" name="facebook" placeholder="URL do Facebook"
-                                    value="{{ $item->facebook }}">
+                                <input type="url" class="form-control" id="facebook" name="facebook"
+                                    placeholder="URL do Facebook" value="{{ $item->facebook }}">
                             </div>
 
                             <div class="col-12 col-md-6 mb-3">
                                 <label class="form-label" for="instagram">Instagram</label>
-                                <input type="url" class="form-control" id="instagram" name="instagram" placeholder="URL do Instagram"
-                                    value="{{ $item->instagram }}">
+                                <input type="url" class="form-control" id="instagram" name="instagram"
+                                    placeholder="URL do Instagram" value="{{ $item->instagram }}">
                             </div>
-                           
+
                             <div class="col-12 col-md-12 mb-3">
                                 <label class="form-label" for="site">Site</label>
                                 <input type="url" class="form-control" id="site" name="site" placeholder="URL do Site"
                                     value="{{ $item->site }}">
                             </div>
-                           
+
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label" for="status">Status</label>
                                 <select id="status" class="form-control custom-select" name="status">
