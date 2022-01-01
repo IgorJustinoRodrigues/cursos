@@ -306,7 +306,7 @@
                                         <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
                                             href="#menuProfessor">
                                             <i
-                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">supervised_user_circle</i>
+                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">person_pin</i>
                                            Professor
                                             <span class="ml-auto sidebar-menu-toggle-icon"></span>
                                         </a>
@@ -360,6 +360,27 @@
                                             </li>
                                             <li class="sidebar-menu-item">
                                                 <a class="sidebar-menu-button" href="{{ route('unidadeCadastro') }}">
+                                                    <span class="sidebar-menu-text">Cadastro</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="sidebar-menu-item @hasSection('menu-aluno') active @endif">
+                                        <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
+                                            href="#menuAluno">
+                                            <i
+                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">school</i>
+                                          Alunos
+                                            <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                                        </a>
+                                        <ul class="sidebar-submenu sm-indent collapse" id="menuAluno">
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button" href="{{ route('alunoIndex') }}">
+                                                    <span class="sidebar-menu-text">Listar</span>
+                                                </a>
+                                            </li>
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button" href="{{ route('alunoCadastro') }}">
                                                     <span class="sidebar-menu-text">Cadastro</span>
                                                 </a>
                                             </li>
