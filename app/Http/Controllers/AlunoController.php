@@ -64,9 +64,9 @@ class AlunoController extends Controller
     public function index(Request $request)
     {
         //Validação de acesso
-        if (!(new Services())->validarAluno())
-            //Redirecionamento para a rota acessoAluno, com mensagem de erro, sem uma sessão ativa
-            return (new Services())->redirecionarAluno();
+        if (!(new Services())->validarAdmin())
+            //Redirecionamento para a rota acessoParceiro, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionar();
 
         $consulta = Aluno::orderby('nome', 'asc');
 
@@ -79,7 +79,7 @@ class AlunoController extends Controller
         $items = $consulta->paginate();
 
         //Exibe a tela de listagem de alunoistradores passando parametros para view
-        return view('painelAluno.aluno.index', ['paginacao' => $items, 'busca' => @$request->busca]);
+        return view('painelAdmin.aluno.index', ['paginacao' => $items, 'busca' => @$request->busca]);
     }
 
     /*
@@ -89,12 +89,12 @@ class AlunoController extends Controller
     public function cadastro()
     {
         //Validação de acesso
-        if (!(new Services())->validarAluno())
-            //Redirecionamento para a rota acessoAluno, com mensagem de erro, sem uma sessão ativa
-            return (new Services())->redirecionarAluno();
+        if (!(new Services())->validarAdmin())
+            //Redirecionamento para a rota acessoParceiro, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionar();
 
         //Exibe a tela de cadastro de alunoistradores
-        return view('painelAluno.aluno.cadastro');
+        return view('painelAdmin.aluno.cadastro');
     }
 
     /*
@@ -105,15 +105,16 @@ class AlunoController extends Controller
     public function inserir(Request $request)
     {
         //Validação de acesso
-        if (!(new Services())->validarAluno())
-            //Redirecionamento para a rota acessoAluno, com mensagem de erro, sem uma sessão ativa
-            return (new Services())->redirecionarAluno();
+        if (!(new Services())->validarAdmin())
+            //Redirecionamento para a rota acessoParceiro, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionar();
 
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required',
-            'email' => 'required|max:100|unique:alunos,email',
+            'usuario' => 'required|max:100|unique:alunos,email',
             'senha' => 'required|min:6',
+            'pontuacao' => 'required'
         ]);
 
         //Nova instância do Model Aluno
@@ -121,10 +122,26 @@ class AlunoController extends Controller
 
         //Atribuição dos valores recebidos da váriavel $request
         $item->nome = $request->nome;
+        $item->nascimento = $request->nascimento;
+        $item->sexo = $request->sexo;
+        $item->cpf = $request->cpf;
+        $item->rg = $request->rg;
+        $item->nome_responsavel = $request->nome_responsavel;
+        $item->cpf_responsavel = $request->cpf_responsavel;
+        $item->rg_responsavel = $request->rg_responsavel;
         $item->email = $request->email;
+        $item->whatsapp = $request->whatsapp;
+        $item->telefone = $request->telefone;
+        $item-> contato = $request-> contato;
+        $item-> endereco = $request-> endereco;
+        $item-> cidade = $request-> cidade;
+        $item-> estado = $request-> estado;
+        $item-> usuario = $request-> usuario;
         $item->senha = $request->senha;
-        $item->tipo = $request->tipo;
-        $item->anotacoes = $request->anotacoes;
+        //pontuação resolver ainda...
+        $item->pontuacao = $request->pontuacao;
+        
+        $item->status = $request->status;
 
         //Verificação se imagem de avatar foi informado, caso seja verifica-se sua integridade
         if (@$request->file('avatar') and $request->file('avatar')->isValid()) {

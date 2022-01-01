@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 //Dependências do controler
 use App\Services\Services;
 use App\Models\Admin;
+use App\Models\Aluno;
 use App\Models\Canvas;
 use App\Models\Parceiro;
 use App\Models\Servico;
@@ -463,6 +464,40 @@ class AdminController extends Controller
                 case 'parceiro':
                     //Consulta que busca se já existe um usuario no banco com o mesmo usuario
                     $resultado = Parceiro::where('usuario', '=', $usuario)->first();
+
+                    //Verifica se existe
+                    if ($resultado) {
+                        //Verifica se o id informado é igual ao da consulta
+                        if ($resultado->id == $id) {
+                            //Retorno de usuário atual 
+                            $retorno = [
+                                'msg' => 'Usuário atual!',
+                                'tipo' => '3',
+                                'status' => 1
+                            ];
+                        } else {
+                            //Retorno de usuário não disponível
+                            $retorno = [
+                                'msg' => 'Usuário "' . $usuario . '", não está disponível!',
+                                'tipo' => '2',
+                                'status' => 1
+                            ];
+                        }
+                    } else {
+                        //Retorno do usuário disponível
+                        $retorno = [
+                            'msg' => 'Usuário disponível!',
+                            'tipo' => '1',
+                            'status' => 1
+                        ];
+                    }
+                    break;
+
+                    
+                    //Caso de aluno
+                case 'aluno':
+                    //Consulta que busca se já existe um usuario no banco com o mesmo usuario
+                    $resultado = Aluno::where('usuario', '=', $usuario)->first();
 
                     //Verifica se existe
                     if ($resultado) {
