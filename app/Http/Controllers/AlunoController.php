@@ -68,7 +68,7 @@ class AlunoController extends Controller
             //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-        $consulta = Aluno::orderby('nome', 'asc')->where('status', '<>', '0');;
+        $consulta = Aluno::orderby('nome', 'asc')->where('status', '<>', '0');
 
         //Verifica se existe uma busca
         if (@$request->busca != '') {

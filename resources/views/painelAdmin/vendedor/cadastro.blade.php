@@ -2,11 +2,21 @@
 @section('title', 'Vendedor')
 @section('menu-vendedor', 'true')
 
+
+@section('header')
+    <link href="{{ URL::asset('template/css/select2.min.css') }}" rel="stylesheet" />
+@endsection
 @section('footer')
 
     <!-- jQuery Mask Plugin -->
     <script src="{{ URL::asset('template/vendor/jquery.mask.min.js') }}"></script>
+    <script src="{{ URL::asset('template/js/select2.min.js') }}"></script>
+
     <script>
+         $(document).ready(function() {
+            $('.select2').select2();
+        });
+
         $("#whatsapp").mask("(99) 99999-9999");
 
         function validaUsuario() {
@@ -89,9 +99,9 @@
                         @csrf
                         <div class="form-row">
 
-                            <div class="col-12 col-md-4 mb-3">
+                            <div class="col-12 col-md-4">
                                 <label class="form-label" for="unidade_id">Unidade</label>
-                                <select id="unidade_id" class="form-control custom-select" name="unidade_id">
+                                <select id="unidade_id" class="form-control custom-select select2" name="unidade_id">
                                     <option></option>
                                     @foreach ($unidade as $item)
                                         <option value="{{ $item->id }}">{{ $item->nome }}</option>

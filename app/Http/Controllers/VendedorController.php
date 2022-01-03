@@ -8,6 +8,8 @@ use App\Models\Unidade;
 use App\Models\Vendedor;
 use App\Services\Services;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Storage;
 
 class VendedorController extends Controller
 {
@@ -27,7 +29,7 @@ class VendedorController extends Controller
 
         $consulta = Vendedor::join('unidades', 'vendedors.unidade_id', '=', 'unidades.id')
             ->orderby('unidades.nome', 'asc')
-            ->where('unidades.status', '<>', '0');
+            ->where('vendedors.status', '<>', '0');
 
         //Verifica se existe uma busca
         if (@$request->busca != '') {
@@ -92,7 +94,7 @@ class VendedorController extends Controller
         $item->senha = $request->senha;
         $item->status = $request->status;
         $item->unidade_id = $request->unidade_id;
-        
+
         //Verificação se imagem de avatar foi informado, caso seja verifica-se sua integridade
         if (@$request->file('avatar') and $request->file('avatar')->isValid()) {
             //Validação das informações recebidas
@@ -177,18 +179,20 @@ class VendedorController extends Controller
             //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
+
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required',
+            'cpf' => "required|max:11|unique:vendedors,cpf,{$item->id}",
             'usuario' => "required|max:20|unique:vendedors,usuario,{$item->id}",
-            'nome' => 'required'
         ]);
-
 
         //Atribuição dos valores recebidos da váriavel $request
         $item->nome = $request->nome;
+        $item->cpf = $request->cpf;
+        $item->email = $request->email;
+        $item->whatsapp = $request->whatsapp;
         $item->usuario = $request->usuario;
-
         //Verificação se uma nova senha foi informada
         if (@$request->senha != '') {
             //Validação das informações recebidas
@@ -200,16 +204,10 @@ class VendedorController extends Controller
             $item->senha = $request->senha;
         }
 
-        $item->email = $request->email;
-        $item->whatsapp = $request->whatsapp;
-        $item->contato = $request->contato;
-        $item->endereco = $request->endereco;
-        $item->cidade = $request->cidade;
-        $item->estado = $request->estado;
-        $item->facebook = $request->facebook;
-        $item->instagram = $request->instagram;
-        $item->site = $request->site;
         $item->status = $request->status;
+        
+
+
 
 
         //Verificação se uma nova imagem de avatar foi informado, caso seja verifica-se sua integridade
@@ -411,24 +409,4 @@ class VendedorController extends Controller
         }
     }
 
-    /*
-    Função visibilidade de Vendedor
-    - Responsável por exibir o visibilidade do vendedor
-    - $visibilidade: Recebe o Id do visibilidade do vendedor
-    */
-    public function visibilidade($visibilidade)
-    {
-        //Verifica o visibilidade do vendedor
-        switch ($visibilidade) {
-            case 1:
-                //Retorna o visibilidade Vísivel
-                return 'Visível';
-                break;
-
-            case 2:
-                //Retorna o visibilidade Não Vísivel
-                return 'Não Visível';
-                break;
-        }
-    }
 }

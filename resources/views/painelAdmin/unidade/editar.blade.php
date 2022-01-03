@@ -2,6 +2,7 @@
 @section('title', 'Unidade')
 @section('menu-unidade', 'true')
 
+
 @section('footer')
     <!-- jQuery Mask Plugin -->
     <script src="{{ URL::asset('template/vendor/jquery.mask.min.js') }}"></script>

@@ -2,11 +2,20 @@
 @section('title', 'Unidade')
 @section('menu-unidade', 'true')
 
+@section('header')
+    <link href="{{ URL::asset('template/css/select2.min.css') }}" rel="stylesheet" />
+@endsection
 @section('footer')
 
     <!-- jQuery Mask Plugin -->
     <script src="{{ URL::asset('template/vendor/jquery.mask.min.js') }}"></script>
+    <script src="{{ URL::asset('template/js/select2.min.js') }}"></script>
+
     <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+
         $("#whatsapp").mask("(99) 99999-9999");
 
         function validaUsuario() {
@@ -91,7 +100,7 @@
 
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label" for="parceiro_id">Parceiro</label>
-                                <select id="parceiro_id" class="form-control custom-select" name="parceiro_id">
+                                <select id="parceiro_id" class="form-control custom-select select2" name="parceiro_id">
                                     <option></option>
                                     @foreach ($parceiro as $item)
                                         <option value="{{ $item->id }}">{{ $item->nome }}</option>
@@ -110,8 +119,8 @@
                             </div>
                             <div class="col-6 col-md-4 mb-3">
                                 <label class="form-label" for="usuario">Usuário</label>
-                                <input type="text" class="form-control" onchange="validaUsuario()" id="usuario" name="usuario"  placeholder="Usuário"
-                                    value="{{ old('usuario') }}" required="">
+                                <input type="text" class="form-control" onchange="validaUsuario()" id="usuario"
+                                    name="usuario" placeholder="Usuário" value="{{ old('usuario') }}" required="">
                                 <small id="retorno-usuario" class="form-text"></small>
                             </div>
                             <div class="col-12 col-md-4 mb-3">
