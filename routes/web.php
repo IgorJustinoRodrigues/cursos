@@ -7,6 +7,7 @@ use App\Http\Controllers\ParceiroController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UnidadeController;
+use App\Http\Controllers\VendedorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -122,6 +123,16 @@ Route::post('/unidade-inserir', [UnidadeController::class, 'inserir'])->name('un
 Route::get('/unidade-editar/{item}', [UnidadeController::class, 'editar'])->name('unidadeEditar');
 Route::put('/unidade-salvar/{item}', [UnidadeController::class, 'salvar'])->name('unidadeSalvar');
 Route::get('/unidade-delete/{item}', [UnidadeController::class, 'deletar'])->name('unidadeDeletar');
+
+/*
+ROTAS DE VENDEDOR
+*/
+Route::get('/vendedor', [VendedorController::class, 'index'])->name('vendedorIndex');
+Route::get('/vendedor-cadastro', [VendedorController::class, 'cadastro'])->name('vendedorCadastro');
+Route::post('/vendedor-inserir', [VendedorController::class, 'inserir'])->name('vendedorInserir');
+Route::get('/vendedor-editar/{item}', [VendedorController::class, 'editar'])->name('vendedorEditar');
+Route::put('/vendedor-salvar/{item}', [VendedorController::class, 'salvar'])->name('vendedorSalvar');
+Route::get('/vendedor-delete/{item}', [VendedorController::class, 'deletar'])->name('vendedorDeletar');
 
 
 Route::get("/login-aluno", [SiteController::class, 'login']);

@@ -26,6 +26,8 @@ class CreateVendedorsTable extends Migration
             $table->string('usuario', 20)->unique();
             $table->string('senha', 32);
 
+            $table->string('status', 2);
+
             $table->unsignedBigInteger('unidade_id');
             $table->foreign('unidade_id')->references('id')->on('unidades');
 

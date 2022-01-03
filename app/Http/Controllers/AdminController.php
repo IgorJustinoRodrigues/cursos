@@ -10,6 +10,7 @@ use App\Models\Canvas;
 use App\Models\Parceiro;
 use App\Models\Servico;
 use App\Models\Unidade;
+use App\Models\Vendedor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
@@ -493,11 +494,44 @@ class AdminController extends Controller
                     }
                     break;
 
-                    
+
                     //Caso de aluno
                 case 'aluno':
                     //Consulta que busca se já existe um usuario no banco com o mesmo usuario
                     $resultado = Aluno::where('usuario', '=', $usuario)->first();
+
+                    //Verifica se existe
+                    if ($resultado) {
+                        //Verifica se o id informado é igual ao da consulta
+                        if ($resultado->id == $id) {
+                            //Retorno de usuário atual 
+                            $retorno = [
+                                'msg' => 'Usuário atual!',
+                                'tipo' => '3',
+                                'status' => 1
+                            ];
+                        } else {
+                            //Retorno de usuário não disponível
+                            $retorno = [
+                                'msg' => 'Usuário "' . $usuario . '", não está disponível!',
+                                'tipo' => '2',
+                                'status' => 1
+                            ];
+                        }
+                    } else {
+                        //Retorno do usuário disponível
+                        $retorno = [
+                            'msg' => 'Usuário disponível!',
+                            'tipo' => '1',
+                            'status' => 1
+                        ];
+                    }
+                    break;
+
+                    //Caso de vendedor
+                case 'vendedor':
+                    //Consulta que busca se já existe um usuario no banco com o mesmo usuario
+                    $resultado = Vendedor::where('usuario', '=', $usuario)->first();
 
                     //Verifica se existe
                     if ($resultado) {

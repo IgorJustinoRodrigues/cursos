@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Canvas;
+use App\Models\Unidade;
 use App\Models\Vendedor;
 use App\Services\Services;
 use Illuminate\Http\Request;
@@ -13,7 +15,7 @@ class VendedorController extends Controller
 
     /*
     Função Index de Vendedor
-    - Responsável por mostrar a tela de listagem de unidade 
+    - Responsável por mostrar a tela de listagem de vendedor 
     - $request: Recebe valores de busca e paginação
     */
     public function index(Request $request)
@@ -30,20 +32,20 @@ class VendedorController extends Controller
         //Verifica se existe uma busca
         if (@$request->busca != '') {
             //Paginação dos registros com busca busca
-            $consulta->where('unidades.nome', 'like', '%' . $request->busca . '%');
+            $consulta->where('vendedors.nome', 'like', '%' . $request->busca . '%');
         }
 
 
-        $items = $consulta->selectRaw('unidades.*, parceiros.nome as parceiro')
+        $items = $consulta->selectRaw('vendedors.*, unidades.nome as vendedor')
             ->paginate();
 
-        //Exibe a tela de listagem de unidade passando parametros para view
-        return view('painelAdmin.unidade.index', ['paginacao' => $items, 'busca' => @$request->busca]);
+        //Exibe a tela de listagem de vendedor passando parametros para view
+        return view('painelAdmin.vendedor.index', ['paginacao' => $items, 'busca' => @$request->busca]);
     }
 
     /*
     Função Cadastro de Vendedor
-    - Responsável por mostrar a tela de cadastro de unidade
+    - Responsável por mostrar a tela de cadastro de vendedor
     */
     public function cadastro()
     {
@@ -52,16 +54,16 @@ class VendedorController extends Controller
             //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-        $parceiro = Parceiro::where('status', '=', '1')->get();
+        $unidade = Unidade::where('status', '=', '1')->get();
 
-        //Exibe a tela de cadastro de unidadeistradores
-        return view('painelAdmin.unidade.cadastro', ['parceiro' => $parceiro]);
+        //Exibe a tela de cadastro de vendedor
+        return view('painelAdmin.vendedor.cadastro', ['unidade' => $unidade]);
     }
 
     /*
     Função Inserir de Vendedor
-    - Responsável por inserir as informações de um novo unidade
-    - $request: Recebe valores do novo unidade
+    - Responsável por inserir as informações de um novo vendedor
+    - $request: Recebe valores do novo vendedor
     */
     public function inserir(Request $request)
     {
@@ -73,7 +75,8 @@ class VendedorController extends Controller
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required',
-            'usuario' => 'required|max:20|unique:unidades,usuario',
+            'cpf' => 'required|max:11|unique:vendedors,cpf',
+            'usuario' => 'required|max:20|unique:vendedors,usuario',
             'senha' => 'required'
         ]);
 
@@ -82,41 +85,35 @@ class VendedorController extends Controller
 
         //Atribuição dos valores recebidos da váriavel $request
         $item->nome = $request->nome;
-        $item->usuario = $request->usuario;
-        $item->senha = $request->senha;
+        $item->cpf = $request->cpf;
         $item->email = $request->email;
         $item->whatsapp = $request->whatsapp;
-        $item->contato = $request->contato;
-        $item->endereco = $request->endereco;
-        $item->cidade = $request->cidade;
-        $item->estado = $request->estado;
-        $item->facebook = $request->facebook;
-        $item->instagram = $request->instagram;
-        $item->site = $request->site;
-        $item->parceiro_id = $request->parceiro_id;
+        $item->usuario = $request->usuario;
+        $item->senha = $request->senha;
         $item->status = $request->status;
-
-        //Verificação se imagem de logo foi informado, caso seja verifica-se sua integridade
-        if (@$request->file('logo') and $request->file('logo')->isValid()) {
+        $item->unidade_id = $request->unidade_id;
+        
+        //Verificação se imagem de avatar foi informado, caso seja verifica-se sua integridade
+        if (@$request->file('avatar') and $request->file('avatar')->isValid()) {
             //Validação das informações recebidas
             $validated = $request->validate([
-                'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5120'
+                'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5120'
             ]);
 
             //Atribuição dos valores recebidos da váriavel $request após seu upload
-            $item->logo = $request->logo->store('logoVendedor');
+            $item->avatar = $request->avatar->store('avatarVendedor');
 
             //Nova instância do Model Canvas
             $img = new Canvas();
 
             //Edição da imagem recebida com a Class Canva 
-            $img->carrega(public_path('storage/' . $item->logo))
+            $img->carrega(public_path('storage/' . $item->avatar))
                 ->hexa('#FFFFFF')
                 ->redimensiona(900, 600, 'preenchimento')
-                ->grava(public_path('storage/' . $item->logo), 80);
+                ->grava(public_path('storage/' . $item->avatar), 80);
         } else {
-            //Atribuição de valor padrão para imagem logo caso o mesmo não seja informado 
-            $item->logo = null;
+            //Atribuição de valor padrão para imagem avatar caso o mesmo não seja informado 
+            $item->avatar = null;
         }
 
         //Envio das informações para o banco de dados
@@ -124,8 +121,8 @@ class VendedorController extends Controller
 
         //Verificação do insert
         if ($resposta) {
-            //Redirecionamento para a rota unidadeIndex, com mensagem de sucesso
-            return redirect()->route('unidadeIndex')->with('sucesso', '"' . $item->nome . '", inserido!');
+            //Redirecionamento para a rota vendedorIndex, com mensagem de sucesso
+            return redirect()->route('vendedorIndex')->with('sucesso', '"' . $item->nome . '", inserido!');
         } else {
 
             //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
@@ -135,8 +132,8 @@ class VendedorController extends Controller
 
     /*
     Função Editar de Vendedor
-    - Responsável por mostrar a tela de edição de unidadeistradores
-    - $item: Recebe o Id do unidade que deverá ser editado
+    - Responsável por mostrar a tela de edição de vendedoristradores
+    - $item: Recebe o Id do vendedor que deverá ser editado
     */
     public function editar($id)
     {
@@ -145,32 +142,32 @@ class VendedorController extends Controller
             //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-        $item = Vendedor::join('parceiros', 'unidades.parceiro_id', '=', 'parceiros.id')
+        $item = Vendedor::join('parceiros', 'vendedors.parceiro_id', '=', 'parceiros.id')
             ->orderby('parceiros.nome', 'asc')
             ->where('parceiros.status', '<>', '0')
-            ->selectRaw('unidades.*, parceiros.nome as parceiro')
+            ->selectRaw('vendedors.*, parceiros.nome as parceiro')
             ->find($id);
 
-        //Verifica se há algum unidade selecionado
+        //Verifica se há algum vendedor selecionado
         if (@$item) {
 
 
             if ($item->status == 0) {
-                return redirect()->route('unidadeIndex')->with('atencao', 'Vendedor excluido!');
+                return redirect()->route('vendedorIndex')->with('atencao', 'Vendedor excluido!');
             }
 
-            //Exibe a tela de edição de unidadeistradores passando parametros para view
-            return view('painelAdmin.unidade.editar', ['item' => $item]);
+            //Exibe a tela de edição de vendedoristradores passando parametros para view
+            return view('painelAdmin.vendedor.editar', ['item' => $item]);
         } else {
-            //Redirecionamento para a rota unidadeIndex, com mensagem de erro
-            return redirect()->route('unidadeIndex')->with('erro', 'Vendedor não encontrado!');
+            //Redirecionamento para a rota vendedorIndex, com mensagem de erro
+            return redirect()->route('vendedorIndex')->with('erro', 'Vendedor não encontrado!');
         }
     }
 
     /*
     Função Salvar de Vendedor
-    - Responsável por editar as informações de um unidadeistrador já cadastrado
-    - $request: Recebe valores de um unidadeistrador
+    - Responsável por editar as informações de um vendedoristrador já cadastrado
+    - $request: Recebe valores de um vendedoristrador
     - $item: Recebe uma objeto de Vendedor vázio para edição
     */
     public function salvar(Request $request, Vendedor $item)
@@ -183,7 +180,7 @@ class VendedorController extends Controller
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required',
-            'usuario' => "required|max:20|unique:unidades,usuario,{$item->id}",
+            'usuario' => "required|max:20|unique:vendedors,usuario,{$item->id}",
             'nome' => 'required'
         ]);
 
@@ -191,7 +188,7 @@ class VendedorController extends Controller
         //Atribuição dos valores recebidos da váriavel $request
         $item->nome = $request->nome;
         $item->usuario = $request->usuario;
-        
+
         //Verificação se uma nova senha foi informada
         if (@$request->senha != '') {
             //Validação das informações recebidas
@@ -215,26 +212,26 @@ class VendedorController extends Controller
         $item->status = $request->status;
 
 
-        //Verificação se uma nova imagem de logo foi informado, caso seja verifica-se sua integridade
-        if (@$request->file('logo') and $request->file('logo')->isValid()) {
+        //Verificação se uma nova imagem de avatar foi informado, caso seja verifica-se sua integridade
+        if (@$request->file('avatar') and $request->file('avatar')->isValid()) {
             //Validação das informações recebidas
             $validated = $request->validate([
-                'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5120'
+                'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5120'
             ]);
 
             //Salva o nome da antiga imagem para ser apagada em caso de sucesso
-            $logoApagar = $item->logo;
+            $avatarApagar = $item->avatar;
             //Atribuição dos valores recebidos da váriavel $request após seu upload
-            $item->logo = $request->logo->store('logoVendedor');
+            $item->avatar = $request->avatar->store('avatarVendedor');
 
             //Nova instância do Model Canvas
             $img = new Canvas();
 
             //Edição da imagem recebida com a Class Canva 
-            $img->carrega(public_path('storage/' . $item->logo))
+            $img->carrega(public_path('storage/' . $item->avatar))
                 ->hexa('#FFFFFF')
                 ->redimensiona(900, 600, 'preenchimento')
-                ->grava(public_path('storage/' . $item->logo), 80);
+                ->grava(public_path('storage/' . $item->avatar), 80);
         }
 
         //Envio das informações para o banco de dados
@@ -244,13 +241,13 @@ class VendedorController extends Controller
         if ($resposta) {
 
             //Verifica se há imagem antiga para ser apagada e se caso exista, se é diferente do padrão
-            if (@$logoApagar and Storage::exists($logoApagar)) {
+            if (@$avatarApagar and Storage::exists($avatarApagar)) {
                 //Deleta o arquivo físico da imagem antiga
-                Storage::delete($logoApagar);
+                Storage::delete($avatarApagar);
             }
 
-            //Redirecionamento para a rota unidadeIndex, com mensagem de sucesso
-            return redirect()->route('unidadeIndex')->with('sucesso', '"' . $item->nome . '", salvo!');
+            //Redirecionamento para a rota vendedorIndex, com mensagem de sucesso
+            return redirect()->route('vendedorIndex')->with('sucesso', '"' . $item->nome . '", salvo!');
         } else {
             //Redirecionamento para tela anterior com mensagem de erro
             return redirect()->back()->with('atencao', 'Não foi possível salvar as informações, tente novamente!');
@@ -259,8 +256,8 @@ class VendedorController extends Controller
 
     /*
     Função Deletar de Vendedor
-    - Responsável por excluir as informações de um unidade
-    - $request: Recebe o Id do um unidade a ser excluido
+    - Responsável por excluir as informações de um vendedor
+    - $request: Recebe o Id do um vendedor a ser excluido
     */
     public function deletar(Vendedor $item)
     {
@@ -272,22 +269,22 @@ class VendedorController extends Controller
 
         $item->status = 0;
 
-        //Deleta o unidadei informado
+        //Deleta o vendedori informado
         if ($item->save()) {
 
-            //Redirecionamento para a rota unidadeIndex, com mensagem de sucesso
-            return redirect()->route('unidadeIndex')->with('sucesso', 'Vendedor excluido!');
+            //Redirecionamento para a rota vendedorIndex, com mensagem de sucesso
+            return redirect()->route('vendedorIndex')->with('sucesso', 'Vendedor excluido!');
         } else {
-            //Redirecionamento para a rota unidadeIndex, com mensagem de erro
-            return redirect()->route('unidadeIndex')->with('erro', 'Vendedor não excluido!');
+            //Redirecionamento para a rota vendedorIndex, com mensagem de erro
+            return redirect()->route('vendedorIndex')->with('erro', 'Vendedor não excluido!');
         }
     }
 
 
     /*
     Função Resetar Senha de Vendedor
-    - Responsável por Resetar a senha de um unidade
-    - $request: Recebe o Id do um unidade para a senha ser resetada
+    - Responsável por Resetar a senha de um vendedor
+    - $request: Recebe o Id do um vendedor para a senha ser resetada
     */
     public function reseteSenha(Vendedor $item)
     {
@@ -299,21 +296,21 @@ class VendedorController extends Controller
 
         $item->senha = '123456';
 
-        //Deleta o unidadei informado
+        //Deleta o vendedori informado
         if ($item->save()) {
 
-            //Redirecionamento para a rota unidadeIndex, com mensagem de sucesso
-            return redirect()->route('unidadeIndex')->with('sucesso', 'Senha resetada com sucesso!');
+            //Redirecionamento para a rota vendedorIndex, com mensagem de sucesso
+            return redirect()->route('vendedorIndex')->with('sucesso', 'Senha resetada com sucesso!');
         } else {
-            //Redirecionamento para a rota unidadeIndex, com mensagem de erro
-            return redirect()->route('unidadeIndex')->with('erro', 'A senha não pode ser resetada!');
+            //Redirecionamento para a rota vendedorIndex, com mensagem de erro
+            return redirect()->route('vendedorIndex')->with('erro', 'A senha não pode ser resetada!');
         }
     }
 
 
     /*
     Função Login de Vendedor
-    - Responsável pelo login do unidadeistrador ao painel
+    - Responsável pelo login do vendedoristrador ao painel
     - $request: Recebe as credênciais de acesso informadas pelo internauta
     */
     public function login(Request $request)
@@ -328,43 +325,43 @@ class VendedorController extends Controller
         $usuario = $request->usuario;
         $senha = $request->senha;
 
-        //Seleciona o unidade no banco de dados, usando as credencias de acesso
+        //Seleciona o vendedor no banco de dados, usando as credencias de acesso
         $item = Vendedor::where('usuario', '=', $usuario)->where('senha', '=', $senha)->where('status', '=', 1)->first();
 
-        //Verifica se existe um unidade com as credênciais informadas
+        //Verifica se existe um vendedor com as credênciais informadas
         if (@$item->id != null and is_numeric($item->id)) {
             //Inícia a Sessão
             @session_start();
 
-            //Obtem e preenche as informaçõs do unidade encontrado
-            $logado['id_unidade'] = $item->id;
-            $logado['nome_unidade'] = $item->nome;
-            $logado['logo_unidade'] = $item->logo;
-            $logado['usuario_unidade'] = $item->usuario;
-            $logado['status_unidade'] = $item->status;
-            $logado['visibilidade_unidade'] = $item->visibilidade;
-            $logado['cadastro_unidade'] = $item->created_at->format('d/m/Y') . ' às ' . $item->created_at->format('H:i');
-            $logado['ultimo_acesso_unidade'] = $item->updated_at->format('d/m/Y') . ' às ' . $item->updated_at->format('H:i');
+            //Obtem e preenche as informaçõs do vendedor encontrado
+            $logado['id_vendedor'] = $item->id;
+            $logado['nome_vendedor'] = $item->nome;
+            $logado['avatar_vendedor'] = $item->avatar;
+            $logado['usuario_vendedor'] = $item->usuario;
+            $logado['status_vendedor'] = $item->status;
+            $logado['visibilidade_vendedor'] = $item->visibilidade;
+            $logado['cadastro_vendedor'] = $item->created_at->format('d/m/Y') . ' às ' . $item->created_at->format('H:i');
+            $logado['ultimo_acesso_vendedor'] = $item->updated_at->format('d/m/Y') . ' às ' . $item->updated_at->format('H:i');
 
             //Cria uma sessão com as informações
-            $_SESSION['unidade_cursos_start'] = $logado;
+            $_SESSION['vendedor_cursos_start'] = $logado;
 
             //Verifica se o campo lembrar senha estava selecionado
             if (@$request->remember) {
                 //Criar o Cookie com as credênciais com validade de 3 dias
-                Cookie::queue('unidade_usuario', $request->usuario, 4320);
-                Cookie::queue('unidade_senha', $request->senha, 4320);
+                Cookie::queue('vendedor_usuario', $request->usuario, 4320);
+                Cookie::queue('vendedor_senha', $request->senha, 4320);
             } else {
                 //Expira os Cookies de credências
-                Cookie::expire('unidade_usuario');
-                Cookie::expire('unidade_senha');
+                Cookie::expire('vendedor_usuario');
+                Cookie::expire('vendedor_senha');
             }
 
             //Atualiza a data e hora do campo updated_at
             $item->touch();
 
             //Redirecionamento para a rota painelVendedor, com mensagem de sucesso, com uma sessão ativa
-            return redirect()->route('painelVendedor')->with('sucesso', 'Olá ' . $item->nome . ', você acessou o sistema com o perfil de unidade!');
+            return redirect()->route('painelVendedor')->with('sucesso', 'Olá ' . $item->nome . ', você acessou o sistema com o perfil de vendedor!');
         } else {
             //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
             return redirect()->back()->with('atencao', 'Usuário e/ou senha incorretos!')->withInput(
@@ -375,7 +372,7 @@ class VendedorController extends Controller
 
     /*
     Função Sair de Vendedor
-    - Responsável pelo logoff do painel do unidade
+    - Responsável pelo avatarff do painel do vendedor
     */
     public function sair()
     {
@@ -383,19 +380,19 @@ class VendedorController extends Controller
         @session_start();
 
         //Expira a sessão atual
-        unset($_SESSION['unidade_cursos_start']);
+        unset($_SESSION['vendedor_cursos_start']);
         //Redirecionamento para a rota inicio, com mensagem de sucesso, sem uma sessão ativa
         return redirect()->route('acessoVendedor')->with('sucesso', 'Sessão encerrada com sucesso!');
     }
 
     /*
     Função status de Vendedor
-    - Responsável por exibir o status do unidade
-    - $status: Recebe o Id do status do unidade
+    - Responsável por exibir o status do vendedor
+    - $status: Recebe o Id do status do vendedor
     */
     public function status($status)
     {
-        //Verifica o status do unidade
+        //Verifica o status do vendedor
         switch ($status) {
             case 1:
                 //Retorna o status Ativo
@@ -416,12 +413,12 @@ class VendedorController extends Controller
 
     /*
     Função visibilidade de Vendedor
-    - Responsável por exibir o visibilidade do unidade
-    - $visibilidade: Recebe o Id do visibilidade do unidade
+    - Responsável por exibir o visibilidade do vendedor
+    - $visibilidade: Recebe o Id do visibilidade do vendedor
     */
     public function visibilidade($visibilidade)
     {
-        //Verifica o visibilidade do unidade
+        //Verifica o visibilidade do vendedor
         switch ($visibilidade) {
             case 1:
                 //Retorna o visibilidade Vísivel
@@ -435,4 +432,3 @@ class VendedorController extends Controller
         }
     }
 }
-
