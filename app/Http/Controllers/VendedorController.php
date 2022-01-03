@@ -36,7 +36,7 @@ class VendedorController extends Controller
         }
 
 
-        $items = $consulta->selectRaw('vendedors.*, unidades.nome as vendedor')
+        $items = $consulta->selectRaw('vendedors.*, unidades.nome as unidade')
             ->paginate();
 
         //Exibe a tela de listagem de vendedor passando parametros para view
