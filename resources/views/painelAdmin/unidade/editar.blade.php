@@ -153,13 +153,13 @@
                             <div class="col-9 col-md-6 mb-3">
                                 <label class="form-label" for="cidade">Cidade</label>
                                 <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Cidade"
-                                    value="{{ $item->cidade }}" required="">
+                                    value="{{ $item->cidade }}" >
                             </div>
 
                             <div class="col-9 col-md-6 mb-3">
                                 <label class="form-label" for="estado">Estado</label>
                                 <input type="text" class="form-control" id="estado" name="estado" placeholder="Estado"
-                                    value="{{ $item->estado }}" maxlength="2" required="">
+                                    value="{{ $item->estado }}" maxlength="2" >
                             </div>
 
                             <div class="col-12 col-md-6 mb-3">

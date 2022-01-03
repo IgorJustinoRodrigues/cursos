@@ -1,6 +1,6 @@
 @extends('template.admin')
-@section('title', 'Unidade')
-@section('menu-unidade', 'true')
+@section('title', 'Vendedores')
+@section('menu-vendedor', 'true')
 
 @section('footer')
 
@@ -10,8 +10,8 @@
     <div class="col-md-12">
 
         <div class="d-flex align-items-center mb-4">
-            <h1 class="h2 flex mr-3 mb-0">Listagem de Unidades</h1>
-            <a href="{{ route('unidadeCadastro') }}" class="btn btn-success">Cadastro</a>
+            <h1 class="h2 flex mr-3 mb-0">Listagem de Vendedores</h1>
+            <a href="{{ route('vendedorCadastro') }}" class="btn btn-success">Cadastro</a>
         </div>
 
 
@@ -28,13 +28,13 @@
             </small>
             <!-- Search -->
             <form class="flex search-form form-control-rounded search-form--light mb-2 col-md-12"
-                action="{{ route('unidadeIndex') }}" method="GET" style="min-width: 200px;">
+                action="{{ route('vendedorIndex') }}" method="GET" style="min-width: 200px;">
                 <input type="hidden" name="page" value="1" />
                 <input type="text" class="form-control" placeholder="Digite sua busca" id="busca"
                     value="{{ $busca }}" name="busca" required>
                 <button class="btn pr-3" type="submit" role="button"><i class="material-icons">search</i></button>
                 @if (@$busca)
-                    <a href="{{ route('unidadeIndex') }}" class="btn pr-3 text-danger" type="button" role="button"><i
+                    <a href="{{ route('vendedorIndex') }}" class="btn pr-3 text-danger" type="button" role="button"><i
                             class="material-icons">close</i></a>
                 @endif
             </form>
@@ -45,7 +45,7 @@
                 <thead>
                     <tr>
                         <th style="width: 5%">Logo</th>
-                        <th style="width: 50%">Nome</th>
+                        <th style="width: 50%">Vendedor</th>
                         <th style="width: 35%">Unidade</th>
                         <th style="width: 10%">Opções</th>
                     </tr>
@@ -54,28 +54,28 @@
                     @foreach ($paginacao as $item)
                         <tr>
                             <td class="text-center">
-                                <a href="{{ route('unidadeEditar', $item->id) }}">
+                                <a href="{{ route('vendedorEditar', $item->id) }}">
                                     @if ($item->avatar != '')
                                         <img src="{{ URL::asset('storage/' . $item->avatar) }}" alt=""
                                             class="avatar-img">
                                     @else
-                                        <img src="{{ URL::asset('storage/avatarUnidade/padrao.png') }}" alt=""
+                                        <img src="{{ URL::asset('storage/avatarVendedores/padrao.png') }}" alt=""
                                             class="avatar-img">
                                     @endif
                                 </a>
                             </td>
                             <td>
-                                <a href="{{ route('unidadeEditar', $item->id) }}">
+                                <a href="{{ route('vendedorEditar', $item->id) }}">
                                     {{ $item->nome }}
                                 </a>
                             </td>
                             <td>{{ $item->unidade }}</td>
                             <td class="table-dropdown text-center">
-                                <a href="{{ route('unidadeEditar', $item->id) }}" class="btn btn-success">
+                                <a href="{{ route('vendedorEditar', $item->id) }}" class="btn btn-success">
                                     <i class="fa fa-edit"></i>
                                 </a>
 
-                                <a onclick="confirmacao('{{ route('unidadeDeletar', $item->id) }}', '<h3>Realmente deseja excluir esse unidade?</h3><p>{{ $item->nome }}</p>')"
+                                <a onclick="confirmacao('{{ route('vendedorDeletar', $item->id) }}', '<h3>Realmente deseja excluir esse Vendedor?</h3><p>{{ $item->nome }}</p>')"
                                     class="btn btn-danger">
                                     <i class="fa fa-trash"></i>
                                 </a>
