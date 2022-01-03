@@ -142,10 +142,10 @@ class VendedorController extends Controller
             //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-        $item = Vendedor::join('parceiros', 'vendedors.parceiro_id', '=', 'parceiros.id')
-            ->orderby('parceiros.nome', 'asc')
-            ->where('parceiros.status', '<>', '0')
-            ->selectRaw('vendedors.*, parceiros.nome as parceiro')
+        $item = Vendedor::join('unidades', 'vendedors.unidade_id', '=', 'unidades.id')
+            ->orderby('unidades.nome', 'asc')
+            ->where('unidades.status', '<>', '0')
+            ->selectRaw('vendedors.*, unidades.nome as unidade')
             ->find($id);
 
         //Verifica se há algum vendedor selecionado
