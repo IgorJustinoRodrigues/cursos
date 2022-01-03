@@ -65,10 +65,10 @@ class AlunoController extends Controller
     {
         //Validação de acesso
         if (!(new Services())->validarAdmin())
-            //Redirecionamento para a rota acessoParceiro, com mensagem de erro, sem uma sessão ativa
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-        $consulta = Aluno::orderby('nome', 'asc');
+        $consulta = Aluno::orderby('nome', 'asc')->where('status', '<>', '0');;
 
         //Verifica se existe uma busca
         if (@$request->busca != '') {
@@ -90,7 +90,7 @@ class AlunoController extends Controller
     {
         //Validação de acesso
         if (!(new Services())->validarAdmin())
-            //Redirecionamento para a rota acessoParceiro, com mensagem de erro, sem uma sessão ativa
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
         //Exibe a tela de cadastro de alunoistradores
@@ -106,7 +106,7 @@ class AlunoController extends Controller
     {
         //Validação de acesso
         if (!(new Services())->validarAdmin())
-            //Redirecionamento para a rota acessoParceiro, com mensagem de erro, sem uma sessão ativa
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
         //Validação das informações recebidas
@@ -132,15 +132,15 @@ class AlunoController extends Controller
         $item->email = $request->email;
         $item->whatsapp = $request->whatsapp;
         $item->telefone = $request->telefone;
-        $item-> contato = $request-> contato;
-        $item-> endereco = $request-> endereco;
-        $item-> cidade = $request-> cidade;
-        $item-> estado = $request-> estado;
-        $item-> usuario = $request-> usuario;
+        $item->contato = $request->contato;
+        $item->endereco = $request->endereco;
+        $item->cidade = $request->cidade;
+        $item->estado = $request->estado;
+        $item->usuario = $request->usuario;
         $item->senha = $request->senha;
         //pontuação resolver ainda...
         $item->pontuacao = $request->pontuacao;
-        
+
         $item->status = $request->status;
 
         //Verificação se imagem de avatar foi informado, caso seja verifica-se sua integridade
@@ -190,18 +190,18 @@ class AlunoController extends Controller
     public function editar(Aluno $item)
     {
         //Validação de acesso
-        if (!(new Services())->validarAluno())
-            //Redirecionamento para a rota acessoAluno, com mensagem de erro, sem uma sessão ativa
-            return (new Services())->redirecionarAluno();
+        if (!(new Services())->validarAdmin())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionar();
 
         //Verifica se há algum admim selecionado
         if (@$item) {
 
             //Exibe a tela de edição de alunoistradores passando parametros para view
-            return view('painelAluno.aluno.editar', ['item' => $item]);
+            return view('painelAdmin.aluno.editar', ['item' => $item]);
         } else {
             //Redirecionamento para a rota alunoIndex, com mensagem de erro
-            return redirect()->route('alunoIndex')->with('erro', 'Alunoistrador não encontrado!');
+            return redirect()->route('alunoIndex')->with('erro', 'Aluno não encontrado!');
         }
     }
 
@@ -214,22 +214,38 @@ class AlunoController extends Controller
     public function salvar(Request $request, Aluno $item)
     {
         //Validação de acesso
-        if (!(new Services())->validarAluno())
-            //Redirecionamento para a rota acessoAluno, com mensagem de erro, sem uma sessão ativa
-            return (new Services())->redirecionarAluno();
+        if (!(new Services())->validarAdmin())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionar();
 
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required',
-            'email' => "required|max:100|unique:alunos,email,{$item->id}"
+            'usuario' => 'required|max:100|unique:alunos,email',
+            'pontuacao' => 'required'
         ]);
 
-        //Atribuição dos valores recebidos da váriavel $request para o objeto $item
-        $item->id = $request->id;
+        //Atribuição dos valores recebidos da váriavel $request
         $item->nome = $request->nome;
+        $item->nascimento = $request->nascimento;
+        $item->sexo = $request->sexo;
+        $item->cpf = $request->cpf;
+        $item->rg = $request->rg;
+        $item->nome_responsavel = $request->nome_responsavel;
+        $item->cpf_responsavel = $request->cpf_responsavel;
+        $item->rg_responsavel = $request->rg_responsavel;
         $item->email = $request->email;
-        $item->anotacoes = $request->anotacoes;
+        $item->whatsapp = $request->whatsapp;
+        $item->telefone = $request->telefone;
+        $item->contato = $request->contato;
+        $item->endereco = $request->endereco;
+        $item->cidade = $request->cidade;
+        $item->estado = $request->estado;
+        $item->usuario = $request->usuario;
+        //pontuação resolver ainda...
+        $item->pontuacao = $request->pontuacao;
 
+        $item->status = $request->status;
         //Verificação se uma nova senha foi informada
         if (@$request->senha != '') {
             //Validação das informações recebidas
@@ -241,11 +257,6 @@ class AlunoController extends Controller
             $item->senha = $request->senha;
         }
 
-        //Verificação se o tipo do alunoistrador foi informado
-        if (@$request->tipo != '') {
-            //Atribuição dos valores recebidos da váriavel $request para o objeto $item
-            $item->tipo = $request->tipo;
-        }
 
         //Verificação se uma nova imagem de avatar foi informado, caso seja verifica-se sua integridade
         if (@$request->file('avatar') and $request->file('avatar')->isValid()) {
@@ -275,34 +286,6 @@ class AlunoController extends Controller
         //Verifica se o Update foi bem sucedido
         if ($resposta) {
 
-            //Inícia a Sessão
-            @session_start();
-
-            //Verifica se o Id informado é o mesmo Id logado na sessão ativa
-            if ($item->id == $_SESSION['aluno_cursos_start']['id_aluno']) {
-                //Atribui os novos valores informados para a sessão ativa
-                $logado['id_aluno'] = $item->id;
-                $logado['nome_aluno'] = $item->nome;
-                $logado['email_aluno'] = $item->email;
-                $logado['avatar_aluno'] = $item->avatar;
-                $logado['tipo_aluno'] = $this->tipo($item->tipo);
-                $logado['tipo_numero_aluno'] = $item->tipo;
-                $logado['anotacoes_aluno'] = $item->anotacoes;
-                $logado['cadastro_aluno'] = $item->cadastro;
-                $logado['ultimo_acesso_aluno'] = $item->updated_at->format('d/m/Y') . ' às ' . $item->updated_at->format('H:i');
-
-                //Substitui os valos da sessão ativa
-                $_SESSION['aluno_cursos_start'] = $logado;
-
-                //Verifica se o campo Lembrar Senha estava ativo, através da existência de um email em Cookie
-                if (Cookie::get('aluno_email') != null) {
-
-                    //Substitui os valores salvos em Cookie, válidos por 3 dias
-                    Cookie::queue('aluno_email', $item->email, 4320);
-                    Cookie::queue('aluno_senha', $item->senha, 4320);
-                }
-            }
-
             //Verifica se há imagem antiga para ser apagada e se caso exista, se é diferente do padrão
             if (@$avatarApagar and Storage::exists($avatarApagar) and $avatarApagar != 'avatarAluno/padrao.png') {
                 //Deleta o arquivo físico da imagem antiga
@@ -317,42 +300,32 @@ class AlunoController extends Controller
         }
     }
 
-    /*
+       /*
     Função Deletar de Aluno
-    - Responsável por excluir as informações de um alunoistrador
-    - $request: Recebe o Id do um alunoistrador a ser excluido
+    - Responsável por excluir as informações de um aluno
+    - $request: Recebe o Id do um aluno a ser excluido
     */
     public function deletar(Aluno $item)
     {
         //Validação de acesso
-        if (!(new Services())->validarAluno())
-            //Redirecionamento para a rota acessoAluno, com mensagem de erro, sem uma sessão ativa
-            return (new Services())->redirecionarAluno();
+        if (!(new Services())->validarAdmin())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionar();
 
-        //Inícia a Sessão
-        @session_start();
 
-        //Verifica se o Id a ser excluido é igual ao Id da Sessão atual
-        if ($item->id == $_SESSION['aluno_cursos_start']['id_aluno']) {
-            //Redirecionamento para a rota alunoIndex com mensagem de erro
-            return redirect()->route('alunoIndex')->with('erro', 'Você não pode excluir sua própria conta!');
-        }
+        $item->status = 0;
 
-        //Deleta o alunoi informado
-        if ($item->delete()) {
-            //Verifica se há imagem para ser apagada e se caso exista, se é diferente do padrão
-            if (Storage::exists($item->avatar) and $item->avatar != 'avatarAluno/padrao.png') {
-                //Deleta o arquivo físico da imagem antiga
-                Storage::delete($item->avatar);
-            }
+        //Deleta o aluno informado
+        if ($item->save()) {
 
             //Redirecionamento para a rota alunoIndex, com mensagem de sucesso
-            return redirect()->route('alunoIndex')->with('sucesso', 'Alunoistrador excluido!');
+            return redirect()->route('alunoIndex')->with('sucesso', 'Aluno excluido!');
         } else {
             //Redirecionamento para a rota alunoIndex, com mensagem de erro
-            return redirect()->route('alunoIndex')->with('erro', 'Alunoistrador não excluido!');
+            return redirect()->route('alunoIndex')->with('erro', 'Aluno não excluido!');
         }
     }
+
 
     /*
     Função Login de Aluno
@@ -429,26 +402,5 @@ class AlunoController extends Controller
         unset($_SESSION['aluno_cursos_start']);
         //Redirecionamento para a rota inicio, com mensagem de sucesso, sem uma sessão ativa
         return redirect()->route('acessoAluno')->with('sucesso', 'Sessão encerrada com sucesso!');
-    }
-
-    /*
-    Função Tipo de Aluno
-    - Responsável por exibir o tipo do alunoistrador
-    - $tipo: Recebe o Id do tipo do alunoistrador
-    */
-    public function tipo($tipo)
-    {
-        //Verifica o tipo do alunoistrador
-        switch ($tipo) {
-            case 1:
-                //Retorna o tipo Alunoistração
-                return 'Alunoistração';
-                break;
-
-            case 2:
-                //Retorna o tipo Atendimento
-                return 'Atendimento';
-                break;
-        }
     }
 }

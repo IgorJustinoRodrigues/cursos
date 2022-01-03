@@ -45,9 +45,8 @@
                 <thead>
                     <tr>
                         <th style="width: 5%">Avatar</th>
-                        <th style="width: 50%">Nome</th>
-                        <th style="width: 35%">Parceiro</th>
-                        <th style="width: 10%">Opções</th>
+                        <th style="width: 80%">Nome</th>
+                        <th style="width: 15%">Opções</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,11 +54,11 @@
                         <tr>
                             <td class="text-center">
                                 <a href="{{ route('alunoEditar', $item->id) }}">
-                                    @if ($item->logo != '')
-                                        <img src="{{ URL::asset('storage/' . $item->logo) }}" alt=""
+                                    @if ($item->avatar != '')
+                                        <img src="{{ URL::asset('storage/' . $item->avatar) }}" alt=""
                                             class="avatar-img">
                                     @else
-                                        <img src="{{ URL::asset('storage/logoAluno/padrao.png') }}" alt=""
+                                        <img src="{{ URL::asset('storage/avatarAluno/padrao.png') }}" alt=""
                                             class="avatar-img">
                                     @endif
                                 </a>
@@ -69,7 +68,7 @@
                                     {{ $item->nome }}
                                 </a>
                             </td>
-                            <td>{{ $item->parceiro }}</td>
+                           
                             <td class="table-dropdown text-center">
                                 <a href="{{ route('alunoEditar', $item->id) }}" class="btn btn-success">
                                     <i class="fa fa-edit"></i>

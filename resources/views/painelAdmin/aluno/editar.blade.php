@@ -1,6 +1,6 @@
 @extends('template.admin')
-@section('title', 'Unidade')
-@section('menu-unidade', 'true')
+@section('title', 'Aluno')
+@section('menu-aluno', 'true')
 
 @section('footer')
     <!-- jQuery Mask Plugin -->
@@ -9,7 +9,7 @@
         $("#whatsapp").mask("(99) 99999-9999");
 
         function validaUsuario() {
-            var tabela = 'unidade';
+            var tabela = 'aluno';
             var usuario = $("#usuario").val();
             var id = $("#id").val();
 
@@ -80,52 +80,88 @@
     <div class="col-md-12">
 
         <div class="d-flex align-items-center mb-4">
-            <h1 class="h2 flex mr-3 mb-0">Edição de Unidade</h1>
+            <h1 class="h2 flex mr-3 mb-0">Edição de Aluno</h1>
         </div>
 
         <div class="card card-body">
             <div class="row">
                 <div class="col-lg-12">
-                    <form method="POST" action="{{ route('unidadeSalvar', $item) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('alunoSalvar', $item) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="id" id="id" value="{{ $item->id }}">
                         <div class="form-row">
-                            <div class="col-9 col-md-5 mb-3">
-                                <label class="form-label" for="nome">Parceiro</label>
-                                <input type="text" class="form-control" id="nome" value="{{ $item->parceiro }}" readonly>
-                            </div>
-                            <div class="col-9 col-md-6 mb-3">
+                            <div class="col-9 col-md-10 mb-3">
                                 <label class="form-label" for="nome">Nome</label>
                                 <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome"
                                     value="{{ $item->nome }}" required="">
                             </div>
-                            <div class="col-3 col-md-1 mb-3">
-                                @if ($item->logo != '')
-                                    <img src="{{ URL::asset('storage/' . $item->logo) }}" alt="" class="avatar-img">
+                            <div class="col-3 col-md-1   mb-3">
+                                @if ($item->avatar != '')
+                                    <img src="{{ URL::asset('storage/' . $item->avatar) }}" alt="" class="avatar-img">
                                 @else
-                                    <img src="{{ URL::asset('storage/logoUnidade/padrao.png') }}" alt=""
+                                    <img src="{{ URL::asset('storage/avatarAluno/padrao.png') }}" alt=""
                                         class="avatar-img">
                                 @endif
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-12 col-md-4 mb-3">
-                                <label class="form-label" for="logo">logo da Unidade</label>
-                                <input type="file" class="form-control" id="logo" name="logo">
+                                <label class="form-label" for="avatar">avatar da Aluno</label>
+                                <input type="file" class="form-control" id="avatar" name="avatar">
                             </div>
 
                             <div class="col-9 col-md-4 mb-3">
                                 <label class="form-label" for="usuario">Usuário</label>
-                                <input type="text" class="form-control"   onchange="validaUsuario()"  id="usuario" name="usuario" placeholder="Usuário"
-                                    value="{{ $item->usuario }}" required="">
-                                    <small id="retorno-usuario" class="form-text"></small>
+                                <input type="text" class="form-control" onchange="validaUsuario()" id="usuario"
+                                    name="usuario" placeholder="Usuário" value="{{ $item->usuario }}" required="">
+                                <small id="retorno-usuario" class="form-text"></small>
                             </div>
                             <div class="col-9 col-md-4 mb-3">
                                 <label class="form-label" for="senha">senha</label>
                                 <input type="password" class="form-control" id="senha" minlength="6" name="senha"
                                     placeholder="********">
                             </div>
+                            <div class="col-9 col-md-3 mb-3">
+                                <label class="form-label" for="nascimento">Data de Nascimento</label>
+                                <input type="date" class="form-control" id="nascimento" name="nascimento"
+                                    value="{{ $item->nascimento }}">
+                            </div>
+                            <div class="col-12 col-md-3 mb-3">
+                                <label class="form-label" for="sexo">Sexo</label>
+                                <select id="sexo" class="form-control custom-select" name="sexo">
+                                    <option @if ($item->sexo == 1) selected @endif value="1">Masculino</option>
+                                    <option @if ($item->sexo == 2) selected @endif value="2">Feminino</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-3 mb-3">
+                                <label class="form-label" for="cpf">Cpf do Aluno</label>
+                                <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Cpf do Aluno"
+                                    value="{{ $item->cpf }}">
+                            </div>
+                            <div class="col-12 col-md-3 mb-3">
+                                <label class="form-label" for="rg">Rg do Aluno</label>
+                                <input type="text" class="form-control" id="rg" name="rg" placeholder="Rg do Aluno"
+                                    value="{{ $item->rg }}">
+                            </div>
+
+                            <div class="col-12 col-md-12 mb-3">
+                                <label class="form-label" for="nome_responsavel">Nome do Responsável</label>
+                                <input type="text" class="form-control" id="nome_responsavel   "
+                                    name="nome_responsavel   " placeholder="Nome do Responsável"
+                                    value="{{ $item->nome_responsavel }}">
+                            </div>
+                            <div class="col-12 col-md-3 mb-3">
+                                <label class="form-label" for="cpf_responsavel">Cpf do Responsável</label>
+                                <input type="text" class="form-control" id="cpf_responsavel" name="cpf_responsavel"
+                                    placeholder="Cpf do Responsável" value="{{ $item->cpf_responsavel }}">
+                            </div>
+                            <div class="col-12 col-md-3 mb-3">
+                                <label class="form-label" for="rg_responsavel">Rg do Responsável</label>
+                                <input type="text" class="form-control" id="rg_responsavel" name="rg_responsavel"
+                                    placeholder="Rg do Responsável" value="{{ $item->rg_responsavel }}">
+                            </div>
+
 
                             <div class="col-12 col-md-6 mb-3">
                                 <label class="form-label" for="email">E-mail</label>
@@ -136,6 +172,11 @@
                                 <label class="form-label" for="whatsapp">WhatsApp</label>
                                 <input type="text" class="form-control" id="whatsapp" name="whatsapp"
                                     placeholder="WhatsApp" value="{{ $item->whatsapp }}">
+                            </div>
+                            <div class="col-12 col-md-6 mb-3">
+                                <label class="form-label" for="telefone">Telefone</label>
+                                <input type="text" class="form-control" id="telefone" name="telefone"
+                                    placeholder="Telefone" value="{{ $item->telefone }}">
                             </div>
 
                             <div class="col-12 mb-3">
@@ -150,34 +191,22 @@
                                     rows="3">{{ $item->endereco }}</textarea>
                             </div>
 
-                            <div class="col-9 col-md-6 mb-3">
+                            <div class="col-9 col-md-4 mb-3">
                                 <label class="form-label" for="cidade">Cidade</label>
                                 <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Cidade"
-                                    value="{{ $item->cidade }}" required="">
+                                    value="{{ $item->cidade }}" >
                             </div>
 
-                            <div class="col-9 col-md-6 mb-3">
+                            <div class="col-9 col-md-4 mb-3">
                                 <label class="form-label" for="estado">Estado</label>
                                 <input type="text" class="form-control" id="estado" name="estado" placeholder="Estado"
-                                    value="{{ $item->estado }}" maxlength="2" required="">
+                                    value="{{ $item->estado }}" maxlength="2">
                             </div>
 
-                            <div class="col-12 col-md-6 mb-3">
-                                <label class="form-label" for="facebook">Facebook</label>
-                                <input type="url" class="form-control" id="facebook" name="facebook"
-                                    placeholder="URL do Facebook" value="{{ $item->facebook }}">
-                            </div>
-
-                            <div class="col-12 col-md-6 mb-3">
-                                <label class="form-label" for="instagram">Instagram</label>
-                                <input type="url" class="form-control" id="instagram" name="instagram"
-                                    placeholder="URL do Instagram" value="{{ $item->instagram }}">
-                            </div>
-
-                            <div class="col-12 col-md-12 mb-3">
-                                <label class="form-label" for="site">Site</label>
-                                <input type="url" class="form-control" id="site" name="site" placeholder="URL do Site"
-                                    value="{{ $item->site }}">
+                            <div class="col-9 col-md-4 mb-3">
+                                <label class="form-label" for="pontuacao">Pontuação</label>
+                                <input type="number" class="form-control" id="pontuacao" name="pontuacao" placeholder="Estado"
+                                    value="{{ $item->pontuacao }}" maxlength="2" required="">
                             </div>
 
                             <div class="col-12 col-md-4 mb-3">
@@ -191,7 +220,7 @@
                         <hr>
                         <div class="d-flex">
                             <div class="flex">
-                                <a href="{{ route('unidadeIndex') }}" class="btn btn-default btn-wide">Voltar</a>
+                                <a href="{{ route('alunoIndex') }}" class="btn btn-default btn-wide">Voltar</a>
                             </div>
                             <button class="btn btn-success" type="submit">Salvar</button>
                         </div>
