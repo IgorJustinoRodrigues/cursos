@@ -3,20 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Canvas;
-use App\Models\Parceiro;
-use App\Models\Unidade;
+use App\Models\Vendedor;
 use App\Services\Services;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Storage;
 
-class UnidadeController extends Controller
+class VendedorController extends Controller
 {
 
 
     /*
-    Função Index de Unidade
+    Função Index de Vendedor
     - Responsável por mostrar a tela de listagem de unidade 
     - $request: Recebe valores de busca e paginação
     */
@@ -27,14 +23,14 @@ class UnidadeController extends Controller
             //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-        $consulta = Unidade::join('parceiros', 'unidades.parceiro_id', '=', 'parceiros.id')
-            ->orderby('parceiros.nome', 'asc')
-            ->where('parceiros.status', '<>', '0');
+        $consulta = Vendedor::join('unidades', 'vendedors.unidade_id', '=', 'unidades.id')
+            ->orderby('unidades.nome', 'asc')
+            ->where('unidades.status', '<>', '0');
 
         //Verifica se existe uma busca
         if (@$request->busca != '') {
             //Paginação dos registros com busca busca
-            $consulta->where('parceiros.nome', 'like', '%' . $request->busca . '%');
+            $consulta->where('unidades.nome', 'like', '%' . $request->busca . '%');
         }
 
 
@@ -46,14 +42,14 @@ class UnidadeController extends Controller
     }
 
     /*
-    Função Cadastro de Unidade
+    Função Cadastro de Vendedor
     - Responsável por mostrar a tela de cadastro de unidade
     */
     public function cadastro()
     {
         //Validação de acesso
         if (!(new Services())->validarAdmin())
-            //Redirecionamento para a rota acessoUnidade, com mensagem de erro, sem uma sessão ativa
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
         $parceiro = Parceiro::where('status', '=', '1')->get();
@@ -63,7 +59,7 @@ class UnidadeController extends Controller
     }
 
     /*
-    Função Inserir de Unidade
+    Função Inserir de Vendedor
     - Responsável por inserir as informações de um novo unidade
     - $request: Recebe valores do novo unidade
     */
@@ -71,7 +67,7 @@ class UnidadeController extends Controller
     {
         //Validação de acesso
         if (!(new Services())->validarAdmin())
-            //Redirecionamento para a rota acessoUnidade, com mensagem de erro, sem uma sessão ativa
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
         //Validação das informações recebidas
@@ -81,8 +77,8 @@ class UnidadeController extends Controller
             'senha' => 'required'
         ]);
 
-        //Nova instância do Model Unidade
-        $item = new Unidade();
+        //Nova instância do Model Vendedor
+        $item = new Vendedor();
 
         //Atribuição dos valores recebidos da váriavel $request
         $item->nome = $request->nome;
@@ -108,7 +104,7 @@ class UnidadeController extends Controller
             ]);
 
             //Atribuição dos valores recebidos da váriavel $request após seu upload
-            $item->logo = $request->logo->store('logoUnidade');
+            $item->logo = $request->logo->store('logoVendedor');
 
             //Nova instância do Model Canvas
             $img = new Canvas();
@@ -138,7 +134,7 @@ class UnidadeController extends Controller
     }
 
     /*
-    Função Editar de Unidade
+    Função Editar de Vendedor
     - Responsável por mostrar a tela de edição de unidadeistradores
     - $item: Recebe o Id do unidade que deverá ser editado
     */
@@ -146,10 +142,10 @@ class UnidadeController extends Controller
     {
         //Validação de acesso
         if (!(new Services())->validarAdmin())
-            //Redirecionamento para a rota acessoUnidade, com mensagem de erro, sem uma sessão ativa
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-        $item = Unidade::join('parceiros', 'unidades.parceiro_id', '=', 'parceiros.id')
+        $item = Vendedor::join('parceiros', 'unidades.parceiro_id', '=', 'parceiros.id')
             ->orderby('parceiros.nome', 'asc')
             ->where('parceiros.status', '<>', '0')
             ->selectRaw('unidades.*, parceiros.nome as parceiro')
@@ -160,28 +156,28 @@ class UnidadeController extends Controller
 
 
             if ($item->status == 0) {
-                return redirect()->route('unidadeIndex')->with('atencao', 'Unidade excluido!');
+                return redirect()->route('unidadeIndex')->with('atencao', 'Vendedor excluido!');
             }
 
             //Exibe a tela de edição de unidadeistradores passando parametros para view
             return view('painelAdmin.unidade.editar', ['item' => $item]);
         } else {
             //Redirecionamento para a rota unidadeIndex, com mensagem de erro
-            return redirect()->route('unidadeIndex')->with('erro', 'Unidade não encontrado!');
+            return redirect()->route('unidadeIndex')->with('erro', 'Vendedor não encontrado!');
         }
     }
 
     /*
-    Função Salvar de Unidade
+    Função Salvar de Vendedor
     - Responsável por editar as informações de um unidadeistrador já cadastrado
     - $request: Recebe valores de um unidadeistrador
-    - $item: Recebe uma objeto de Unidade vázio para edição
+    - $item: Recebe uma objeto de Vendedor vázio para edição
     */
-    public function salvar(Request $request, Unidade $item)
+    public function salvar(Request $request, Vendedor $item)
     {
         //Validação de acesso
         if (!(new Services())->validarAdmin())
-            //Redirecionamento para a rota acessoUnidade, com mensagem de erro, sem uma sessão ativa
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
         //Validação das informações recebidas
@@ -229,7 +225,7 @@ class UnidadeController extends Controller
             //Salva o nome da antiga imagem para ser apagada em caso de sucesso
             $logoApagar = $item->logo;
             //Atribuição dos valores recebidos da váriavel $request após seu upload
-            $item->logo = $request->logo->store('logoUnidade');
+            $item->logo = $request->logo->store('logoVendedor');
 
             //Nova instância do Model Canvas
             $img = new Canvas();
@@ -262,15 +258,15 @@ class UnidadeController extends Controller
     }
 
     /*
-    Função Deletar de Unidade
+    Função Deletar de Vendedor
     - Responsável por excluir as informações de um unidade
     - $request: Recebe o Id do um unidade a ser excluido
     */
-    public function deletar(Unidade $item)
+    public function deletar(Vendedor $item)
     {
         //Validação de acesso
         if (!(new Services())->validarAdmin())
-            //Redirecionamento para a rota acessoUnidade, com mensagem de erro, sem uma sessão ativa
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
 
@@ -280,24 +276,24 @@ class UnidadeController extends Controller
         if ($item->save()) {
 
             //Redirecionamento para a rota unidadeIndex, com mensagem de sucesso
-            return redirect()->route('unidadeIndex')->with('sucesso', 'Unidade excluido!');
+            return redirect()->route('unidadeIndex')->with('sucesso', 'Vendedor excluido!');
         } else {
             //Redirecionamento para a rota unidadeIndex, com mensagem de erro
-            return redirect()->route('unidadeIndex')->with('erro', 'Unidade não excluido!');
+            return redirect()->route('unidadeIndex')->with('erro', 'Vendedor não excluido!');
         }
     }
 
 
     /*
-    Função Resetar Senha de Unidade
+    Função Resetar Senha de Vendedor
     - Responsável por Resetar a senha de um unidade
     - $request: Recebe o Id do um unidade para a senha ser resetada
     */
-    public function reseteSenha(Unidade $item)
+    public function reseteSenha(Vendedor $item)
     {
         //Validação de acesso
         if (!(new Services())->validarAdmin())
-            //Redirecionamento para a rota acessoUnidade, com mensagem de erro, sem uma sessão ativa
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
 
@@ -316,7 +312,7 @@ class UnidadeController extends Controller
 
 
     /*
-    Função Login de Unidade
+    Função Login de Vendedor
     - Responsável pelo login do unidadeistrador ao painel
     - $request: Recebe as credênciais de acesso informadas pelo internauta
     */
@@ -333,7 +329,7 @@ class UnidadeController extends Controller
         $senha = $request->senha;
 
         //Seleciona o unidade no banco de dados, usando as credencias de acesso
-        $item = Unidade::where('usuario', '=', $usuario)->where('senha', '=', $senha)->where('status', '=', 1)->first();
+        $item = Vendedor::where('usuario', '=', $usuario)->where('senha', '=', $senha)->where('status', '=', 1)->first();
 
         //Verifica se existe um unidade com as credênciais informadas
         if (@$item->id != null and is_numeric($item->id)) {
@@ -367,8 +363,8 @@ class UnidadeController extends Controller
             //Atualiza a data e hora do campo updated_at
             $item->touch();
 
-            //Redirecionamento para a rota painelUnidade, com mensagem de sucesso, com uma sessão ativa
-            return redirect()->route('painelUnidade')->with('sucesso', 'Olá ' . $item->nome . ', você acessou o sistema com o perfil de unidade!');
+            //Redirecionamento para a rota painelVendedor, com mensagem de sucesso, com uma sessão ativa
+            return redirect()->route('painelVendedor')->with('sucesso', 'Olá ' . $item->nome . ', você acessou o sistema com o perfil de unidade!');
         } else {
             //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
             return redirect()->back()->with('atencao', 'Usuário e/ou senha incorretos!')->withInput(
@@ -378,7 +374,7 @@ class UnidadeController extends Controller
     }
 
     /*
-    Função Sair de Unidade
+    Função Sair de Vendedor
     - Responsável pelo logoff do painel do unidade
     */
     public function sair()
@@ -389,11 +385,11 @@ class UnidadeController extends Controller
         //Expira a sessão atual
         unset($_SESSION['unidade_cursos_start']);
         //Redirecionamento para a rota inicio, com mensagem de sucesso, sem uma sessão ativa
-        return redirect()->route('acessoUnidade')->with('sucesso', 'Sessão encerrada com sucesso!');
+        return redirect()->route('acessoVendedor')->with('sucesso', 'Sessão encerrada com sucesso!');
     }
 
     /*
-    Função status de Unidade
+    Função status de Vendedor
     - Responsável por exibir o status do unidade
     - $status: Recebe o Id do status do unidade
     */
@@ -419,7 +415,7 @@ class UnidadeController extends Controller
     }
 
     /*
-    Função visibilidade de Unidade
+    Função visibilidade de Vendedor
     - Responsável por exibir o visibilidade do unidade
     - $visibilidade: Recebe o Id do visibilidade do unidade
     */
@@ -439,3 +435,4 @@ class UnidadeController extends Controller
         }
     }
 }
+

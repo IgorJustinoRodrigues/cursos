@@ -227,6 +227,18 @@ class AlunoController extends Controller
 
         //Atribuição dos valores recebidos da váriavel $request
         $item->nome = $request->nome;
+        $item->usuario = $request->usuario;
+        //Verificação se uma nova senha foi informada
+        if (@$request->senha != '') {
+            //Validação das informações recebidas
+            $validated = $request->validate([
+                'senha' => 'required|min:6',
+            ]);
+
+            //Atribuição dos valores recebidos da váriavel $request para o objeto $item
+            $item->senha = $request->senha;
+        }
+
         $item->nascimento = $request->nascimento;
         $item->sexo = $request->sexo;
         $item->cpf = $request->cpf;
@@ -241,21 +253,11 @@ class AlunoController extends Controller
         $item->endereco = $request->endereco;
         $item->cidade = $request->cidade;
         $item->estado = $request->estado;
-        $item->usuario = $request->usuario;
         //pontuação resolver ainda...
         $item->pontuacao = $request->pontuacao;
 
         $item->status = $request->status;
-        //Verificação se uma nova senha foi informada
-        if (@$request->senha != '') {
-            //Validação das informações recebidas
-            $validated = $request->validate([
-                'senha' => 'required|min:6',
-            ]);
 
-            //Atribuição dos valores recebidos da váriavel $request para o objeto $item
-            $item->senha = $request->senha;
-        }
 
 
         //Verificação se uma nova imagem de avatar foi informado, caso seja verifica-se sua integridade
@@ -300,7 +302,7 @@ class AlunoController extends Controller
         }
     }
 
-       /*
+    /*
     Função Deletar de Aluno
     - Responsável por excluir as informações de um aluno
     - $request: Recebe o Id do um aluno a ser excluido
