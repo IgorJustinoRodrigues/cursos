@@ -278,6 +278,31 @@
                                         </ul>
                                     </li>
                                 </ul>
+                                <div class="sidebar-heading">Cursos</div>
+                                <ul class="sidebar-menu">
+                                    <li class="sidebar-menu-item @hasSection('menu-curso') active @endif">
+                                        <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
+                                            href="#menuCurso">
+                                            <i
+                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">supervised_user_circle</i>
+                                            Curso
+                                            <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                                        </a>
+                                        <ul class="sidebar-submenu sm-indent collapse" id="menuCurso">
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button" href="{{ route('cursoIndex') }}">
+                                                    <span class="sidebar-menu-text">Listar</span>
+                                                </a>
+                                            </li>
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button"
+                                                    href="{{ route('cursoCadastro') }}">
+                                                    <span class="sidebar-menu-text">Cadastro</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
                                 <div class="sidebar-heading">Gerenciar</div>
                                 <ul class="sidebar-menu">
                                     <li class="sidebar-menu-item @hasSection('menu-parceiro') active @endif">
@@ -285,7 +310,7 @@
                                             href="#menuParceiro">
                                             <i
                                                 class="sidebar-menu-icon sidebar-menu-icon--left material-icons">supervised_user_circle</i>
-                                           Parceiros
+                                            Parceiros
                                             <span class="ml-auto sidebar-menu-toggle-icon"></span>
                                         </a>
                                         <ul class="sidebar-submenu sm-indent collapse" id="menuParceiro">
@@ -295,19 +320,19 @@
                                                 </a>
                                             </li>
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('parceiroCadastro') }}">
+                                                <a class="sidebar-menu-button"
+                                                    href="{{ route('parceiroCadastro') }}">
                                                     <span class="sidebar-menu-text">Cadastro</span>
                                                 </a>
                                             </li>
                                         </ul>
                                     </li>
-                          
                                     <li class="sidebar-menu-item @hasSection('menu-professor') active @endif">
                                         <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
                                             href="#menuProfessor">
                                             <i
                                                 class="sidebar-menu-icon sidebar-menu-icon--left material-icons">person_pin</i>
-                                           Professor
+                                            Professor
                                             <span class="ml-auto sidebar-menu-toggle-icon"></span>
                                         </a>
                                         <ul class="sidebar-submenu sm-indent collapse" id="menuProfessor">
@@ -317,7 +342,8 @@
                                                 </a>
                                             </li>
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('professorCadastro') }}">
+                                                <a class="sidebar-menu-button"
+                                                    href="{{ route('professorCadastro') }}">
                                                     <span class="sidebar-menu-text">Cadastro</span>
                                                 </a>
                                             </li>
@@ -328,17 +354,19 @@
                                             href="#menuCategoriaCurso">
                                             <i
                                                 class="sidebar-menu-icon sidebar-menu-icon--left material-icons">dashboard_customize</i>
-                                           Categoria de Curso
+                                            Categoria de Curso
                                             <span class="ml-auto sidebar-menu-toggle-icon"></span>
                                         </a>
                                         <ul class="sidebar-submenu sm-indent collapse" id="menuCategoriaCurso">
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('categoriaCursoIndex') }}">
+                                                <a class="sidebar-menu-button"
+                                                    href="{{ route('categoriaCursoIndex') }}">
                                                     <span class="sidebar-menu-text">Listar</span>
                                                 </a>
                                             </li>
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('categoriaCursoCadastro') }}">
+                                                <a class="sidebar-menu-button"
+                                                    href="{{ route('categoriaCursoCadastro') }}">
                                                     <span class="sidebar-menu-text">Cadastro</span>
                                                 </a>
                                             </li>
@@ -349,7 +377,7 @@
                                             href="#menuUnidade">
                                             <i
                                                 class="sidebar-menu-icon sidebar-menu-icon--left material-icons">domain</i>
-                                          Unidades
+                                            Unidades
                                             <span class="ml-auto sidebar-menu-toggle-icon"></span>
                                         </a>
                                         <ul class="sidebar-submenu sm-indent collapse" id="menuUnidade">
@@ -359,7 +387,8 @@
                                                 </a>
                                             </li>
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('unidadeCadastro') }}">
+                                                <a class="sidebar-menu-button"
+                                                    href="{{ route('unidadeCadastro') }}">
                                                     <span class="sidebar-menu-text">Cadastro</span>
                                                 </a>
                                             </li>
@@ -370,7 +399,7 @@
                                             href="#menuAluno">
                                             <i
                                                 class="sidebar-menu-icon sidebar-menu-icon--left material-icons">school</i>
-                                          Alunos
+                                            Alunos
                                             <span class="ml-auto sidebar-menu-toggle-icon"></span>
                                         </a>
                                         <ul class="sidebar-submenu sm-indent collapse" id="menuAluno">
@@ -391,7 +420,7 @@
                                             href="#menuVendedor">
                                             <i
                                                 class="sidebar-menu-icon sidebar-menu-icon--left material-icons">perm_contact_calendar</i>
-                                          Vendedor
+                                            Vendedor
                                             <span class="ml-auto sidebar-menu-toggle-icon"></span>
                                         </a>
                                         <ul class="sidebar-submenu sm-indent collapse" id="menuVendedor">
@@ -401,7 +430,8 @@
                                                 </a>
                                             </li>
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('vendedorCadastro') }}">
+                                                <a class="sidebar-menu-button"
+                                                    href="{{ route('vendedorCadastro') }}">
                                                     <span class="sidebar-menu-text">Cadastro</span>
                                                 </a>
                                             </li>
