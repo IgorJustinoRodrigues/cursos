@@ -270,4 +270,25 @@ class CursoController extends Controller
                 break;
         }
     }
+
+      /*
+    Função visibilidade de Curso
+    - Responsável por exibir o visibilidade do curso
+    - $visibilidade: Recebe o Id do visibilidade do curso
+    */
+    public function visibilidade($visibilidade)
+    {
+        //Verifica o visibilidade do curso
+        switch ($visibilidade) {
+            case 1:
+                //Retorna o visibilidade Vísivel
+                return 'Visível';
+                break;
+
+            case 2:
+                //Retorna o visibilidade Não Vísivel
+                return 'Não Visível';
+                break;
+        }
+    }
 }

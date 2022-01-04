@@ -121,19 +121,20 @@
                                     <input type="text" class="form-control" id="cooprodutor" name="cooprodutor"
                                         placeholder="Cooprodutor" value="{{ $item->cooprodutor }}">
                                 </div>
-                                <div class="col-12 col-md-6 mb-3">
-                                    <label class="form-label" for="status">Status</label>
-                                    <select id="status" class="form-control custom-select" name="status">
-                                        <option @if ($item->status == 1) selected @endif value="1">Ativo</option>
-                                        <option @if ($item->status == 2) selected @endif value="2">Inativo</option>
-                                    </select>
-                                </div>
-
+                                
                                 <div class="col-12 col-md-6 mb-3">
                                     <label class="form-label" for="visibilidade">Visibilidade</label>
                                     <select id="visibilidade" class="form-control custom-select" name="visibilidade">
                                         <option @if ($item->visibilidade == 1) selected @endif value="1">Visível</option>
                                         <option @if ($item->visibilidade == 2) selected @endif value="2">Não Visível</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label class="form-label" for="status">Status</label>
+                                    <select id="status" class="form-control custom-select" name="status">
+                                        <option @if ($item->status == 1) selected @endif value="1">Ativo</option>
+                                        <option @if ($item->status == 2) selected @endif value="2">Inativo</option>
                                     </select>
                                 </div>
 
