@@ -295,13 +295,36 @@
                                                 </a>
                                             </li>
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button"
-                                                    href="{{ route('cursoCadastro') }}">
+                                                <a class="sidebar-menu-button" href="{{ route('cursoCadastro') }}">
                                                     <span class="sidebar-menu-text">Cadastro</span>
                                                 </a>
                                             </li>
                                         </ul>
                                     </li>
+                                    <li class="sidebar-menu-item @hasSection('menu-categoriaCurso') active @endif">
+                                        <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
+                                            href="#menuCategoriaCurso">
+                                            <i
+                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">dashboard_customize</i>
+                                            Categoria de Curso
+                                            <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                                        </a>
+                                        <ul class="sidebar-submenu sm-indent collapse" id="menuCategoriaCurso">
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button"
+                                                    href="{{ route('categoriaCursoIndex') }}">
+                                                    <span class="sidebar-menu-text">Listar</span>
+                                                </a>
+                                            </li>
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button"
+                                                    href="{{ route('categoriaCursoCadastro') }}">
+                                                    <span class="sidebar-menu-text">Cadastro</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
                                 </ul>
                                 <div class="sidebar-heading">Gerenciar</div>
                                 <ul class="sidebar-menu">
@@ -349,29 +372,7 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li class="sidebar-menu-item @hasSection('menu-categoriaCurso') active @endif">
-                                        <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
-                                            href="#menuCategoriaCurso">
-                                            <i
-                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">dashboard_customize</i>
-                                            Categoria de Curso
-                                            <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                                        </a>
-                                        <ul class="sidebar-submenu sm-indent collapse" id="menuCategoriaCurso">
-                                            <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button"
-                                                    href="{{ route('categoriaCursoIndex') }}">
-                                                    <span class="sidebar-menu-text">Listar</span>
-                                                </a>
-                                            </li>
-                                            <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button"
-                                                    href="{{ route('categoriaCursoCadastro') }}">
-                                                    <span class="sidebar-menu-text">Cadastro</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
+
                                     <li class="sidebar-menu-item @hasSection('menu-unidade') active @endif">
                                         <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
                                             href="#menuUnidade">
