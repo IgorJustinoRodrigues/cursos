@@ -23,7 +23,6 @@
     <script src="{{ URL::asset('template/js/nestable.js') }}"></script>
     <script src="{{ URL::asset('template/js/touchspin.js') }}"></script>
     <script>
-
         function prepararSubmit() {
             var descricao = $(".ql-editor").html();
             $("#input-descricao").val(descricao);
@@ -93,7 +92,7 @@
                                 </div>
                             </div>
                             <div class="form-row">
-                                
+
                                 <div class="col-12 col-md-12 mb-3">
                                     <label class="form-label">Descrição do Curso</label>
                                     <div class="form-control" id="descricao" data-toggle="quill" style="height: 150px;">
@@ -117,7 +116,11 @@
                                             {{ $item->categoria }}</option>
                                     </select>
                                 </div>
-
+                                <div class="col-9 col-md-12 mb-3">
+                                    <label class="form-label" for="cooprodutor">Cooprodutor</label>
+                                    <input type="text" class="form-control" id="cooprodutor" name="cooprodutor"
+                                        placeholder="Cooprodutor" value="{{ $item->cooprodutor }}">
+                                </div>
                                 <div class="col-12 col-md-6 mb-3">
                                     <label class="form-label" for="status">Status</label>
                                     <select id="status" class="form-control custom-select" name="status">

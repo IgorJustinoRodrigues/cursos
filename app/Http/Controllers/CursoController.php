@@ -169,6 +169,7 @@ class CursoController extends Controller
         //Atribuição dos valores recebidos da váriavel $request
         $item->nome = $request->nome;
         $item->professor_id = $request->professor;
+        $item->cooprodutor = $request->cooprodutor;
         $item->categoria_id = $request->categoria;
         $item->descricao = $request->descricao;
         $item->status = $request->status;
