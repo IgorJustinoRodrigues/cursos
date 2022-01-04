@@ -278,6 +278,78 @@
                                         </ul>
                                     </li>
                                 </ul>
+
+                                <div class="sidebar-heading">Lojas</div>
+                                <ul class="sidebar-menu">
+                                    <li class="sidebar-menu-item @hasSection('menu-parceiro') active @endif">
+                                        <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
+                                            href="#menuParceiro">
+                                            <i
+                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">supervised_user_circle</i>
+                                            Parceiros
+                                            <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                                        </a>
+                                        <ul class="sidebar-submenu sm-indent collapse" id="menuParceiro">
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button" href="{{ route('parceiroIndex') }}">
+                                                    <span class="sidebar-menu-text">Listar</span>
+                                                </a>
+                                            </li>
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button"
+                                                    href="{{ route('parceiroCadastro') }}">
+                                                    <span class="sidebar-menu-text">Cadastro</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="sidebar-menu-item @hasSection('menu-unidade') active @endif">
+                                        <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
+                                            href="#menuUnidade">
+                                            <i
+                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">domain</i>
+                                            Unidades
+                                            <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                                        </a>
+                                        <ul class="sidebar-submenu sm-indent collapse" id="menuUnidade">
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button" href="{{ route('unidadeIndex') }}">
+                                                    <span class="sidebar-menu-text">Listar</span>
+                                                </a>
+                                            </li>
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button"
+                                                    href="{{ route('unidadeCadastro') }}">
+                                                    <span class="sidebar-menu-text">Cadastro</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="sidebar-menu-item @hasSection('menu-vendedor') active @endif">
+                                        <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
+                                            href="#menuVendedor">
+                                            <i
+                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">perm_contact_calendar</i>
+                                            Vendedor
+                                            <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                                        </a>
+                                        <ul class="sidebar-submenu sm-indent collapse" id="menuVendedor">
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button" href="{{ route('vendedorIndex') }}">
+                                                    <span class="sidebar-menu-text">Listar</span>
+                                                </a>
+                                            </li>
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button"
+                                                    href="{{ route('vendedorCadastro') }}">
+                                                    <span class="sidebar-menu-text">Cadastro</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
                                 <div class="sidebar-heading">Cursos</div>
                                 <ul class="sidebar-menu">
                                     <li class="sidebar-menu-item @hasSection('menu-curso') active @endif">
@@ -325,31 +397,6 @@
                                         </ul>
                                     </li>
 
-                                </ul>
-                                <div class="sidebar-heading">Gerenciar</div>
-                                <ul class="sidebar-menu">
-                                    <li class="sidebar-menu-item @hasSection('menu-parceiro') active @endif">
-                                        <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
-                                            href="#menuParceiro">
-                                            <i
-                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">supervised_user_circle</i>
-                                            Parceiros
-                                            <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                                        </a>
-                                        <ul class="sidebar-submenu sm-indent collapse" id="menuParceiro">
-                                            <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('parceiroIndex') }}">
-                                                    <span class="sidebar-menu-text">Listar</span>
-                                                </a>
-                                            </li>
-                                            <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button"
-                                                    href="{{ route('parceiroCadastro') }}">
-                                                    <span class="sidebar-menu-text">Cadastro</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
                                     <li class="sidebar-menu-item @hasSection('menu-professor') active @endif">
                                         <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
                                             href="#menuProfessor">
@@ -372,29 +419,9 @@
                                             </li>
                                         </ul>
                                     </li>
-
-                                    <li class="sidebar-menu-item @hasSection('menu-unidade') active @endif">
-                                        <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
-                                            href="#menuUnidade">
-                                            <i
-                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">domain</i>
-                                            Unidades
-                                            <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                                        </a>
-                                        <ul class="sidebar-submenu sm-indent collapse" id="menuUnidade">
-                                            <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('unidadeIndex') }}">
-                                                    <span class="sidebar-menu-text">Listar</span>
-                                                </a>
-                                            </li>
-                                            <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button"
-                                                    href="{{ route('unidadeCadastro') }}">
-                                                    <span class="sidebar-menu-text">Cadastro</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
+                                </ul>
+                                <div class="sidebar-heading">Gerenciar</div>
+                                <ul class="sidebar-menu">
                                     <li class="sidebar-menu-item @hasSection('menu-aluno') active @endif">
                                         <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
                                             href="#menuAluno">
@@ -411,28 +438,6 @@
                                             </li>
                                             <li class="sidebar-menu-item">
                                                 <a class="sidebar-menu-button" href="{{ route('alunoCadastro') }}">
-                                                    <span class="sidebar-menu-text">Cadastro</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="sidebar-menu-item @hasSection('menu-vendedor') active @endif">
-                                        <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
-                                            href="#menuVendedor">
-                                            <i
-                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">perm_contact_calendar</i>
-                                            Vendedor
-                                            <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                                        </a>
-                                        <ul class="sidebar-submenu sm-indent collapse" id="menuVendedor">
-                                            <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('vendedorIndex') }}">
-                                                    <span class="sidebar-menu-text">Listar</span>
-                                                </a>
-                                            </li>
-                                            <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button"
-                                                    href="{{ route('vendedorCadastro') }}">
                                                     <span class="sidebar-menu-text">Cadastro</span>
                                                 </a>
                                             </li>
