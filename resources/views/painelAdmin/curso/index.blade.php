@@ -1,5 +1,5 @@
 @extends('template.admin')
-@section('title', 'Cursos')
+@section('title', 'Curso')
 @section('menu-curso', 'true')
 
 @section('footer')
@@ -44,11 +44,11 @@
             <table class="table-responsive table">
                 <thead>
                     <tr>
-                        <th style="width: 50%">Nome</th>
+                        <th style="width: 40%">Nome</th>
                         <th style="width: 20%">Categoria</th>
-                        <th style="width: 15%">Professor</th>
-                        <th style="width: 15%">Status</th>
-                        <th style="width: 20%">Opções</th>
+                        <th style="width: 20%">Professor</th>
+                        <th style="width: 10%">Status</th>
+                        <th style="width: 10%">Opções</th>
                     </tr>
                 </thead>
                 <tbody>

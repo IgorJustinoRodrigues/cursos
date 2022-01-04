@@ -129,7 +129,7 @@
                                     placeholder="Usuário" value="{{ $item->usuario }}" required="">
                                 <small id="retorno-usuario" class="form-text"></small>
                             </div>
-                            <!-- deixar para o Igor me mostrar -->
+                           
                             <div class="col-12 col-md-12 mb-3">
                                 <label class="form-label">Sobre</label>
                                 <div class="form-control" id="sobre" data-toggle="quill" style="height: 150px;">
