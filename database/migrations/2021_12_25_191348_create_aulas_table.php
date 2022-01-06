@@ -29,6 +29,9 @@ class CreateAulasTable extends Migration
 
             $table->string('status', 2);
 
+            $table->unsignedBigInteger('curso_id');
+            $table->foreign('curso_id')->references('id')->on('cursos');
+
             $table->timestamps();
         });
     }

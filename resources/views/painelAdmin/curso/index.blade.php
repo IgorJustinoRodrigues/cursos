@@ -44,7 +44,7 @@
             <table class="table-responsive table">
                 <thead>
                     <tr>
-                        <th style="width: 40%">Nome</th>
+                        <th style="width: 50%">Nome</th>
                         <th style="width: 20%">Categoria</th>
                         <th style="width: 20%">Professor</th>
                         <th style="width: 10%">Status</th>

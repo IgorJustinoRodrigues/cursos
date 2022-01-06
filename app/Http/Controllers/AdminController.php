@@ -130,6 +130,7 @@ class AdminController extends Controller
         $item->senha = $request->senha;
         $item->tipo = $request->tipo;
         $item->anotacoes = $request->anotacoes;
+        $item->status = 1;
 
         //Verificação se imagem de avatar foi informado, caso seja verifica-se sua integridade
         if (@$request->file('avatar') and $request->file('avatar')->isValid()) {
