@@ -150,9 +150,66 @@
 
                     </div>
                     <div class="tab-pane" id="aulas_curso">
-                        teste
 
-
+                        <div class="card-header">
+                            <a href="#" data-toggle="modal" data-target="#editQuiz" class="btn btn-outline-secondary">Inserir Nova Aula <i class="material-icons"> add</i></a>
+                        </div>
+                        
+                        <div class="nestable" id="nestable">
+                            <ul class="list-group list-group-fit nestable-list-plain mb-0">
+                                <li class="list-group-item nestable-item" data-id="1" data-ordem="1">
+                                    <div class="media align-items-center">
+                                        <div class="media-left">
+                                            <a href="#" class="btn btn-default nestable-handle"><i
+                                                    class="material-icons">menu</i></a>
+                                        </div>
+                                        <div class="media-body">
+                                            <small id="aula1">1.</small> Introdução
+                                        </div>
+                                        <div class="media-right text-right">
+                                            <div style="width:100px">
+                                                <a href="#" data-toggle="modal" data-target="#editQuiz"
+                                                    class="btn btn-primary btn-sm"><i class="material-icons">edit</i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item nestable-item" data-id="2" data-ordem="2">
+                                    <div class="media align-items-center">
+                                        <div class="media-left">
+                                            <a href="#" class="btn btn-default nestable-handle"><i
+                                                    class="material-icons">menu</i></a>
+                                        </div>
+                                        <div class="media-body">
+                                            <small id="aula2">2.</small> Menu
+                                        </div>
+                                        <div class="media-right text-right">
+                                            <div style="width:100px">
+                                                <a href="#" data-toggle="modal" data-target="#editQuiz"
+                                                    class="btn btn-primary btn-sm"><i class="material-icons">edit</i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item nestable-item" data-id="3" data-ordem="3">
+                                    <div class="media align-items-center">
+                                        <div class="media-left">
+                                            <a href="#" class="btn btn-default nestable-handle"><i
+                                                    class="material-icons">menu</i></a>
+                                        </div>
+                                        <div class="media-body">
+                                            <small id="aula3">3.</small> Criar Pasta
+                                        </div>
+                                        <div class="media-right text-right">
+                                            <div style="width:100px">
+                                                <a href="#" data-toggle="modal" data-target="#editQuiz"
+                                                    class="btn btn-primary btn-sm"><i class="material-icons">edit</i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
