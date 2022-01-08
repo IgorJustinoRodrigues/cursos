@@ -1,0 +1,69 @@
+1º Passo
+	CRIAR O BANCO DE DADOS NA HOSPEDAGEM
+		Nome: 	empresti_bd
+		Usuário:empresti_root	
+		Senha: 	3RG*qM16NWi-
+		
+2º Passo
+	PREPARAR A HOSPEDAGEM	
+		Limpar a pasta Public_html
+		Criar a pasta na raiz para colocar os arquivos Laravel
+		
+3º Passo
+	PREPARAR OS ARQUIVOS PARA UPLOAD	
+		Compactar como ZIP todos os arquivos e pastas menos a Public e pasta que não são do Laravel
+		Compactar como ZIP todos os arquivos e pastas de Public menos a pasta storage]
+
+4º Passo
+	ENVIO PARA O SERVIDOR
+		Suba os arquivos ZIP para os devidos locais
+	EXTRAIR
+	
+5º Passo
+	EDITAR OS ARQUIVOS
+	
+	1º - Arquivo index.php em public_html:
+		Edite linha 34:
+		require DIR.'/../vendor/autoload.php';
+		para:
+		require DIR.'/../NOME DA PASTA/vendor/autoload.php';
+	
+		Edite linha 47:
+		$app = require_once DIR.'/../bootstrap/app.php';
+		para:
+		$app = require_once DIR.'/../NOME DA PASTA/bootstrap/app.php';
+		
+	2º - Arquivo server.php em pasta criada
+		Edite linha 21:
+		require_once DIR.'/public/index.php';
+		para:
+		require_once DIR.'/public_html/index.php';
+		
+	3º - Arquivo AppServiceProvider.php em pastaCriada/app/Providers
+		Adicione na function register():
+		$this->app->bind('path.public', function(){
+			 return base_path( '../public_html');
+		});
+		
+		adicione:
+		use Illuminate\Support\Facades\URL;
+
+		adicione a função boot():
+		if(env('APP_ENV') !== 'local'){
+			URL::forceScheme('https');
+		}
+		
+	4º - Arquivo .env em pasta Criada habilitando em configurações os arquivos ocultos
+		APP_ENV=production
+		APP_DEBUG=false
+		Configurar os dados do banco de dados
+		
+6º Passo
+	CASO SEJA NECESSÁRIO ATUALIZAR A VERSÃO DO PHP
+		No Cpanel em Gerenciador de MultiPHP configure a versão e clique em aplicar
+		
+7º Passo
+	CRIAR O LINK EM STORAGE
+		No terminal do servidor execute o comando:
+		ln -s /home/PASTADOSERVIDOR/NOMEPASTACRIADA/storage/app/public /home/PASTADOSERVIDOR/public_html/storage
+		Exemplo: ln -s /home/emprestimo/laravel/storage/app/public /home/emprestimo/public_html/storage
