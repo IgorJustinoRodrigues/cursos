@@ -93,6 +93,7 @@
                                         <li><a href="search-page.html">Negócios</a></li>
                                         <li><a href="search-page.html">Empreendedorismo</a></li>
                                         <li><a href="search-page.html">Finanças e Contabilidade</a></li>
+                                        <li><a href="search-page.html">Idiomas</a></li>
                                         <li>
                                             <a href="#0">TI e Software</a>
                                             <ul class="lab-ul">

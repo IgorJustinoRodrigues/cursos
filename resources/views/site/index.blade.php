@@ -1,5 +1,5 @@
 @extends('template.site')
-@section('title', 'Painel de administrativo')
+@section('title', 'Início')
 
 @section('footer')
 
@@ -14,20 +14,20 @@
                 <div class="row align-items-center">
                     <div class="col-xxl-5 col-xl-6 col-lg-10">
                         <div class="banner-content">
-                            <h6 class="subtitle text-uppercase fw-medium">Online education</h6>
-                            <h2 class="title"><span class="d-lg-block">Learn The</span> Skills You Need <span
-                                    class="d-lg-block">To Succeed</span></h2>
-                            <p class="desc">Free online courses from the world’s Leading experts. join 18+ million
-                                Learners today.</p>
+                            <h6 class="subtitle text-uppercase fw-medium">EDUCAÇÃO ONLINE</h6>
+                            <h2 class="title"><span class="d-lg-block">Aprenda as</span> Habilidades que você
+                                precisa<span class="d-lg-block">Ter sucesso</span></h2>
+                            <p class="desc">Cursos online. Ativando o seu código você terá acesso vitalício a todo
+                                o conteúdo.</p>
                             <form action="/">
                                 <div class="banner-icon">
                                     <i class="icofont-search"></i>
                                 </div>
-                                <input type="text" placeholder="Keywords of your course">
-                                <button type="submit">Search Course</button>
+                                <input type="text" placeholder="Digite aqui o seu código de Ativação">
+                                <button type="submit">Ativar Código</button>
                             </form>
                             <div class="banner-catagory d-flex flex-wrap">
-                                <p>Most Popular : </p>
+                                <p>Cursos mais Acessados: </p>
                                 <ul class="lab-ul d-flex flex-wrap">
                                     <li><a href="#">Figma</a></li>
                                     <li><a href="#">Adobe XD</a></li>
@@ -48,11 +48,11 @@
         <div class="all-shapes"></div>
         <div class="cbs-content-list d-none">
             <ul class="lab-ul">
-                <li class="ccl-shape shape-1"><a href="#">16M Students Happy</a></li>
-                <li class="ccl-shape shape-2"><a href="#">130K+ Total Courses</a></li>
-                <li class="ccl-shape shape-3"><a href="#">89% Successful Students</a></li>
-                <li class="ccl-shape shape-4"><a href="#">23M+ Learners</a></li>
-                <li class="ccl-shape shape-5"><a href="#">36+ Languages</a></li>
+                <li class="ccl-shape shape-1"><a href="#">16M Estudantes Felizes</a></li>
+                <li class="ccl-shape shape-2"><a href="#">Mais de 700K+ Cursos Totais</a></li>
+                <li class="ccl-shape shape-3"><a href="#">89% de Estudantes bem-sucedidos</a></li>
+                <li class="ccl-shape shape-4"><a href="#">Mais de 23k+ alunos</a></li>
+                <li class="ccl-shape shape-5"><a href="#">3+ Idiomas</a></li>
             </ul>
         </div>
     </section>
@@ -119,8 +119,8 @@
     <div class="category-section padding-tb">
         <div class="container">
             <div class="section-header text-center">
-                <span class="subtitle">Popular Category</span>
-                <h2 class="title">Popular Category For Learn</h2>
+                <span class="subtitle">Categoria Popular</span>
+                <h2 class="title">Categoria popular para aprender</h2>
             </div>
             <div class="section-wrapper">
                 <div class="row g-2 justify-content-center row-cols-xl-6 row-cols-md-3 row-cols-sm-2 row-cols-1">
@@ -132,9 +132,9 @@
                                 </div>
                                 <div class="category-content">
                                     <a href="course.html">
-                                        <h6>Computer Science</h6>
+                                        <h6>Ciência da Computação</h6>
                                     </a>
-                                    <span>24 Course</span>
+                                    <span>24 Cursos</span>
                                 </div>
                             </div>
                         </div>
@@ -147,9 +147,9 @@
                                 </div>
                                 <div class="category-content">
                                     <a href="course.html">
-                                        <h6>Civil Engineering</h6>
+                                        <h6>Engenharia Civil</h6>
                                     </a>
-                                    <span>40 Course</span>
+                                    <span>40 Cursos</span>
                                 </div>
                             </div>
                         </div>
@@ -162,9 +162,9 @@
                                 </div>
                                 <div class="category-content">
                                     <a href="course.html">
-                                        <h6>Business Analysis</h6>
+                                        <h6>Análise de negócio</h6>
                                     </a>
-                                    <span>27 Course</span>
+                                    <span>27 Cursos</span>
                                 </div>
                             </div>
                         </div>
@@ -179,7 +179,7 @@
                                     <a href="course.html">
                                         <h6>Data Science Analytics</h6>
                                     </a>
-                                    <span>28 Course</span>
+                                    <span>28 Cursos</span>
                                 </div>
                             </div>
                         </div>
@@ -192,9 +192,9 @@
                                 </div>
                                 <div class="category-content">
                                     <a href="course.html">
-                                        <h6>Learning Management</h6>
+                                        <h6>Gestão de Aprendizagem</h6>
                                     </a>
-                                    <span>78 Course</span>
+                                    <span>78 Cursos</span>
                                 </div>
                             </div>
                         </div>
@@ -207,16 +207,16 @@
                                 </div>
                                 <div class="category-content">
                                     <a href="course.html">
-                                        <h6>Computer Engineering</h6>
+                                        <h6>Engenharia de Computação</h6>
                                     </a>
-                                    <span>38 Course</span>
+                                    <span>38 Cursos</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="text-center mt-5">
-                    <a href="course.html" class="lab-btn"><span>Browse All Categories</span></a>
+                    <a href="course.html" class="lab-btn"><span>Navegar em todas as categorias</span></a>
                 </div>
             </div>
         </div>
@@ -228,8 +228,8 @@
     <div class="course-section padding-tb section-bg">
         <div class="container">
             <div class="section-header text-center">
-                <span class="subtitle">Featured Courses</span>
-                <h2 class="title">Pick A Course To Get Started</h2>
+                <span class="subtitle">CURSOS EM DESTAQUE</span>
+                <h2 class="title">Escolha um curso para começar</h2>
             </div>
             <div class="section-wrapper">
                 <div class="row g-4 justify-content-center row-cols-xl-3 row-cols-md-2 row-cols-1">
@@ -529,11 +529,11 @@
                 <div class="col">
                     <div class="about-right padding-tb">
                         <div class="section-header">
-                            <span class="subtitle">About Our Edukon</span>
-                            <h2 class="title">Good Qualification Services And Better Skills</h2>
-                            <p>Distinctively provide acces mutfuncto users whereas transparent proceses somes ncentivize
-                                eficient functionalities rather than extensible archtectur communicate leveraged services
-                                and cross-platform.</p>
+                            <span class="subtitle">SOBRE O NOSSO EDUK</span>
+                            <h2 class="title">Bons serviços de qualificação e melhores habilidades</h2>
+                            <p>Distintamente fornecer acesso a usuários mutáveis ​​enquanto processos transparentes
+                                incentivam funcionalidades eficientes ao invés de arquitetura extensível comunicar serviços
+                                alavancados e multiplataforma.</p>
                         </div>
                         <div class="section-wrapper">
                             <ul class="lab-ul">
@@ -542,9 +542,8 @@
                                         <img src="{{ URL::asset('site/images/about/icon/01.jpg') }}" alt="about icon">
                                     </div>
                                     <div class="sr-right">
-                                        <h5>Skilled Instructors</h5>
-                                        <p>Distinctively provide acces mutfuncto users whereas communicate leveraged
-                                            services</p>
+                                        <h5>Instrutores qualificados</h5>
+                                        <p>Distintamente fornecer usuários mutfuncto de acesso enquanto comunica serviços alavancados</p>
                                     </div>
                                 </li>
                                 <li>
@@ -552,9 +551,8 @@
                                         <img src="{{ URL::asset('site/images/about/icon/02.jpg') }}" alt="about icon">
                                     </div>
                                     <div class="sr-right">
-                                        <h5>Get Certificate</h5>
-                                        <p>Distinctively provide acces mutfuncto users whereas communicate leveraged
-                                            services</p>
+                                        <h5>Obter certificado</h5>
+                                        <p>Distintamente fornecer usuários mutfuncto de acesso enquanto comunica serviços alavancados</p>
                                     </div>
                                 </li>
                                 <li>
@@ -562,9 +560,8 @@
                                         <img src="{{ URL::asset('site/images/about/icon/03.jpg') }}" alt="about icon">
                                     </div>
                                     <div class="sr-right">
-                                        <h5>Online Classes</h5>
-                                        <p>Distinctively provide acces mutfuncto users whereas communicate leveraged
-                                            services</p>
+                                        <h5>Aulas Online</h5>
+                                        <p>Distintamente fornecer usuários mutfuncto de acesso enquanto comunica serviços alavancados</p>
                                     </div>
                                 </li>
                             </ul>
@@ -588,8 +585,9 @@
     <div class="instructor-section padding-tb section-bg">
         <div class="container">
             <div class="section-header text-center">
-                <span class="subtitle">World-class Instructors</span>
-                <h2 class="title">Classes Taught By Real Creators</h2>
+                <span class="subtitle">INSTRUTORES ESPECIALISTAS DE CADA CONTEÚDO</span>
+                <h2 class="title">Aulas ministradas por criadores reais
+                </h2>
             </div>
             <div class="section-wrapper">
                 <div class="row g-4 justify-content-center row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4">
