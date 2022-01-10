@@ -209,7 +209,7 @@
                                 <div class="footer-inner">
                                     <div class="footer-content">
                                         <div class="title">
-                                            <h4>Social Contact</h4>
+                                            <h4>Contato social</h4>
                                         </div>
                                         <div class="content">
                                             <ul class="lab-ul">
