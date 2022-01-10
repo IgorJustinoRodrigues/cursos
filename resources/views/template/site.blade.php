@@ -54,7 +54,7 @@
                             <i class="icofont-ui-call"></i> <span>+800-123-4567 6587</span>
                         </li>
                         <li>
-                            <i class="icofont-location-pin"></i> Beverley, New York 224 USA
+                            <i class="icofont-location-pin"></i> Brasil, Carmo do Rio Verde / Ceres
                         </li>
                     </ul>
                     <ul class="lab-ul social-icons d-flex align-items-center">
@@ -88,8 +88,8 @@
                                 </li>
 
                                 <li>
-                                    <a href="course.html">Cursos</a>
-                                    <ul class="lab-ul" style="">
+                                    <a href="#0">Cursos</a>
+                                    <ul class="lab-ul">
                                         <li><a href="search-page.html">Negócios</a></li>
                                         <li><a href="search-page.html">Empreendedorismo</a></li>
                                         <li><a href="search-page.html">Finanças e Contabilidade</a></li>

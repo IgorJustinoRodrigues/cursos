@@ -718,8 +718,8 @@
     <div class="student-feedbak-section padding-tb shape-img">
         <div class="container">
             <div class="section-header text-center">
-                <span class="subtitle">Loved by 200,000+ students</span>
-                <h2 class="title">Students Community Feedback</h2>
+                <span class="subtitle">AMADO POR MAIS DE 200.000 ALUNOS</span>
+                <h2 class="title">Comentários da comunidade dos alunos</h2>
             </div>
             <div class="section-wrapper">
                 <div class="row justify-content-center row-cols-lg-2 row-cols-1">
@@ -804,128 +804,12 @@
     </div>
     <!-- student feedbak section ending here -->
 
-
-    <!-- blog section start here -->
-    <div class="blog-section padding-tb section-bg">
-        <div class="container">
-            <div class="section-header text-center">
-                <span class="subtitle">FORM OUR BLOG POSTS</span>
-                <h2 class="title">More Articles From Resource Library</h2>
-            </div>
-            <div class="section-wrapper">
-                <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 justify-content-center g-4">
-                    <div class="col">
-                        <div class="post-item">
-                            <div class="post-inner">
-                                <div class="post-thumb">
-                                    <a href="blog-single.html"><img src="{{ URL::asset('site/images/blog/01.jpg') }}"
-                                            alt="blog thumb"></a>
-                                </div>
-                                <div class="post-content">
-                                    <a href="blog-single.html">
-                                        <h4>Scottish Creatives To Receive Funded Business.</h4>
-                                    </a>
-                                    <div class="meta-post">
-                                        <ul class="lab-ul">
-                                            <li><i class="icofont-ui-user"></i>Begrass Tyson</li>
-                                            <li><i class="icofont-calendar"></i>April 23,2021</li>
-                                        </ul>
-                                    </div>
-                                    <p>Pluoresnts customize prancing apcente customer service anding ands asing in straelg
-                                        Interacvely cordinate performe</p>
-                                </div>
-                                <div class="post-footer">
-                                    <div class="pf-left">
-                                        <a href="blog-single.html" class="lab-btn-text">Read more <i
-                                                class="icofont-external-link"></i></a>
-                                    </div>
-                                    <div class="pf-right">
-                                        <i class="icofont-comment"></i>
-                                        <span class="comment-count">3</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="post-item">
-                            <div class="post-inner">
-                                <div class="post-thumb">
-                                    <a href="blog-single.html"><img src="{{ URL::asset('site/images/blog/02.jpg') }}"
-                                            alt="blog thumb"></a>
-                                </div>
-                                <div class="post-content">
-                                    <a href="blog-single.html">
-                                        <h4>Scottish Creatives To Receive Funded Business.</h4>
-                                    </a>
-                                    <div class="meta-post">
-                                        <ul class="lab-ul">
-                                            <li><i class="icofont-ui-user"></i>Begrass Tyson</li>
-                                            <li><i class="icofont-calendar"></i>April 23,2021</li>
-                                        </ul>
-                                    </div>
-                                    <p>Pluoresnts customize prancing apcente customer service anding ands asing in straelg
-                                        Interacvely cordinate performe</p>
-                                </div>
-                                <div class="post-footer">
-                                    <div class="pf-left">
-                                        <a href="blog-single.html" class="lab-btn-text">Read more <i
-                                                class="icofont-external-link"></i></a>
-                                    </div>
-                                    <div class="pf-right">
-                                        <i class="icofont-comment"></i>
-                                        <span class="comment-count">3</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="post-item">
-                            <div class="post-inner">
-                                <div class="post-thumb">
-                                    <a href="blog-single.html"><img src="{{ URL::asset('site/images/blog/03.jpg') }}"
-                                            alt="blog thumb"></a>
-                                </div>
-                                <div class="post-content">
-                                    <a href="blog-single.html">
-                                        <h4>Scottish Creatives To Receive Funded Business.</h4>
-                                    </a>
-                                    <div class="meta-post">
-                                        <ul class="lab-ul">
-                                            <li><i class="icofont-ui-user"></i>Begrass Tyson</li>
-                                            <li><i class="icofont-calendar"></i>April 23,2021</li>
-                                        </ul>
-                                    </div>
-                                    <p>Pluoresnts customize prancing apcente customer service anding ands asing in straelg
-                                        Interacvely cordinate performe</p>
-                                </div>
-                                <div class="post-footer">
-                                    <div class="pf-left">
-                                        <a href="blog-single.html" class="lab-btn-text">Read more <i
-                                                class="icofont-external-link"></i></a>
-                                    </div>
-                                    <div class="pf-right">
-                                        <i class="icofont-comment"></i>
-                                        <span class="comment-count">3</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- blog section ending here -->
-
-
     <!-- Achievement section start here -->
     <div class="achievement-section padding-tb">
         <div class="container">
             <div class="section-header text-center">
-                <span class="subtitle">START TO SUCCESS</span>
-                <h2 class="title">Achieve Your Goals With Edukon</h2>
+                <span class="subtitle">COMECE A TER SUCESSO</span>
+                <h2 class="title">Alcance seus objetivos com Edukon</h2>
             </div>
             <div class="section-wrapper">
                 <div class="counter-part mb-4">
