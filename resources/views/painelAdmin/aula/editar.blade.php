@@ -65,29 +65,14 @@
             <div class="card">
                 <ul class="nav nav-tabs nav-tabs-card">
                     <li class="nav-item">
-                        <a class="nav-link
-                        @if ($menu == '')
-                        active    
-                        @endif
-                        "
-                            href="#curso" data-toggle="tab">Curso</a>
+                        <a class="nav-link active" href="#curso" data-toggle="tab">Curso</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link
-                        @if ($menu == 'aulas')
-                        active    
-                        @endif
-                        "
-                            href="#aulas_curso" data-toggle="tab">Aulas do Curso</a>
+                        <a class="nav-link" href="#aulas_curso" data-toggle="tab">Aulas do Curso</a>
                     </li>
                 </ul>
                 <div class="card-body tab-content">
-                    <div class="tab-pane
-                    @if ($menu == '')
-                        active    
-                    @endif
-                    "
-                        id="curso">
+                    <div class="tab-pane active" id="curso">
                         <form method="POST" action="{{ route('cursoSalvar', $item) }}"
                             onsubmit="return prepararSubmit();" enctype="multipart/form-data">
                             @csrf
@@ -164,12 +149,7 @@
                         </form>
 
                     </div>
-                    <div class="tab-pane
-                    @if ($menu == 'aulas')
-                    active    
-                    @endif
-                    "
-                        id="aulas_curso">
+                    <div class="tab-pane" id="aulas_curso">
                         <div class="card-header">
                             <a href="{{ route('aulaIndex', [$item]) }}" class="btn btn-outline-secondary">
                                 Gerenciar Aulas&nbsp;&nbsp;

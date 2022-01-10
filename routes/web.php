@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlunoController;
+use App\Http\Controllers\AulaController;
 use App\Http\Controllers\CategoriaCursoController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\ParceiroController;
@@ -111,9 +112,19 @@ ROTAS DE CURSO
 Route::get('/curso', [CursoController::class, 'index'])->name('cursoIndex');
 Route::get('/curso-cadastro', [CursoController::class, 'cadastro'])->name('cursoCadastro');
 Route::post('/curso-inserir', [CursoController::class, 'inserir'])->name('cursoInserir');
-Route::get('/curso-editar/{item}', [CursoController::class, 'editar'])->name('cursoEditar');
+Route::get('/curso-editar/{item}/{menu?}', [CursoController::class, 'editar'])->name('cursoEditar');
 Route::put('/curso-salvar/{item}', [CursoController::class, 'salvar'])->name('cursoSalvar');
 Route::get('/curso-delete/{item}', [CursoController::class, 'deletar'])->name('cursoDeletar');
+
+/*
+ROTAS DE AULAS
+*/
+Route::get('/aula/{curso}', [AulaController::class, 'index'])->name('aulaIndex');
+Route::get('/aula-cadastro/{curso}', [AulaController::class, 'cadastro'])->name('aulaCadastro');
+Route::post('/aula-inserir/{curso}', [AulaController::class, 'inserir'])->name('aulaInserir');
+Route::get('/aula-editar/{curso}/{item}', [AulaController::class, 'editar'])->name('aulaEditar');
+Route::put('/aula-salvar/{curso}/{item}', [AulaController::class, 'salvar'])->name('aulaSalvar');
+Route::get('/aula-delete/{curso}/{item}', [AulaController::class, 'deletar'])->name('aulaDeletar');
 
 /*
 ROTAS DE CATEGORIA DE CURSO

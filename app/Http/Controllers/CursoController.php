@@ -59,6 +59,16 @@ class CursoController extends Controller
         $categoria = CategoriaCurso::where('status', '=', '1')->get();
         $professor = Professor::where('status', '=', '1')->get();
 
+        if(count($categoria) < 1){
+            //Redirecionamento para a rota de cadastro de categoria, com mensagem
+            return redirect()->route('categoriaCursoCadastro')->with('atencao', 'Para cadastrar um curso é necessário antes cadastrar uma categoria!');
+        }
+
+        if(count($professor) < 1){
+            //Redirecionamento para a rota de cadastro de professor, com mensagem
+            return redirect()->route('professorCadastro')->with('atencao', 'Para cadastrar um curso é necessário antes cadastrar um professor!');
+        }
+
         //Exibe a tela de cadastro de curso
         return view('painelAdmin.curso.cadastro', [
             'categoria' => $categoria,
@@ -115,13 +125,12 @@ class CursoController extends Controller
     - Responsável por mostrar a tela de edição de Curso
     - $item: Recebe o Id do Curso que deverá ser editado
     */
-    public function editar($id)
+    public function editar($id, $menu = null)
     {
         //Validação de acesso
         if (!(new Services())->validarAdmin())
             //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
-
 
         $item = Curso::join('professors', 'cursos.professor_id', '=', 'professors.id')
             ->join('categoria_cursos', 'cursos.categoria_id', '=', 'categoria_cursos.id')
@@ -139,7 +148,7 @@ class CursoController extends Controller
             }
 
             //Exibe a tela de edição de categoria de curso passando parametros para view
-            return view('painelAdmin.curso.editar', ['item' => $item]);
+            return view('painelAdmin.curso.editar', ['item' => $item, 'menu' => $menu]);
         } else {
             //Redirecionamento para a rota CursoIndex, com mensagem de erro
             return redirect()->route('cursoIndex')->with('erro', 'Curso não encontrado!');
@@ -212,7 +221,7 @@ class CursoController extends Controller
                 Storage::delete($imagemApagar);
             }
             //Redirecionamento para a rota CursoIndex, com mensagem de sucesso
-            return redirect()->route('cursoIndex')->with('sucesso', '"' . $item->nome . '", salvo!');
+            return redirect()->route('cursoEditar', [$item])->with('sucesso', '"' . $item->nome . '", salvo!');
         } else {
             //Redirecionamento para tela anterior com mensagem de erro
             return redirect()->back()->with('atencao', 'Não foi possível salvar as informações, tente novamente!');
