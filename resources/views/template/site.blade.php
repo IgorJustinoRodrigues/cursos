@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br" dir="ltr" {{ @session_start() }}>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,6 +15,7 @@
     <link rel="stylesheet" href="{{ URL::asset('site/css/swiper.min.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('site/css/lightcase.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('site/css/style.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('site/css/telas/style.css') }}">
 
     @yield('header')
     <!-- jQuery -->
@@ -22,6 +24,7 @@
     <link rel="stylesheet" href="{{ URL::asset('template/css/lobibox.min.css') }}" />
     <script src="{{ URL::asset('template/js/lobibox.js') }}"></script>
 </head>
+
 <body>
 
     <!-- preloader start here -->
@@ -55,12 +58,13 @@
                         </li>
                     </ul>
                     <ul class="lab-ul social-icons d-flex align-items-center">
-                        <li><p>Find us on : </p></li>
+                        <li>
+                            <p>Encontre-nos no : </p>
+                        </li>
                         <li><a href="#" class="fb"><i class="icofont-facebook-messenger"></i></a></li>
-                        <li><a href="#" class="twitter"><i class="icofont-twitter"></i></a></li>
+                        <li><a href="#" class=""><i class="icofont-brand-whatsapp"></i></a></li>
+                        <li><a href="#"><i class="icofont-instagram"></i></a></li>
                         <li><a href="#" class="vimeo"><i class="icofont-vimeo"></i></a></li>
-                        <li><a href="#" class="skype"><i class="icofont-skype"></i></a></li>
-                        <li><a href="#" class="rss"><i class="icofont-rss-feed"></i></a></li>
                     </ul>
                 </div>
             </div>
@@ -75,59 +79,61 @@
                         <div class="menu">
                             <ul class="lab-ul">
                                 <li>
-                                    <a href="#0">Home</a>
+                                    <a href="#0">Início</a>
                                     <ul class="lab-ul">
-                                        <li><a href="index.html">Home One</a></li>
-                                        <li><a href="index-2.html">Home Two</a></li>
-                                        <li><a href="index-3.html">Home Three</a></li>
-                                        <li><a href="index-4.html">Home Four</a></li>
-                                        <li><a href="index-5.html">Home Five</a></li>
-                                        <li><a href="index-6.html">Home Six</a></li>
-                                        <li><a href="index-7.html">Home Seven</a></li>
+                                        <li><a href="index.html">Sobre Nós</a></li>
+                                        <li><a href="index-2.html">Primeiro Acesso?</a></li>
+                                        <li><a href="index-2.html">Certificados</a></li>
                                     </ul>
                                 </li>
-                                
+
                                 <li>
-                                    <a href="#0">Courses</a>
-                                    <ul class="lab-ul">
-                                        <li><a href="course.html">Course</a></li>
-                                        <li><a href="course-single.html">Course Details</a></li>
-    
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#0">Blog</a>
-                                    <ul class="lab-ul">
-                                        <li><a href="blog.html">Blog Grid</a></li>
-                                        <li><a href="blog-2.html">Blog Style 2</a></li>
-                                        <li><a href="blog-3.html">Blog Style 3</a></li>
-                                        <li><a href="blog-single.html">Blog Single</a></li>
-                                    </ul>
-                                </li>
-                                <li class="active">
-                                    <a href="#0">Pages</a>
-                                    <ul class="lab-ul">
-                                        <li><a href="about.html">About</a></li>
-                                        <li><a href="team.html">Team</a></li>
-                                        <li><a href="instructor.html">Instructor</a></li>
+                                    <a href="course.html">Cursos</a>
+                                    <ul class="lab-ul" style="">
+                                        <li><a href="search-page.html">Negócios</a></li>
+                                        <li><a href="search-page.html">Empreendedorismo</a></li>
+                                        <li><a href="search-page.html">Finanças e Contabilidade</a></li>
                                         <li>
-                                            <a href="#0">Shop Pages</a>
+                                            <a href="#0">TI e Software</a>
                                             <ul class="lab-ul">
-                                                <li><a href="shop.html">Shop Page</a></li>
-                                                <li><a href="shop-single.html">Shop Details Page</a></li>
-                                                <li><a href="cart-page.html">Shop Cart Page</a></li>
+                                                <li><a href="shop.html">Redes de Computadores</a></li>
+                                                <li><a href="shop-single.html">Data Science</a></li>
+                                                <li><a href="cart-page.html">Desenvolvimento móvel</a></li>
+                                                <li><a href="cart-page.html">Desenvolvimento de Games</a></li>
+
+                                                <li>
+                                                    <a href="#0">Linguagens de Programação</a>
+                                                    <ul class="lab-ul">
+                                                        <li><a href="cart-page.html">JAVASCRIPT</a></li>
+                                                        <li><a href="cart-page.html">HTML</a></li>
+                                                        <li><a href="cart-page.html">CSS</a></li>
+                                                        <li><a href="cart-page.html">PHP</a></li>
+                                                    </ul>
+                                                </li>
                                             </ul>
                                         </li>
-                                        <li><a href="search-page.html">Search Page</a></li>
-                                        <li><a href="search-none.html">Search None</a></li>
-                                        <li><a href="404.html">404</a></li>
+
+                                        <li><a href="search-none.html">Design</a></li>
+                                        <li><a href="search-none.html">Marketing</a></li>
+                                        <li><a href="search-none.html">Fotografia e Vídeo</a></li>
+                                        <li><a href="404.html">Saúde e Fitness</a></li>
+                                        <li><a href="404.html">Música</a></li>
+                                    </ul>
+
+                                </li>
+                                <li>
+                                    <a href="#0">Suporte</a>
+                                    <ul class="lab-ul">
+                                        <li><a href="index-2.html">Acesso Vendedor</a></li>
+                                        <li><a href="index-2.html">Acesso Parceiro</a></li>
+                                        <li><a href="index-2.html">Acesso Administrador</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="contact.html">Contact</a></li>
                             </ul>
                         </div>
-                        
-                        <a href="{{ route('acessoAluno') }}" class="login"><i class="icofont-user"></i> <span>ACESSO DE ALUNO</span> </a>
+
+                        <a href="{{ route('acessoAluno') }}" class="login"><i class="icofont-user"></i>
+                            <span>ACESSO DE ALUNO</span> </a>
 
                         <!-- toggle icons -->
                         <div class="header-bar d-lg-none">
@@ -158,13 +164,13 @@
             <div class="container">
                 <div class="section-wrapper">
                     <div class="news-title">
-                        <h3>Want Us To Email You About Special Offers And Updates?</h3>
+                        <h3>Quer que enviemos um e-mail sobre ofertas especiais e atualizações?</h3>
                     </div>
                     <div class="news-form">
                         <form action="/">
                             <div class="nf-list">
-                                <input type="email" name="email" placeholder="Enter Your Email">
-                                <input type="submit" name="submit" value="Subscribe Now">
+                                <input type="email" name="email" placeholder="Digite o Seu Email">
+                                <input type="submit" name="submit" value="Inscrever-se">
                             </div>
                         </form>
                     </div>
@@ -183,35 +189,14 @@
                                 <div class="footer-inner">
                                     <div class="footer-content">
                                         <div class="title">
-                                            <h4>Site Map</h4>
+                                            <h4>Links</h4>
                                         </div>
                                         <div class="content">
                                             <ul class="lab-ul">
-                                                <li><a href="#">Documentation</a></li>
-                                                <li><a href="#">Feedback</a></li>
-                                                <li><a href="#">Plugins</a></li>
-                                                <li><a href="#">Support Forums</a></li>
-                                                <li><a href="#">Themes</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="footer-item">
-                                <div class="footer-inner">
-                                    <div class="footer-content">
-                                        <div class="title">
-                                            <h4>Useful Links</h4>
-                                        </div>
-                                        <div class="content">
-                                            <ul class="lab-ul">
-                                                <li><a href="#">About Us</a></li>
-                                                <li><a href="#">Help Link</a></li>
-                                                <li><a href="#">Terms & Conditions</a></li>
-                                                <li><a href="#">Contact Us</a></li>
-                                                <li><a href="#">Privacy Policy</a></li>
+                                                <li><a href="#">Sobre Nós</a></li>
+                                                <li><a href="#">Cursos</a></li>
+                                                <li><a href="#">Novidades</a></li>
+                                                <li><a href="#">Contato</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -228,10 +213,9 @@
                                         <div class="content">
                                             <ul class="lab-ul">
                                                 <li><a href="#">Facebook</a></li>
-                                                <li><a href="#">Twitter</a></li>
+                                                <li><a href="#">WhatsApp</a></li>
                                                 <li><a href="#">Instagram</a></li>
                                                 <li><a href="#">YouTube</a></li>
-                                                <li><a href="#">Github</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -243,15 +227,13 @@
                                 <div class="footer-inner">
                                     <div class="footer-content">
                                         <div class="title">
-                                            <h4>Our Support</h4>
+                                            <h4>Nosso Suporte</h4>
                                         </div>
                                         <div class="content">
                                             <ul class="lab-ul">
-                                                <li><a href="#">Help Center</a></li>
-                                                <li><a href="#">Paid with Mollie</a></li>
-                                                <li><a href="#">Status</a></li>
-                                                <li><a href="#">Changelog</a></li>
-                                                <li><a href="#">Contact Support</a></li>
+                                                <li><a href="#">Suporte Vendedor</a></li>
+                                                <li><a href="#">Suporte Parceiro</a></li>
+                                                <li><a href="#">Contatar Suporte</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -264,7 +246,8 @@
             <div class="footer-bottom style-2">
                 <div class="container">
                     <div class="section-wrapper">
-                        <p>&copy; 2021 <a href="index.html">Edukon</a> Designed by <a href="https://themeforest.net/user/CodexCoder" target="_blank">CodexCoder</a> </p>
+                        <p>&copy; 2021 <a href="index.html">Edukon</a> Designed by <a
+                                href="https://themeforest.net/user/CodexCoder" target="_blank">CodexCoder</a> </p>
                     </div>
                 </div>
             </div>
@@ -332,4 +315,5 @@
         @endif
     </script>
 </body>
+
 </html>
