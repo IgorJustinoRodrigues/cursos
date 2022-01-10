@@ -121,8 +121,14 @@
                                     </ul>
 
                                 </li>
-                                <li><a href="contact.html">Notícias</a></li>
-                                <li><a href="contact.html">Contato</a></li>
+                                <li>
+                                    <a href="#0">Suporte</a>
+                                    <ul class="lab-ul">
+                                        <li><a href="index-2.html">Acesso Vendedor</a></li>
+                                        <li><a href="index-2.html">Acesso Parceiro</a></li>
+                                        <li><a href="index-2.html">Acesso Administrador</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </div>
 
@@ -158,13 +164,13 @@
             <div class="container">
                 <div class="section-wrapper">
                     <div class="news-title">
-                        <h3>Want Us To Email You About Special Offers And Updates?</h3>
+                        <h3>Quer que enviemos um e-mail sobre ofertas especiais e atualizações?</h3>
                     </div>
                     <div class="news-form">
                         <form action="/">
                             <div class="nf-list">
-                                <input type="email" name="email" placeholder="Enter Your Email">
-                                <input type="submit" name="submit" value="Subscribe Now">
+                                <input type="email" name="email" placeholder="Digite o Seu Email">
+                                <input type="submit" name="submit" value="Inscrever-se">
                             </div>
                         </form>
                     </div>
@@ -183,35 +189,14 @@
                                 <div class="footer-inner">
                                     <div class="footer-content">
                                         <div class="title">
-                                            <h4>Site Map</h4>
+                                            <h4>Links</h4>
                                         </div>
                                         <div class="content">
                                             <ul class="lab-ul">
-                                                <li><a href="#">Documentation</a></li>
-                                                <li><a href="#">Feedback</a></li>
-                                                <li><a href="#">Plugins</a></li>
-                                                <li><a href="#">Support Forums</a></li>
-                                                <li><a href="#">Themes</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="footer-item">
-                                <div class="footer-inner">
-                                    <div class="footer-content">
-                                        <div class="title">
-                                            <h4>Useful Links</h4>
-                                        </div>
-                                        <div class="content">
-                                            <ul class="lab-ul">
-                                                <li><a href="#">About Us</a></li>
-                                                <li><a href="#">Help Link</a></li>
-                                                <li><a href="#">Terms & Conditions</a></li>
-                                                <li><a href="#">Contact Us</a></li>
-                                                <li><a href="#">Privacy Policy</a></li>
+                                                <li><a href="#">Sobre Nós</a></li>
+                                                <li><a href="#">Cursos</a></li>
+                                                <li><a href="#">Novidades</a></li>
+                                                <li><a href="#">Contato</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -228,10 +213,9 @@
                                         <div class="content">
                                             <ul class="lab-ul">
                                                 <li><a href="#">Facebook</a></li>
-                                                <li><a href="#">Twitter</a></li>
+                                                <li><a href="#">WhatsApp</a></li>
                                                 <li><a href="#">Instagram</a></li>
                                                 <li><a href="#">YouTube</a></li>
-                                                <li><a href="#">Github</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -243,15 +227,13 @@
                                 <div class="footer-inner">
                                     <div class="footer-content">
                                         <div class="title">
-                                            <h4>Our Support</h4>
+                                            <h4>Nosso Suporte</h4>
                                         </div>
                                         <div class="content">
                                             <ul class="lab-ul">
-                                                <li><a href="#">Help Center</a></li>
-                                                <li><a href="#">Paid with Mollie</a></li>
-                                                <li><a href="#">Status</a></li>
-                                                <li><a href="#">Changelog</a></li>
-                                                <li><a href="#">Contact Support</a></li>
+                                                <li><a href="#">Suporte Vendedor</a></li>
+                                                <li><a href="#">Suporte Parceiro</a></li>
+                                                <li><a href="#">Contatar Suporte</a></li>
                                             </ul>
                                         </div>
                                     </div>
