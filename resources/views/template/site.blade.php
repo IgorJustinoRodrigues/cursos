@@ -90,6 +90,7 @@
                                 <li>
                                     <a href="#0">Cursos</a>
                                     <ul class="lab-ul">
+                                        <li><a href="search-page.html">Todos</a></li>
                                         <li><a href="search-page.html">Negócios</a></li>
                                         <li><a href="search-page.html">Empreendedorismo</a></li>
                                         <li><a href="search-page.html">Finanças e Contabilidade</a></li>
@@ -126,8 +127,8 @@
                                     <a href="#0">Suporte</a>
                                     <ul class="lab-ul">
                                         <li><a href="index-2.html">Acesso Vendedor</a></li>
-                                        <li><a href="index-2.html">Acesso Parceiro</a></li>
-                                        <li><a href="index-2.html">Acesso Administrador</a></li>
+                                        <li><a href="{{ route('acessoParceiro') }}">Acesso Parceiro</a></li>
+                                        <li><a href="{{ route('acessoAdmin') }}">Acesso Administrador</a></li>
                                     </ul>
                                 </li>
                             </ul>
