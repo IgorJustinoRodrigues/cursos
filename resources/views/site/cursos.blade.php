@@ -39,7 +39,7 @@
                 <div class="col-md-1">
                     <div class="group-select-left">
                         <i class="icofont-abacus-alt"></i>
-                        <span>Filters</span>
+                        <span>Filtros</span>
                     </div>
                 </div>
                 <div class="col-md-11">
@@ -126,10 +126,10 @@
             <div class="course-showing-part">
                 <div class="d-flex flex-wrap align-items-center justify-content-between">
                     <div class="course-showing-part-left">
-                        <p>Showing 1-6 of 10 results</p>
+                        <p>Mostrando 1-6 de 10 resultados</p>
                     </div>
                     <div class="course-showing-part-right d-flex flex-wrap align-items-center">
-                        <span>Sort by :</span>
+                        <span>Ordenar por  :</span>
                         <div class="select-item">
                             <select>
                                 <option value="">Select Oder</option>
