@@ -49,7 +49,7 @@
                                     <div class="select-item">
                                         <input type="text">
                                         <div class="select-icon">
-                                            <i class="icofont-look"></i>
+                                            <i class="icofont-search-2"></i>
                                         </div>
                                     </div>
                                 </div>
