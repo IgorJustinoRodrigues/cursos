@@ -29,6 +29,12 @@ class SiteController extends Controller
         return view('site.lerCurso', ['info' => $retorno]);
     }
 
+    public function ativacaoCodigo()
+    {
+
+        return view('site.ativacaoCodigo');
+    }
+
 
     public function login()
     {

@@ -82,8 +82,8 @@
                                 <li>
                                     <a href="{{ route('inicio') }}">Início</a>
                                     <ul class="lab-ul">
-                                        <li><a href="index-2.html">Primeiro Acesso?</a></li>
-                                        <li><a href="index-2.html">Certificados</a></li>
+                                        <li><a href="{{ route('site.ativacaoCodigo') }}">Primeira Ativação do
+                                                código?</a></li>
                                     </ul>
                                 </li>
 
