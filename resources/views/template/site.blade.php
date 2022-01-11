@@ -73,13 +73,14 @@
             <div class="container">
                 <div class="header-wrapper">
                     <div class="logo">
-                        <a href="index.html"><img src="{{ URL::asset('site/images/logo/01.png') }}" alt="logo"></a>
+                        <a href="{{ route('inicio') }}"><img src="{{ URL::asset('site/images/logo/01.png') }}"
+                                alt="logo"></a>
                     </div>
                     <div class="menu-area">
                         <div class="menu">
                             <ul class="lab-ul">
                                 <li>
-                                    <a href="#0">Início</a>
+                                    <a href="{{ route('inicio') }}">Início</a>
                                     <ul class="lab-ul">
                                         <li><a href="index.html">Sobre Nós</a></li>
                                         <li><a href="index-2.html">Primeiro Acesso?</a></li>
@@ -90,7 +91,7 @@
                                 <li>
                                     <a href="#0">Cursos</a>
                                     <ul class="lab-ul">
-                                        <li><a href="search-page.html">Todos</a></li>
+                                        <li><a href="{{ route('cursos') }}">Todos</a></li>
                                         <li><a href="search-page.html">Negócios</a></li>
                                         <li><a href="search-page.html">Empreendedorismo</a></li>
                                         <li><a href="search-page.html">Finanças e Contabilidade</a></li>

@@ -26,6 +26,13 @@ use Illuminate\Support\Facades\Route;
 //Rota Diretório Raiz
 Route::get('/', [SiteController::class, 'index'])->name('inicio');
 
+/*
+ROTAS DE SITE
+*/
+Route::get('/cursos', [SiteController::class, 'cursos'])->name('cursos');
+
+
+
 //Rota Painel Admin Raiz
 Route::get('/painel-admin', [AdminController::class, 'painel'])->name('painelAdmin');
 

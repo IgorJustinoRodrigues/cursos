@@ -12,10 +12,10 @@ class SiteController extends Controller
         return view('site.index');
     }
 
-    public function ver()
+    public function cursos()
     {
 
-        return view('aluno.ver');
+        return view('site.cursos');
     }
 
     public function login()
