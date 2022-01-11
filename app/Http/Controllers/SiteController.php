@@ -18,6 +18,18 @@ class SiteController extends Controller
         return view('site.cursos');
     }
 
+    public function lerCurso($item, $url)
+    {
+        $retorno = [
+            'id' => 10,
+            'titulo' => "Curso de Informática"
+        ];
+
+        //Exibe a view
+        return view('site.lerCurso', ['info' => $retorno]);
+    }
+
+
     public function login()
     {
 

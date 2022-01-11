@@ -82,7 +82,6 @@
                                 <li>
                                     <a href="{{ route('inicio') }}">Início</a>
                                     <ul class="lab-ul">
-                                        <li><a href="index.html">Sobre Nós</a></li>
                                         <li><a href="index-2.html">Primeiro Acesso?</a></li>
                                         <li><a href="index-2.html">Certificados</a></li>
                                     </ul>
@@ -91,36 +90,39 @@
                                 <li>
                                     <a href="#0">Cursos</a>
                                     <ul class="lab-ul">
-                                        <li><a href="{{ route('cursos') }}">Todos</a></li>
-                                        <li><a href="search-page.html">Negócios</a></li>
-                                        <li><a href="search-page.html">Empreendedorismo</a></li>
-                                        <li><a href="search-page.html">Finanças e Contabilidade</a></li>
-                                        <li><a href="search-page.html">Idiomas</a></li>
+                                        <li><a href="{{ route('site.cursos') }}">Todos</a></li>
+                                        <li><a href="{{ route('site.cursos') }}">Negócios</a></li>
+                                        <li><a href="{{ route('site.cursos') }}">Empreendedorismo</a></li>
+                                        <li><a href="{{ route('site.cursos') }}">Finanças e Contabilidade</a></li>
+                                        <li><a href="{{ route('site.cursos') }}">Idiomas</a></li>
                                         <li>
                                             <a href="#0">TI e Software</a>
                                             <ul class="lab-ul">
-                                                <li><a href="shop.html">Redes de Computadores</a></li>
-                                                <li><a href="shop-single.html">Data Science</a></li>
-                                                <li><a href="cart-page.html">Desenvolvimento móvel</a></li>
-                                                <li><a href="cart-page.html">Desenvolvimento de Games</a></li>
+                                                <li><a href="{{ route('site.cursos') }}">Redes de Computadores</a>
+                                                </li>
+                                                <li><a href="{{ route('site.cursos') }}">Data Science</a></li>
+                                                <li><a href="{{ route('site.cursos') }}">Desenvolvimento móvel</a>
+                                                </li>
+                                                <li><a href="{{ route('site.cursos') }}">Desenvolvimento de Games</a>
+                                                </li>
 
                                                 <li>
                                                     <a href="#0">Linguagens de Programação</a>
                                                     <ul class="lab-ul">
-                                                        <li><a href="cart-page.html">JAVASCRIPT</a></li>
-                                                        <li><a href="cart-page.html">HTML</a></li>
-                                                        <li><a href="cart-page.html">CSS</a></li>
-                                                        <li><a href="cart-page.html">PHP</a></li>
+                                                        <li><a href="{{ route('site.cursos') }}">JAVASCRIPT</a></li>
+                                                        <li><a href="{{ route('site.cursos') }}">HTML</a></li>
+                                                        <li><a href="{{ route('site.cursos') }}">CSS</a></li>
+                                                        <li><a href="{{ route('site.cursos') }}">PHP</a></li>
                                                     </ul>
                                                 </li>
                                             </ul>
                                         </li>
 
-                                        <li><a href="search-none.html">Design</a></li>
-                                        <li><a href="search-none.html">Marketing</a></li>
-                                        <li><a href="search-none.html">Fotografia e Vídeo</a></li>
-                                        <li><a href="404.html">Saúde e Fitness</a></li>
-                                        <li><a href="404.html">Música</a></li>
+                                        <li><a href="{{ route('site.cursos') }}">Design</a></li>
+                                        <li><a href="{{ route('site.cursos') }}">Marketing</a></li>
+                                        <li><a href="{{ route('site.cursos') }}">Fotografia e Vídeo</a></li>
+                                        <li><a href="{{ route('site.cursos') }}">Saúde e Fitness</a></li>
+                                        <li><a href="{{ route('site.cursos') }}">Música</a></li>
                                     </ul>
 
                                 </li>
