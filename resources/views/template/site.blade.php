@@ -88,9 +88,9 @@
                                 </li>
 
                                 <li>
-                                    <a href="#0">Cursos</a>
+                                    <a href="{{ route('site.cursos') }}">Cursos</a>
                                     <ul class="lab-ul">
-                                        <li><a href="{{ route('site.cursos') }}">Todos</a></li>
+                                        <li><a href="{{ route('site.cursos') }}">Todas as Categorias</a></li>
                                         <li><a href="{{ route('site.cursos') }}">Negócios</a></li>
                                         <li><a href="{{ route('site.cursos') }}">Empreendedorismo</a></li>
                                         <li><a href="{{ route('site.cursos') }}">Finanças e Contabilidade</a></li>
