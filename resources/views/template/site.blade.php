@@ -95,29 +95,7 @@
                                         <li><a href="{{ route('site.cursos') }}">Empreendedorismo</a></li>
                                         <li><a href="{{ route('site.cursos') }}">Finanças e Contabilidade</a></li>
                                         <li><a href="{{ route('site.cursos') }}">Idiomas</a></li>
-                                        <li>
-                                            <a href="#0">TI e Software</a>
-                                            <ul class="lab-ul">
-                                                <li><a href="{{ route('site.cursos') }}">Redes de Computadores</a>
-                                                </li>
-                                                <li><a href="{{ route('site.cursos') }}">Data Science</a></li>
-                                                <li><a href="{{ route('site.cursos') }}">Desenvolvimento móvel</a>
-                                                </li>
-                                                <li><a href="{{ route('site.cursos') }}">Desenvolvimento de Games</a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="#0">Linguagens de Programação</a>
-                                                    <ul class="lab-ul">
-                                                        <li><a href="{{ route('site.cursos') }}">JAVASCRIPT</a></li>
-                                                        <li><a href="{{ route('site.cursos') }}">HTML</a></li>
-                                                        <li><a href="{{ route('site.cursos') }}">CSS</a></li>
-                                                        <li><a href="{{ route('site.cursos') }}">PHP</a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-
+                                        <li><a href="{{ route('site.cursos') }}">TI e Software</a></li>
                                         <li><a href="{{ route('site.cursos') }}">Design</a></li>
                                         <li><a href="{{ route('site.cursos') }}">Marketing</a></li>
                                         <li><a href="{{ route('site.cursos') }}">Fotografia e Vídeo</a></li>
