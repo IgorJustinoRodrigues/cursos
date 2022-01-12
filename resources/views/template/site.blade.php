@@ -111,6 +111,7 @@
                                         <li><a href="{{ route('acessoAdmin') }}">Acesso Administrador</a></li>
                                     </ul>
                                 </li>
+                                <li><a href="{{ route('site.suporte') }}">Suporte</a></li>
                             </ul>
                         </div>
 

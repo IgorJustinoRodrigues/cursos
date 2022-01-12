@@ -12,7 +12,7 @@
         <div class="col-sm-8 col-md-6 col-lg-4 mx-auto" style="min-width: 300px;">
             <div class="card navbar-shadow">
                 <div class="card-header text-center">
-                    <h4 class="card-title">Login Administrativo</h4>
+                    <h4 class="card-title">Login Aluno</h4>
                     <p class="card-subtitle">Acesso restrito</p>
                 </div>
                 <div class="card-body">

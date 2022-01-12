@@ -6,15 +6,26 @@ use Illuminate\Http\Request;
 
 class SiteController extends Controller
 {
+    //Função index/início do Site 
     public function index()
     {
-
+        //Exibe a view 
         return view('site.index');
     }
 
+    //Funçao de Ativação do Código sub-aba de início
+    public function ativacaoCodigo()
+    {
+
+        //Exibe a view 
+        return view('site.ativacaoCodigo');
+    }
+
+    //Função de Cursos
     public function cursos()
     {
 
+        //Exibe a view 
         return view('site.cursos');
     }
 
@@ -29,11 +40,15 @@ class SiteController extends Controller
         return view('site.lerCurso', ['info' => $retorno]);
     }
 
-    public function ativacaoCodigo()
+    //Função de Suporte
+    public function suporte()
     {
 
-        return view('site.ativacaoCodigo');
+        //Exibe a view 
+        return view('site.suporte');
     }
+
+    
 
 
     public function login()

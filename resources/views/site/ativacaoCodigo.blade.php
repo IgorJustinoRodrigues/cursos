@@ -1,5 +1,5 @@
 @extends('template.site')
-@section('title', 'Cursos')
+@section('title', 'Ativação do Código')
 
 @section('header')
 
