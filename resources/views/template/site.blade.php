@@ -124,10 +124,9 @@
                                         <li><a href="{{ route('site.cursos') }}">Saúde e Fitness</a></li>
                                         <li><a href="{{ route('site.cursos') }}">Música</a></li>
                                     </ul>
-
                                 </li>
                                 <li>
-                                    <a href="#0">Suporte</a>
+                                    <a href="#0">Acesso</a>
                                     <ul class="lab-ul">
                                         <li><a href="index-2.html">Acesso Vendedor</a></li>
                                         <li><a href="{{ route('acessoParceiro') }}">Acesso Parceiro</a></li>
