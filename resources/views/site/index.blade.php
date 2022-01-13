@@ -65,48 +65,17 @@
             <div class="section-wrapper">
                 <div class="sponsor-slider">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="sponsor-iten">
-                                <div class="sponsor-thumb">
-                                    <img src="{{ URL::asset('site/images/sponsor/01.png') }}" alt="sponsor">
+
+                        @foreach ($parceiro as $item)
+                            <div class="swiper-slide">
+                                <div class="sponsor-iten">
+                                    <div class="sponsor-thumb">
+                                        <img src="{{ URL::asset('storage/' . $item->logo) }}">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="sponsor-iten">
-                                <div class="sponsor-thumb">
-                                    <img src="{{ URL::asset('site/images/sponsor/02.png') }}" alt="sponsor">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="sponsor-iten">
-                                <div class="sponsor-thumb">
-                                    <img src="{{ URL::asset('site/images/sponsor/03.png') }}" alt="sponsor">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="sponsor-iten">
-                                <div class="sponsor-thumb">
-                                    <img src="{{ URL::asset('site/images/sponsor/04.png') }}" alt="sponsor">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="sponsor-iten">
-                                <div class="sponsor-thumb">
-                                    <img src="{{ URL::asset('site/images/sponsor/05.png') }}" alt="sponsor">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="sponsor-iten">
-                                <div class="sponsor-thumb">
-                                    <img src="{{ URL::asset('site/images/sponsor/06.png') }}" alt="sponsor">
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
+
                     </div>
                 </div>
             </div>
@@ -124,96 +93,27 @@
             </div>
             <div class="section-wrapper">
                 <div class="row g-2 justify-content-center row-cols-xl-6 row-cols-md-3 row-cols-sm-2 row-cols-1">
-                    <div class="col">
-                        <div class="category-item text-center">
-                            <div class="category-inner">
-                                <div class="category-thumb">
-                                    <img src="{{ URL::asset('site/images/category/icon/01.jpg') }}" alt="category">
-                                </div>
-                                <div class="category-content">
-                                    <a href="course.html">
-                                        <h6>Ciência da Computação</h6>
-                                    </a>
-                                    <span>24 Cursos</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="category-item text-center">
-                            <div class="category-inner">
-                                <div class="category-thumb">
-                                    <img src="{{ URL::asset('site/images/category/icon/02.jpg') }}" alt="category">
-                                </div>
-                                <div class="category-content">
-                                    <a href="course.html">
-                                        <h6>Engenharia Civil</h6>
-                                    </a>
-                                    <span>40 Cursos</span>
+                    @foreach ($categoria as $item)
+                        <div class="col">
+                            <div class="category-item text-center">
+                                <div class="category-inner">
+                                    <div class="category-thumb">
+                                        @if ($item->imagem != '')
+                                            <img src="{{ URL::asset('storage/' . $item->imagem) }}" class="avatar-img">
+                                        @else
+                                            <img src="{{ URL::asset('storage/imagemCategoriaCurso/padrao.png') }}">
+                                        @endif
+                                    </div>
+                                    <div class="category-content">
+                                        <a href="{{ $item->id }}">
+                                            <h6>{{ $item->nome }}</h6>
+                                        </a>
+                                        <span>24 Cursos</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="category-item text-center">
-                            <div class="category-inner">
-                                <div class="category-thumb">
-                                    <img src="{{ URL::asset('site/images/category/icon/03.jpg') }}" alt="category">
-                                </div>
-                                <div class="category-content">
-                                    <a href="course.html">
-                                        <h6>Análise de negócio</h6>
-                                    </a>
-                                    <span>27 Cursos</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="category-item text-center">
-                            <div class="category-inner">
-                                <div class="category-thumb">
-                                    <img src="{{ URL::asset('site/images/category/icon/04.jpg') }}" alt="category">
-                                </div>
-                                <div class="category-content">
-                                    <a href="course.html">
-                                        <h6>Data Science Analytics</h6>
-                                    </a>
-                                    <span>28 Cursos</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="category-item text-center">
-                            <div class="category-inner">
-                                <div class="category-thumb">
-                                    <img src="{{ URL::asset('site/images/category/icon/05.jpg') }}" alt="category">
-                                </div>
-                                <div class="category-content">
-                                    <a href="course.html">
-                                        <h6>Gestão de Aprendizagem</h6>
-                                    </a>
-                                    <span>78 Cursos</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="category-item text-center">
-                            <div class="category-inner">
-                                <div class="category-thumb">
-                                    <img src="{{ URL::asset('site/images/category/icon/06.jpg') }}" alt="category">
-                                </div>
-                                <div class="category-content">
-                                    <a href="course.html">
-                                        <h6>Engenharia de Computação</h6>
-                                    </a>
-                                    <span>38 Cursos</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
                 <div class="text-center mt-5">
                     <a href="course.html" class="lab-btn"><span>Navegar em todas as categorias</span></a>
@@ -223,304 +123,76 @@
     </div>
     <!-- category section start here -->
 
+    @if (count($curso) > 0)
+        <!-- course section start here -->
+        <div class="course-section padding-tb section-bg">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="subtitle">CURSOS EM DESTAQUE</span>
+                    <h2 class="title">Escolha um curso para começar</h2>
+                </div>
+                <div class="section-wrapper">
+                    <div class="row g-4 justify-content-center row-cols-xl-3 row-cols-md-2 row-cols-1">
+                        @foreach ($curso as $item)
+                            <div class="col">
+                                <div class="course-item">
+                                    <div class="course-inner">
+                                        <div class="course-thumb">
+                                            <img src="{{ URL::asset('storage/' . $item->imagem) }}" alt="course">
+                                        </div>
+                                        <div class="course-content">
+                                            <div class="course-category">
+                                                <div class="course-cate">
+                                                    <a href="{{ $item->categoria_id }}">{{ $item->categoria }}</a>
+                                                </div>
+                                                <div class="course-reiew">
+                                                    <span class="ratting">
+                                                        <i class="icofont-ui-rating"></i>
+                                                        <i class="icofont-ui-rating"></i>
+                                                        <i class="icofont-ui-rating"></i>
+                                                        <i class="icofont-ui-rating"></i>
+                                                        <i class="icofont-ui-rating"></i>
+                                                    </span>
 
-    <!-- course section start here -->
-    <div class="course-section padding-tb section-bg">
-        <div class="container">
-            <div class="section-header text-center">
-                <span class="subtitle">CURSOS EM DESTAQUE</span>
-                <h2 class="title">Escolha um curso para começar</h2>
-            </div>
-            <div class="section-wrapper">
-                <div class="row g-4 justify-content-center row-cols-xl-3 row-cols-md-2 row-cols-1">
-                    <div class="col">
-                        <div class="course-item">
-                            <div class="course-inner">
-                                <div class="course-thumb">
-                                    <img src="{{ URL::asset('site/images/course/01.jpg') }}" alt="course">
-                                </div>
-                                <div class="course-content">
-                                    <div class="course-price">$30</div>
-                                    <div class="course-category">
-                                        <div class="course-cate">
-                                            <a href="#">Adobe XD</a>
-                                        </div>
-                                        <div class="course-reiew">
-                                            <span class="ratting">
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                            </span>
-                                            <span class="ratting-count">
-                                                03 reviews
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <a href="course-single.html">
-                                        <h5>Fundamentals of Adobe XD Theory Learn New</h5>
-                                    </a>
-                                    <div class="course-details">
-                                        <div class="couse-count"><i class="icofont-video-alt"></i> 18x Lesson</div>
-                                        <div class="couse-topic"><i class="icofont-signal"></i> Online Class</div>
-                                    </div>
-                                    <div class="course-footer">
-                                        <div class="course-author">
-                                            <img src="{{ URL::asset('site/images/course/author/01.jpg') }}"
-                                                alt="course author">
-                                            <a href="team-single.html" class="ca-name">William Smith</a>
-                                        </div>
-                                        <div class="course-btn">
-                                            <a href="course-single.html" class="lab-btn-text">Read More <i
-                                                    class="icofont-external-link"></i></a>
+                                                </div>
+                                            </div>
+                                            <a href="course-single.html">
+                                                <h5>{{ $item->nome }}</h5>
+                                            </a>
+                                            <div class="course-details">
+                                                <div class="couse-count"><i class="icofont-video-alt"></i> 18x Lesson
+                                                </div>
+                                                <div class="couse-topic"><span class="ratting-count">03 reviews</span>
+                                                </div>
+                                            </div>
+                                            <div class="course-footer">
+                                                <div class="course-author">
+                                                    @if ($item->avatar != '')
+                                                        <img src="{{ URL::asset('storage/' . $item->avatar) }}"
+                                                            style="width: 50px" class="avatar-img">
+                                                    @else
+                                                        <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}"
+                                                            style="width: 50px">
+                                                    @endif
+                                                    <a href="team-single.html"
+                                                        class="ca-name">{{ $item->professor }}</a>
+                                                </div>
+                                                <div class="course-btn">
+                                                    <a href="course-single.html" class="lab-btn-text">Conhecer <i
+                                                            class="icofont-external-link"></i></a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="course-item">
-                            <div class="course-inner">
-                                <div class="course-thumb">
-                                    <img src="{{ URL::asset('site/images/course/02.jpg') }}" alt="course">
-                                </div>
-                                <div class="course-content">
-                                    <div class="course-price">$30</div>
-                                    <div class="course-category">
-                                        <div class="course-cate">
-                                            <a href="#">Photoshop</a>
-                                        </div>
-                                        <div class="course-reiew">
-                                            <span class="ratting">
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                            </span>
-                                            <span class="ratting-count">
-                                                03 reviews
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <a href="course-single.html">
-                                        <h5>Certified Graphic Design with Free Project Course</h5>
-                                    </a>
-                                    <div class="course-details">
-                                        <div class="couse-count"><i class="icofont-video-alt"></i> 18x Lesson</div>
-                                        <div class="couse-topic"><i class="icofont-signal"></i> Online Class</div>
-                                    </div>
-                                    <div class="course-footer">
-                                        <div class="course-author">
-                                            <img src="{{ URL::asset('site/images/course/author/02.jpg') }}"
-                                                alt="course author">
-                                            <a href="team-single.html" class="ca-name">Lora Smith</a>
-                                        </div>
-                                        <div class="course-btn">
-                                            <a href="course-single.html" class="lab-btn-text">Read More <i
-                                                    class="icofont-external-link"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="course-item">
-                            <div class="course-inner">
-                                <div class="course-thumb">
-                                    <img src="{{ URL::asset('site/images/course/03.jpg') }}" alt="course">
-                                </div>
-                                <div class="course-content">
-                                    <div class="course-price">$30</div>
-                                    <div class="course-category">
-                                        <div class="course-cate">
-                                            <a href="#">Photoshop</a>
-                                        </div>
-                                        <div class="course-reiew">
-                                            <span class="ratting">
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                            </span>
-                                            <span class="ratting-count">
-                                                03 reviews
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <a href="course-single.html">
-                                        <h5>Theory Learn New Student And Fundamentals</h5>
-                                    </a>
-                                    <div class="course-details">
-                                        <div class="couse-count"><i class="icofont-video-alt"></i> 18x Lesson</div>
-                                        <div class="couse-topic"><i class="icofont-signal"></i> Online Class</div>
-                                    </div>
-                                    <div class="course-footer">
-                                        <div class="course-author">
-                                            <img src="{{ URL::asset('site/images/course/author/03.jpg') }}"
-                                                alt="course author">
-                                            <a href="team-single.html" class="ca-name">Robot Smith</a>
-                                        </div>
-                                        <div class="course-btn">
-                                            <a href="course-single.html" class="lab-btn-text">Read More <i
-                                                    class="icofont-external-link"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="course-item">
-                            <div class="course-inner">
-                                <div class="course-thumb">
-                                    <img src="{{ URL::asset('site/images/course/04.jpg') }}" alt="course">
-                                </div>
-                                <div class="course-content">
-                                    <div class="course-price">$30</div>
-                                    <div class="course-category">
-                                        <div class="course-cate">
-                                            <a href="#">Adobe XD</a>
-                                        </div>
-                                        <div class="course-reiew">
-                                            <span class="ratting">
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                            </span>
-                                            <span class="ratting-count">
-                                                03 reviews
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <a href="course-single.html">
-                                        <h5>Computer Fundamentals Basic Startup Ultricies Vitae</h5>
-                                    </a>
-                                    <div class="course-details">
-                                        <div class="couse-count"><i class="icofont-video-alt"></i> 18x Lesson</div>
-                                        <div class="couse-topic"><i class="icofont-signal"></i> Online Class</div>
-                                    </div>
-                                    <div class="course-footer">
-                                        <div class="course-author">
-                                            <img src="{{ URL::asset('site/images/course/author/04.jpg') }}"
-                                                alt="course author">
-                                            <a href="team-single.html" class="ca-name">Zinat Zaara</a>
-                                        </div>
-                                        <div class="course-btn">
-                                            <a href="course-single.html" class="lab-btn-text">Read More <i
-                                                    class="icofont-external-link"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="course-item">
-                            <div class="course-inner">
-                                <div class="course-thumb">
-                                    <img src="{{ URL::asset('site/images/course/05.jpg') }}" alt="course">
-                                </div>
-                                <div class="course-content">
-                                    <div class="course-price">$30</div>
-                                    <div class="course-category">
-                                        <div class="course-cate">
-                                            <a href="#">Adobe XD</a>
-                                        </div>
-                                        <div class="course-reiew">
-                                            <span class="ratting">
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                            </span>
-                                            <span class="ratting-count">
-                                                03 reviews
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <a href="course-single.html">
-                                        <h5>Boozy Halloween Drinks for the Grown Eleifend Kuismod</h5>
-                                    </a>
-                                    <div class="course-details">
-                                        <div class="couse-count"><i class="icofont-video-alt"></i> 18x Lesson</div>
-                                        <div class="couse-topic"><i class="icofont-signal"></i> Online Class</div>
-                                    </div>
-                                    <div class="course-footer">
-                                        <div class="course-author">
-                                            <img src="{{ URL::asset('site/images/course/author/05.jpg') }}"
-                                                alt="course author">
-                                            <a href="team-single.html" class="ca-name">Billy Rivera</a>
-                                        </div>
-                                        <div class="course-btn">
-                                            <a href="course-single.html" class="lab-btn-text">Read More <i
-                                                    class="icofont-external-link"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="course-item">
-                            <div class="course-inner">
-                                <div class="course-thumb">
-                                    <img src="{{ URL::asset('site/images/course/06.jpg') }}" alt="course">
-                                </div>
-                                <div class="course-content">
-                                    <div class="course-price">$30</div>
-                                    <div class="course-category">
-                                        <div class="course-cate">
-                                            <a href="#">Adobe XD</a>
-                                        </div>
-                                        <div class="course-reiew">
-                                            <span class="ratting">
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                                <i class="icofont-ui-rating"></i>
-                                            </span>
-                                            <span class="ratting-count">
-                                                03 reviews
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <a href="course-single.html">
-                                        <h5>Student Want to Learn About Science And Arts</h5>
-                                    </a>
-                                    <div class="course-details">
-                                        <div class="couse-count"><i class="icofont-video-alt"></i> 18x Lesson</div>
-                                        <div class="couse-topic"><i class="icofont-signal"></i> Online Class</div>
-                                    </div>
-                                    <div class="course-footer">
-                                        <div class="course-author">
-                                            <img src="{{ URL::asset('site/images/course/author/06.jpg') }}"
-                                                alt="course author">
-                                            <a href="team-single.html" class="ca-name">Subrina Kabir</a>
-                                        </div>
-                                        <div class="course-btn">
-                                            <a href="course-single.html" class="lab-btn-text">Read More <i
-                                                    class="icofont-external-link"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- course section ending here -->
-
+        <!-- course section ending here -->
+    @endif
 
     <!-- abouts section start here -->
     <div class="about-section">
@@ -543,7 +215,8 @@
                                     </div>
                                     <div class="sr-right">
                                         <h5>Instrutores qualificados</h5>
-                                        <p>Distintamente fornecer usuários mutfuncto de acesso enquanto comunica serviços alavancados</p>
+                                        <p>Distintamente fornecer usuários mutfuncto de acesso enquanto comunica serviços
+                                            alavancados</p>
                                     </div>
                                 </li>
                                 <li>
@@ -552,7 +225,8 @@
                                     </div>
                                     <div class="sr-right">
                                         <h5>Obter certificado</h5>
-                                        <p>Distintamente fornecer usuários mutfuncto de acesso enquanto comunica serviços alavancados</p>
+                                        <p>Distintamente fornecer usuários mutfuncto de acesso enquanto comunica serviços
+                                            alavancados</p>
                                     </div>
                                 </li>
                                 <li>
@@ -561,7 +235,8 @@
                                     </div>
                                     <div class="sr-right">
                                         <h5>Aulas Online</h5>
-                                        <p>Distintamente fornecer usuários mutfuncto de acesso enquanto comunica serviços alavancados</p>
+                                        <p>Distintamente fornecer usuários mutfuncto de acesso enquanto comunica serviços
+                                            alavancados</p>
                                     </div>
                                 </li>
                             </ul>

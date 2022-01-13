@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Canvas;
 use App\Models\CategoriaCurso;
 use App\Services\Services;
 use Illuminate\Http\Request;
@@ -75,6 +76,28 @@ class CategoriaCursoController extends Controller
         $item->nome = $request->nome;
         $item->status = $request->status;
 
+        //Verificação se imagem de logo foi informado, caso seja verifica-se sua integridade
+        if (@$request->file('imagem') and $request->file('imagem')->isValid()) {
+            //Validação das informações recebidas
+            $validated = $request->validate([
+                'imagem' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5120'
+            ]);
+
+            //Atribuição dos valores recebidos da váriavel $request após seu upload
+            $item->imagem = $request->imagem->store('imagemCategoriaCurso');
+
+            //Nova instância do Model Canvas
+            $img = new Canvas();
+
+            //Edição da imagem recebida com a Class Canva 
+            $img->carrega(public_path('storage/' . $item->imagem))
+                ->hexa('#FFFFFF')
+                ->redimensiona(900, 600, 'preenchimento')
+                ->grava(public_path('storage/' . $item->imagem), 80);
+        } else {
+            //Atribuição de valor padrão para imagem imagem caso o mesmo não seja informado 
+            $item->imagem = null;
+        }
 
         //Envio das informações para o banco de dados
         $resposta = $item->save();
@@ -139,6 +162,28 @@ class CategoriaCursoController extends Controller
         $item->nome = $request->nome;
         $item->status = $request->status;
 
+
+        //Verificação se uma nova imagem de logo foi informado, caso seja verifica-se sua integridade
+        if (@$request->file('imagem') and $request->file('imagem')->isValid()) {
+            //Validação das informações recebidas
+            $validated = $request->validate([
+                'imagem' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5120'
+            ]);
+
+            //Salva o nome da antiga imagem para ser apagada em caso de sucesso
+            $imagemApagar = $item->imagem;
+            //Atribuição dos valores recebidos da váriavel $request após seu upload
+            $item->imagem = $request->imagem->store('imagemCategoriaCurso');
+
+            //Nova instância do Model Canvas
+            $img = new Canvas();
+
+            //Edição da imagem recebida com a Class Canva 
+            $img->carrega(public_path('storage/' . $item->imagem))
+                ->hexa('#FFFFFF')
+                ->redimensiona(600, 600, 'preenchimento')
+                ->grava(public_path('storage/' . $item->imagem), 80);
+        }
 
         //Envio das informações para o banco de dados
         $resposta = $item->save();

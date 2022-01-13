@@ -26,6 +26,22 @@
                                 <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome"
                                     value="{{ $item->nome }}" required="">
                             </div>
+                            <div class="col-3 col-md-1 mb-3">
+                                @if ($item->imagem != '')
+                                    <img src="{{ URL::asset('storage/' . $item->imagem) }}" alt="" class="avatar-img">
+                                @else
+                                    <img src="{{ URL::asset('storage/imagemCategoriaCurso/padrao.png') }}" alt=""
+                                        class="avatar-img">
+                                @endif
+                            </div>
+                            <div class="col-12 col-md-6 mb-3">
+                                <label class="form-label" for="imagem">Imagem</label>
+                                <input type="file" class="form-control" id="imagem" name="imagem">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label" for="status">Status</label>
                                 <select id="status" class="form-control custom-select" name="status">

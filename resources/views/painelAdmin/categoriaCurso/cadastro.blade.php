@@ -19,10 +19,14 @@
                     <form method="POST" action="{{ route('categoriaCursoInserir') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-row">
-                            <div class="col-12 col-md-12 mb-3">
+                            <div class="col-12 col-md-8 mb-3">
                                 <label class="form-label" for="nome">Nome</label>
                                 <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome"
                                     value="{{ old('nome') }}" required="">
+                            </div>
+                            <div class="col-12 col-md-4 mb-3">
+                                <label class="form-label" for="imagem">Imagem (600x600px)</label>
+                                <input type="file" class="form-control" id="imagem" name="imagem">
                             </div>
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label" for="status">Status</label>

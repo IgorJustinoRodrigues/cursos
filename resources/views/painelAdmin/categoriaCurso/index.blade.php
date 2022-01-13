@@ -44,14 +44,24 @@
             <table class="table-responsive table">
                 <thead>
                     <tr>
+                        <th style="width: 10%">Imagem</th>
                         <th style="width: 50%">Nome</th>
-                        <th style="width: 40%">Status</th>
+                        <th style="width: 30%">Status</th>
                         <th style="width: 10%">Opções</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($paginacao as $item)
                         <tr>
+                            <td class="text-center">
+                                <a href="{{ route('categoriaCursoEditar', $item->id) }}">
+                                    @if($item->imagem != '')
+                                    <img src="{{ URL::asset('storage/' . $item->imagem) }}" alt="" class="avatar-img">
+                                    @else
+                                    <img src="{{ URL::asset('storage/imagemCategoriaCurso/padrao.png') }}" alt="" class="avatar-img">
+                                    @endif
+                                </a>
+                            </td>
                             <td>
                                 <a href="{{ route('categoriaCursoEditar', $item->id) }}">
                                     {{ $item->nome }}
