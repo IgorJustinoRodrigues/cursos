@@ -43,7 +43,6 @@
 
             $("#player").html(div);
         }
-        addPergunta()
 
         function addPergunta() {
             var div = $("#modelo .pergunta").clone();
@@ -67,14 +66,13 @@
             numerar();
         }
 
-
         function deletarResposta(elemento) {
             elemento.parent().parent().parent().empty();
-
         }
 
         function numerar() {
             var i = 1;
+
             $('#div-pergunta .pergunta .item .num_pergunta').each(function(index, element) {
                 $(element).text('Pergunta ' + i)
 
@@ -89,6 +87,7 @@
                 i++;
             });
         }
+
         tipoAula();
     </script>
     <script src="{{ URL::asset('template/vendor/quill.min.js') }}"></script>
@@ -113,7 +112,14 @@
                                 <select id="tipo" class="form-control custom-select" name="tipo" onchange="tipoAula();">
                                     <option value="1">Aula de Vídeo</option>
                                     <option value="2">Aula de Texto</option>
-                                    <option selected value="3">Quiz</option>
+                                    <option value="3">Quiz</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-4 mb-3 div-ocultar pergunta">
+                                <label class="form-label" for="avaliacao">Aula avaliativa?</label>
+                                <select id="avaliacao" class="form-control custom-select" name="avaliacao">
+                                    <option value="1">Sim</option>
+                                    <option value="0">Não</option>
                                 </select>
                             </div>
                             <div class="col-12 col-md-12 mb-3">
@@ -177,7 +183,7 @@
             <div style="border: 1px dashed#000; padding: 20px" class="item">
                 <div class="row">
                     <div class="col-9">
-                        <label class="form-label num_pergunta">Pergunta</label>
+                        <label class="form-label num_pergunta"></label>
                         <input type="text" class="form-control input-pergunta" name="perguntas[]">
                     </div>
                     <div class="col-3">

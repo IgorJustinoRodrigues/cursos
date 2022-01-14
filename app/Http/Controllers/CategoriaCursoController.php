@@ -67,7 +67,6 @@ class CategoriaCursoController extends Controller
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required|max:100',
-            'imagem' => 'required',
         ]);
 
         //Nova instância do Model CategoriaCurso

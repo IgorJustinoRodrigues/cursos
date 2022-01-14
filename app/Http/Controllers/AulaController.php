@@ -65,44 +65,59 @@ class AulaController extends Controller
 
         //Validação das informações recebidas
         $validated = $request->validate([
+            'tipo' => 'required',
             'nome' => 'required',
-            'usuario' => 'required|max:20|unique:aulas,usuario',
+            'duracao' => 'required',
+            'status' => 'required',
         ]);
-
+        
         //Nova instância do Model Aula
         $item = new Aula();
 
-        //Atribuição dos valores recebidos da váriavel $request
-        $item->nome = $request->nome;
-        $item->usuario = $request->usuario;
-        $item->senha = '123456';
-        $item->status = $request->status;
-        $item->visibilidade = $request->visibilidade;
-        $item->sobre = $request->sobre;
+        switch ($request->tipo) {
+            case 1:
+                //Vídeo
+                $validated = $request->validate([
+                    'video' => 'required',
+                ]);
 
-        //Verificação se imagem de logo foi informado, caso seja verifica-se sua integridade
-        if (@$request->file('logo') and $request->file('logo')->isValid()) {
-            //Validação das informações recebidas
-            $validated = $request->validate([
-                'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5120'
-            ]);
+                $item->avaliacao = 0;
 
-            //Atribuição dos valores recebidos da váriavel $request após seu upload
-            $item->logo = $request->logo->store('logoAula');
+                break;
 
-            //Nova instância do Model Canvas
-            $img = new Canvas();
+            case 2:
+                //Texto
+                $validated = $request->validate([
+                    'texto' => 'required',
+                ]);
 
-            //Edição da imagem recebida com a Class Canva 
-            $img->carrega(public_path('storage/' . $item->logo))
-                ->hexa('#FFFFFF')
-                ->redimensiona(900, 600, 'preenchimento')
-                ->grava(public_path('storage/' . $item->logo), 80);
-        } else {
-            //Atribuição de valor padrão para imagem logo caso o mesmo não seja informado 
-            $item->logo = null;
+                $item->avaliacao = 0;
+
+                break;
+
+            case 3:
+                //Quiz
+                $validated = $request->validate([
+                    'perguntas.*' => 'required',
+                ]);
+
+                $item->avaliacao = $request->avaliacao;
+                
+                break;
+
+            default:
+                //Erro
+                break;
         }
 
+        //Atribuição dos valores recebidos da váriavel $request
+        $item->tipo = $request->tipo;
+        $item->nome = $request->nome;
+        $item->descricao = $request->descricao;
+        $item->duracao_segundos = $request->duracao;
+        $item->status = $request->status;
+        $item->curso_id = $curso->id;
+        
         //Envio das informações para o banco de dados
         $resposta = $item->save();
 
@@ -132,7 +147,7 @@ class AulaController extends Controller
         //Verifica se há algum aula selecionado
         if (@$item) {
 
-            if($item->status == 0){
+            if ($item->status == 0) {
                 return redirect()->route('aulaIndex')->with('atencao', 'Aula excluido!');
             }
 

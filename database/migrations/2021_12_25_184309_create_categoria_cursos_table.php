@@ -17,7 +17,7 @@ class CreateCategoriaCursosTable extends Migration
             $table->id();
 
             $table->string('nome', 100);
-            $table->string('imagem', 150);
+            $table->string('imagem', 150)->nullable();
             $table->string('status', 2);
 
             $table->timestamps();
