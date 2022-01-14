@@ -7,6 +7,8 @@ use App\Models\Canvas;
 use App\Models\Curso;
 use App\Services\Services;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Storage;
 
 class AulaController extends Controller
 {
