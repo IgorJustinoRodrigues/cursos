@@ -24,11 +24,13 @@ class SiteController extends Controller
             ->limit(6)
             ->get();
 
+
         //Exibe a view 
         return view('site.index', [
             'parceiro' => $parceiros,
             'categoria' => $categorias,
-            'curso' => $cursos
+            'curso' => $cursos,
+            'categoriasMenu' => $categorias
         ]);
     }
 
@@ -48,22 +50,27 @@ class SiteController extends Controller
             ->where('cursos.visibilidade', '=', 1)
             ->where('cursos.status', '=', 1)
             ->selectRaw('cursos.id, cursos.imagem, cursos.nome, categoria_cursos.nome as categoria, categoria_cursos.id as categoria_id, professors.nome as professor, professors.avatar')
-            ->limit(6)
-            ->get();
+            ->paginate(10);
 
+        $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();
 
         //Exibe a view 
-        return view('site.cursos', ['curso' => $cursos]);
+        return view('site.cursos', [
+            'curso' => $cursos,
+            'categoriasMenu' => $categoriasMenu
+        ]);
     }
 
     public function lerCurso($item, $url)
     {
 
 
-
+        $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();
 
         //Exibe a view
-        return view('site.lerCurso', []);
+        return view('site.lerCurso', [
+            'categoriasMenu' => $categoriasMenu
+        ]);
     }
 
     //Função de Suporte

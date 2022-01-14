@@ -119,7 +119,7 @@
                                             <div class="course-price">$30</div>
                                             <div class="course-category">
                                                 <div class="course-cate">
-                                                    <a href="{{ route('site.lerCurso', ['10', 'lerCurso.html']) }}"></a>
+                                                    <a href="{{ route('site.lerCurso', ['10', 'lerCurso.html']) }}">{{$item->categoria}}</a>
                                                 </div>
                                                 <div class="course-reiew">
                                                     <span class="ratting">
