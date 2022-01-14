@@ -90,17 +90,7 @@
                                 <li>
                                     <a href="{{ route('site.cursos') }}">Cursos</a>
                                     <ul class="lab-ul">
-                                        <li><a href="{{ route('site.cursos') }}">Todas as Categorias</a></li>
-                                        <li><a href="{{ route('site.cursos') }}">Negócios</a></li>
-                                        <li><a href="{{ route('site.cursos') }}">Empreendedorismo</a></li>
-                                        <li><a href="{{ route('site.cursos') }}">Finanças e Contabilidade</a></li>
-                                        <li><a href="{{ route('site.cursos') }}">Idiomas</a></li>
-                                        <li><a href="{{ route('site.cursos') }}">TI e Software</a></li>
-                                        <li><a href="{{ route('site.cursos') }}">Design</a></li>
-                                        <li><a href="{{ route('site.cursos') }}">Marketing</a></li>
-                                        <li><a href="{{ route('site.cursos') }}">Fotografia e Vídeo</a></li>
-                                        <li><a href="{{ route('site.cursos') }}">Saúde e Fitness</a></li>
-                                        <li><a href="{{ route('site.cursos') }}">Música</a></li>
+                                        <li><a href="{{ route('site.cursos') }}">categoria</a></li>
                                     </ul>
                                 </li>
                                 <li>

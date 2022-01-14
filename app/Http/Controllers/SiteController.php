@@ -14,9 +14,8 @@ class SiteController extends Controller
     {
         $categorias = CategoriaCurso::where('status', '=', 1)->get();
 
-        
-
         $parceiros = Parceiro::where('visibilidade', '=', 1)->where('status', '=', 1)->get();
+
         $cursos = Curso::join('categoria_cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
             ->join('professors', 'professors.id', '=', 'cursos.professor_id')
             ->where('cursos.visibilidade', '=', 1)
@@ -24,7 +23,7 @@ class SiteController extends Controller
             ->selectRaw('cursos.id, cursos.imagem, cursos.nome, categoria_cursos.nome as categoria, categoria_cursos.id as categoria_id, professors.nome as professor, professors.avatar')
             ->limit(6)
             ->get();
-        
+
         //Exibe a view 
         return view('site.index', [
             'parceiro' => $parceiros,
@@ -44,20 +43,27 @@ class SiteController extends Controller
     //Função de Cursos
     public function cursos()
     {
+        $cursos = Curso::join('categoria_cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
+            ->join('professors', 'professors.id', '=', 'cursos.professor_id')
+            ->where('cursos.visibilidade', '=', 1)
+            ->where('cursos.status', '=', 1)
+            ->selectRaw('cursos.id, cursos.imagem, cursos.nome, categoria_cursos.nome as categoria, categoria_cursos.id as categoria_id, professors.nome as professor, professors.avatar')
+            ->limit(6)
+            ->get();
+
 
         //Exibe a view 
-        return view('site.cursos');
+        return view('site.cursos', ['curso' => $cursos]);
     }
 
     public function lerCurso($item, $url)
     {
-        $retorno = [
-            'id' => 10,
-            'titulo' => "Curso de Informática"
-        ];
+
+
+
 
         //Exibe a view
-        return view('site.lerCurso', ['info' => $retorno]);
+        return view('site.lerCurso', []);
     }
 
     //Função de Suporte
@@ -68,7 +74,7 @@ class SiteController extends Controller
         return view('site.suporte');
     }
 
-    
+
 
 
     public function login()

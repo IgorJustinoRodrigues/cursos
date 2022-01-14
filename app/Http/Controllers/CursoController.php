@@ -207,7 +207,7 @@ class CursoController extends Controller
             //Edição da imagem recebida com a Class Canva 
             $img->carrega(public_path('storage/' . $item->imagem))
                 ->hexa('#FFFFFF')
-                ->redimensiona(900, 600, 'preenchimento')
+                ->redimensiona(370, 250, 'preenchimento')
                 ->grava(public_path('storage/' . $item->imagem), 80);
         }
 
