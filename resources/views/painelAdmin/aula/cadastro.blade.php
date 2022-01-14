@@ -46,46 +46,49 @@
         addPergunta()
 
         function addPergunta() {
-            var div = '';
-
-            div += '<div style="border: 1px dashed#000; padding: 20px">';
-            div += '<div class="row">';
-            div += '<div class="col-md-9">';
-            div += '<label class="form-label">Pergunta #01</label>';
-            div += '<input type="text" class="form-control" id="pergunta" name="pergunta[]"';
-            div += '</div>';
-            div += '<div class="col-md-3">';
-            div += '<label class="form-label" for="status">-</label>';
-            div += '<a class="btn btn-danger btn-wide btn-block">DELETAR PERGUNTA</a>';
-            div += '</div>';
-            div += '</div>';
-            div += '<div class="div-resposta">';
-            div += '<div class="row">';
-            div += '<div class="col-3">';
-            div += '<label class="form-label" for="status">-</label>';
-            div += '<select id="status" class="form-control custom-select" name="opcao[]">';
-            div += '<option value="1">Correta</option>';
-            div += '<option value="0">Incorreta</option>';
-            div += '</select>';
-            div += '</div>';
-            div += '<div class="col-8">';
-            div += '<label class="form-label" for="status">-</label>';
-            div += '<input type="text" class="form-control" id="pergunta"';
-            div += 'name="resposta[]" value="{{ old('pergunta') }}">';
-            div += '</div>';
-            div += '<div class="col-1">';
-            div += '<label class="form-label" for="status">-</label>';
-            div += '<a class="btn btn-danger btn-wide btn-block">DELETAR</a>';
-            div += '</div>';
-            div += '</div>';
-            div += '</div>';
-            div += '<a class="btn btn-primary btn-sm mt-4 right" onclick="addResposta()">NOVA';
-            div += 'RESPOSTA</a>';
-            div += '</div>';
+            var div = $("#modelo .pergunta").clone();
 
             $("#div-pergunta").append(div);
+
+            numerar();
         }
 
+        function addResposta(elemento) {
+            var div = $("#modelo .resposta").clone();
+
+            elemento.parent().find('.div-resposta').append(div);
+
+            numerar();
+        }
+
+        function deletarPergunta(elemento) {
+            elemento.parent().parent().parent().parent().empty();
+
+            numerar();
+        }
+
+
+        function deletarResposta(elemento) {
+            elemento.parent().parent().parent().empty();
+
+        }
+
+        function numerar() {
+            var i = 1;
+            $('#div-pergunta .pergunta .item .num_pergunta').each(function(index, element) {
+                $(element).text('Pergunta ' + i)
+
+                $(element).parent().parent().parent().find('.div-resposta input').each(function(index2, element2) {
+                    $(element2).attr('name', 'resposta' + i + '[]');
+                });
+
+                $(element).parent().parent().parent().find('.div-resposta select').each(function(index3, element3) {
+                    $(element3).attr('name', 'opcao' + i + '[]');
+                });
+
+                i++;
+            });
+        }
         tipoAula();
     </script>
     <script src="{{ URL::asset('template/vendor/quill.min.js') }}"></script>
@@ -108,9 +111,9 @@
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label" for="tipo">Tipo de Aula</label>
                                 <select id="tipo" class="form-control custom-select" name="tipo" onchange="tipoAula();">
-                                    <option @if (old('tipo') == 1) selected @endif value="1">Aula de Vídeo</option>
-                                    <option @if (old('tipo') == 2) selected @endif value="2">Aula de Texto</option>
-                                    <option @if (old('tipo') == 3) selected @endif value="3">Quiz</option>
+                                    <option value="1">Aula de Vídeo</option>
+                                    <option value="2">Aula de Texto</option>
+                                    <option selected value="3">Quiz</option>
                                 </select>
                             </div>
                             <div class="col-12 col-md-12 mb-3">
@@ -143,78 +146,7 @@
                             <div class="col-12 mb-3 div-ocultar pergunta">
                                 <hr>
                                 <div id="div-pergunta">
-                                    <div style="border: 1px dashed#000; padding: 20px">
-                                        <div class="row">
-                                            <div class="col-9">
-                                                <label class="form-label">Pergunta #01</label>
-                                                <input type="text" class="form-control" id="pergunta" name="pergunta[]"
-                                                    value="{{ old('pergunta') }}">
-                                            </div>
-                                            <div class="col-3">
-                                                <label class="form-label" for="status">-</label>
-                                                <a class="btn btn-danger btn-wide btn-block">DELETAR PERGUNTA</a>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="div-resposta">
-                                            <div class="row">
-                                                <div class="col-3">
-                                                    <label class="form-label" for="status">-</label>
-                                                    <select id="status" class="form-control custom-select" name="opcao[]">
-                                                        <option value="1">Correta</option>
-                                                        <option value="0">Incorreta</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-8">
-                                                    <label class="form-label" for="status">-</label>
-                                                    <input type="text" class="form-control" id="pergunta"
-                                                        name="resposta[]" value="{{ old('pergunta') }}">
-                                                </div>
-                                                <div class="col-1">
-                                                    <label class="form-label" for="status">-</label>
-                                                    <a class="btn btn-danger btn-wide btn-block">DELETAR</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <a class="btn btn-primary btn-sm mt-4 right" onclick="addResposta()">NOVA
-                                            RESPOSTA</a>
-                                    </div>
-                                    <div style="border: 1px dashed#000; padding: 20px">
-                                        <div class="row">
-                                            <div class="col-9">
-                                                <label class="form-label">Pergunta #01</label>
-                                                <input type="text" class="form-control" id="pergunta" name="pergunta[]"
-                                                    value="{{ old('pergunta') }}">
-                                            </div>
-                                            <div class="col-3">
-                                                <label class="form-label" for="status">-</label>
-                                                <a class="btn btn-danger btn-wide btn-block">DELETAR PERGUNTA</a>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="div-resposta">
-                                            <div class="row">
-                                                <div class="col-3">
-                                                    <label class="form-label" for="status">-</label>
-                                                    <select id="status" class="form-control custom-select" name="opcao[]">
-                                                        <option value="1">Correta</option>
-                                                        <option value="0">Incorreta</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-8">
-                                                    <label class="form-label" for="status">-</label>
-                                                    <input type="text" class="form-control" id="pergunta"
-                                                        name="resposta[]" value="{{ old('pergunta') }}">
-                                                </div>
-                                                <div class="col-1">
-                                                    <label class="form-label" for="status">-</label>
-                                                    <a class="btn btn-danger btn-wide btn-block">DELETAR</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <a class="btn btn-primary btn-sm mt-4 right" onclick="addResposta()">NOVA
-                                            RESPOSTA</a>
-                                    </div>
+
                                 </div>
                                 <a class="btn btn-primary mt-4 right" onclick="addPergunta()">NOVA PERGUNTA</a>
                                 <hr>
@@ -240,4 +172,46 @@
             </div>
         </div>
     </div>
+    <div class="d-none" id="modelo">
+        <div class="pergunta">
+            <div style="border: 1px dashed#000; padding: 20px" class="item">
+                <div class="row">
+                    <div class="col-9">
+                        <label class="form-label num_pergunta">Pergunta</label>
+                        <input type="text" class="form-control input-pergunta" name="perguntas[]">
+                    </div>
+                    <div class="col-3">
+                        <a class="btn btn-danger btn-wide btn-block mt-4" onclick="deletarPergunta($(this))">DELETAR
+                            PERGUNTA</a>
+                    </div>
+                </div>
+                <hr>
+                <div class="div-resposta">
+
+                </div>
+                <a class="btn btn-primary btn-sm mt-4 right" onclick="addResposta($(this))">NOVA
+                    RESPOSTA</a>
+            </div>
+        </div>
+
+        <div class="resposta">
+            <div class="itemResposta m-2">
+                <div class="row">
+                    <div class="col-3">
+                        <select id="status" class="form-control custom-select">
+                            <option value="1">Correta</option>
+                            <option value="0">Incorreta</option>
+                        </select>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="col-1">
+                        <a class="btn btn-danger btn-wide btn-block" onclick="deletarResposta($(this))">DELETAR</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
