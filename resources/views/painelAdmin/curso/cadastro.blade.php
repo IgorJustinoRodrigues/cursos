@@ -61,7 +61,7 @@
                             </div>
 
                             <div class="col-12 col-md-6 mb-3">
-                                <label class="form-label" for="tipo">Nível do Curso</label>
+                                <label class="form-label" for="tipo">Tipo do Curso</label>
                                 <select id="tipo" class="form-control custom-select" name="tipo">
                                     <option @if (old('tipo') == 1) selected @endif value="1">Curso Iniciante | Até 5 Aulas | R$ 18,00
                                     </option>

@@ -183,7 +183,7 @@ class CursoController extends Controller
         $item->cooprodutor = $request->cooprodutor;
         $item->categoria_id = $request->categoria;
         $item->descricao = $request->descricao;
-        $item->nivel = $request->nivel;
+        $item->tipo = $request->tipo;
         $item->status = $request->status;
         $item->visibilidade = $request->visibilidade;
         $item->porcentagem_solicitacao_certificado = '100';

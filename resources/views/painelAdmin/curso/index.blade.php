@@ -44,9 +44,10 @@
             <table class="table-responsive table">
                 <thead>
                     <tr>
-                        <th style="width: 40%">Nome</th>
-                        <th style="width: 20%">Categoria</th>
-                        <th style="width: 20%">Professor</th>
+                        <th style="width: 25%">Nome</th>
+                        <th style="width: 25%">Tipo de Curso</th>
+                        <th style="width: 15%">Categoria</th>
+                        <th style="width: 15%">Professor</th>
                         <th style="width: 10%">Status</th>
                         <th style="width: 10%">Opções</th>
                     </tr>
@@ -59,6 +60,7 @@
                                     {{ $item->nome }}
                                 </a>
                             </td>
+                            <td>{{ app(App\Http\Controllers\CursoController::class)->tipo($item->tipo) }}</td>
                             <td>{{ $item->categoria }}</td>
                             <td>{{ $item->professor }}</td>
                             <td>{{ app(App\Http\Controllers\CursoController::class)->status($item->status) }}</td>
