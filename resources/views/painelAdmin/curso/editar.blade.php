@@ -146,6 +146,19 @@
                                 </div>
 
                                 <div class="col-12 col-md-6 mb-3">
+                                    <label class="form-label" for="tipo">Tipo do Curso</label>
+                                    <select id="tipo" class="form-control custom-select" name="tipo">
+                                        <option @if ($item->tipo == 1) selected @endif value="1">Curso Iniciante | Até 5 Aulas | R$ 18,00
+                                        </option>
+                                        <option @if ($item->tipo == 2) selected @endif value="2">Curso Intermediário | Até 10 Aulas | R$
+                                            26,00</option>
+                                        <option @if ($item->tipo == 3) selected @endif value="3">Curso Avançado | Mais de 15 Aulas | R$ 38,00</option>
+                                        <option @if ($item->tipo == 4) selected @endif value="4">Treinamento</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="col-12 col-md-6 mb-3">
                                     <label class="form-label" for="status">Status</label>
                                     <select id="status" class="form-control custom-select" name="status">
                                         <option @if ($item->status == 1) selected @endif value="1">Ativo</option>

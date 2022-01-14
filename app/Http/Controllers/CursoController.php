@@ -59,12 +59,12 @@ class CursoController extends Controller
         $categoria = CategoriaCurso::where('status', '=', '1')->get();
         $professor = Professor::where('status', '=', '1')->get();
 
-        if(count($categoria) < 1){
+        if (count($categoria) < 1) {
             //Redirecionamento para a rota de cadastro de categoria, com mensagem
             return redirect()->route('categoriaCursoCadastro')->with('atencao', 'Para cadastrar um curso é necessário antes cadastrar uma categoria!');
         }
 
-        if(count($professor) < 1){
+        if (count($professor) < 1) {
             //Redirecionamento para a rota de cadastro de professor, com mensagem
             return redirect()->route('professorCadastro')->with('atencao', 'Para cadastrar um curso é necessário antes cadastrar um professor!');
         }
@@ -91,6 +91,7 @@ class CursoController extends Controller
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required|max:100',
+            'tipo' => 'required',
             'categoria' => 'required',
             'professor' => 'required'
         ]);
@@ -103,6 +104,7 @@ class CursoController extends Controller
         $item->professor_id = $request->professor;
         $item->categoria_id = $request->categoria;
         $item->status = $request->status;
+        $item->tipo = $request->tipo;
         $item->visibilidade = $request->visibilidade;
         $item->porcentagem_solicitacao_certificado = '100';
 
@@ -181,11 +183,12 @@ class CursoController extends Controller
         $item->cooprodutor = $request->cooprodutor;
         $item->categoria_id = $request->categoria;
         $item->descricao = $request->descricao;
+        $item->tipo = $request->tipo;
         $item->status = $request->status;
         $item->visibilidade = $request->visibilidade;
         $item->porcentagem_solicitacao_certificado = '100';
 
-        
+
         //Verificação se uma nova imagem de imagem foi informado, caso seja verifica-se sua integridade
         if (@$request->file('imagem') and $request->file('imagem')->isValid()) {
             //Validação das informações recebidas
@@ -206,7 +209,7 @@ class CursoController extends Controller
                 ->hexa('#FFFFFF')
                 ->redimensiona(900, 600, 'preenchimento')
                 ->grava(public_path('storage/' . $item->imagem), 80);
-        } 
+        }
 
         //Envio das informações para o banco de dados
         $resposta = $item->save();
@@ -214,7 +217,7 @@ class CursoController extends Controller
         //Verifica se o Update foi bem sucedido
         if ($resposta) {
 
-            
+
             //Verifica se há imagem antiga para ser apagada e se caso exista, se é diferente do padrão
             if (@$imagemApagar and Storage::exists($imagemApagar)) {
                 //Deleta o arquivo físico da imagem antiga
@@ -280,7 +283,44 @@ class CursoController extends Controller
         }
     }
 
-      /*
+
+    /*
+    Função tipo de Curso
+    - Responsável por exibir o tipo do Curso
+    - $tipo: Recebe o Id do tipo do Curso
+    */
+    public function tipo($tipo)
+    {
+        //Verifica o tipo do Curso
+        switch ($tipo) {
+            case 1:
+                //Retorna o tipo Curso Iniciante | Até 5 Aulas | R$ 18,00
+                return 'Curso Iniciante | Até 5 Aulas | R$ 18,00';
+                break;
+
+            case 2:
+                //Retorna o tipo Curso Intermediário | Até 10 Aulas | R$ 26,00
+                return 'Curso Intermediário | Até 10 Aulas | R$ 26,00';
+                break;
+
+            case 3:
+                //Retorna o tipo Curso Avançado | Mais de 15 Aulas | R$ 38,00
+                return 'Curso Avançado | Mais de 15 Aulas | R$ 38,00';
+                break;
+
+            case 4:
+                //Retorna o tipo Treinamento
+                return 'Treinamento';
+                break;
+
+            case 0:
+                //Retorna o tipo Excluido
+                return 'Excluido';
+                break;
+        }
+    }
+
+    /*
     Função visibilidade de Curso
     - Responsável por exibir o visibilidade do curso
     - $visibilidade: Recebe o Id do visibilidade do curso

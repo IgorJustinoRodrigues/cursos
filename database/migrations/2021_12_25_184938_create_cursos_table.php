@@ -21,6 +21,7 @@ class CreateCursosTable extends Migration
             $table->text('descricao')->nullable();
 
             $table->string('status', 2);
+            $table->string('tipo', 2);
             $table->string('visibilidade', 2);
             $table->string('porcentagem_solicitacao_certificado', 3);
             $table->text('cooprodutor')->nullable();
