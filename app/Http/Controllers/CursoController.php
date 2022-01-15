@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aula;
 use App\Models\Canvas;
 use App\Models\CategoriaCurso;
 use App\Models\Curso;
@@ -134,12 +135,11 @@ class CursoController extends Controller
             //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-        $item = Curso::join('professors', 'cursos.professor_id', '=', 'professors.id')
-            ->join('categoria_cursos', 'cursos.categoria_id', '=', 'categoria_cursos.id')
+        $item = Curso::join('categoria_cursos', 'cursos.categoria_id', '=', 'categoria_cursos.id')
             ->where('cursos.status', '<>', '0')
             ->orderby('cursos.nome', 'asc')
             ->where('cursos.status', '<>', '0')
-            ->selectRaw('cursos.*, professors.nome as professor, categoria_cursos.nome as categoria')
+            ->selectRaw('cursos.*, categoria_cursos.nome as categoria')
             ->find($id);
 
         //Verifica se há alguma categoria de curso  selecionado
@@ -149,8 +149,21 @@ class CursoController extends Controller
                 return redirect()->route('cursoIndex')->with('atencao', 'Curso excluido!');
             }
 
+            $categorias = CategoriaCurso::where('status', '=', '1')->get();
+
+            $aulas = Aula::where('curso_id', '=', $item->id)->where('status', '<>', '0')
+                ->get();
+
+            $professor = Professor::find($item->professor_id);
+
             //Exibe a tela de edição de categoria de curso passando parametros para view
-            return view('painelAdmin.curso.editar', ['item' => $item, 'menu' => $menu]);
+            return view('painelAdmin.curso.editar', [
+                'item' => $item,
+                'menu' => $menu,
+                'categorias' => $categorias,
+                'aulas' => $aulas,
+                'professor' => $professor
+            ]);
         } else {
             //Redirecionamento para a rota CursoIndex, com mensagem de erro
             return redirect()->route('cursoIndex')->with('erro', 'Curso não encontrado!');
@@ -173,13 +186,11 @@ class CursoController extends Controller
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required|max:100',
-            'categoria' => 'required',
-            'professor' => 'required'
+            'categoria' => 'required'
         ]);
 
         //Atribuição dos valores recebidos da váriavel $request
         $item->nome = $request->nome;
-        $item->professor_id = $request->professor;
         $item->cooprodutor = $request->cooprodutor;
         $item->categoria_id = $request->categoria;
         $item->descricao = $request->descricao;
@@ -187,7 +198,6 @@ class CursoController extends Controller
         $item->status = $request->status;
         $item->visibilidade = $request->visibilidade;
         $item->porcentagem_solicitacao_certificado = '100';
-
 
         //Verificação se uma nova imagem de imagem foi informado, caso seja verifica-se sua integridade
         if (@$request->file('imagem') and $request->file('imagem')->isValid()) {
@@ -340,4 +350,5 @@ class CursoController extends Controller
                 break;
         }
     }
+    
 }

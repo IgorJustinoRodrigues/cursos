@@ -22,7 +22,6 @@ class Services
             //Expira a sessão
             unset($_SESSION['admin_cursos_start']);
             return false;
-
         } else {
             //Redirecionamento para a rota sairAdmin após 10 minutos sem uma nova requisição
             header("Refresh:6000; url=" . route('sairAdmin'));
@@ -31,8 +30,9 @@ class Services
             return true;
         }
     }
-    
-    public function redirecionar(){
+
+    public function redirecionar()
+    {
         return redirect()->route('acessoAdmin')->with('erro', 'Para acessar esse conteúdo é necessário fazer login no sistema!');
     }
 
@@ -50,7 +50,6 @@ class Services
             //Expira a sessão
             unset($_SESSION['aluno_cursos_start']);
             return false;
-
         } else {
             //Redirecionamento para a rota sairAluno após 10 minutos sem uma nova requisição
             header("Refresh:6000; url=" . route('sairAluno'));
@@ -59,13 +58,14 @@ class Services
             return true;
         }
     }
-    
-    public function redirecionarAluno(){
+
+    public function redirecionarAluno()
+    {
         return redirect()->route('acessoAluno')->with('erro', 'Para acessar esse conteúdo é necessário fazer login no sistema!');
     }
 
 
-        /*
+    /*
     Função Validar Parceiro
     - Responsável por verificar se há uma sessão ativa de um parceiro
     */
@@ -79,7 +79,6 @@ class Services
             //Expira a sessão
             unset($_SESSION['parceiro_cursos_start']);
             return false;
-
         } else {
             //Redirecionamento para a rota sairParceiro após 10 minutos sem uma nova requisição
             header("Refresh:6000; url=" . route('sairParceiro'));
@@ -88,17 +87,20 @@ class Services
             return true;
         }
     }
-    
-    public function redirecionarParceiro(){
+
+    public function redirecionarParceiro()
+    {
         return redirect()->route('acessoParceiro')->with('erro', 'Para acessar esse conteúdo é necessário fazer login no sistema!');
     }
 
 
-    public function data_atual(){
+    public function data_atual()
+    {
         return $this->diaSemana(date('w')) . ', ' . date('d') . ' de ' . $this->mes(date('n'));
     }
 
-    public function mes($mes) {
+    public function mes($mes)
+    {
         switch ($mes) {
             case 1:
                 return "Janeiro";
@@ -123,34 +125,35 @@ class Services
             case 6:
                 return "Junho";
                 break;
-            
+
             case 7:
                 return "Julho";
                 break;
-            
+
             case 8:
                 return "Agosto";
                 break;
-            
+
             case 9:
                 return "Setembro";
                 break;
-            
+
             case 10:
                 return "Outubro";
                 break;
-            
+
             case 11:
                 return "Novembro";
                 break;
-            
+
             case 12:
                 return "Dezembro";
                 break;
         }
     }
-    
-    public function diaSemana($dia) {
+
+    public function diaSemana($dia)
+    {
         switch ($dia) {
             case 0:
                 return "Domingo";
@@ -180,5 +183,37 @@ class Services
                 return "Sábado";
                 break;
         }
+    }
+
+    function minuto_hora($minutos)
+    {
+        $retorno = "";
+
+        $hora = floor($minutos / 60);
+
+        if ($hora > 0) {
+            //Existe hora ou horas
+            $resto = $minutos % 60;
+            if ($hora > 1) {
+                $retorno .= $hora . ' horas';
+            } else {
+                $retorno .= $hora . ' hora';
+            }
+            if ($resto > 0) {
+                if ($resto > 1) {
+                    $retorno .= ' ' . $resto . ' minutos';
+                } else {
+                    $retorno .= ' ' . $resto . ' minuto';
+                }
+            }
+        } else {
+            //Existe apenas minutos
+            if ($minutos == 1) {
+                $retorno .= $minutos . ' minuto';
+            } else {
+                $retorno .= $minutos . ' minutos';
+            }
+        }
+        return $retorno;
     }
 }

@@ -74,7 +74,7 @@ class AulaController extends Controller
         $item->tipo = $request->tipo;
         $item->nome = $request->nome;
         $item->descricao = $request->descricao;
-        $item->duracao_segundos = $request->duracao;
+        $item->duracao = $request->duracao;
         $item->status = 2;
         $item->avaliacao = $request->avaliacao;
         $item->curso_id = $curso->id;
@@ -183,7 +183,7 @@ class AulaController extends Controller
         $item->tipo = $request->tipo;
         $item->nome = $request->nome;
         $item->descricao = $request->descricao;
-        $item->duracao_segundos = $request->duracao;
+        $item->duracao = $request->duracao;
         $item->status = $request->status;
         $item->curso_id = $curso->id;
 
@@ -381,6 +381,33 @@ class AulaController extends Controller
             case 2:
                 //Retorna o visibilidade Não Vísivel
                 return 'Não Visível';
+                break;
+        }
+    }
+
+    /*
+    Função tipo de Aula
+    - Responsável por exibir o tipo da Aula
+    - $tipo: Recebe o Id do tipo da aula
+    */
+    public function tipo($tipo, $avaliacao = '')
+    {
+        //Verifica o tipo da aual
+        switch ($tipo) {
+            case 1:
+                return 'Texto';
+                break;
+
+            case 2:
+                return 'Vídeo';
+                break;
+
+            case 3:
+                if($avaliacao == 1){
+                    return 'Quiz Avaliativo';
+                } else {
+                    return 'Quiz';
+                }
                 break;
         }
     }

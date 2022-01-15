@@ -25,7 +25,7 @@ class CreateAulasTable extends Migration
             $table->text('video')->nullable();
             $table->text('texto')->nullable();
 
-            $table->string('duracao_segundos', 6);
+            $table->string('duracao', 6);
             $table->string('avaliacao', 1);
 
             $table->string('status', 2);

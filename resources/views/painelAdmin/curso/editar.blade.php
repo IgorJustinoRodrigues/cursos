@@ -116,19 +116,17 @@
 
                                 <div class="col-12 col-md-6 mb-3">
                                     <label class="form-label" for="professor">Professor</label>
-                                    <select id="professor" class="form-control custom-select select2" name="professor">
-                                        <option></option>
-                                        <option @if ($item->professor_id == $item->id) selected @endif value="{{ $item->professor_id }}">
-                                            {{ $item->professor }}</option>
-                                    </select>
+                                    <input type="text" id="professor" class="form-control" value="{{ $professor->nome }}" readonly>
                                 </div>
 
                                 <div class="col-12 col-md-6 mb-3">
                                     <label class="form-label" for="categoria">Categoria de Curso</label>
                                     <select id="categoria" class="form-control custom-select select2" name="categoria">
                                         <option></option>
-                                        <option @if ($item->categoria_id == $item->id) selected @endif value="{{ $item->categoria_id }}">
-                                            {{ $item->categoria }}</option>
+                                        @foreach ($categorias as $linha)
+                                        <option @if ($item->categoria_id == $linha->id) selected @endif value="{{ $linha->id }}">
+                                            {{ $linha->nome }}</option>                                            
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="col-9 col-md-12 mb-3">
@@ -188,7 +186,118 @@
                                 Gerenciar Aulas&nbsp;&nbsp;
                                 <i class="material-icons">dvr</i></a>
                         </div>
-                        teste
+                        <div class="row">
+                            <div class="col-md-8">
+                                
+                                <!-- Lessons -->
+                                <ul class="card list-group list-group-fit">
+                                    @php $i = 1 @endphp
+                                    @php $total_minuto = 0 @endphp
+                                    @foreach($aulas as $linha)
+                                        @php $total_minuto += $linha->duracao @endphp
+                                        <li class="list-group-item">
+                                            <div class="media">
+                                                <div class="media-left">
+                                                    <div class="text-muted">{{$i++}}.</div>
+                                                </div>
+                                                <div class="media-body">
+                                                    <a href="{{ route("aulaEditar", [$item, $linha]) }}">{{ $linha->nome }} | {{ app(App\Http\Controllers\AulaController::class)->tipo( $linha->tipo, $linha->avaliacao ) }}</a>
+                                                </div>
+                                                <div class="media-right">
+                                                    <small class="text-muted-light">{{ app(App\Services\Services::class)->minuto_hora( $linha->duracao ) }}</small>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <div class="col-md-4">
+                                
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="media align-items-center">
+                                            <div class="media-left">
+                                                @if ($professor->avatar != '')
+                                                    <img src="{{ URL::asset('storage/' . $professor->avatar) }}"
+                                                    width="50"
+                                                    class="rounded-circle">
+                                                @else
+                                                    <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}"
+                                                    width="50"
+                                                    class="rounded-circle">
+                                                @endif
+                                            </div>
+                                            <div class="media-body">
+                                                <h4 class="card-title"><a href="{{ route("professorEditar", $professor) }}" target="_blank">{{ $professor->nome }}</a></h4>
+                                                <p class="card-subtitle">Professor</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>{{ $professor->curriculo }}</p>
+                                        @if($professor->email)
+                                        <a href="mailto:{{$professor->email}}" target="_blank"
+                                           class="btn btn-light"><i class="fas fa-envelope"></i></a>
+                                        @endif
+                                        @if($professor->facebook)
+                                        <a href="{{$professor->facebook}}" target="_blank"
+                                           class="btn btn-light"><i class="fab fa-facebook"></i></a>
+                                        @endif
+                                        @if($professor->instagram)
+                                        <a href="{{$professor->instagram}}" target="_blank"
+                                           class="btn btn-light"><i class="fab fa-instagram"></i></a>
+                                        @endif
+                                        @if($professor->linkedin)
+                                        <a href="{{$professor->linkedin}}" target="_blank"
+                                           class="btn btn-light"><i class="fab fa-linkedin"></i></a>
+                                        @endif
+                                        @if($professor->site)
+                                        <a href="{{$professor->site}}" target="_blank"
+                                           class="btn btn-light"><i class="fas fa-globe"></i></a>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <ul class="list-group list-group-fit">
+                                        <li class="list-group-item">
+                                            <div class="media align-items-center">
+                                                <div class="media-left">
+                                                    <i class="material-icons text-muted-light">assessment</i>
+                                                </div>
+                                                <div class="media-body">
+                                                    Duração Total
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="media align-items-center">
+                                                <div class="media-left">
+                                                    <i class="material-icons text-muted-light">schedule</i>
+                                                </div>
+                                                <div class="media-body">
+                                                    {{ app(App\Services\Services::class)->minuto_hora( $total_minuto ) }}
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Avaliação</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="rating">
+                                            <i class="material-icons">star</i>
+                                            <i class="material-icons">star</i>
+                                            <i class="material-icons">star</i>
+                                            <i class="material-icons">star</i>
+                                            <i class="material-icons">star_border</i>
+                                        </div>
+                                        <small class="text-muted">20 ratings</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
 
                     </div>

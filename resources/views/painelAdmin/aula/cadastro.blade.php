@@ -41,16 +41,16 @@
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label" for="tipo">Tipo de Aula</label>
                                 <select id="tipo" class="form-control custom-select" name="tipo" onchange="tipoAula();">
-                                    <option value="1">Aula de Vídeo</option>
-                                    <option value="2">Aula de Texto</option>
-                                    <option value="3">Quiz</option>
+                                    <option value="1" @if(old('tipo') == 1) selected @endif>Aula de Vídeo</option>
+                                    <option value="2" @if(old('tipo') == 2) selected @endif>Aula de Texto</option>
+                                    <option value="3" @if(old('tipo') == 3) selected @endif>Quiz</option>
                                 </select>
                             </div>
                             <div class="col-12 col-md-4 mb-3 div-ocultar pergunta">
                                 <label class="form-label" for="avaliacao">Aula avaliativa?</label>
                                 <select id="avaliacao" class="form-control custom-select" name="avaliacao">
-                                    <option value="0">Não</option>
-                                    <option value="1">Sim</option>
+                                    <option value="0" @if(old('avaliacao') == 0) selected @endif>Não</option>
+                                    <option value="1" @if(old('avaliacao') == 1) selected @endif>Sim</option>
                                 </select>
                             </div>
                             <div class="col-12 col-md-12 mb-3">
@@ -66,7 +66,7 @@
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label" for="duracao">Duração da Aula (Minutos)</label>
                                 <input type="number" min="1" step="1" class="form-control" id="duracao" name="duracao"
-                                    placeholder="" value="{{ old('duracao') }}">
+                                    placeholder="" value="{{ old('duracao') }}" required>
                             </div>
                         </div>
                         <hr>

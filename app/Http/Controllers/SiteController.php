@@ -51,7 +51,7 @@ class SiteController extends Controller
             ->where('cursos.status', '=', 1)
             ->selectRaw('cursos.id, cursos.imagem, cursos.nome, categoria_cursos.nome as categoria, categoria_cursos.id as categoria_id, professors.nome as professor, professors.avatar')
             ->paginate(9);
-
+        //Erro de página não existe
         $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();
 
         //Exibe a view 
