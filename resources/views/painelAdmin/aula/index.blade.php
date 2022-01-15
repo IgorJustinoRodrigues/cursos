@@ -69,24 +69,28 @@
 
             <div class="nestable" id="nestable">
                 <ul class="list-group list-group-fit nestable-list-plain mb-0">
-                    <li class="list-group-item nestable-item" data-id="1" data-ordem="1">
-                        <div class="media align-items-center">
-                            <div class="media-left">
-                                <a href="#" class="btn btn-default nestable-handle"><i class="material-icons">menu</i></a>
-                            </div>
-                            <div class="media-body">
-                                <small id="aula1">1.</small> Introdução
-                            </div>
-                            <div class="media-right text-right">
-                                <div style="width:100px">
-                                    <a data-toggle="modal" data-target="#editQuiz" class="btn btn-danger mb-1"
-                                        onclick="confirmacao('{{ route('aulaDeletar', [$curso->id, 1]) }}', '<h3>Realmente deseja excluir essa aula?</h3><p>{{ $curso->nome }}</p>')">
-                                        <i class="material-icons">delete</i></a>
-                                    <a href="{{ route('aulaEditar', [$curso, 1]) }}" class="btn btn-primary"><i class="material-icons">edit</i></a>
+                    @foreach ($item as $linha)
+                        <li class="list-group-item nestable-item" data-id="1" data-ordem="1">
+                            <div class="media align-items-center">
+                                <div class="media-left">
+                                    <a href="#" class="btn btn-default nestable-handle"><i
+                                            class="material-icons">menu</i></a>
+                                </div>
+                                <div class="media-body">
+                                    <small id="aula1">1.</small> {{ $linha->nome }}
+                                </div>
+                                <div class="media-right text-right">
+                                    <div style="width:100px">
+                                        <a data-toggle="modal" data-target="#editQuiz" class="btn btn-danger mb-1"
+                                            onclick="confirmacao('{{ route('aulaDeletar', [$curso->id, $linha->id]) }}', '<h3>Realmente deseja excluir essa aula?</h3><p>{{ $curso->nome }}</p>')">
+                                            <i class="material-icons">delete</i></a>
+                                        <a href="{{ route('aulaEditar', [$curso, $linha->id ]) }}" class="btn btn-primary"><i
+                                                class="material-icons">edit</i></a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
 
@@ -94,7 +98,8 @@
             <hr>
             <div class="d-flex">
                 <div class="flex">
-                    <a href="{{ route('cursoEditar', [$curso->id, 'aulas']) }}" class="btn btn-default btn-wide">VOLTAR PARA O
+                    <a href="{{ route('cursoEditar', [$curso->id, 'aulas']) }}" class="btn btn-default btn-wide">VOLTAR
+                        PARA O
                         CURSO</a>
                 </div>
             </div>

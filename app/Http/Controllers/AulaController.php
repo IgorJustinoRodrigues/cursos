@@ -17,25 +17,20 @@ class AulaController extends Controller
     - Responsável por mostrar a tela de listagem de aulas 
     - $request: Recebe valores de busca e paginação
     */
-    public function index(Request $request, Curso $curso)
+    public function index(Curso $curso)
     {
         //Validação de acesso
         if (!(new Services())->validarAdmin())
             //Redirecionamento para a rota acessoAula, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-        $consulta = Aula::orderby('nome', 'asc')->where('status', '<>', '0');
-
-        //Verifica se existe uma busca
-        if (@$request->busca != '') {
-            //Paginação dos registros com busca busca
-            $consulta->where('nome', 'like', '%' . $request->busca . '%');
-        }
-
-        $items = $consulta->paginate();
+        $items = Aula::where('curso_id', '=', $curso->id)
+            ->where('status', '<>', '0')
+            ->orderby('nome', 'asc')
+            ->get();
 
         //Exibe a tela de listagem de aula passando parametros para view
-        return view('painelAdmin.aula.index', ['curso' => $curso, 'paginacao' => $items, 'busca' => @$request->busca]);
+        return view('painelAdmin.aula.index', ['curso' => $curso, 'item' => $items]);
     }
 
     /*
@@ -70,9 +65,81 @@ class AulaController extends Controller
             'tipo' => 'required',
             'nome' => 'required',
             'duracao' => 'required',
+        ]);
+
+        //Nova instância do Model Aula
+        $item = new Aula();
+
+        //Atribuição dos valores recebidos da váriavel $request
+        $item->tipo = $request->tipo;
+        $item->nome = $request->nome;
+        $item->descricao = $request->descricao;
+        $item->duracao_segundos = $request->duracao;
+        $item->status = 2;
+        $item->avaliacao = $request->avaliacao;
+        $item->curso_id = $curso->id;
+
+        //Envio das informações para o banco de dados
+        $resposta = $item->save();
+
+        //Verificação do insert
+        if ($resposta) {
+            //Redirecionamento para a rota aulaIndex, com mensagem de sucesso
+            return redirect()->route('aulaEditar', [$curso, $item])->with('sucesso', 'Aula: "' . $item->nome . '", cadastrada!');
+        } else {
+            //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
+            return redirect()->back()->with('atencao', 'Não foi possível salvar as informações, tente novamente!')->withInput();
+        }
+    }
+
+    /*
+    Função Editar de Aula
+    - Responsável por mostrar a tela de edição de aula
+    - $item: Recebe o Id do aula que deverá ser editado
+    */
+    public function editar(Curso $curso, Aula $item)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarAdmin())
+            //Redirecionamento para a rota acessoAula, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionar();
+
+        //Verifica se há algum aula selecionado
+        if (@$item) {
+
+            if ($item->status == 0) {
+                return redirect()->route('aulaIndex', $curso)->with('atencao', 'Aula excluido!');
+            }
+
+            //Exibe a tela de edição de aula passando parametros para view
+            return view('painelAdmin.aula.editar', ['item' => $item, 'curso' => $curso]);
+        } else {
+            //Redirecionamento para a rota aulaIndex, com mensagem de erro
+            return redirect()->route('aulaIndex')->with('erro', 'Aula não encontrado!');
+        }
+    }
+
+    /*
+    Função Salvar de Aula
+    - Responsável por editar as informações de um aulaistrador já cadastrado
+    - $request: Recebe valores de um aulaistrador
+    - $item: Recebe uma objeto de Aula vázio para edição
+    */
+    public function salvar(Request $request, Aula $item, Curso $curso)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarAdmin())
+            //Redirecionamento para a rota acessoAula, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionar();
+
+        //Validação das informações recebidas
+        $validated = $request->validate([
+            'tipo' => 'required',
+            'nome' => 'required',
+            'duracao' => 'required',
             'status' => 'required',
         ]);
-        
+
         //Nova instância do Model Aula
         $item = new Aula();
 
@@ -104,7 +171,7 @@ class AulaController extends Controller
                 ]);
 
                 $item->avaliacao = $request->avaliacao;
-                
+
                 break;
 
             default:
@@ -119,96 +186,6 @@ class AulaController extends Controller
         $item->duracao_segundos = $request->duracao;
         $item->status = $request->status;
         $item->curso_id = $curso->id;
-        
-        //Envio das informações para o banco de dados
-        $resposta = $item->save();
-
-        //Verificação do insert
-        if ($resposta) {
-            //Redirecionamento para a rota aulaIndex, com mensagem de sucesso
-            return redirect()->route('aulaIndex')->with('sucesso', '"' . $item->nome . '", inserido!');
-        } else {
-
-            //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
-            return redirect()->back()->with('atencao', 'Não foi possível salvar as informações, tente novamente!')->withInput();
-        }
-    }
-
-    /*
-    Função Editar de Aula
-    - Responsável por mostrar a tela de edição de aula
-    - $item: Recebe o Id do aula que deverá ser editado
-    */
-    public function editar(Curso $curso, Aula $item)
-    {
-        //Validação de acesso
-        if (!(new Services())->validarAdmin())
-            //Redirecionamento para a rota acessoAula, com mensagem de erro, sem uma sessão ativa
-            return (new Services())->redirecionar();
-
-        //Verifica se há algum aula selecionado
-        if (@$item) {
-
-            if ($item->status == 0) {
-                return redirect()->route('aulaIndex')->with('atencao', 'Aula excluido!');
-            }
-
-            //Exibe a tela de edição de aula passando parametros para view
-            return view('painelAdmin.aula.editar', ['item' => $item]);
-        } else {
-            //Redirecionamento para a rota aulaIndex, com mensagem de erro
-            return redirect()->route('aulaIndex')->with('erro', 'Aula não encontrado!');
-        }
-    }
-
-    /*
-    Função Salvar de Aula
-    - Responsável por editar as informações de um aulaistrador já cadastrado
-    - $request: Recebe valores de um aulaistrador
-    - $item: Recebe uma objeto de Aula vázio para edição
-    */
-    public function salvar(Request $request, Aula $item)
-    {
-        //Validação de acesso
-        if (!(new Services())->validarAdmin())
-            //Redirecionamento para a rota acessoAula, com mensagem de erro, sem uma sessão ativa
-            return (new Services())->redirecionar();
-
-        //Validação das informações recebidas
-        $validated = $request->validate([
-            'nome' => 'required',
-            'usuario' => "required|max:20|unique:aulas,usuario,{$item->id}"
-        ]);
-
-        //Atribuição dos valores recebidos da váriavel $request
-        $item->nome = $request->nome;
-        $item->usuario = $request->usuario;
-        $item->status = $request->status;
-        $item->visibilidade = $request->visibilidade;
-        $item->sobre = $request->sobre;
-
-
-        //Verificação se uma nova imagem de logo foi informado, caso seja verifica-se sua integridade
-        if (@$request->file('logo') and $request->file('logo')->isValid()) {
-            //Validação das informações recebidas
-            $validated = $request->validate([
-                'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5120'
-            ]);
-
-            //Salva o nome da antiga imagem para ser apagada em caso de sucesso
-            $logoApagar = $item->logo;
-            //Atribuição dos valores recebidos da váriavel $request após seu upload
-            $item->logo = $request->logo->store('logoAula');
-
-            //Nova instância do Model Canvas
-            $img = new Canvas();
-
-            //Edição da imagem recebida com a Class Canva 
-            $img->carrega(public_path('storage/' . $item->logo))
-                ->hexa('#FFFFFF')
-                ->redimensiona(900, 600, 'preenchimento')
-                ->grava(public_path('storage/' . $item->logo), 80);
-        }
 
         //Envio das informações para o banco de dados
         $resposta = $item->save();
