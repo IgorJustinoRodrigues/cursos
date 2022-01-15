@@ -134,6 +134,7 @@ Route::post('/aula-inserir/{curso}', [AulaController::class, 'inserir'])->name('
 Route::get('/aula-editar/{curso}/{item}', [AulaController::class, 'editar'])->name('aulaEditar');
 Route::put('/aula-salvar/{curso}/{item}', [AulaController::class, 'salvar'])->name('aulaSalvar');
 Route::get('/aula-delete/{curso}/{item}', [AulaController::class, 'deletar'])->name('aulaDeletar');
+Route::post('/aula-reordenar/', [AulaController::class, 'ordenar'])->name('aulaOrdenar');
 
 /*
 ROTAS DE CATEGORIA DE CURSO

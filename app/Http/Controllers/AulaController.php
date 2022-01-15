@@ -26,7 +26,8 @@ class AulaController extends Controller
 
         $items = Aula::where('curso_id', '=', $curso->id)
             ->where('status', '<>', '0')
-            ->orderby('nome', 'asc')
+            ->orderByRaw('-ordem desc')
+            ->orderby('ordem', 'desc')
             ->get();
 
         //Exibe a tela de listagem de aula passando parametros para view
@@ -76,6 +77,7 @@ class AulaController extends Controller
         $item->descricao = $request->descricao;
         $item->duracao = $request->duracao;
         $item->status = 2;
+        $item->ordem = null;
         $item->avaliacao = $request->avaliacao;
         $item->curso_id = $curso->id;
 
@@ -338,6 +340,52 @@ class AulaController extends Controller
         return redirect()->route('acessoAula')->with('sucesso', 'Sessão encerrada com sucesso!');
     }
 
+    public function ordenar(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarAdmin())
+            //Redirecionamento para a rota acessoAula, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionar();
+
+        $ids = json_decode($request->ids);
+        $ordems = json_decode($request->ordems);
+
+        $i = 0;
+        foreach($ids as $id){
+            $aula = Aula::where('curso_id', '=', $request->curso_id)->find($id);
+
+            if($aula){
+                $aula->ordem = $ordems[$i++];
+
+                if(!$aula->save()){
+                    $retorno = [
+                        'msg' => 'Não foi possível ordenar as aulas!',
+                        'status' => 0
+                    ];   
+    
+                    return response()->json($retorno);
+                    exit;
+                }
+            } else {
+                $retorno = [
+                    'msg' => 'Não foi possível ordenar as aulas!',
+                    'status' => 0
+                ];   
+
+                return response()->json($retorno);
+                exit;
+            }
+        }
+
+        $retorno = [
+            'msg' => 'Aulas reordenadas!',
+            'status' => 1
+        ];
+        
+        //Resposta JSON
+        return response()->json($retorno);
+    }
+
     /*
     Função status de Aula
     - Responsável por exibir o status do aula
@@ -403,7 +451,7 @@ class AulaController extends Controller
                 break;
 
             case 3:
-                if($avaliacao == 1){
+                if ($avaliacao == 1) {
                     return 'Quiz Avaliativo';
                 } else {
                     return 'Quiz';

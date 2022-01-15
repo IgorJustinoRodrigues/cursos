@@ -40,11 +40,66 @@
 
         function myFunction() {
             var i = 1;
+            var ids = new Array();
+            var orderms = new Array();
+
             $(".nestable-item").each(function(index) {
                 $('#aula' + $(this).attr('data-id')).text(i + '.');
                 $(this).attr('data-ordem', i++);
-                console.log('id: ' + $(this).attr('data-id'));
-                console.log('ordem: ' + $(this).attr('data-ordem'));
+
+                ids.push($(this).attr('data-id'));
+                orderms.push($(this).attr('data-ordem'));
+            });
+
+            var textoIds = JSON.stringify(ids);
+            var textoOrderms = JSON.stringify(orderms);
+
+            $.ajax({
+                type: 'post',
+                url: "{{ route('aulaOrdenar') }}",
+                data: {
+                    ids: textoIds,
+                    ordems: textoOrderms,
+                    curso_id: {{ $curso->id }},
+                    _token: $("input[name='_token']").val()
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if (data.status == '1') {
+                        Lobibox.notify('success', {
+                            size: 'mini',
+                            sound: false,
+                            icon: false,
+                            position: 'top right',
+                            msg: data.msg
+                        });
+                    } else {
+                        Lobibox.notify('warning', {
+                            size: 'mini',
+                            sound: false,
+                            icon: false,
+                            position: 'top right',
+                            msg: data.msg
+                        });
+                        
+                        setTimeout(function() {
+                            window.location.reload(1);
+                        }, 1800);
+                    }
+                },
+                error: function(data) {
+                    Lobibox.notify('error', {
+                        size: 'mini',
+                        sound: false,
+                        icon: false,
+                        position: 'top right',
+                        msg: "O sistema está passando por instabilidades no momento! Tente novamente mais tarde."
+                    });
+
+                    setTimeout(function() {
+                        window.location.reload(1);
+                    }, 1800);
+                }
             });
         }
     </script>
@@ -53,6 +108,7 @@
 @endsection
 
 @section('conteudo')
+    @csrf
     <div class="col-md-12">
 
         <div class="d-flex align-items-center mb-4">
@@ -69,27 +125,30 @@
 
             <div class="nestable" id="nestable">
                 <ul class="list-group list-group-fit nestable-list-plain mb-0">
+                    @php $i = 1; @endphp
                     @foreach ($item as $linha)
-                        <li class="list-group-item nestable-item" data-id="1" data-ordem="1">
+                        <li class="list-group-item nestable-item" data-id="{{ $linha->id }}"
+                            data-ordem="{{ $i }}">
                             <div class="media align-items-center">
                                 <div class="media-left">
                                     <a href="#" class="btn btn-default nestable-handle"><i
                                             class="material-icons">menu</i></a>
                                 </div>
                                 <div class="media-body">
-                                    <small id="aula1">1.</small> {{ $linha->nome }}
+                                    <small id="aula{{ $linha->id }}">{{ $i }}.</small> {{ $linha->nome }}
                                 </div>
                                 <div class="media-right text-right">
                                     <div style="width:100px">
                                         <a data-toggle="modal" data-target="#editQuiz" class="btn btn-danger mb-1"
                                             onclick="confirmacao('{{ route('aulaDeletar', [$curso->id, $linha->id]) }}', '<h3>Realmente deseja excluir essa aula?</h3><p>{{ $curso->nome }}</p>')">
                                             <i class="material-icons">delete</i></a>
-                                        <a href="{{ route('aulaEditar', [$curso, $linha->id ]) }}" class="btn btn-primary"><i
-                                                class="material-icons">edit</i></a>
+                                        <a href="{{ route('aulaEditar', [$curso, $linha->id]) }}"
+                                            class="btn btn-primary"><i class="material-icons">edit</i></a>
                                     </div>
                                 </div>
                             </div>
                         </li>
+                        @php $i++; @endphp
                     @endforeach
                 </ul>
             </div>

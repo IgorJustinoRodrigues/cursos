@@ -152,6 +152,8 @@ class CursoController extends Controller
             $categorias = CategoriaCurso::where('status', '=', '1')->get();
 
             $aulas = Aula::where('curso_id', '=', $item->id)->where('status', '<>', '0')
+                ->orderByRaw('-ordem desc')
+                ->orderby('ordem', 'desc')
                 ->get();
 
             $professor = Professor::find($item->professor_id);
