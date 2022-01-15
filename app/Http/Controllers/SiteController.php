@@ -50,7 +50,7 @@ class SiteController extends Controller
             ->where('cursos.visibilidade', '=', 1)
             ->where('cursos.status', '=', 1)
             ->selectRaw('cursos.id, cursos.imagem, cursos.nome, categoria_cursos.nome as categoria, categoria_cursos.id as categoria_id, professors.nome as professor, professors.avatar')
-            ->paginate(10);
+            ->paginate(9);
 
         $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();
 
@@ -77,8 +77,11 @@ class SiteController extends Controller
     public function suporte()
     {
 
+        $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();
         //Exibe a view 
-        return view('site.suporte');
+        return view('site.suporte', [
+            'categoriasMenu' => $categoriasMenu
+        ]);
     }
 
 

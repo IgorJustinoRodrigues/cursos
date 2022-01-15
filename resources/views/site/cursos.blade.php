@@ -102,7 +102,10 @@
                     <div class="course-showing-part">
                         <div class="d-flex flex-wrap align-items-center justify-content-between">
                             <div class="course-showing-part-left">
-                                <p>Mostrando 1-6 de 10 resultados</p>
+                                <span>
+                                    Exibindo {{ $curso->firstItem() }} - {{ $curso->lastItem() }} DE
+                                {{ $curso->total() }} CURSOS
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -161,23 +164,7 @@
                             </div>
                         @endforeach
                     </div>
-                    <ul class="default-pagination lab-ul">
-                        <li>
-                            <a href="#"><i class="icofont-rounded-left"></i></a>
-                        </li>
-                        <li>
-                            <a href="#">01</a>
-                        </li>
-                        <li>
-                            <a href="#" class="active">02</a>
-                        </li>
-                        <li>
-                            <a href="#">03</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="icofont-rounded-right"></i></a>
-                        </li>
-                    </ul>
+                    {{ $curso->links('template.paginacao.cursos') }}
                 </div>
             </div>
         </div>
