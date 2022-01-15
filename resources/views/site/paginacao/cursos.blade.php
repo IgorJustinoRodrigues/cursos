@@ -37,9 +37,8 @@
             </li>
         @else
             <li class="d-none">
-                <a href="" ><i class="icofont-rounded-right"></i></a>
+                <a href=""><i class="icofont-rounded-right"></i></a>
             </li>
-
         @endif
     </ul>
 @endif

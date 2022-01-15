@@ -164,7 +164,7 @@
                             </div>
                         @endforeach
                     </div>
-                    {{ $curso->links('template.paginacao.cursos') }}
+                    {{ $curso->links('site.paginacao.cursos') }}
                 </div>
             </div>
         </div>
