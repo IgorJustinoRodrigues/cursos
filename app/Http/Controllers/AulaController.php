@@ -109,7 +109,7 @@ class AulaController extends Controller
             //Redirecionamento para a rota acessoAula, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-            //Verifica se há algum aula selecionado
+        //Verifica se há algum aula selecionado
         if (@$item) {
             if ($item->status == 0) {
                 return redirect()->route('aulaIndex', $curso)->with('atencao', 'Aula excluido!');
@@ -117,7 +117,7 @@ class AulaController extends Controller
 
             $perguntas = Perguntas::where('aulas_id', '=', $item->id)->get();
 
-            for($i = 0; $i < count($perguntas); $i++){
+            for ($i = 0; $i < count($perguntas); $i++) {
                 $perguntas[$i]->respostas = Respostas::where('pergunta_id', '=', $perguntas[$i]->id)->get();
             }
 
@@ -141,7 +141,7 @@ class AulaController extends Controller
     */
     public function salvar(Request $request, Curso $curso, Aula $item)
     {
-        
+
         //Validação de acesso
         if (!(new Services())->validarAdmin())
             //Redirecionamento para a rota acessoAula, com mensagem de erro, sem uma sessão ativa
@@ -185,17 +185,26 @@ class AulaController extends Controller
                 $item->avaliacao = $request->avaliacao;
 
                 $perguntas = Perguntas::where('aulas_id', '=', $item->id)->get();
-                $perguntasApagar = array_diff(Arr::pluck($perguntas, 'id'), $request->id_perguntas);
-                
-                foreach($perguntasApagar as $apagar){
+
+                if(count($perguntas) > 0){
+                    $arrayPerguntas = Arr::pluck($perguntas, 'id');
+                } else {
+                    $arrayPerguntas = array();
+                }
+
+                $perguntasApagar = array_diff($arrayPerguntas, $request->id_perguntas);
+
+                foreach ($perguntasApagar as $apagar) {
                     $itemApagar = Perguntas::find($apagar);
                     $itemApagar->delete();
                 }
 
                 $i = 0;
                 $j = 1;
-                foreach($request->id_perguntas as $linha){
-                    if($linha){
+                foreach ($request->id_perguntas as $linha) {
+
+
+                    if ($linha) {
                         $pergunta = Perguntas::find($linha);
                     } else {
                         $pergunta = new Perguntas();
@@ -207,11 +216,45 @@ class AulaController extends Controller
                     $pergunta->save();
 
                     $respostas = Respostas::where('pergunta_id', '=', $linha)->get();
-                    $b = "id" . '1';
-                    $a = $request->input($b);
+                    if(count($respostas) > 0){
+                        $arrayRespostas = Arr::pluck($respostas, 'id');
+                    } else {
+                        $arrayRespostas = array();
+                    }
 
-                    $respostasApagar = array_diff(Arr::pluck($respostas, 'id'), $a);
+                    $indiceRespostaId = "id" . $j;
+                    $indiceRespostaOpcao = "opcao" . $j;
+                    $indiceRespostaResposta = "resposta" . $j;
+                    $arrayRequest = $request->input($indiceRespostaId);
+                    $arrayResposta = [];
+ 
+                    foreach ($arrayRequest as $linha2) {
+                        $arrayResposta[] = $linha2;
+                    }
 
+                    $respostasApagar = array_diff($arrayRespostas, $arrayResposta);
+
+                    foreach ($respostasApagar as $apagar) {
+                        $itemApagar = Respostas::find($apagar);
+                        $itemApagar->delete();
+                    }
+
+                    $y = 0;
+                    foreach ($request->input($indiceRespostaId) as $linha3) {
+                        
+                        if ($linha3) {
+                            $resposta = Respostas::find($linha3);
+                        } else {
+                            $resposta = new Respostas();
+                            $resposta->pergunta_id = $pergunta->id;
+                        }
+                        $resposta->resposta = $request->input($indiceRespostaResposta)[$y];
+                        $resposta->correta = $request->input($indiceRespostaOpcao)[$y];
+    
+                        $resposta->save();
+                        $y++;
+                }    
+                    
                     $i++;
                     $j++;
                 }
@@ -386,18 +429,18 @@ class AulaController extends Controller
         $ordems = json_decode($request->ordems);
 
         $i = 0;
-        foreach($ids as $id){
+        foreach ($ids as $id) {
             $aula = Aula::where('curso_id', '=', $request->curso_id)->find($id);
 
-            if($aula){
+            if ($aula) {
                 $aula->ordem = $ordems[$i++];
 
-                if(!$aula->save()){
+                if (!$aula->save()) {
                     $retorno = [
                         'msg' => 'Não foi possível ordenar as aulas!',
                         'status' => 0
-                    ];   
-    
+                    ];
+
                     return response()->json($retorno);
                     exit;
                 }
@@ -405,7 +448,7 @@ class AulaController extends Controller
                 $retorno = [
                     'msg' => 'Não foi possível ordenar as aulas!',
                     'status' => 0
-                ];   
+                ];
 
                 return response()->json($retorno);
                 exit;
@@ -416,7 +459,7 @@ class AulaController extends Controller
             'msg' => 'Aulas reordenadas!',
             'status' => 1
         ];
-        
+
         //Resposta JSON
         return response()->json($retorno);
     }
