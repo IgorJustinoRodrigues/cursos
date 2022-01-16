@@ -35,10 +35,10 @@
         });
 
         document.getElementById("nestable").onchange = function() {
-            myFunction()
+            reordenacao()
         };
 
-        function myFunction() {
+        function reordenacao() {
             var i = 1;
             $(".nestable-item").each(function(index) {
                 $('#aula' + $(this).attr('data-id')).text(i + '.');

@@ -191,7 +191,7 @@
                             </div>
                             <div class="col-12 col-md-12 mb-3 div-ocultar texto">
                                 <label class="form-label">Texto</label>
-                                <div class="form-control" id="texto" data-toggle="quill" style="height: 350px;">{!! $item->texto !!}</div>
+                                <div class="form-control" id="texto" data-toggle="quill" style="height: 350px;">{!! $item->texto }</div>
                                 <input type="hidden" name="texto" id="input-texto">
                             </div>
 
