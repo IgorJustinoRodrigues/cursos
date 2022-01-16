@@ -66,15 +66,15 @@
             var respostas = respostas || "";
             var correta = correta || "";
 
-            $("#modelo .resposta .input-resposta").val(respostas)
-            $("#modelo .resposta .input-id-resposta").val(id)
-            $('#modelo .resposta select option[value="'+correta+'"]').attr("selected", "selected");
+            $("#modelo .resposta .input-resposta").val(respostas);
+            $("#modelo .resposta .input-id-resposta").val(id);
+            $('#modelo .resposta select option[value="'+ correta +'"]').attr('selected','selected');
 
             var div = $("#modelo .resposta").clone();
 
             $("#modelo .resposta .input-resposta").val('')
             $("#modelo .resposta .input-id-resposta").val('')
-            $('#modelo .resposta select option[value="1"]').attr("selected", "");
+            $('#modelo .resposta select').removeAttr("selected");
 
             elemento.parent().find('.div-resposta').append(div);
 
@@ -84,7 +84,7 @@
         @foreach($perguntas as $linha)
             addPergunta({{$linha->id}}, '{{ $linha->pergunta }}');
             @foreach($linha->respostas as $linha2)
-                addResposta($('#div-pergunta').children('.pergunta').children('.item').children('a').last(), {{$linha2->id}}, '{{$linha2->resposta}}', {{$linha2->correta}});
+                addResposta($('#div-pergunta').children('.pergunta').children('.item').children('a').last(), {{$linha2->id}}, '{{$linha2->resposta}}', '{{$linha2->correta}}');
             @endforeach
         @endforeach
 
