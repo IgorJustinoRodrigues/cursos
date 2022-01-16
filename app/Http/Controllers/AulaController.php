@@ -155,12 +155,14 @@ class AulaController extends Controller
             'status' => 'required',
         ]);
 
+        //Função que apaga todas as perguntas e respostas de um curso
         function apagarQuiz($curso)
         {
             $perguntasApagar = Perguntas::join('aulas', 'aulas.id', '=', 'perguntas.aulas_id')
                 ->where('curso_id', '=', $curso)
                 ->selectRaw('aulas.id as aula_id, perguntas.id as pergunta_id')
                 ->get();
+
             foreach ($perguntasApagar as $apagar) {
                 $respostasApagarItem = Respostas::where('pergunta_id', '=', $apagar->pergunta_id)->get();
 
@@ -179,9 +181,12 @@ class AulaController extends Controller
                     'video' => 'required',
                 ]);
 
+                //Atribui valores
                 $item->avaliacao = 0;
                 $item->video = $request->video;
                 $item->texto = $request->texto;
+
+                //Apaga o Quiz caso exista
                 apagarQuiz($curso->id);
 
                 break;
@@ -192,10 +197,13 @@ class AulaController extends Controller
                     'texto' => 'required',
                 ]);
 
-                apagarQuiz($curso->id);
+                //Atribui valores
                 $item->texto = $request->texto;
                 $item->avaliacao = 0;
                 $item->video = null;
+
+                //Apaga o Quiz caso exista
+                apagarQuiz($curso->id);
 
                 break;
 
@@ -205,96 +213,149 @@ class AulaController extends Controller
                     'perguntas.*' => 'required'
                 ]);
 
+                //Atribui valores
                 $item->avaliacao = $request->avaliacao;
                 $item->texto = null;
                 $item->video = null;
 
+                //Lista as perguntas do curso
                 $perguntas = Perguntas::where('aulas_id', '=', $item->id)->get();
 
+                //Verifica se existe perguntas, se não, cria um array vázio
                 if (count($perguntas) > 0) {
+                    //Cria o array com os id
                     $arrayPerguntas = Arr::pluck($perguntas, 'id');
                 } else {
                     $arrayPerguntas = array();
                 }
 
+                //Verifica se foi enviado perguntas no formulário, se não, cria um array vázio
                 $arrayPerguntasRequest = $request->id_perguntas ? $request->id_perguntas : [];
 
+                //Compara os array e gera um novo array que deve ser apagado do banco, caso seja necessário
                 $perguntasApagar = array_diff($arrayPerguntas, $arrayPerguntasRequest);
 
+                //Percorre os ids de perguntas que devem ser excluidos
                 foreach ($perguntasApagar as $apagar) {
+                    //Consulta no banco o registro que será apagado
                     $itemApagar = Perguntas::find($apagar);
 
+                    //Lista as respostas que existem para a pergunta que será excluida
                     $respostasApagarItem = Respostas::where('pergunta_id', '=', $apagar)->get();
 
+                    //Percorre os ids das respostas que devem ser excluidas
                     foreach ($respostasApagarItem as $apagarRespostaItem) {
+                        //Consulta no banco o registro que será apagado
                         $itemRespostaApagar = Respostas::find($apagarRespostaItem->id);
+                        //Realiza a exclusão
                         $itemRespostaApagar->delete();
                     }
 
+                    //Realiza a exclusão
                     $itemApagar->delete();
                 }
 
+                //Contador para buscar as informações array do request
                 $i = 0;
+                //Contador para acessar os indices das respostas do request
                 $j = 1;
 
+                //Recebe o array dos ids enviados pelo request para atualizar as informações da pergunta no banco, caso não exista, atribui array vázio
                 $arrayIdsRequest = $request->id_perguntas ? $request->id_perguntas : [];
 
+                //percorre os ids enviados, mesmo que não exista um id, neste caso insere um novo registro 
                 foreach ($arrayIdsRequest as $linha) {
-
-
+                    //Verifica se existe id
                     if ($linha) {
+                        //Existindo, realiza a busca do registro no banco pelo id 
                         $pergunta = Perguntas::find($linha);
                     } else {
+                        //Não existindo, cria uma nova instancia e prepara para inserção
                         $pergunta = new Perguntas();
                         $pergunta->aulas_id = $item->id;
                     }
 
+                    //Atribui as informações enviadas
                     $pergunta->pergunta = $request->perguntas[$i];
 
+                    //Insere ou salva o registro
                     $pergunta->save();
 
+                    //Lista as respotas da pergunta criada ou salva
                     $respostas = Respostas::where('pergunta_id', '=', $linha)->get();
+                    //Verifica se existe perguntas no banco
                     if (count($respostas) > 0) {
+                        //Cria o array com os id
                         $arrayRespostas = Arr::pluck($respostas, 'id');
                     } else {
                         $arrayRespostas = array();
                     }
 
+                    #########################################
+                    ## Devido a um erro de sintaxe foi necessário fazer a atribuição dos valores para um novo vetor
+                    ## -----------------------------
+                    ## O Procedimento está presente nas próximas linhas
+                    #########################################
+
+                    //Cria nomes de indices com o contador $J
                     $indiceRespostaId = "id" . $j;
                     $indiceRespostaOpcao = "opcao" . $j;
                     $indiceRespostaResposta = "resposta" . $j;
+                    //Cria array com os ids enviados pelo request ou um array vázio
                     $arrayRequest = $request->input($indiceRespostaId) ? $request->input($indiceRespostaId) : [];
 
+                    //Cria um array vázio
                     $arrayResposta = [];
 
+                    //Percorre array enviado pelo request
                     foreach ($arrayRequest as $linha2) {
+                        //Atribui os valores para um novo array
                         $arrayResposta[] = $linha2;
                     }
 
+                    #########################################
+                    ## FIM DO PROCEDIMENTO
+                    #########################################
+
+                    //Compara os array e gera um novo array que deve ser apagado do banco, caso seja necessário
                     $respostasApagar = array_diff($arrayRespostas, $arrayResposta);
 
+                    //Percorre o array que deverá ser apagado de Respostas
                     foreach ($respostasApagar as $apagar) {
+                        //Seleciona a resposta do banco
                         $itemApagar = Respostas::find($apagar);
+                        //Deleta o registro
                         $itemApagar->delete();
                     }
 
+                    //Contador para acessar os indices da resposta e opção da resposta enviada
                     $y = 0;
+                    //Cria array com os ids de resposta enviados pelo request ou um array vázio
                     $arrayRequestRespostaId = $request->input($indiceRespostaId) ? $request->input($indiceRespostaId) : [];
+                    //percorre os ids de resposta enviados, mesmo que não exista um id, neste caso insere um novo registro 
                     foreach ($arrayRequestRespostaId as $linha3) {
-
+                        //Verifica se existe id
                         if ($linha3) {
+                            //Existindo, realiza a busca do registro no banco pelo id 
                             $resposta = Respostas::find($linha3);
                         } else {
+                            //Não existindo, cria uma nova instancia e prepara para inserção
                             $resposta = new Respostas();
                             $resposta->pergunta_id = $pergunta->id;
                         }
+
+                        //Atribui as informações
                         $resposta->resposta = $request->input($indiceRespostaResposta)[$y];
                         $resposta->correta = $request->input($indiceRespostaOpcao)[$y];
 
+                        //Insere ou salva o registro
                         $resposta->save();
+
+                        //Incrementa o contador
                         $y++;
                     }
 
+                    //Incrementa o contador
                     $i++;
                     $j++;
                 }
@@ -303,6 +364,10 @@ class AulaController extends Controller
 
             default:
                 //Erro
+
+                //Redirecionamento para tela anterior com mensagem de erro
+                return redirect()->back()->with('atencao', 'Encontramos um erro, tente novamente!');
+
                 break;
         }
 

@@ -248,6 +248,13 @@
                                     </div>
                                     <div class="card-body">
                                         <p>{{ $professor->curriculo }}</p>
+
+                                        @if($item->cooprodutor)
+                                        <hr>
+                                        Coprodução: {{$item->cooprodutor}}
+                                        <hr>
+                                        @endif
+
                                         @if ($professor->email)
                                             <a href="mailto:{{ $professor->email }}" target="_blank"
                                                 class="btn btn-light"><i class="fas fa-envelope"></i></a>
