@@ -58,12 +58,23 @@
             
             $("#div-pergunta").append(div);
             
-            console.log($('#div-pergunta').last().children('.pergunta').children('.item'));
             numerar();
         }
 
-        function addResposta(elemento) {
+        function addResposta(elemento, id, respostas, correta) {
+            var id = id || "";
+            var respostas = respostas || "";
+            var correta = correta || "";
+
+            $("#modelo .resposta .input-resposta").val(respostas)
+            $("#modelo .resposta .input-id-resposta").val(id)
+            $('#modelo .resposta select option[value="'+correta+'"]').attr("selected", "selected");
+
             var div = $("#modelo .resposta").clone();
+
+            $("#modelo .resposta .input-resposta").val('')
+            $("#modelo .resposta .input-id-resposta").val('')
+            $('#modelo .resposta select option[value="1"]').attr("selected", "");
 
             elemento.parent().find('.div-resposta').append(div);
 
@@ -73,7 +84,7 @@
         @foreach($perguntas as $linha)
             addPergunta({{$linha->id}}, '{{ $linha->pergunta }}');
             @foreach($linha->respostas as $linha2)
-                addResposta();
+                addResposta($('#div-pergunta').children('.pergunta').children('.item').children('a').last(), {{$linha2->id}}, '{{$linha2->resposta}}', {{$linha2->correta}});
             @endforeach
         @endforeach
 
@@ -221,14 +232,15 @@
         <div class="resposta">
             <div class="itemResposta m-2">
                 <div class="row">
+                    <input type="hidden" class="form-control input-id-resposta" name="id-respostas[]">
                     <div class="col-3">
-                        <select id="status" class="form-control custom-select">
+                        <select class="form-control custom-select select-resposta">
                             <option value="1">Correta</option>
                             <option value="0">Incorreta</option>
                         </select>
                     </div>
                     <div class="col-8">
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control input-resposta">
                     </div>
                     <div class="col-1">
                         <a class="btn btn-danger btn-wide btn-block" onclick="deletarResposta($(this))">DELETAR</a>
