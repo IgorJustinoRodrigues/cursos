@@ -81,7 +81,7 @@
                             position: 'top right',
                             msg: data.msg
                         });
-                        
+
                         setTimeout(function() {
                             window.location.reload(1);
                         }, 1800);
@@ -126,7 +126,9 @@
             <div class="nestable" id="nestable">
                 <ul class="list-group list-group-fit nestable-list-plain mb-0">
                     @php $i = 1; @endphp
+                    @php $total_minuto = 0 @endphp
                     @foreach ($item as $linha)
+                        @php $total_minuto += $linha->duracao @endphp
                         <li class="list-group-item nestable-item" data-id="{{ $linha->id }}"
                             data-ordem="{{ $i }}">
                             <div class="media align-items-center">
@@ -135,9 +137,15 @@
                                             class="material-icons">menu</i></a>
                                 </div>
                                 <div class="media-body">
-                                    <small id="aula{{ $linha->id }}">{{ $i }}.</small> {{ $linha->nome }}
+                                    <small  class="font-size-20pt" id="aula{{ $linha->id }}">{{ $i }}.</small> <a
+                                        href="{{ route('aulaEditar', [$curso, $linha]) }}" class="font-size-20pt">{{ $linha->nome }}
+                                        |
+                                        {{ app(App\Http\Controllers\AulaController::class)->tipo($linha->tipo, $linha->avaliacao) }}</a>
+                                        <br>
+                                        {{ app(App\Services\Services::class)->minuto_hora($linha->duracao) }}
                                 </div>
                                 <div class="media-right text-right">
+                                    
                                     <div style="width:100px">
                                         <a data-toggle="modal" data-target="#editQuiz" class="btn btn-danger mb-1"
                                             onclick="confirmacao('{{ route('aulaDeletar', [$curso->id, $linha->id]) }}', '<h3>Realmente deseja excluir essa aula?</h3><p>{{ $curso->nome }}</p>')">
@@ -150,6 +158,14 @@
                         </li>
                         @php $i++; @endphp
                     @endforeach
+                    <li class="list-group-item">
+                        <div class="media align-items-center">
+                            <div class="media-body text-center btn btn-lg btn-light">
+                                <i class="material-icons text-muted-light">schedule</i>&nbsp;
+                                {{ app(App\Services\Services::class)->minuto_hora($total_minuto) }}
+                            </div>
+                        </div>
+                    </li>
                 </ul>
             </div>
 

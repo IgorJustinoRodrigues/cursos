@@ -155,7 +155,8 @@ class AulaController extends Controller
             'status' => 'required',
         ]);
 
-        function apagarQuiz($curso){
+        function apagarQuiz($curso)
+        {
             $perguntasApagar = Perguntas::join('aulas', 'aulas.id', '=', 'perguntas.aulas_id')
                 ->where('curso_id', '=', $curso)
                 ->selectRaw('aulas.id as aula_id, perguntas.id as pergunta_id')
@@ -163,12 +164,12 @@ class AulaController extends Controller
             foreach ($perguntasApagar as $apagar) {
                 $respostasApagarItem = Respostas::where('pergunta_id', '=', $apagar->pergunta_id)->get();
 
-                foreach($respostasApagarItem as $apagarRespostaItem){
+                foreach ($respostasApagarItem as $apagarRespostaItem) {
                     $apagarRespostaItem->delete();
                 }
                 $itemApagar = Perguntas::find($apagar->pergunta_id);
                 $itemApagar->delete();
-            }       
+            }
         }
 
         switch ($request->tipo) {
@@ -182,7 +183,7 @@ class AulaController extends Controller
                 $item->video = $request->video;
                 $item->texto = $request->texto;
                 apagarQuiz($curso->id);
-                
+
                 break;
 
             case 2:
@@ -210,7 +211,7 @@ class AulaController extends Controller
 
                 $perguntas = Perguntas::where('aulas_id', '=', $item->id)->get();
 
-                if(count($perguntas) > 0){
+                if (count($perguntas) > 0) {
                     $arrayPerguntas = Arr::pluck($perguntas, 'id');
                 } else {
                     $arrayPerguntas = array();
@@ -225,7 +226,7 @@ class AulaController extends Controller
 
                     $respostasApagarItem = Respostas::where('pergunta_id', '=', $apagar)->get();
 
-                    foreach($respostasApagarItem as $apagarRespostaItem){
+                    foreach ($respostasApagarItem as $apagarRespostaItem) {
                         $itemRespostaApagar = Respostas::find($apagarRespostaItem->id);
                         $itemRespostaApagar->delete();
                     }
@@ -253,7 +254,7 @@ class AulaController extends Controller
                     $pergunta->save();
 
                     $respostas = Respostas::where('pergunta_id', '=', $linha)->get();
-                    if(count($respostas) > 0){
+                    if (count($respostas) > 0) {
                         $arrayRespostas = Arr::pluck($respostas, 'id');
                     } else {
                         $arrayRespostas = array();
@@ -265,7 +266,7 @@ class AulaController extends Controller
                     $arrayRequest = $request->input($indiceRespostaId) ? $request->input($indiceRespostaId) : [];
 
                     $arrayResposta = [];
- 
+
                     foreach ($arrayRequest as $linha2) {
                         $arrayResposta[] = $linha2;
                     }
@@ -280,7 +281,7 @@ class AulaController extends Controller
                     $y = 0;
                     $arrayRequestRespostaId = $request->input($indiceRespostaId) ? $request->input($indiceRespostaId) : [];
                     foreach ($arrayRequestRespostaId as $linha3) {
-                        
+
                         if ($linha3) {
                             $resposta = Respostas::find($linha3);
                         } else {
@@ -289,11 +290,11 @@ class AulaController extends Controller
                         }
                         $resposta->resposta = $request->input($indiceRespostaResposta)[$y];
                         $resposta->correta = $request->input($indiceRespostaOpcao)[$y];
-    
+
                         $resposta->save();
                         $y++;
-                }    
-                    
+                    }
+
                     $i++;
                     $j++;
                 }
@@ -331,13 +332,12 @@ class AulaController extends Controller
     - Responsável por excluir as informações de um aula
     - $request: Recebe o Id do um aula a ser excluido
     */
-    public function deletar(Aula $item)
+    public function deletar(Curso $curso, Aula $item)
     {
         //Validação de acesso
         if (!(new Services())->validarAdmin())
             //Redirecionamento para a rota acessoAula, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
-
 
         $item->status = 0;
 
@@ -345,7 +345,7 @@ class AulaController extends Controller
         if ($item->save()) {
 
             //Redirecionamento para a rota aulaIndex, com mensagem de sucesso
-            return redirect()->route('aulaIndex')->with('sucesso', 'Aula excluido!');
+            return redirect()->route('aulaIndex', $curso->id)->with('sucesso', 'Aula excluida!');
         } else {
             //Redirecionamento para a rota aulaIndex, com mensagem de erro
             return redirect()->route('aulaIndex')->with('erro', 'Aula não excluido!');

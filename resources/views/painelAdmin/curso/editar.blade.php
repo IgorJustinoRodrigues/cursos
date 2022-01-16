@@ -210,7 +210,7 @@
                                                 <div class="media-left">
                                                     <div class="text-muted">{{ $i++ }}.</div>
                                                 </div>
-                                                <div class="media-body">
+                                                <div class="media-body font-size-20pt">
                                                     <a href="{{ route('aulaEditar', [$item, $linha]) }}">{{ $linha->nome }}
                                                         |
                                                         {{ app(App\Http\Controllers\AulaController::class)->tipo($linha->tipo, $linha->avaliacao) }}</a>
