@@ -11,6 +11,7 @@ use App\Services\Services;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Arr;
 
 class AulaController extends Controller
 {
@@ -138,8 +139,9 @@ class AulaController extends Controller
     - $request: Recebe valores de um aulaistrador
     - $item: Recebe uma objeto de Aula vázio para edição
     */
-    public function salvar(Request $request, Aula $item, Curso $curso)
+    public function salvar(Request $request, Curso $curso, Aula $item)
     {
+        
         //Validação de acesso
         if (!(new Services())->validarAdmin())
             //Redirecionamento para a rota acessoAula, com mensagem de erro, sem uma sessão ativa
@@ -152,9 +154,6 @@ class AulaController extends Controller
             'duracao' => 'required',
             'status' => 'required',
         ]);
-
-        //Nova instância do Model Aula
-        $item = new Aula();
 
         switch ($request->tipo) {
             case 1:
@@ -185,6 +184,38 @@ class AulaController extends Controller
 
                 $item->avaliacao = $request->avaliacao;
 
+                $perguntas = Perguntas::where('aulas_id', '=', $item->id)->get();
+                $perguntasApagar = array_diff(Arr::pluck($perguntas, 'id'), $request->id_perguntas);
+                
+                foreach($perguntasApagar as $apagar){
+                    $itemApagar = Perguntas::find($apagar);
+                    $itemApagar->delete();
+                }
+
+                $i = 0;
+                $j = 1;
+                foreach($request->id_perguntas as $linha){
+                    if($linha){
+                        $pergunta = Perguntas::find($linha);
+                    } else {
+                        $pergunta = new Perguntas();
+                        $pergunta->aulas_id = $item->id;
+                    }
+
+                    $pergunta->pergunta = $request->perguntas[$i];
+
+                    $pergunta->save();
+
+                    $respostas = Respostas::where('pergunta_id', '=', $linha)->get();
+                    $b = "id" . '1';
+                    $a = $request->input($b);
+
+                    $respostasApagar = array_diff(Arr::pluck($respostas, 'id'), $a);
+
+                    $i++;
+                    $j++;
+                }
+
                 break;
 
             default:
@@ -205,15 +236,8 @@ class AulaController extends Controller
 
         //Verifica se o Update foi bem sucedido
         if ($resposta) {
-
-            //Verifica se há imagem antiga para ser apagada e se caso exista, se é diferente do padrão
-            if (@$logoApagar and Storage::exists($logoApagar)) {
-                //Deleta o arquivo físico da imagem antiga
-                Storage::delete($logoApagar);
-            }
-
             //Redirecionamento para a rota aulaIndex, com mensagem de sucesso
-            return redirect()->route('aulaIndex')->with('sucesso', '"' . $item->nome . '", salvo!');
+            return redirect()->route('aulaEditar', [$curso->id, $item])->with('sucesso', '"' . $item->nome . '", salvo!');
         } else {
             //Redirecionamento para tela anterior com mensagem de erro
             return redirect()->back()->with('atencao', 'Não foi possível salvar as informações, tente novamente!');

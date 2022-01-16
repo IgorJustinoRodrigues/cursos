@@ -68,13 +68,13 @@
 
             $("#modelo .resposta .input-resposta").val(respostas);
             $("#modelo .resposta .input-id-resposta").val(id);
-            $('#modelo .resposta select option[value="'+ correta +'"]').attr('selected','selected');
+            $('#modelo .resposta select option[value="'+ correta +'"]').attr('selected','true');
 
             var div = $("#modelo .resposta").clone();
 
             $("#modelo .resposta .input-resposta").val('')
             $("#modelo .resposta .input-id-resposta").val('')
-            $('#modelo .resposta select').removeAttr("selected");
+            $('#modelo .resposta select option[value="0"]').attr('selected','false');
 
             elemento.parent().find('.div-resposta').append(div);
 
@@ -104,12 +104,16 @@
             $('#div-pergunta .pergunta .item .num_pergunta').each(function(index, element) {
                 $(element).text('Pergunta ' + i)
 
-                $(element).parent().parent().parent().find('.div-resposta input').each(function(index2, element2) {
+                $(element).parent().parent().parent().find('.div-resposta .input-resposta').each(function(index2, element2) {
                     $(element2).attr('name', 'resposta' + i + '[]');
                 });
 
                 $(element).parent().parent().parent().find('.div-resposta select').each(function(index3, element3) {
                     $(element3).attr('name', 'opcao' + i + '[]');
+                });
+
+                $(element).parent().parent().parent().find('.div-resposta .input-id-resposta').each(function(index4, element4) {
+                    $(element4).attr('name', 'id' + i + '[]');
                 });
 
                 i++;
@@ -132,8 +136,9 @@
         <div class="card card-body">
             <div class="row">
                 <div class="col-lg-12">
-                    <form method="POST" action="{{ route('aulaSalvar', [$curso, $item]) }}">
+                    <form method="POST" action="{{ route('aulaSalvar', [$curso->id, $item->id]) }}">
                         @csrf
+                        @method('PUT')
                         <div class="form-row">
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label" for="tipo">Tipo de Aula</label>
@@ -199,7 +204,7 @@
                             <div class="flex">
                                 <a href="{{ route('aulaIndex', [$curso]) }}" class="btn btn-default btn-wide">Voltar</a>
                             </div>
-                            <button class="btn btn-success" type="submit">Inserir</button>
+                            <button class="btn btn-success" type="submit">Salvar</button>
                         </div>
                     </form>
                 </div>
@@ -210,7 +215,7 @@
         <div class="pergunta">
             <div style="border: 1px dashed#000; padding: 20px" class="item">
                 <div class="row">
-                    <input type="hidden" class="form-control input-id-pergunta" name="id-perguntas[]">
+                    <input type="hidden" class="form-control input-id-pergunta" name="id_perguntas[]">
                     <div class="col-9">
                         <label class="form-label num_pergunta"></label>
                         <input type="text" class="form-control input-pergunta" name="perguntas[]">
@@ -232,7 +237,7 @@
         <div class="resposta">
             <div class="itemResposta m-2">
                 <div class="row">
-                    <input type="hidden" class="form-control input-id-resposta" name="id-respostas[]">
+                    <input type="hidden" class="form-control input-id-resposta" name="id_respostas[]">
                     <div class="col-3">
                         <select class="form-control custom-select select-resposta">
                             <option value="1">Correta</option>
