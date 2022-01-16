@@ -98,9 +98,9 @@
                                 <li>
                                     <a href="#0">Acesso</a>
                                     <ul class="lab-ul">
-                                        <li><a href="index-2.html">Acesso Vendedor</a></li>
-                                        <li><a href="{{ route('acessoParceiro') }}">Acesso Parceiro</a></li>
-                                        <li><a href="{{ route('acessoAdmin') }}">Acesso Administrador</a></li>
+                                        <li><a href="index-2.html" target="_blank">Acesso Vendedor</a></li>
+                                        <li><a href="{{ route('acessoParceiro') }}" target="_blank">Acesso Parceiro</a></li>
+                                        <li><a href="{{ route('acessoAdmin') }}" target="_blank">Acesso Administrador</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="{{ route('site.suporte') }}">Suporte</a></li>

@@ -300,24 +300,43 @@ class CursoController extends Controller
     Função tipo de Curso
     - Responsável por exibir o tipo do Curso
     - $tipo: Recebe o Id do tipo do Curso
+    - sempre que passar esse comando pra view passe conforme o exemplo:
+        {{ app(App\Http\Controllers\CursoController::class)->tipo($item->tipo, true) }} o true identifica o 2° parametro $tipoSite
+
     */
-    public function tipo($tipo)
+    public function tipo($tipo, $tipoSite = '')
     {
         //Verifica o tipo do Curso
         switch ($tipo) {
             case 1:
-                //Retorna o tipo Curso Iniciante | Até 5 Aulas | R$ 18,00
-                return 'Curso Iniciante | Até 5 Aulas | R$ 18,00';
+                if ($tipoSite == 1) {
+                    //se tiver o true, exibe a primeira opção
+                    return 'Curso Iniciante';
+                } else {
+                    //caso passe apenas tipo, exibe a segunda opção
+                    return 'Curso Iniciante | Até 5 Aulas | R$ 18,00';
+                }
                 break;
 
             case 2:
-                //Retorna o tipo Curso Intermediário | Até 10 Aulas | R$ 26,00
-                return 'Curso Intermediário | Até 10 Aulas | R$ 26,00';
+                if ($tipoSite == 2) {
+                    //se tiver o true, exibe a primeira opção
+                 return 'Curso Intermediário';
+                } else {
+                    //caso passe apenas tipo, exibe a segunda opção
+                    return 'Curso Intermediário | Até 10 Aulas | R$ 26,00'; 
+                }
                 break;
 
             case 3:
-                //Retorna o tipo Curso Avançado | Mais de 15 Aulas | R$ 38,00
-                return 'Curso Avançado | Mais de 15 Aulas | R$ 38,00';
+                if ($tipoSite == 3) {
+                     //se tiver o true, exibe a primeira opção
+                    return 'Curso Avançado';
+                } else {
+                    //caso passe apenas tipo, exibe a segunda opção
+                    return 'Curso Avançado | Mais de 15 Aulas | R$ 38,00';
+                }
+                              
                 break;
 
             case 4:
@@ -352,5 +371,4 @@ class CursoController extends Controller
                 break;
         }
     }
-    
 }

@@ -47,11 +47,14 @@ class SiteController extends Controller
     {
         $cursos = Curso::join('categoria_cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
             ->join('professors', 'professors.id', '=', 'cursos.professor_id')
+            ->leftjoin('aulas', 'aulas.curso_id', '=', 'cursos.id')
             ->where('cursos.visibilidade', '=', 1)
             ->where('cursos.status', '=', 1)
-            ->selectRaw('cursos.id, cursos.imagem, cursos.nome, categoria_cursos.nome as categoria, categoria_cursos.id as categoria_id, professors.nome as professor, professors.avatar')
+            ->selectRaw('count(aulas.curso_id) as soma, cursos.id,cursos.tipo, cursos.imagem, cursos.nome, categoria_cursos.nome as categoria, categoria_cursos.id as categoria_id, professors.nome as professor, professors.avatar')
+            ->groupBy('aulas.curso_id')
             ->paginate(9);
-        //Erro de página não existe
+
+
         $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();
 
         //Exibe a view 

@@ -96,18 +96,26 @@
                             <input type="hidden" name="descricao" id="input-descricao">
 
                             <div class="form-row">
-                                <div class="col-9 col-md-8 mb-3">
+                                <div class="col-9 col-md-9 mb-3">
                                     <label class="form-label" for="nome">Nome do Curso</label>
                                     <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome"
                                         value="{{ $item->nome }}" required="">
                                 </div>
-                                <div class="col-12 col-md-4 mb-3">
-                                    <label class="form-label" for="imagem">Imagem</label>
-                                    <input type="file" class="form-control" id="imagem" name="imagem">
+                                <div class="col-3 col-md-1 mb-3">
+                                    @if ($item->imagem != '')
+                                        <img src="{{ URL::asset('storage/' . $item->imagem) }}" alt=""
+                                            class="avatar-img">
+                                    @else
+                                        <img src="{{ URL::asset('storage/imagemCurso/padrao.png') }}" alt=""
+                                            class="avatar-img">
+                                    @endif
                                 </div>
                             </div>
                             <div class="form-row">
-
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label class="form-label" for="imagem">Imagem</label>
+                                    <input type="file" class="form-control" id="imagem" name="imagem">
+                                </div>
                                 <div class="col-12 col-md-12 mb-3">
                                     <label class="form-label">Descrição do Curso</label>
                                     <div class="form-control" id="descricao" data-toggle="quill" style="height: 150px;">
@@ -116,7 +124,8 @@
 
                                 <div class="col-12 col-md-6 mb-3">
                                     <label class="form-label" for="professor">Professor</label>
-                                    <input type="text" id="professor" class="form-control" value="{{ $professor->nome }}" readonly>
+                                    <input type="text" id="professor" class="form-control"
+                                        value="{{ $professor->nome }}" readonly>
                                 </div>
 
                                 <div class="col-12 col-md-6 mb-3">
@@ -124,8 +133,8 @@
                                     <select id="categoria" class="form-control custom-select select2" name="categoria">
                                         <option></option>
                                         @foreach ($categorias as $linha)
-                                        <option @if ($item->categoria_id == $linha->id) selected @endif value="{{ $linha->id }}">
-                                            {{ $linha->nome }}</option>                                            
+                                            <option @if ($item->categoria_id == $linha->id) selected @endif value="{{ $linha->id }}">
+                                                {{ $linha->nome }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -150,7 +159,8 @@
                                         </option>
                                         <option @if ($item->tipo == 2) selected @endif value="2">Curso Intermediário | Até 10 Aulas | R$
                                             26,00</option>
-                                        <option @if ($item->tipo == 3) selected @endif value="3">Curso Avançado | Mais de 15 Aulas | R$ 38,00</option>
+                                        <option @if ($item->tipo == 3) selected @endif value="3">Curso Avançado | Mais de 15 Aulas | R$
+                                            38,00</option>
                                         <option @if ($item->tipo == 4) selected @endif value="4">Treinamento</option>
                                     </select>
                                 </div>
@@ -188,23 +198,26 @@
                         </div>
                         <div class="row">
                             <div class="col-md-8">
-                                
+
                                 <!-- Lessons -->
                                 <ul class="card list-group list-group-fit">
                                     @php $i = 1 @endphp
                                     @php $total_minuto = 0 @endphp
-                                    @foreach($aulas as $linha)
+                                    @foreach ($aulas as $linha)
                                         @php $total_minuto += $linha->duracao @endphp
                                         <li class="list-group-item">
                                             <div class="media">
                                                 <div class="media-left">
-                                                    <div class="text-muted">{{$i++}}.</div>
+                                                    <div class="text-muted">{{ $i++ }}.</div>
                                                 </div>
                                                 <div class="media-body">
-                                                    <a href="{{ route("aulaEditar", [$item, $linha]) }}">{{ $linha->nome }} | {{ app(App\Http\Controllers\AulaController::class)->tipo( $linha->tipo, $linha->avaliacao ) }}</a>
+                                                    <a href="{{ route('aulaEditar', [$item, $linha]) }}">{{ $linha->nome }}
+                                                        |
+                                                        {{ app(App\Http\Controllers\AulaController::class)->tipo($linha->tipo, $linha->avaliacao) }}</a>
                                                 </div>
                                                 <div class="media-right">
-                                                    <small class="text-muted-light">{{ app(App\Services\Services::class)->minuto_hora( $linha->duracao ) }}</small>
+                                                    <small
+                                                        class="text-muted-light">{{ app(App\Services\Services::class)->minuto_hora($linha->duracao) }}</small>
                                                 </div>
                                             </div>
                                         </li>
@@ -212,48 +225,48 @@
                                 </ul>
                             </div>
                             <div class="col-md-4">
-                                
+
                                 <div class="card">
                                     <div class="card-header">
                                         <div class="media align-items-center">
                                             <div class="media-left">
                                                 @if ($professor->avatar != '')
                                                     <img src="{{ URL::asset('storage/' . $professor->avatar) }}"
-                                                    width="50"
-                                                    class="rounded-circle">
+                                                        width="50" class="rounded-circle">
                                                 @else
                                                     <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}"
-                                                    width="50"
-                                                    class="rounded-circle">
+                                                        width="50" class="rounded-circle">
                                                 @endif
                                             </div>
                                             <div class="media-body">
-                                                <h4 class="card-title"><a href="{{ route("professorEditar", $professor) }}" target="_blank">{{ $professor->nome }}</a></h4>
+                                                <h4 class="card-title"><a
+                                                        href="{{ route('professorEditar', $professor) }}"
+                                                        target="_blank">{{ $professor->nome }}</a></h4>
                                                 <p class="card-subtitle">Professor</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="card-body">
                                         <p>{{ $professor->curriculo }}</p>
-                                        @if($professor->email)
-                                        <a href="mailto:{{$professor->email}}" target="_blank"
-                                           class="btn btn-light"><i class="fas fa-envelope"></i></a>
+                                        @if ($professor->email)
+                                            <a href="mailto:{{ $professor->email }}" target="_blank"
+                                                class="btn btn-light"><i class="fas fa-envelope"></i></a>
                                         @endif
-                                        @if($professor->facebook)
-                                        <a href="{{$professor->facebook}}" target="_blank"
-                                           class="btn btn-light"><i class="fab fa-facebook"></i></a>
+                                        @if ($professor->facebook)
+                                            <a href="{{ $professor->facebook }}" target="_blank"
+                                                class="btn btn-light"><i class="fab fa-facebook"></i></a>
                                         @endif
-                                        @if($professor->instagram)
-                                        <a href="{{$professor->instagram}}" target="_blank"
-                                           class="btn btn-light"><i class="fab fa-instagram"></i></a>
+                                        @if ($professor->instagram)
+                                            <a href="{{ $professor->instagram }}" target="_blank"
+                                                class="btn btn-light"><i class="fab fa-instagram"></i></a>
                                         @endif
-                                        @if($professor->linkedin)
-                                        <a href="{{$professor->linkedin}}" target="_blank"
-                                           class="btn btn-light"><i class="fab fa-linkedin"></i></a>
+                                        @if ($professor->linkedin)
+                                            <a href="{{ $professor->linkedin }}" target="_blank"
+                                                class="btn btn-light"><i class="fab fa-linkedin"></i></a>
                                         @endif
-                                        @if($professor->site)
-                                        <a href="{{$professor->site}}" target="_blank"
-                                           class="btn btn-light"><i class="fas fa-globe"></i></a>
+                                        @if ($professor->site)
+                                            <a href="{{ $professor->site }}" target="_blank" class="btn btn-light"><i
+                                                    class="fas fa-globe"></i></a>
                                         @endif
                                     </div>
                                 </div>
@@ -275,7 +288,7 @@
                                                     <i class="material-icons text-muted-light">schedule</i>
                                                 </div>
                                                 <div class="media-body">
-                                                    {{ app(App\Services\Services::class)->minuto_hora( $total_minuto ) }}
+                                                    {{ app(App\Services\Services::class)->minuto_hora($total_minuto) }}
                                                 </div>
                                             </div>
                                         </li>

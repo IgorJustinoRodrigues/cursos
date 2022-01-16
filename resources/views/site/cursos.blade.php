@@ -104,7 +104,7 @@
                             <div class="course-showing-part-left">
                                 <span>
                                     Exibindo {{ $curso->firstItem() }} - {{ $curso->lastItem() }} DE
-                                {{ $curso->total() }} CURSOS
+                                    {{ $curso->total() }} CURSOS
                                 </span>
                             </div>
                         </div>
@@ -116,13 +116,18 @@
                                 <div class="course-item">
                                     <div class="course-inner">
                                         <div class="course-thumb">
-                                            <img src="{{ URL::asset('storage/' . $item->imagem) }}" alt="course">
+                                            @if ($item->imagem != '')
+                                                <img src="{{ URL::asset('storage/' . $item->imagem) }}" alt="">
+                                            @else
+                                                <img src="{{ URL::asset('storage/imagemCurso/padrao.png') }}" alt="">
+                                            @endif
                                         </div>
                                         <div class="course-content">
                                             <div class="course-price">$30</div>
                                             <div class="course-category">
                                                 <div class="course-cate">
-                                                    <a href="{{ route('site.lerCurso', ['10', 'lerCurso.html']) }}">{{$item->categoria}}</a>
+                                                    <a
+                                                        href="{{ route('site.lerCurso', ['10', 'lerCurso.html']) }}">{{ $item->categoria }}</a>
                                                 </div>
                                                 <div class="course-reiew">
                                                     <span class="ratting">
@@ -141,16 +146,20 @@
                                                 <h5>{{ $item->nome }}</h5>
                                             </a>
                                             <div class="course-details">
-                                                <div class="couse-count"><i class="icofont-video-alt"></i> 18x Lesson
+                                                <div class="couse-count"><i class="icofont-video-alt"></i>
+                                                    {{ $item->soma }}
+                                                    @if ($item->soma == 1) Aula @else Aulas @endif
                                                 </div>
-                                                <div class="couse-topic"><i class="icofont-signal"></i> Online Class
+                                                <div class="couse-topic"><i
+                                                        class="icofont-signal"></i>{{ app(App\Http\Controllers\CursoController::class)->tipo($item->tipo, true) }}
                                                 </div>
                                             </div>
                                             <div class="course-footer">
                                                 <div class="course-author">
                                                     <img src="{{ URL::asset('site/images/course/author/01.jpg') }}"
                                                         alt="course author">
-                                                    <a href="team-single.html" class="ca-name">{{$item->professor}}</a>
+                                                    <a href="team-single.html"
+                                                        class="ca-name">{{ $item->professor }}</a>
                                                 </div>
                                                 <div class="course-btn">
                                                     <a href="{{ route('site.lerCurso', ['10', 'lerCurso.html']) }}"
