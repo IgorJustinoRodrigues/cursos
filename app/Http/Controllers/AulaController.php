@@ -155,6 +155,22 @@ class AulaController extends Controller
             'status' => 'required',
         ]);
 
+        function apagarQuiz($curso){
+            $perguntasApagar = Perguntas::join('aulas', 'aulas.id', '=', 'perguntas.aulas_id')
+                ->where('curso_id', '=', $curso)
+                ->selectRaw('aulas.id as aula_id, perguntas.id as pergunta_id')
+                ->get();
+            foreach ($perguntasApagar as $apagar) {
+                $respostasApagarItem = Respostas::where('pergunta_id', '=', $apagar->pergunta_id)->get();
+
+                foreach($respostasApagarItem as $apagarRespostaItem){
+                    $apagarRespostaItem->delete();
+                }
+                $itemApagar = Perguntas::find($apagar->pergunta_id);
+                $itemApagar->delete();
+            }       
+        }
+
         switch ($request->tipo) {
             case 1:
                 //Vídeo
@@ -163,7 +179,10 @@ class AulaController extends Controller
                 ]);
 
                 $item->avaliacao = 0;
-
+                $item->video = $request->video;
+                $item->texto = $request->texto;
+                apagarQuiz($curso->id);
+                
                 break;
 
             case 2:
@@ -172,7 +191,10 @@ class AulaController extends Controller
                     'texto' => 'required',
                 ]);
 
+                apagarQuiz($curso->id);
+                $item->texto = $request->texto;
                 $item->avaliacao = 0;
+                $item->video = null;
 
                 break;
 
@@ -183,6 +205,8 @@ class AulaController extends Controller
                 ]);
 
                 $item->avaliacao = $request->avaliacao;
+                $item->texto = null;
+                $item->video = null;
 
                 $perguntas = Perguntas::where('aulas_id', '=', $item->id)->get();
 

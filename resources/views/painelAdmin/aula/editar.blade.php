@@ -11,6 +11,13 @@
     <!-- Quill -->
     <script src="{{ URL::asset('template/js/select2.min.js') }}"></script>
     <script>
+        function prepararSubmit() {
+            var texto = $(".ql-editor").html();
+            $("#input-texto").val(texto);
+
+            return true;
+        }
+
         $(document).ready(function() {
             $('.select2').select2();
         });
@@ -23,16 +30,17 @@
 
             switch (tipo) {
                 case '1':
-                    $(".video").removeClass('d-none')
+                    $(".video").removeClass('d-none');
                     $("#video").removeClass('d-none');
+                    $(".texto").removeClass('d-none');
                     break;
 
                 case '2':
-                    $(".texto").removeClass('d-none')
+                    $(".texto").removeClass('d-none');
 
                     break;
                 case '3':
-                    $(".pergunta").removeClass('d-none')
+                    $(".pergunta").removeClass('d-none');
 
                     break;
             }
@@ -43,7 +51,7 @@
 
             $("#player").html(div);
         }
-
+        player();
         function addPergunta(id, resposta) {
             var id = id || "";
             var resposta = resposta || "";
@@ -55,9 +63,9 @@
 
             $("#modelo .pergunta .input-pergunta").val('')
             $("#modelo .pergunta .input-id-pergunta").val('')
-            
+
             $("#div-pergunta").append(div);
-            
+
             numerar();
         }
 
@@ -68,7 +76,7 @@
 
             $("#modelo .resposta .input-resposta").val(respostas);
             $("#modelo .resposta .input-id-resposta").val(id);
-            $('#modelo .resposta select option[value="'+ correta +'"]').attr('selected','true');
+            $('#modelo .resposta select option[value="' + correta + '"]').attr('selected', 'true');
 
             var div = $("#modelo .resposta").clone();
 
@@ -81,10 +89,11 @@
             numerar();
         }
 
-        @foreach($perguntas as $linha)
-            addPergunta({{$linha->id}}, '{{ $linha->pergunta }}');
-            @foreach($linha->respostas as $linha2)
-                addResposta($('#div-pergunta').children('.pergunta').children('.item').children('a').last(), {{$linha2->id}}, '{{$linha2->resposta}}', '{{$linha2->correta}}');
+        @foreach ($perguntas as $linha)
+            addPergunta({{ $linha->id }}, '{{ $linha->pergunta }}');
+            @foreach ($linha->respostas as $linha2)
+                addResposta($('#div-pergunta').children('.pergunta').children('.item').children('a').last(),
+                {{ $linha2->id }}, '{{ $linha2->resposta }}', '{{ $linha2->correta }}');
             @endforeach
         @endforeach
 
@@ -104,7 +113,8 @@
             $('#div-pergunta .pergunta .item .num_pergunta').each(function(index, element) {
                 $(element).text('Pergunta ' + i)
 
-                $(element).parent().parent().parent().find('.div-resposta .input-resposta').each(function(index2, element2) {
+                $(element).parent().parent().parent().find('.div-resposta .input-resposta').each(function(index2,
+                    element2) {
                     $(element2).attr('name', 'resposta' + i + '[]');
                 });
 
@@ -112,7 +122,8 @@
                     $(element3).attr('name', 'opcao' + i + '[]');
                 });
 
-                $(element).parent().parent().parent().find('.div-resposta .input-id-resposta').each(function(index4, element4) {
+                $(element).parent().parent().parent().find('.div-resposta .input-id-resposta').each(function(index4,
+                    element4) {
                     $(element4).attr('name', 'id' + i + '[]');
                 });
 
@@ -136,23 +147,24 @@
         <div class="card card-body">
             <div class="row">
                 <div class="col-lg-12">
-                    <form method="POST" action="{{ route('aulaSalvar', [$curso->id, $item->id]) }}">
+                    <form method="POST" action="{{ route('aulaSalvar', [$curso->id, $item->id]) }}"
+                        onsubmit="return prepararSubmit();">
                         @csrf
                         @method('PUT')
                         <div class="form-row">
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label" for="tipo">Tipo de Aula</label>
                                 <select id="tipo" class="form-control custom-select" name="tipo" onchange="tipoAula();">
-                                    <option value="1" @if($item->tipo == 1) selected @endif>Aula de Vídeo</option>
-                                    <option value="2" @if($item->tipo == 2) selected @endif>Aula de Texto</option>
-                                    <option value="3" @if($item->tipo == 3) selected @endif>Quiz</option>
+                                    <option value="1" @if ($item->tipo == 1) selected @endif>Aula de Vídeo</option>
+                                    <option value="2" @if ($item->tipo == 2) selected @endif>Aula de Texto</option>
+                                    <option value="3" @if ($item->tipo == 3) selected @endif>Quiz</option>
                                 </select>
                             </div>
                             <div class="col-12 col-md-4 mb-3 div-ocultar pergunta">
                                 <label class="form-label" for="avaliacao">Aula avaliativa?</label>
                                 <select id="avaliacao" class="form-control custom-select" name="avaliacao">
-                                    <option value="1" @if($item->avaliacao == 1) selected @endif>Sim</option>
-                                    <option value="0" @if($item->avaliacao == 0) selected @endif>Não</option>
+                                    <option value="1" @if ($item->avaliacao == 1) selected @endif>Sim</option>
+                                    <option value="0" @if ($item->avaliacao == 0) selected @endif>Não</option>
                                 </select>
                             </div>
                             <div class="col-12 col-md-12 mb-3">
@@ -172,14 +184,15 @@
                             </div>
                             <div class="col-12 col-md-12 mb-3 div-ocultar video">
                                 <label class="form-label" for="video">Link do vídeo</label>
-                                <input type="url" class="form-control" id="video" name="video" placeholder="Link"
-                                    onchange="player()" value="{{ old('video') }}">
+                                <textarea class="form-control" id="video" name="video" placeholder="Link"
+                                    onchange="player()">{{ $item->video }}</textarea>
                                 <hr>
                                 <div id="player"></div>
                             </div>
                             <div class="col-12 col-md-12 mb-3 div-ocultar texto">
                                 <label class="form-label">Texto</label>
-                                <div class="form-control" id="sobre" data-toggle="quill" style="height: 350px;"></div>
+                                <div class="form-control" id="texto" data-toggle="quill" style="height: 350px;">{!! $item->texto !!}</div>
+                                <input type="hidden" name="texto" id="input-texto">
                             </div>
 
                             <div class="col-12 mb-3 div-ocultar pergunta">
