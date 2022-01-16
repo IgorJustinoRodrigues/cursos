@@ -74,7 +74,7 @@
 
             $("#modelo .resposta .input-resposta").val('')
             $("#modelo .resposta .input-id-resposta").val('')
-            $('#modelo .resposta select option[value="0"]').attr('selected','false');
+            $('#modelo .resposta select').find('option:selected').removeAttr('selected');
 
             elemento.parent().find('.div-resposta').append(div);
 

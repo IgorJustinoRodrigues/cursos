@@ -192,16 +192,29 @@ class AulaController extends Controller
                     $arrayPerguntas = array();
                 }
 
-                $perguntasApagar = array_diff($arrayPerguntas, $request->id_perguntas);
+                $arrayPerguntasRequest = $request->id_perguntas ? $request->id_perguntas : [];
+
+                $perguntasApagar = array_diff($arrayPerguntas, $arrayPerguntasRequest);
 
                 foreach ($perguntasApagar as $apagar) {
                     $itemApagar = Perguntas::find($apagar);
+
+                    $respostasApagarItem = Respostas::where('pergunta_id', '=', $apagar)->get();
+
+                    foreach($respostasApagarItem as $apagarRespostaItem){
+                        $itemRespostaApagar = Respostas::find($apagarRespostaItem->id);
+                        $itemRespostaApagar->delete();
+                    }
+
                     $itemApagar->delete();
                 }
 
                 $i = 0;
                 $j = 1;
-                foreach ($request->id_perguntas as $linha) {
+
+                $arrayIdsRequest = $request->id_perguntas ? $request->id_perguntas : [];
+
+                foreach ($arrayIdsRequest as $linha) {
 
 
                     if ($linha) {
@@ -225,7 +238,8 @@ class AulaController extends Controller
                     $indiceRespostaId = "id" . $j;
                     $indiceRespostaOpcao = "opcao" . $j;
                     $indiceRespostaResposta = "resposta" . $j;
-                    $arrayRequest = $request->input($indiceRespostaId);
+                    $arrayRequest = $request->input($indiceRespostaId) ? $request->input($indiceRespostaId) : [];
+
                     $arrayResposta = [];
  
                     foreach ($arrayRequest as $linha2) {
@@ -240,7 +254,8 @@ class AulaController extends Controller
                     }
 
                     $y = 0;
-                    foreach ($request->input($indiceRespostaId) as $linha3) {
+                    $arrayRequestRespostaId = $request->input($indiceRespostaId) ? $request->input($indiceRespostaId) : [];
+                    foreach ($arrayRequestRespostaId as $linha3) {
                         
                         if ($linha3) {
                             $resposta = Respostas::find($linha3);
