@@ -179,7 +179,7 @@ class AulaController extends Controller
             case 3:
                 //Quiz
                 $validated = $request->validate([
-                    'perguntas.*' => 'required',
+                    'perguntas.*' => 'required'
                 ]);
 
                 $item->avaliacao = $request->avaliacao;
