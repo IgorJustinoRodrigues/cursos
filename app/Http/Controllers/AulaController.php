@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Aula;
 use App\Models\Canvas;
 use App\Models\Curso;
+use App\Models\Perguntas;
+use App\Models\Respostas;
 use App\Services\Services;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
@@ -106,15 +108,24 @@ class AulaController extends Controller
             //Redirecionamento para a rota acessoAula, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-        //Verifica se há algum aula selecionado
+            //Verifica se há algum aula selecionado
         if (@$item) {
-
             if ($item->status == 0) {
                 return redirect()->route('aulaIndex', $curso)->with('atencao', 'Aula excluido!');
             }
 
+            $perguntas = Perguntas::where('aulas_id', '=', $item->id)->get();
+
+            for($i = 0; $i < count($perguntas); $i++){
+                $perguntas[$i]->respostas = Respostas::where('pergunta_id', '=', $perguntas[$i]->id)->get();
+            }
+
             //Exibe a tela de edição de aula passando parametros para view
-            return view('painelAdmin.aula.editar', ['item' => $item, 'curso' => $curso]);
+            return view('painelAdmin.aula.editar', [
+                'item' => $item,
+                'curso' => $curso,
+                'perguntas' => $perguntas
+            ]);
         } else {
             //Redirecionamento para a rota aulaIndex, com mensagem de erro
             return redirect()->route('aulaIndex')->with('erro', 'Aula não encontrado!');

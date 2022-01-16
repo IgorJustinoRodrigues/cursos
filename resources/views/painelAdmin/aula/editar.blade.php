@@ -44,11 +44,21 @@
             $("#player").html(div);
         }
 
-        function addPergunta() {
+        function addPergunta(id, resposta) {
+            var id = id || "";
+            var resposta = resposta || "";
+
+            $("#modelo .pergunta .input-pergunta").val(resposta)
+            $("#modelo .pergunta .input-id-pergunta").val(id)
+
             var div = $("#modelo .pergunta").clone();
 
+            $("#modelo .pergunta .input-pergunta").val('')
+            $("#modelo .pergunta .input-id-pergunta").val('')
+            
             $("#div-pergunta").append(div);
-
+            
+            console.log($('#div-pergunta').last().children('.pergunta').children('.item'));
             numerar();
         }
 
@@ -59,6 +69,13 @@
 
             numerar();
         }
+
+        @foreach($perguntas as $linha)
+            addPergunta({{$linha->id}}, '{{ $linha->pergunta }}');
+            @foreach($linha->respostas as $linha2)
+                addResposta();
+            @endforeach
+        @endforeach
 
         function deletarPergunta(elemento) {
             elemento.parent().parent().parent().parent().empty();
@@ -98,44 +115,44 @@
     <div class="col-md-12">
 
         <div class="d-flex align-items-center mb-4">
-            <h1 class="h2 flex mr-3 mb-0">Cadastro de Aula</h1>
+            <h1 class="h2 flex mr-3 mb-0">Edição de Aula</h1>
         </div>
 
         <div class="card card-body">
             <div class="row">
                 <div class="col-lg-12">
-                    <form method="POST" action="{{ route('aulaInserir', $curso) }}">
+                    <form method="POST" action="{{ route('aulaSalvar', [$curso, $item]) }}">
                         @csrf
                         <div class="form-row">
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label" for="tipo">Tipo de Aula</label>
                                 <select id="tipo" class="form-control custom-select" name="tipo" onchange="tipoAula();">
-                                    <option value="1">Aula de Vídeo</option>
-                                    <option value="2">Aula de Texto</option>
-                                    <option value="3">Quiz</option>
+                                    <option value="1" @if($item->tipo == 1) selected @endif>Aula de Vídeo</option>
+                                    <option value="2" @if($item->tipo == 2) selected @endif>Aula de Texto</option>
+                                    <option value="3" @if($item->tipo == 3) selected @endif>Quiz</option>
                                 </select>
                             </div>
                             <div class="col-12 col-md-4 mb-3 div-ocultar pergunta">
                                 <label class="form-label" for="avaliacao">Aula avaliativa?</label>
                                 <select id="avaliacao" class="form-control custom-select" name="avaliacao">
-                                    <option value="1">Sim</option>
-                                    <option value="0">Não</option>
+                                    <option value="1" @if($item->avaliacao == 1) selected @endif>Sim</option>
+                                    <option value="0" @if($item->avaliacao == 0) selected @endif>Não</option>
                                 </select>
                             </div>
                             <div class="col-12 col-md-12 mb-3">
                                 <label class="form-label" for="nome">Nome</label>
                                 <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome"
-                                    value="{{ old('nome') }}" required>
+                                    value="{{ $item->nome }}" required>
                             </div>
                             <div class="col-12 col-md-12 mb-3">
                                 <label class="form-label" for="descricao">Descrição</label>
                                 <textarea class="form-control" id="descricao" name="descricao"
-                                    placeholder="Descrição da aula" rows="3">{{ old('descricao') }}</textarea>
+                                    placeholder="Descrição da aula" rows="3">{{ $item->descricao }}</textarea>
                             </div>
                             <div class="col-12 col-md-12 mb-3">
                                 <label class="form-label" for="duracao">Duração da Aula (Minutos)</label>
                                 <input type="number" min="1" step="1" class="form-control" id="duracao" name="duracao"
-                                    placeholder="" value="{{ old('duracao') }}">
+                                    placeholder="" value="{{ $item->duracao }}">
                             </div>
                             <div class="col-12 col-md-12 mb-3 div-ocultar video">
                                 <label class="form-label" for="video">Link do vídeo</label>
@@ -182,6 +199,7 @@
         <div class="pergunta">
             <div style="border: 1px dashed#000; padding: 20px" class="item">
                 <div class="row">
+                    <input type="hidden" class="form-control input-id-pergunta" name="id-perguntas[]">
                     <div class="col-9">
                         <label class="form-label num_pergunta"></label>
                         <input type="text" class="form-control input-pergunta" name="perguntas[]">
