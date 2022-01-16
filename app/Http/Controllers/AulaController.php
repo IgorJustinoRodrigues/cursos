@@ -641,4 +641,40 @@ class AulaController extends Controller
                 break;
         }
     }
+
+    public function listarAnexo(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarAdmin())
+            //Redirecionamento para a rota acessoAula, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionar();
+
+            
+
+        $retorno = [
+            'msg' => 'Aulas reordenadas!',
+            'status' => 1
+        ];
+
+        //Resposta JSON
+        return response()->json($retorno);
+    }
+
+    public function deletarAnexo(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarAdmin())
+            //Redirecionamento para a rota acessoAula, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionar();
+
+            
+
+        $retorno = [
+            'msg' => 'Aulas reordenadas!',
+            'status' => 1
+        ];
+
+        //Resposta JSON
+        return response()->json($retorno);
+    }
 }

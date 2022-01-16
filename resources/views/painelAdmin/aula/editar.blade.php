@@ -133,6 +133,73 @@
         }
 
         tipoAula();
+
+
+
+        function listarAnexo() {
+            $("#div-anexos").empty();
+
+            $.ajax({
+                type: 'post',
+                url: "{{ route('aulaListarAnexo') }}",
+                data: {
+                    _token: $("input[name='_token']").val(),
+                    'id': $("#id").val()
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if (data.dados.length < 1) {
+                        $("#div-anexos").append('<h3 class="text-center">Não há anexos!</h3>');
+                    }
+                    data.dados.forEach(item => {
+                        div = '<div class="col-md-4 mt-10" style="border: 1px solid #e4e4e4;">';
+                        div += '<h4>' + item.nome + '</h4>';
+                        div += '<a href="{{ URL::asset('/storage') }}/' + item.documento +
+                            '" target="_blank" class="btn btn-success"><i class="fa fa-search"></i> Visualizar arquivo atual</a>';
+                        div += '<a onclick="excluir(' + item.id + ', ' + "'" + item.nome + "'" +
+                            ')"  class="btn btn-danger"><i class="fa fa-trash"></i> Excluir</a>';
+                        div += '<p>' + item.data + '</p>';
+                        div += '</div>';
+                        $("#div-anexos").append(div);
+                    });
+                }
+            });
+        }
+
+        function excluirAjax() {
+            $.ajax({
+                type: 'post',
+                url: "{{ route('aulaDeletarAnexo') }}",
+                data: {
+                    _token: $("input[name='_token']").val(),
+                    'id': $("#id-delete").val()
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if (data.status == 1) {
+
+                        Lobibox.notify('success', {
+                            size: 'mini',
+                            sound: false,
+                            icon: false,
+                            position: 'top right',
+                            msg: data.msg
+                        });
+                        $("#modalExcluir").modal("hide");
+                        listarAnexo();
+                    } else {
+
+                        Lobibox.notify('warning', {
+                            size: 'mini',
+                            sound: false,
+                            icon: false,
+                            position: 'top right',
+                            msg: data.msg
+                        });
+                    }
+                }
+            });
+        }
     </script>
     <script src="{{ URL::asset('template/vendor/quill.min.js') }}"></script>
     <script src="{{ URL::asset('template/js/quill.js') }}"></script>
@@ -241,7 +308,21 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="anexos">
-                        <!-- Aqui é anexos -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4 class="pt-0">Anexos</h4>
+                                <form action="{{ route('aulaInserirAnexo') }}" method="post" class="dropzone" id="my-awesome-dropzone">
+                                    @csrf
+                                    <input type="hidden" name="aula_id" id="aula_id" value="{{ $item->id }}">
+                                    <div class="dz-message needsclick">
+                                        Enviar anexos. <br />
+                                        <span class="note needsclick">(Clique ou arraste os itens para cá, o envio é automático)
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row" id="div-anexos"></div>
                     </div>
                 </div>
             </div>
