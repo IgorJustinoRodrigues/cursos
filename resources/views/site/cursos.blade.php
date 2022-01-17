@@ -123,7 +123,7 @@
                                             @endif
                                         </div>
                                         <div class="course-content">
-                                            <div class="course-price">$30</div>
+                                            <div class="course-price">R$30</div>
                                             <div class="course-category">
                                                 <div class="course-cate">
                                                     <a
@@ -142,7 +142,7 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                            <a href="{{ route('site.lerCurso', ['10', 'lerCurso.html']) }}">
+                                            <a href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}">
                                                 <h5>{{ $item->nome }}</h5>
                                             </a>
                                             <div class="course-details">
@@ -159,12 +159,12 @@
                                                 <div class="course-author">
                                                     <img src="{{ URL::asset('site/images/course/author/01.jpg') }}"
                                                         alt="course author">
-                                                    <a href="team-single.html"
-                                                        class="ca-name">{{ $item->professor }}</a>
+                                                    <span
+                                                        class="ca-name">{{ $item->professor }}</span>
                                                 </div>
                                                 <div class="course-btn">
-                                                    <a href="{{ route('site.lerCurso', ['10', 'lerCurso.html']) }}"
-                                                        class="lab-btn-text">Read More <i
+                                                    <a href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}"
+                                                        class="lab-btn-text">Ver Curso <i
                                                             class="icofont-external-link"></i></a>
                                                 </div>
                                             </div>

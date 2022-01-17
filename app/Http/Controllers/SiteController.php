@@ -73,15 +73,26 @@ class SiteController extends Controller
         ]);
     }
 
-    public function lerCurso($item, $url)
+    public function lerCurso($id, $url)
     {
-
-
+        //Categorias Menu cabeçalho do site
         $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();
+
+        $curso = Curso::join('categoria_cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
+            ->join('professors', 'professors.id', '=', 'cursos.professor_id')
+            ->leftjoin('aulas', 'aulas.curso_id', '=', 'cursos.id')
+            ->where('cursos.visibilidade', '=', 1)
+            ->where('cursos.status', '=', 1)
+            ->selectRaw('count(aulas.curso_id) as soma, cursos.descricao, cursos.id,cursos.tipo, cursos.imagem, cursos.nome, categoria_cursos.nome as categoria, categoria_cursos.id as categoria_id, professors.nome as professor, professors.avatar')
+            ->groupBy('aulas.curso_id')
+            ->find($id);
+
+
 
         //Exibe a view
         return view('site.lerCurso', [
-            'categoriasMenu' => $categoriasMenu
+            'categoriasMenu' => $categoriasMenu,
+            'lerCurso' => $curso,
         ]);
     }
 
