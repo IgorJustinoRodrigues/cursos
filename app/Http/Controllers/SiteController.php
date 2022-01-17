@@ -12,10 +12,17 @@ class SiteController extends Controller
     //Função index/início do Site 
     public function index()
     {
-        $categorias = CategoriaCurso::where('status', '=', 1)->get();
+        //listagem da categoria de cursos e contagem de Quantos cursos tem em uma categoria
+        $categorias = CategoriaCurso::join('cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
+            ->selectRaw('categoria_cursos.id, categoria_cursos.imagem as imagemCategoria, categoria_cursos.nome, count(categoria_cursos.id) as quantCursoCategoria')
+            ->groupBy('cursos.categoria_id')
+            ->get();
 
+        //Listagem de Parceiros
         $parceiros = Parceiro::where('visibilidade', '=', 1)->where('status', '=', 1)->get();
 
+
+        //listagem de cursos 
         $cursos = Curso::join('categoria_cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
             ->join('professors', 'professors.id', '=', 'cursos.professor_id')
             ->where('cursos.visibilidade', '=', 1)

@@ -98,8 +98,8 @@
                             <div class="category-item text-center">
                                 <div class="category-inner">
                                     <div class="category-thumb">
-                                        @if ($item->imagem != '')
-                                            <img src="{{ URL::asset('storage/' . $item->imagem) }}" class="avatar-img">
+                                        @if ($item->imagemCategoria != '')
+                                            <img src="{{ URL::asset('storage/' . $item->imagemCategoria) }}" class="avatar-img">
                                         @else
                                             <img src="{{ URL::asset('storage/imagemCategoriaCurso/padrao.png') }}">
                                         @endif
@@ -108,7 +108,7 @@
                                         <a href="{{ $item->id }}">
                                             <h6>{{ $item->nome }}</h6>
                                         </a>
-                                        <span>24 Cursos</span>
+                                        <span>{{$item->quantCursoCategoria}} Cursos</span>
                                     </div>
                                 </div>
                             </div>
