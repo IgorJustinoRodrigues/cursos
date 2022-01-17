@@ -103,7 +103,7 @@
                         </div>
 
                         <div id="respond" class="comment-respond mb-lg-0">
-                            <h4 class="title-border">Leave a Comment</h4>
+                            <h4 class="title-border">Pedir mais detalhes do Curso de {{$lerCurso->nome}}</h4>
                             <div class="add-comment">
                                 <form action="#" method="post" id="commentform" class="comment-form">
                                     <input type="text" placeholder="review title">
