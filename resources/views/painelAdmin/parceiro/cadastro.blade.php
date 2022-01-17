@@ -104,7 +104,7 @@
                             </div>
 
                             <div class="col-12 col-md-4 mb-3">
-                                <label class="form-label" for="logo">Logo (900x600px)</label>
+                                <label class="form-label" for="logo">Logo (159x46px)</label>
                                 <input type="file" class="form-control" id="logo" name="logo">
                             </div>
 

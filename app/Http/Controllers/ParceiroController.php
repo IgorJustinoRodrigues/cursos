@@ -124,7 +124,7 @@ class ParceiroController extends Controller
             //Edição da imagem recebida com a Class Canva 
             $img->carrega(public_path('storage/' . $item->logo))
                 ->hexa('#FFFFFF')
-                ->redimensiona(600, 600, 'preenchimento')
+                ->redimensiona(159, 46, 'preenchimento')
                 ->grava(public_path('storage/' . $item->logo), 80);
         } else {
             //Atribuição de valor padrão para imagem logo caso o mesmo não seja informado 
@@ -217,7 +217,7 @@ class ParceiroController extends Controller
             //Edição da imagem recebida com a Class Canva 
             $img->carrega(public_path('storage/' . $item->logo))
                 ->hexa('#FFFFFF')
-                ->redimensiona(900, 600, 'preenchimento')
+                ->redimensiona(159, 46, 'preenchimento')
                 ->grava(public_path('storage/' . $item->logo), 80);
         }
 
