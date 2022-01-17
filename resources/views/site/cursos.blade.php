@@ -147,8 +147,9 @@
                                             </a>
                                             <div class="course-details">
                                                 <div class="couse-count"><i class="icofont-video-alt"></i>
+                                                    @if ($item->soma == 1) Aula @else Aulas @endif  
                                                     {{ $item->soma }}
-                                                    @if ($item->soma == 1) Aula @else Aulas @endif
+                                                    
                                                 </div>
                                                 <div class="couse-topic"><i
                                                         class="icofont-signal"></i>{{ app(App\Http\Controllers\CursoController::class)->tipo($item->tipo, true) }}

@@ -99,7 +99,8 @@
                                 <div class="category-inner">
                                     <div class="category-thumb">
                                         @if ($item->imagemCategoria != '')
-                                            <img src="{{ URL::asset('storage/' . $item->imagemCategoria) }}" class="avatar-img">
+                                            <img src="{{ URL::asset('storage/' . $item->imagemCategoria) }}"
+                                                class="avatar-img">
                                         @else
                                             <img src="{{ URL::asset('storage/imagemCategoriaCurso/padrao.png') }}">
                                         @endif
@@ -108,7 +109,7 @@
                                         <a href="{{ $item->id }}">
                                             <h6>{{ $item->nome }}</h6>
                                         </a>
-                                        <span>{{$item->quantCursoCategoria}} Cursos</span>
+                                        <span>{{ $item->quantCursoCategoria }} Cursos</span>
                                     </div>
                                 </div>
                             </div>
@@ -116,7 +117,8 @@
                     @endforeach
                 </div>
                 <div class="text-center mt-5">
-                    <a href="course.html" class="lab-btn"><span>Navegar em todas as categorias</span></a>
+                    <a href="{{ route('site.cursos') }}" class="lab-btn"><span>Navegar em todas as
+                            categorias</span></a>
                 </div>
             </div>
         </div>
@@ -138,7 +140,11 @@
                                 <div class="course-item">
                                     <div class="course-inner">
                                         <div class="course-thumb">
-                                            <img src="{{ URL::asset('storage/' . $item->imagem) }}" alt="course">
+                                            @if ($item->imagem != '')
+                                                <img src="{{ URL::asset('storage/' . $item->imagem) }}" alt="">
+                                            @else
+                                                <img src="{{ URL::asset('storage/imagemCurso/padrao.png') }}" alt="">
+                                            @endif
                                         </div>
                                         <div class="course-content">
                                             <div class="course-category">
@@ -160,7 +166,9 @@
                                                 <h5>{{ $item->nome }}</h5>
                                             </a>
                                             <div class="course-details">
-                                                <div class="couse-count"><i class="icofont-video-alt"></i> 18x Lesson
+                                                <div class="couse-count"><i class="icofont-video-alt"></i>
+                                                    {{ $item->soma }}
+                                                    @if ($item->soma == 1) Aula @else Aulas @endif
                                                 </div>
                                                 <div class="couse-topic"><span class="ratting-count">03 reviews</span>
                                                 </div>
