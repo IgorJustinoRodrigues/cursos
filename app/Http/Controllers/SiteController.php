@@ -83,7 +83,7 @@ class SiteController extends Controller
             ->leftjoin('aulas', 'aulas.curso_id', '=', 'cursos.id')
             ->where('cursos.visibilidade', '=', 1)
             ->where('cursos.status', '=', 1)
-            ->selectRaw('count(aulas.curso_id) as soma, cursos.descricao, cursos.id,cursos.tipo, cursos.imagem, cursos.nome, categoria_cursos.nome as categoria, categoria_cursos.id as categoria_id, professors.nome as professor, professors.avatar')
+            ->selectRaw('count(aulas.curso_id) as soma, aulas.video, cursos.descricao, cursos.id,cursos.tipo, cursos.imagem, cursos.nome, categoria_cursos.nome as categoria, categoria_cursos.id as categoria_id, professors.nome as professor, professors.avatar')
             ->groupBy('aulas.curso_id')
             ->find($id);
 
