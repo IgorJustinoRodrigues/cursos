@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AnexoAula;
 use App\Models\Aula;
 use App\Models\Canvas;
 use App\Models\Curso;
@@ -642,6 +643,34 @@ class AulaController extends Controller
         }
     }
 
+    public function inserirAnexo(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarAdmin())
+            //Redirecionamento para a rota acessoAula, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionar();
+
+        $item = new AnexoAula();
+        $item->aula_id = $request->aula_id;
+
+        //Verificação se imagem de imagem foi informado, caso seja verifica-se sua integridade
+        if (@$request->file('file') and $request->file('file')->isValid()) {
+            //Validação das informações recebidas
+            $validated = $request->validate([
+                'file' => 'required|max:10240'
+            ]);
+
+            //Atribuição dos valores recebidos da váriavel $request após seu upload
+            $item->arquivo = $request->file->store('anexoAula');
+        } 
+
+        //Envio das informações para o banco de dados
+        $item->save();
+
+        //Verificação do insert
+        echo ('"' . $request->file('file')->getClientOriginalName() . '" enviado com sucesso!');
+    }
+
     public function listarAnexo(Request $request)
     {
         //Validação de acesso
@@ -649,12 +678,20 @@ class AulaController extends Controller
             //Redirecionamento para a rota acessoAula, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-            
+        $anexo = AnexoAula::where('aula_id', '=', $request->id)
+            ->get();
 
-        $retorno = [
-            'msg' => 'Aulas reordenadas!',
-            'status' => 1
-        ];
+        if (count($anexo) > 0) {
+            $retorno = [
+                'status' => 1,
+                'anexos' => $anexo
+            ];
+        } else {
+            $retorno = [
+                'msg' => 'Não há anexos!',
+                'status' => 0
+            ];
+        }
 
         //Resposta JSON
         return response()->json($retorno);
@@ -667,7 +704,7 @@ class AulaController extends Controller
             //Redirecionamento para a rota acessoAula, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-            
+
 
         $retorno = [
             'msg' => 'Aulas reordenadas!',

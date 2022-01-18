@@ -5,12 +5,49 @@
 @section('header')
     <link type="text/css" href="{{ URL::asset('template/css/quill.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('template/css/select2.min.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ URL::asset('template/css/dropzone.min.css') }}">
 @endsection
 
 @section('footer')
     <!-- Quill -->
     <script src="{{ URL::asset('template/js/select2.min.js') }}"></script>
+    <script src="{{ URL::asset('template/js/dropzone.min.js') }}"></script>
     <script>
+        $(function($) {
+            Dropzone.options.myAwesomeDropzone = {
+                paramName: "arquivo", // The name that will be used to transfer the file
+                autoProcessQueue: true,
+                acceptedFiles: ".png,.jpg,.gif,.bmp,.jpeg",
+                maxFilesize: 10, // MB
+                success: function(file, response) {
+
+                    Lobibox.notify('success', {
+                        size: 'mini',
+                        sound: false,
+                        icon: false,
+                        position: 'top right',
+                        msg: response
+                    });
+
+                    this.removeFile(file);
+                    listarAnexo();
+                },
+                error: function(file, response) {
+                    if (typeof response.message !== "undefined") {
+                        response.errors.arquivo.forEach(element => {
+                            response.message += '\n' + element;
+                        });
+
+                        $(file.previewElement).addClass("dz-error").find('.dz-error-message').text(response
+                            .message);
+                    } else {
+                        $(file.previewElement).addClass("dz-error").find('.dz-error-message').text(
+                        response);
+                    }
+                },
+            };
+        });
+
         function prepararSubmit() {
             var texto = $(".ql-editor").html();
             $("#input-texto").val(texto);
@@ -134,7 +171,7 @@
 
         tipoAula();
 
-
+        listarAnexo();
 
         function listarAnexo() {
             $("#div-anexos").empty();
@@ -148,20 +185,21 @@
                 },
                 dataType: 'json',
                 success: function(data) {
-                    if (data.dados.length < 1) {
-                        $("#div-anexos").append('<h3 class="text-center">Não há anexos!</h3>');
+                    if (data.status == 1) {
+                        data.anexos.forEach(item => {
+                            div = '<div class="col-md-4 mt-10" style="border: 1px solid #e4e4e4;">';
+                            div += '<h4>' + item.nome + '</h4>';
+                            div += '<a href="{{ URL::asset('/storage') }}/' + item.arquivo +
+                                '" target="_blank" class="btn btn-success"><i class="fa fa-search"></i> Visualizar arquivo</a>';
+                            div += '<a onclick="excluir(' + item.id + ', ' + "'" + item.nome + "'" +
+                                ')"  class="btn btn-danger"><i class="fa fa-trash"></i> Excluir</a>';
+                            div += '<p>' + item.data + '</p>';
+                            div += '</div>';
+                            $("#div-anexos").append(div);
+                        });
+                    } else {
+                        $("#div-anexos").append('<h3 class="text-center">'+ data.msg +'</h3>');
                     }
-                    data.dados.forEach(item => {
-                        div = '<div class="col-md-4 mt-10" style="border: 1px solid #e4e4e4;">';
-                        div += '<h4>' + item.nome + '</h4>';
-                        div += '<a href="{{ URL::asset('/storage') }}/' + item.documento +
-                            '" target="_blank" class="btn btn-success"><i class="fa fa-search"></i> Visualizar arquivo atual</a>';
-                        div += '<a onclick="excluir(' + item.id + ', ' + "'" + item.nome + "'" +
-                            ')"  class="btn btn-danger"><i class="fa fa-trash"></i> Excluir</a>';
-                        div += '<p>' + item.data + '</p>';
-                        div += '</div>';
-                        $("#div-anexos").append(div);
-                    });
                 }
             });
         }
@@ -217,12 +255,10 @@
             <div class="card">
                 <ul class="nav nav-tabs nav-tabs-card">
                     <li class="nav-item">
-                        <a class="nav-link active"
-                            href="#aula" data-toggle="tab">Informações</a>
+                        <a class="nav-link active" href="#aula" data-toggle="tab">Informações</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"
-                            href="#anexos" data-toggle="tab">Anexos</a>
+                        <a class="nav-link" href="#anexos" data-toggle="tab">Anexos</a>
                     </li>
                 </ul>
                 <div class="card-body tab-content">
@@ -236,7 +272,8 @@
                                     <div class="form-row">
                                         <div class="col-12 col-md-4 mb-3">
                                             <label class="form-label" for="tipo">Tipo de Aula</label>
-                                            <select id="tipo" class="form-control custom-select" name="tipo" onchange="tipoAula();">
+                                            <select id="tipo" class="form-control custom-select" name="tipo"
+                                                onchange="tipoAula();">
                                                 <option value="1" @if ($item->tipo == 1) selected @endif>Aula de Vídeo</option>
                                                 <option value="2" @if ($item->tipo == 2) selected @endif>Aula de Texto</option>
                                                 <option value="3" @if ($item->tipo == 3) selected @endif>Quiz</option>
@@ -251,18 +288,19 @@
                                         </div>
                                         <div class="col-12 col-md-12 mb-3">
                                             <label class="form-label" for="nome">Nome</label>
-                                            <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome"
-                                                value="{{ $item->nome }}" required>
+                                            <input type="text" class="form-control" id="nome" name="nome"
+                                                placeholder="Nome" value="{{ $item->nome }}" required>
                                         </div>
                                         <div class="col-12 col-md-12 mb-3">
                                             <label class="form-label" for="descricao">Descrição</label>
                                             <textarea class="form-control" id="descricao" name="descricao"
-                                                placeholder="Descrição da aula" rows="3">{{ $item->descricao }}</textarea>
+                                                placeholder="Descrição da aula"
+                                                rows="3">{{ $item->descricao }}</textarea>
                                         </div>
                                         <div class="col-12 col-md-12 mb-3">
                                             <label class="form-label" for="duracao">Duração da Aula (Minutos)</label>
-                                            <input type="number" min="1" step="1" class="form-control" id="duracao" name="duracao"
-                                                placeholder="" value="{{ $item->duracao }}">
+                                            <input type="number" min="1" step="1" class="form-control" id="duracao"
+                                                name="duracao" placeholder="" value="{{ $item->duracao }}">
                                         </div>
                                         <div class="col-12 col-md-12 mb-3 div-ocultar video">
                                             <label class="form-label" for="video">Link do vídeo</label>
@@ -273,20 +311,20 @@
                                         </div>
                                         <div class="col-12 col-md-12 mb-3 div-ocultar texto">
                                             <label class="form-label">Texto</label>
-                                            <div class="form-control" id="texto" data-toggle="quill" style="height: 350px;">{!!
-                                                $item->texto !!}</div>
+                                            <div class="form-control" id="texto" data-toggle="quill"
+                                                style="height: 350px;">{!! $item->texto !!}</div>
                                             <input type="hidden" name="texto" id="input-texto">
                                         </div>
-        
+
                                         <div class="col-12 mb-3 div-ocultar pergunta">
                                             <hr>
                                             <div id="div-pergunta">
-        
+
                                             </div>
                                             <a class="btn btn-primary mt-4 right" onclick="addPergunta()">NOVA PERGUNTA</a>
                                             <hr>
                                         </div>
-        
+
                                         <div class="col-12 col-md-6 mb-3">
                                             <label class="form-label" for="status">Status</label>
                                             <select id="status" class="form-control custom-select" name="status">
@@ -311,12 +349,14 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <h4 class="pt-0">Anexos</h4>
-                                <form action="{{ route('aulaInserirAnexo') }}" method="post" class="dropzone" id="my-awesome-dropzone">
+                                <form action="{{ route('aulaInserirAnexo') }}" method="post" class="dropzone"
+                                    id="my-awesome-dropzone"  enctype="multipart/form-data">
                                     @csrf
                                     <input type="hidden" name="aula_id" id="aula_id" value="{{ $item->id }}">
                                     <div class="dz-message needsclick">
                                         Enviar anexos. <br />
-                                        <span class="note needsclick">(Clique ou arraste os itens para cá, o envio é automático)
+                                        <span class="note needsclick">(Clique ou arraste os itens para cá, o envio é
+                                            automático)
                                     </div>
                                 </form>
                             </div>
@@ -326,51 +366,51 @@
                     </div>
                 </div>
             </div>
-                
-            </div>
+
         </div>
-        <div class="d-none" id="modelo">
-            <div class="pergunta">
-                <div style="border: 1px dashed#000; padding: 20px" class="item">
-                    <div class="row">
-                        <input type="hidden" class="form-control input-id-pergunta" name="id_perguntas[]">
-                        <div class="col-9">
-                            <label class="form-label num_pergunta"></label>
-                            <input type="text" class="form-control input-pergunta" name="perguntas[]">
-                        </div>
-                        <div class="col-3">
-                            <a class="btn btn-danger btn-wide btn-block mt-4" onclick="deletarPergunta($(this))">DELETAR
-                                PERGUNTA</a>
-                        </div>
+    </div>
+    <div class="d-none" id="modelo">
+        <div class="pergunta">
+            <div style="border: 1px dashed#000; padding: 20px" class="item">
+                <div class="row">
+                    <input type="hidden" class="form-control input-id-pergunta" name="id_perguntas[]">
+                    <div class="col-9">
+                        <label class="form-label num_pergunta"></label>
+                        <input type="text" class="form-control input-pergunta" name="perguntas[]">
                     </div>
-                    <hr>
-                    <div class="div-resposta">
-
-                    </div>
-                    <a class="btn btn-primary btn-sm mt-4 right" onclick="addResposta($(this))">NOVA
-                        RESPOSTA</a>
-                </div>
-            </div>
-
-            <div class="resposta">
-                <div class="itemResposta m-2">
-                    <div class="row">
-                        <input type="hidden" class="form-control input-id-resposta" name="id_respostas[]">
-                        <div class="col-3">
-                            <select class="form-control custom-select select-resposta">
-                                <option value="1">Correta</option>
-                                <option value="0">Incorreta</option>
-                            </select>
-                        </div>
-                        <div class="col-8">
-                            <input type="text" class="form-control input-resposta">
-                        </div>
-                        <div class="col-1">
-                            <a class="btn btn-danger btn-wide btn-block" onclick="deletarResposta($(this))">DELETAR</a>
-                        </div>
+                    <div class="col-3">
+                        <a class="btn btn-danger btn-wide btn-block mt-4" onclick="deletarPergunta($(this))">DELETAR
+                            PERGUNTA</a>
                     </div>
                 </div>
+                <hr>
+                <div class="div-resposta">
+
+                </div>
+                <a class="btn btn-primary btn-sm mt-4 right" onclick="addResposta($(this))">NOVA
+                    RESPOSTA</a>
             </div>
         </div>
 
-    @endsection
+        <div class="resposta">
+            <div class="itemResposta m-2">
+                <div class="row">
+                    <input type="hidden" class="form-control input-id-resposta" name="id_respostas[]">
+                    <div class="col-3">
+                        <select class="form-control custom-select select-resposta">
+                            <option value="1">Correta</option>
+                            <option value="0">Incorreta</option>
+                        </select>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" class="form-control input-resposta">
+                    </div>
+                    <div class="col-1">
+                        <a class="btn btn-danger btn-wide btn-block" onclick="deletarResposta($(this))">DELETAR</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endsection
