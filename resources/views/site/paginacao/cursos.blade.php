@@ -6,7 +6,7 @@
             </li>
         @else
             <li>
-                <a href="{{ $paginator->previousPageUrl() }}"><i class="icofont-rounded-left"></i></a>
+                <a href="{{ $paginator->previousPageUrl() }}&busca={{$busca}}&categoria={{$categoria}}&ordem={{$ordem}}"><i class="icofont-rounded-left"></i></a>
             </li>
         @endif
         @foreach ($elements as $element)
@@ -24,7 +24,7 @@
                             </li>
                         @else
                             <li>
-                                <a href="{{ $url }}">{{ $page }}</a>
+                                <a href="{{ $url }}&busca={{$busca}}&categoria={{$categoria}}&ordem={{$ordem}}">{{ $page }}</a>
                             </li>
                         @endif
                     @endif
@@ -33,7 +33,7 @@
         @endforeach
         @if ($paginator->hasMorePages())
             <li>
-                <a href="{{ $paginator->nextPageUrl() }}"><i class="icofont-rounded-right"></i></a>
+                <a href="{{ $paginator->nextPageUrl() }}&busca={{$busca}}&categoria={{$categoria}}&ordem={{$ordem}}"><i class="icofont-rounded-right"></i></a>
             </li>
         @else
             <li class="d-none">

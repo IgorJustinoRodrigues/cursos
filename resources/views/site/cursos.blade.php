@@ -42,26 +42,25 @@
                             <span>Filtros</span>
                         </div>
                     </div>
-                    <div class="col-md-11">
+                    <form class="col-md-11" action="{{ route('site.cursos') }}" method="get" id="form-busca">
+                        <input type="hidden" name="page" value="1">
                         <div class="group-select-right">
                             <div class="row g-2 row-cols-lg-4 row-cols-sm-2 row-cols-1">
                                 <div class="col">
                                     <div class="select-item">
-                                        <input type="text">
-                                        <div class="select-icon">
+                                        <input type="text" name="busca" value="{{$busca}}" onchange="$('#form-busca').submit();">
+                                        <div class="select-icon"   onclick="$('#form-busca').submit();">
                                             <i class="icofont-search-2"></i>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="select-item">
-                                        <select>
+                                        <select name="categoria"  onchange="$('#form-busca').submit();">
                                             <option value="">Selecione a Categoria</option>
-                                            <option value="uncategorized">Uncategorized</option>
-                                            <option value="academy">Academy</option>
-                                            <option value="agency">Agency</option>
-                                            <option value="app">App</option>
-                                            <option value="bar">Bar</option>
+                                            @foreach ($categoriasMenu as $linha)
+                                            <option value="{{$linha->id}}" @if($categoria == $linha->id) selected @endif>{{$linha->nome}}</option>                                            
+                                            @endforeach
                                         </select>
                                         <div class="select-icon">
                                             <i class="icofont-rounded-down"></i>
@@ -71,13 +70,13 @@
 
                                 <div class="col">
                                     <div class="select-item">
-                                        <select>
+                                        <select name="ordem"  onchange="$('#form-busca').submit();">
                                             <option value="">Ordenar por</option>
-                                            <option value="29">29</option>
-                                            <option value="39">39</option>
-                                            <option value="69">69</option>
-                                            <option value="99">99</option>
-                                            <option value="199">199</option>
+                                            <option value="1" @if($ordem == 1) selected @endif>Destaques</option>
+                                            <option value="2" @if($ordem == 2) selected @endif>Nível: iniciante a avançado</option>
+                                            <option value="3" @if($ordem == 3) selected @endif>Nível: avançado a iniciante</option>
+                                            <option value="4" @if($ordem == 4) selected @endif>Melhores avaliações</option>
+                                            <option value="5" @if($ordem == 5) selected @endif>Novidades</option>
                                         </select>
                                         <div class="select-icon">
                                             <i class="icofont-rounded-down"></i>
@@ -87,7 +86,7 @@
 
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -174,7 +173,7 @@
                             </div>
                         @endforeach
                     </div>
-                    {{ $curso->links('site.paginacao.cursos') }}
+                    {{ $curso->links('site.paginacao.cursos', ['busca' => $busca, 'categoria' => $categoria, 'ordem' => $ordem]) }}
                 </div>
             </div>
         </div>

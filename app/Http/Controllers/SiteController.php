@@ -8,6 +8,7 @@ use App\Models\Curso;
 use App\Models\Parceiro;
 use App\Models\Professor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class SiteController extends Controller
 {
@@ -50,23 +51,53 @@ class SiteController extends Controller
     {
         $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();
         //Exibe a view 
-        return view('site.ativacaoCodigo',[
-            
+        return view('site.ativacaoCodigo', [
+
             'categoriasMenu' => $categoriasMenu
         ]);
     }
 
     //Função de Cursos
-    public function cursos()
+    public function cursos(Request $request)
     {
-        $cursos = Curso::join('categoria_cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
-            ->join('professors', 'professors.id', '=', 'cursos.professor_id')
-            ->leftjoin('aulas', 'aulas.curso_id', '=', 'cursos.id')
-            ->where('cursos.visibilidade', '=', 1)
-            ->where('cursos.status', '=', 1)
-            ->selectRaw('count(aulas.curso_id) as soma, cursos.id,cursos.tipo, cursos.imagem, cursos.nome, categoria_cursos.nome as categoria, categoria_cursos.id as categoria_id, professors.nome as professor, professors.avatar')
-            ->groupBy('aulas.curso_id')
-            ->paginate(9);
+        $busca = $request->busca;
+        $categoria = $request->categoria;
+        $ordem = $request->ordem;
+
+        $consulta = Curso::where('visibilidade', '=', 1)
+            ->where('status', '=', 1);
+
+        if ($busca != '') {
+            $consulta->where('nome', 'like', '%' . $busca . '%');
+        }
+
+        if ($categoria != '') {
+            $consulta->where('categoria_id', '=', $categoria);
+        }
+
+        switch ($ordem) {
+            case '1':
+                //Destaque
+                break;
+
+            case '2':
+                $consulta->orderBy('tipo', 'asc');
+                break;
+
+            case '3':
+                $consulta->orderBy('tipo', 'desc');
+                break;
+
+            case '4':
+                //Avaliações
+                break;
+
+            case '5':
+                $consulta->orderBy('created_at', 'desc');
+                break;
+        }
+
+        $cursos = $consulta->paginate(9);
 
 
         $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();
@@ -74,17 +105,20 @@ class SiteController extends Controller
         //Exibe a view 
         return view('site.cursos', [
             'curso' => $cursos,
-            'categoriasMenu' => $categoriasMenu
+            'categoriasMenu' => $categoriasMenu,
+            'busca' => $busca,
+            'categoria' => $categoria,
+            'ordem' => $ordem,
         ]);
     }
 
     public function lerCurso($id, $url)
     {
         $curso = Curso::where('status', '=', 1)
-        ->where('visibilidade', '=', 1)
-        ->find($id);
+            ->where('visibilidade', '=', 1)
+            ->find($id);
 
-        if(!$curso){
+        if (!$curso) {
             return redirect()->back()->with('atencao', 'Curso não encontrado!')->withInput();
         }
 
@@ -95,9 +129,9 @@ class SiteController extends Controller
 
         $tempoTotal = 0;
         $totalQuiz = 0;
-        foreach($aulas as $linha){
+        foreach ($aulas as $linha) {
             $tempoTotal += $linha->duracao;
-            if($linha->tipo == 3){
+            if ($linha->tipo == 3) {
                 $totalQuiz++;
             }
         }

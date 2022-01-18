@@ -91,7 +91,7 @@
                                     <a href="{{ route('site.cursos') }}">Cursos</a>
                                     <ul class="lab-ul">
                                         @foreach ($categoriasMenu as $linha)
-                                        <li><a href="{{ route('site.cursos') }}">{{$linha->nome}}</a></li>                                            
+                                        <li><a href="{{ route('site.cursos') }}?categoria={{$linha->id}}">{{$linha->nome}}</a></li>                                            
                                         @endforeach
                                     </ul>
                                 </li>
