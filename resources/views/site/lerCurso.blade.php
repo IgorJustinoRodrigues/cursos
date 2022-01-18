@@ -91,7 +91,7 @@
                                                 <li class=" d-flex flex-wrap justify-content-between">
                                                     <div class="video-item-title">Ver Prévia do Curso</div>
                                                     <div class="video-item-icon"><a
-                                                            href="https://www.youtube-nocookie.com/embed/jP649ZHA8Tg"
+                                                            href="https://player.vimeo.com/video/388311362"
                                                             data-rel="lightcase"><i class="icofont-play-alt-2"></i></a>
                                                     </div>
                                                 </li>
