@@ -26,14 +26,20 @@
                 <div class="col-lg-5 col-12">
                     <div class="pageheader-content">
                         <div class="course-category">
-                            <a href="#" class="course-cate">Adobe XD</a>
-                            <a href="#" class="course-offer">30% de Desconto</a>
+                            <a href="#" class="course-cate">{{ $categoria->nome }}</a>
+                            <a href="#" class="course-offer">{{ app(App\Http\Controllers\CursoController::class)->tipo($curso->tipo, true) }}</a>
                         </div>
-                        <h2 class="phs-title">{{ $lerCurso->nome }}</h2>
+                        <h2 class="phs-title">{{ $curso->nome }}</h2>
                         <p class="phs-desc"></p>
                         <div class="phs-thumb">
-                            <img src="{{ URL::asset('site/images/pageheader/03.jpg') }}" alt="rajibraj91">
-                            <span>{{ $lerCurso->professor }}</span>
+                            @if ($professor->avatar != '')
+                                <img src="{{ URL::asset('storage/' . $professor->avatar) }}"
+                                    class="avatar-img">
+                            @else
+                                <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}"
+                                    style="width: 50px">
+                            @endif
+                            <span>{{ $professor->nome }}</span>
                             <div class="course-reiew">
                                 <span class="ratting">
                                     <i class="icofont-ui-rating"></i>
@@ -66,7 +72,7 @@
                                 <div class="course-content">
                                     <h3>Visão geral do curso</h3>
                                     <!-- Descrição do Ler Curso -->
-                                    <p>{!! $lerCurso->descricao !!}</p>
+                                    <p>{!! $curso->descricao !!}</p>
 
                                 </div>
                             </div>
@@ -82,19 +88,19 @@
                                         <div class="accordion-header" id="accordion01">
                                             <button class="d-flex flex-wrap justify-content-between"
                                                 data-bs-toggle="collapse" data-bs-target="#videolist1" aria-expanded="true"
-                                                aria-controls="videolist1"><span>1.Contéudo de Prévia do Curso</span> <span>{{$lerCurso->soma}} Aulas,
-                                                    17:37</span> </button>
+                                                aria-controls="videolist1"><span>1.Contéudo de Prévia do Curso</span> <span>{{$quantidadeAula}} Aulas,
+                                                    {{app(App\Services\Services::class)->minuto_hora($tempoTotal)}}</span> </button>
                                         </div>
                                         <div id="videolist1" class="accordion-collapse collapse show"
                                             aria-labelledby="accordion01" data-bs-parent="#accordionExample">
                                             <ul class="lab-ul video-item-list">
+                                                @foreach ($aulas as $linha)
                                                 <li class=" d-flex flex-wrap justify-content-between">
-                                                    <div class="video-item-title">Ver Prévia do Curso</div>
-                                                    <div class="video-item-icon"><a
-                                                            href="https://player.vimeo.com/video/388311362"
-                                                            data-rel="lightcase"><i class="icofont-play-alt-2"></i></a>
+                                                    <div class="video-item-title">{{$linha->nome}}</div>
+                                                    <div class="video-item-icon">{{app(App\Services\Services::class)->minuto_hora($linha->duracao)}}
                                                     </div>
                                                 </li>
+                                                @endforeach
                                             </ul>
                                         </div>
                                     </div>
@@ -103,7 +109,7 @@
                         </div>
 
                         <div id="respond" class="comment-respond mb-lg-0">
-                            <h4 class="title-border">Pedir mais detalhes do Curso de {{$lerCurso->nome}}</h4>
+                            <h4 class="title-border">Pedir mais detalhes do Curso de {{$curso->nome}}</h4>
                             <div class="add-comment">
                                 <form action="#" method="post" id="commentform" class="comment-form">
                                     <input type="text" placeholder="review title">
@@ -132,12 +138,12 @@
                                     <ul class="lab-ul">
                                         <li>
                                             <div class="csdc-left"><i class="icofont-ui-alarm"></i>Course level</div>
-                                            <div class="csdc-right">Beginner</div>
+                                            <div class="csdc-right">{{ app(App\Http\Controllers\CursoController::class)->tipo($curso->tipo, true) }}</div>
                                         </li>
                                         <li>
                                             <div class="csdc-left"><i class="icofont-book-alt"></i>Course Duration
                                             </div>
-                                            <div class="csdc-right">10 week</div>
+                                            <div class="csdc-right">{{app(App\Services\Services::class)->minuto_hora($tempoTotal)}}</div>
                                         </li>
                                         <li>
                                             <div class="csdc-left"><i class="icofont-signal"></i>Online Class</div>
@@ -145,16 +151,16 @@
                                         </li>
                                         <li>
                                             <div class="csdc-left"><i class="icofont-video-alt"></i>Lessions</div>
-                                            <div class="csdc-right">18x</div>
+                                            <div class="csdc-right">{{$quantidadeAula}}x</div>
                                         </li>
                                         <li>
                                             <div class="csdc-left"><i class="icofont-abacus-alt"></i>Quizzes</div>
-                                            <div class="csdc-right">0</div>
+                                            <div class="csdc-right">{{$totalQuiz}}</div>
                                         </li>
                                         <li>
                                             <div class="csdc-left"><i class="icofont-hour-glass"></i>Pass parcentages
                                             </div>
-                                            <div class="csdc-right">80</div>
+                                            <div class="csdc-right">{{ $curso->porcentagem_solicitacao_certificado }}%</div>
                                         </li>
                                         <li>
                                             <div class="csdc-left"><i class="icofont-certificate"></i>Certificate

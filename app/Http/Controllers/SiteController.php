@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aula;
 use App\Models\CategoriaCurso;
 use App\Models\Curso;
 use App\Models\Parceiro;
+use App\Models\Professor;
 use Illuminate\Http\Request;
 
 class SiteController extends Controller
@@ -46,9 +48,12 @@ class SiteController extends Controller
     //Funçao de Ativação do Código sub-aba de início
     public function ativacaoCodigo()
     {
-
+        $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();
         //Exibe a view 
-        return view('site.ativacaoCodigo');
+        return view('site.ativacaoCodigo',[
+            
+            'categoriasMenu' => $categoriasMenu
+        ]);
     }
 
     //Função de Cursos
@@ -75,24 +80,41 @@ class SiteController extends Controller
 
     public function lerCurso($id, $url)
     {
+        $curso = Curso::where('status', '=', 1)
+        ->where('visibilidade', '=', 1)
+        ->find($id);
+
+        if(!$curso){
+            return redirect()->back()->with('atencao', 'Curso não encontrado!')->withInput();
+        }
+
+        $professor = Professor::where('status', '=', 1)->find($curso->professor_id);
+        $categoria = CategoriaCurso::where('status', '=', 1)->find($curso->categoria_id);
+
+        $aulas = Aula::where('status', '=', 1)->where('curso_id', '=', $curso->id)->get();
+
+        $tempoTotal = 0;
+        $totalQuiz = 0;
+        foreach($aulas as $linha){
+            $tempoTotal += $linha->duracao;
+            if($linha->tipo == 3){
+                $totalQuiz++;
+            }
+        }
+
         //Categorias Menu cabeçalho do site
         $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();
-
-        $curso = Curso::join('categoria_cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
-            ->join('professors', 'professors.id', '=', 'cursos.professor_id')
-            ->leftjoin('aulas', 'aulas.curso_id', '=', 'cursos.id')
-            ->where('cursos.visibilidade', '=', 1)
-            ->where('cursos.status', '=', 1)
-            ->selectRaw('count(aulas.curso_id) as soma, aulas.video, cursos.descricao, cursos.id,cursos.tipo, cursos.imagem, cursos.nome, categoria_cursos.nome as categoria, categoria_cursos.id as categoria_id, professors.nome as professor, professors.avatar')
-            ->groupBy('aulas.curso_id')
-            ->find($id);
-
-
 
         //Exibe a view
         return view('site.lerCurso', [
             'categoriasMenu' => $categoriasMenu,
-            'lerCurso' => $curso,
+            'curso' => $curso,
+            'professor' => $professor,
+            'categoria' => $categoria,
+            'aulas' => $aulas,
+            'tempoTotal' => $tempoTotal,
+            'quantidadeAula' => count($aulas),
+            'totalQuiz' => $totalQuiz
         ]);
     }
 
