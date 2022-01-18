@@ -30,7 +30,7 @@ Route::get('/', [SiteController::class, 'index'])->name('inicio');
 ROTAS DE SITE
 */
 Route::get('/ativacao-codigo', [SiteController::class, 'ativacaoCodigo'])->name('site.ativacaoCodigo');
-Route::get('/cursos', [SiteController::class, 'cursos'])->name('site.cursos');
+Route::get('/cursos/{categoria?}/{nome?}', [SiteController::class, 'cursos'])->name('site.cursos');
 Route::get('/ler/curso/{item}/{url?}', [SiteController::class, 'lerCurso'])->name('site.lerCurso');
 Route::get('/suporte', [SiteController::class, 'suporte'])->name('site.suporte');
 

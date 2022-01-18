@@ -58,10 +58,14 @@ class SiteController extends Controller
     }
 
     //Função de Cursos
-    public function cursos(Request $request)
+    public function cursos(Request $request, $categoria = null)
     {
         $busca = $request->busca;
-        $categoria = $request->categoria;
+        
+        if(!$categoria){
+            $categoria = $request->categoria;
+        }
+
         $ordem = $request->ordem;
 
         $consulta = Curso::where('visibilidade', '=', 1)
