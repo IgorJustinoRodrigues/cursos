@@ -48,18 +48,20 @@
                             <div class="row g-2 row-cols-lg-4 row-cols-sm-2 row-cols-1">
                                 <div class="col">
                                     <div class="select-item">
-                                        <input type="text" name="busca" value="{{$busca}}" onchange="$('#form-busca').submit();">
-                                        <div class="select-icon"   onclick="$('#form-busca').submit();">
+                                        <input type="text" name="busca" value="{{ $busca }}"
+                                            onchange="$('#form-busca').submit();">
+                                        <div class="select-icon" onclick="$('#form-busca').submit();">
                                             <i class="icofont-search-2"></i>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="select-item">
-                                        <select name="categoria"  onchange="$('#form-busca').submit();">
+                                        <select name="categoria" onchange="$('#form-busca').submit();">
                                             <option value="">Selecione a Categoria</option>
                                             @foreach ($categoriasMenu as $linha)
-                                            <option value="{{$linha->id}}" @if($categoria == $linha->id) selected @endif>{{$linha->nome}}</option>                                            
+                                                <option value="{{ $linha->id }}" @if ($categoria == $linha->id) selected @endif>
+                                                    {{ $linha->nome }}</option>
                                             @endforeach
                                         </select>
                                         <div class="select-icon">
@@ -70,13 +72,13 @@
 
                                 <div class="col">
                                     <div class="select-item">
-                                        <select name="ordem"  onchange="$('#form-busca').submit();">
+                                        <select name="ordem" onchange="$('#form-busca').submit();">
                                             <option value="">Ordenar por</option>
-                                            <option value="1" @if($ordem == 1) selected @endif>Destaques</option>
-                                            <option value="2" @if($ordem == 2) selected @endif>Nível: iniciante a avançado</option>
-                                            <option value="3" @if($ordem == 3) selected @endif>Nível: avançado a iniciante</option>
-                                            <option value="4" @if($ordem == 4) selected @endif>Melhores avaliações</option>
-                                            <option value="5" @if($ordem == 5) selected @endif>Novidades</option>
+                                            <option value="1" @if ($ordem == 1) selected @endif>Destaques</option>
+                                            <option value="2" @if ($ordem == 2) selected @endif>Nível: iniciante a avançado</option>
+                                            <option value="3" @if ($ordem == 3) selected @endif>Nível: avançado a iniciante</option>
+                                            <option value="4" @if ($ordem == 4) selected @endif>Melhores avaliações</option>
+                                            <option value="5" @if ($ordem == 5) selected @endif>Novidades</option>
                                         </select>
                                         <div class="select-icon">
                                             <i class="icofont-rounded-down"></i>
@@ -122,7 +124,6 @@
                                             @endif
                                         </div>
                                         <div class="course-content">
-                                            <div class="course-price">R$30</div>
                                             <div class="course-category">
                                                 <div class="course-cate">
                                                     <a
@@ -141,14 +142,15 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                            <a href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}">
+                                            <a
+                                                href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}">
                                                 <h5>{{ $item->nome }}</h5>
                                             </a>
                                             <div class="course-details">
                                                 <div class="couse-count"><i class="icofont-video-alt"></i>
-                                                    @if ($item->soma == 1) Aula @else Aulas @endif  
+                                                    @if ($item->soma == 1) Aula @else Aulas @endif
                                                     {{ $item->soma }}
-                                                    
+
                                                 </div>
                                                 <div class="couse-topic"><i
                                                         class="icofont-signal"></i>{{ app(App\Http\Controllers\CursoController::class)->tipo($item->tipo, true) }}
@@ -156,10 +158,14 @@
                                             </div>
                                             <div class="course-footer">
                                                 <div class="course-author">
-                                                    <img src="{{ URL::asset('site/images/course/author/01.jpg') }}"
-                                                        alt="course author">
-                                                    <span
-                                                        class="ca-name">{{ $item->professor }}</span>
+                                                    @if ($item->avatar_professor != '')
+                                                        <img src="{{ URL::asset('storage/' . $item->avatar_professor) }}"
+                                                            class="avatar-img">
+                                                    @else
+                                                        <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}"
+                                                            style="width: 50px">
+                                                    @endif
+                                                    <span class="ca-name">{{ $item->professor }}</span>
                                                 </div>
                                                 <div class="course-btn">
                                                     <a href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}"

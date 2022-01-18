@@ -61,22 +61,24 @@ class SiteController extends Controller
     public function cursos(Request $request, $categoria = null)
     {
         $busca = $request->busca;
-        
+
         if(!$categoria){
             $categoria = $request->categoria;
         }
 
         $ordem = $request->ordem;
 
-        $consulta = Curso::where('visibilidade', '=', 1)
-            ->where('status', '=', 1);
+        $consulta = Curso::leftjoin('professors', 'professors.id', '=', 'cursos.professor_id')
+            ->join('categoria_cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
+            ->where('cursos.visibilidade', '=', 1)
+            ->where('cursos.status', '=', 1);
 
         if ($busca != '') {
-            $consulta->where('nome', 'like', '%' . $busca . '%');
+            $consulta->where('cursos.nome', 'like', '%' . $busca . '%');
         }
 
         if ($categoria != '') {
-            $consulta->where('categoria_id', '=', $categoria);
+            $consulta->where('cursos.categoria_id', '=', $categoria);
         }
 
         switch ($ordem) {
@@ -85,11 +87,11 @@ class SiteController extends Controller
                 break;
 
             case '2':
-                $consulta->orderBy('tipo', 'asc');
+                $consulta->orderBy('cursos.tipo', 'asc');
                 break;
 
             case '3':
-                $consulta->orderBy('tipo', 'desc');
+                $consulta->orderBy('cursos.tipo', 'desc');
                 break;
 
             case '4':
@@ -97,11 +99,12 @@ class SiteController extends Controller
                 break;
 
             case '5':
-                $consulta->orderBy('created_at', 'desc');
+                $consulta->orderBy('cursos.created_at', 'desc');
                 break;
         }
 
-        $cursos = $consulta->paginate(9);
+        $cursos = $consulta->selectRaw('cursos.*, professors.nome as professor, professors.avatar as avatar_professor, categoria_cursos.nome as categoria')
+            ->paginate(9);
 
 
         $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();
