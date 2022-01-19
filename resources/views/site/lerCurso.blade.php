@@ -27,17 +27,16 @@
                     <div class="pageheader-content">
                         <div class="course-category">
                             <a href="#" class="course-cate">{{ $categoria->nome }}</a>
-                            <a href="#" class="course-offer">{{ app(App\Http\Controllers\CursoController::class)->tipo($curso->tipo, true) }}</a>
+                            <a href="#"
+                                class="course-offer">{{ app(App\Http\Controllers\CursoController::class)->tipo($curso->tipo, true) }}</a>
                         </div>
                         <h2 class="phs-title">{{ $curso->nome }}</h2>
                         <p class="phs-desc"></p>
                         <div class="phs-thumb">
                             @if ($professor->avatar != '')
-                                <img src="{{ URL::asset('storage/' . $professor->avatar) }}"
-                                    class="avatar-img">
+                                <img src="{{ URL::asset('storage/' . $professor->avatar) }}" class="avatar-img">
                             @else
-                                <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}"
-                                    style="width: 50px">
+                                <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}" style="width: 50px">
                             @endif
                             <span>{{ $professor->nome }}</span>
                             <div class="course-reiew">
@@ -88,18 +87,21 @@
                                         <div class="accordion-header" id="accordion01">
                                             <button class="d-flex flex-wrap justify-content-between"
                                                 data-bs-toggle="collapse" data-bs-target="#videolist1" aria-expanded="true"
-                                                aria-controls="videolist1"><span>1.Contéudo de Prévia do Curso</span> <span>{{$quantidadeAula}} Aulas,
-                                                    {{app(App\Services\Services::class)->minuto_hora($tempoTotal)}}</span> </button>
+                                                aria-controls="videolist1"><span>1.Contéudo de Prévia do Curso</span>
+                                                <span>{{ $quantidadeAula }} Aulas,
+                                                    {{ app(App\Services\Services::class)->minuto_hora($tempoTotal) }}</span>
+                                            </button>
                                         </div>
                                         <div id="videolist1" class="accordion-collapse collapse show"
                                             aria-labelledby="accordion01" data-bs-parent="#accordionExample">
                                             <ul class="lab-ul video-item-list">
                                                 @foreach ($aulas as $linha)
-                                                <li class=" d-flex flex-wrap justify-content-between">
-                                                    <div class="video-item-title">{{$linha->nome}}</div>
-                                                    <div class="video-item-icon">{{app(App\Services\Services::class)->minuto_hora($linha->duracao)}}
-                                                    </div>
-                                                </li>
+                                                    <li class=" d-flex flex-wrap justify-content-between">
+                                                        <div class="video-item-title">{{ $linha->nome }}</div>
+                                                        <div class="video-item-icon">
+                                                            {{ app(App\Services\Services::class)->minuto_hora($linha->duracao) }}
+                                                        </div>
+                                                    </li>
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -109,7 +111,7 @@
                         </div>
 
                         <div id="respond" class="comment-respond mb-lg-0">
-                            <h4 class="title-border">Pedir mais detalhes do Curso de {{$curso->nome}}</h4>
+                            <h4 class="title-border">Pedir mais detalhes do Curso de {{ $curso->nome }}</h4>
                             <div class="add-comment">
                                 <form action="#" method="post" id="commentform" class="comment-form">
                                     <input type="text" placeholder="review title">
@@ -137,39 +139,36 @@
                                 <div class="csdc-lists">
                                     <ul class="lab-ul">
                                         <li>
-                                            <div class="csdc-left"><i class="icofont-ui-alarm"></i>Course level</div>
-                                            <div class="csdc-right">{{ app(App\Http\Controllers\CursoController::class)->tipo($curso->tipo, true) }}</div>
-                                        </li>
-                                        <li>
-                                            <div class="csdc-left"><i class="icofont-book-alt"></i>Course Duration
+                                            <div class="csdc-left"><i class="icofont-ui-alarm"></i>Nível do curso</div>
+                                            <div class="csdc-right">
+                                                {{ app(App\Http\Controllers\CursoController::class)->tipo($curso->tipo, true) }}
                                             </div>
-                                            <div class="csdc-right">{{app(App\Services\Services::class)->minuto_hora($tempoTotal)}}</div>
                                         </li>
                                         <li>
-                                            <div class="csdc-left"><i class="icofont-signal"></i>Online Class</div>
-                                            <div class="csdc-right">08</div>
+                                            <div class="csdc-left"><i class="icofont-book-alt"></i>Duração do curso
+                                            </div>
+                                            <div class="csdc-right">
+                                                {{ app(App\Services\Services::class)->minuto_hora($tempoTotal) }}</div>
                                         </li>
                                         <li>
-                                            <div class="csdc-left"><i class="icofont-video-alt"></i>Lessions</div>
-                                            <div class="csdc-right">{{$quantidadeAula}}x</div>
+                                            <div class="csdc-left"><i class="icofont-video-alt"></i>Lições</div>
+                                            <div class="csdc-right">{{ $quantidadeAula }}x</div>
                                         </li>
                                         <li>
                                             <div class="csdc-left"><i class="icofont-abacus-alt"></i>Quizzes</div>
-                                            <div class="csdc-right">{{$totalQuiz}}</div>
+                                            <div class="csdc-right">{{ $totalQuiz }}</div>
                                         </li>
                                         <li>
-                                            <div class="csdc-left"><i class="icofont-hour-glass"></i>Pass parcentages
+                                            <div class="csdc-left"><i class="icofont-hour-glass"></i>Porcentagem de
+                                                Aprovação
                                             </div>
-                                            <div class="csdc-right">{{ $curso->porcentagem_solicitacao_certificado }}%</div>
+                                            <div class="csdc-right">
+                                                {{ $curso->porcentagem_solicitacao_certificado }}%</div>
                                         </li>
                                         <li>
-                                            <div class="csdc-left"><i class="icofont-certificate"></i>Certificate
+                                            <div class="csdc-left"><i class="icofont-certificate"></i>Certificado
                                             </div>
-                                            <div class="csdc-right">Yes</div>
-                                        </li>
-                                        <li>
-                                            <div class="csdc-left"><i class="icofont-globe"></i>Language</div>
-                                            <div class="csdc-right">English</div>
+                                            <div class="csdc-right">sim</div>
                                         </li>
                                     </ul>
                                 </div>
