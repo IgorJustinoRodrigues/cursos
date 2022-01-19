@@ -338,16 +338,16 @@ class AlunoController extends Controller
     {
         //Validação das informações recebidas
         $validated = $request->validate([
-            'email' => 'required|max:200',
+            'usuario' => 'required|max:200',
             'senha' => 'required'
         ]);
 
         //Atribuição dos valores recebidos da váriavel $request para o objeto $item
-        $email = $request->email;
+        $usuario = $request->usuario;
         $senha = $request->senha;
 
         //Seleciona o aluno no banco de dados, usando as credencias de acesso
-        $item = Aluno::selectRaw("*, date_format(created_at, '%d/%m/%Y') as cadastro, date_format(updated_at, '%d/%m/%Y às %H:%i') as ultimo_acesso")->where('email', '=', $email)->where('senha', '=', $senha)->first();
+        $item = Aluno::selectRaw("*, date_format(created_at, '%d/%m/%Y') as cadastro, date_format(updated_at, '%d/%m/%Y às %H:%i') as ultimo_acesso")->where('usuario', '=', $usuario)->where('senha', '=', $senha)->first();
 
         //Verifica se existe um aluno com as credênciais informadas
         if (@$item->id != null and is_numeric($item->id)) {
@@ -357,7 +357,7 @@ class AlunoController extends Controller
             //Obtem e preenche as informaçõs do admim encontrado
             $logado['id_aluno'] = $item->id;
             $logado['nome_aluno'] = $item->nome;
-            $logado['email_aluno'] = $item->email;
+            $logado['usuario_aluno'] = $item->usuario;
             $logado['avatar_aluno'] = $item->avatar;
             $logado['tipo_aluno'] = $this->tipo($item->tipo);
             $logado['tipo_numero_aluno'] = $item->tipo;
@@ -371,11 +371,11 @@ class AlunoController extends Controller
             //Verifica se o campo lembrar senha estava selecionado
             if (@$request->remember) {
                 //Criar o Cookie com as credênciais com validade de 3 dias
-                Cookie::queue('aluno_email', $request->email, 4320);
+                Cookie::queue('aluno_usuario', $request->usuario, 4320);
                 Cookie::queue('aluno_senha', $request->senha, 4320);
             } else {
                 //Expira os Cookies de credências
-                Cookie::expire('aluno_email');
+                Cookie::expire('aluno_usuario');
                 Cookie::expire('aluno_senha');
             }
 
@@ -404,5 +404,22 @@ class AlunoController extends Controller
         unset($_SESSION['aluno_cursos_start']);
         //Redirecionamento para a rota inicio, com mensagem de sucesso, sem uma sessão ativa
         return redirect()->route('acessoAluno')->with('sucesso', 'Sessão encerrada com sucesso!');
+    }
+
+    
+    /*
+    Função Tipo de Admin
+    - Responsável por exibir o tipo do aluno
+    - $tipo: Recebe o Id do tipo do aluno
+    */
+    public function tipo($tipo)
+    {
+        //Verifica o tipo do aluno
+        switch ($tipo) {
+            case 1:
+                //Retorna o tipo Aluno
+                return 'Aluno';
+                break;
+        }
     }
 }

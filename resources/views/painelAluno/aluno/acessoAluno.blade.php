@@ -1,5 +1,5 @@
-@extends('template.admin-login')
-@section('title', 'Acesso de Administrador')
+@extends('template.aluno-login')
+@section('title', 'Acesso de Aluno')
 
 @section('header')
 @endsection
@@ -16,16 +16,16 @@
                     <p class="card-subtitle">Acesso restrito</p>
                 </div>
                 <div class="card-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('loginAdmin') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('loginAluno') }}">
                         @csrf
                         <div class="form-group">
-                            <label class="form-label" for="email">E-mail:</label>
+                            <label class="form-label" for="usuario">Usuário:</label>
                             <div class="input-group input-group-merge">
-                                <input id="email" type="email" name="email" value="@if (Cookie::get('admin_email') != null)<?= Cookie::get('admin_email') ?>@else{{ old('email') }}@endif" required
-                                    class="form-control form-control-prepended" placeholder="E-mail de acesso">
+                                <input id="usuario" type="usuario" name="usuario" value="@if (Cookie::get('aluno_usuario') != null)<?= Cookie::get('aluno_usuario') ?>@else{{ old('usuario') }}@endif" required
+                                    class="form-control form-control-prepended" placeholder="Usuário de acesso">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
-                                        <span class="far fa-address-card"></span>
+                                        <span class="far fa-user"></span>
                                     </div>
                                 </div>
                             </div>
@@ -33,7 +33,7 @@
                         <div class="form-group">
                             <label class="form-label" for="senha">Senha:</label>
                             <div class="input-group input-group-merge">
-                                <input id="senha" type="password" name="senha" value="<?= Cookie::get('admin_senha') ?>"
+                                <input id="senha" type="password" name="senha" value="<?= Cookie::get('aluno_senha') ?>"
                                     required class="form-control form-control-prepended" placeholder="********"
                                     autocomplete="current-password">
                                 <div class="input-group-prepend">
@@ -44,11 +44,11 @@
                             </div>
                         </div>
                         <div class="form-group text-right">
-                            <a href="{{ route('recuperacaoAdmin') }}">Recuperar Senha</a>
+                            <a href="{{ route('recuperacaoAluno') }}">Recuperar Senha</a>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10"><label>
-                                    <input type="checkbox" name="remember" @if (Cookie::get('admin_email') != null) checked="checked" @endif>
+                                    <input type="checkbox" name="remember" @if (Cookie::get('aluno_usuario') != null) checked="checked" @endif>
                                     Lembrar senha</label>
                             </div>
                         </div>

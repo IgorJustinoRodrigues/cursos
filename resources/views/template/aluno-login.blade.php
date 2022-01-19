@@ -32,6 +32,16 @@
 
     <!-- Vendor CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontawesome/4.5.0/css/font-awesome.min.css">
+
+        
+    <link type="text/css" href="{{ URL::asset('telas/ini.css') }}" rel="stylesheet">
+
+    @yield('header')
+    <!-- jQuery -->
+    <script src="{{ URL::asset('template/vendor/jquery.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ URL::asset('template/css/lobibox.min.css') }}" />
+    <script src="{{ URL::asset('template/js/lobibox.js') }}"></script>
+
 </head>
 
 <body class="login">
@@ -61,6 +71,57 @@
     <!-- App Settings (safe to remove) -->
     <script src="{{ URL::asset('template/js/app-settings.js') }}"></script>
 
+    <script src="{{ URL::asset('telas/ini.js') }}"></script>
+
+    <script>
+        @if (session('padrao'))
+            Lobibox.notify('info', {
+            size: 'mini',
+            sound: false,
+            icon: false,
+            position: 'top right',
+            msg: "{{ session('padrao') }}"
+            });
+        @endif
+        @if (session('atencao'))
+            Lobibox.notify('warning', {
+            size: 'mini',
+            sound: false,
+            icon: false,
+            position: 'top right',
+            msg: "{{ session('atencao') }}"
+            });
+        @endif
+        @if (session('sucesso'))
+            Lobibox.notify('success', {
+            size: 'mini',
+            sound: false,
+            icon: false,
+            position: 'top right',
+            msg: "{{ session('sucesso') }}"
+            });
+        @endif
+        @if (session('erro'))
+            Lobibox.notify('error', {
+            size: 'mini',
+            sound: false,
+            icon: false,
+            position: 'top right',
+            msg: "{{ session('erro') }}"
+            });
+        @endif
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                Lobibox.notify('error', {
+                size: 'mini',
+                sound: false,
+                icon: false,
+                position: 'top right',
+                msg: "{{ $error }}"
+                });
+            @endforeach
+        @endif
+    </script>
 </body>
 
 </html>

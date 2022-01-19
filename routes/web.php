@@ -170,9 +170,9 @@ Route::put('/vendedor-salvar/{item}', [VendedorController::class, 'salvar'])->na
 Route::get('/vendedor-delete/{item}', [VendedorController::class, 'deletar'])->name('vendedorDeletar');
 
 
-Route::get("/login-aluno", [SiteController::class, 'login']);
-Route::get("/ver-curso", [SiteController::class, 'ver'])->name('ver');
-Route::get("/ver-quiz", [SiteController::class, 'quiz'])->name('quiz');
-Route::get("/info-aluno", [SiteController::class, 'info'])->name('info-aluno');
-Route::get("/painel-aluno", [SiteController::class, 'painel'])->name('painel-aluno');
+Route::get("/dlogin-aluno", [SiteController::class, 'login']);
+Route::get("/dver-curso", [SiteController::class, 'ver'])->name('verd');
+Route::get("/dver-quiz", [SiteController::class, 'quiz'])->name('quizd');
+Route::get("/dinfo-aluno", [SiteController::class, 'info'])->name('info-alunod');
+Route::get("/dpainel-aluno", [SiteController::class, 'painel'])->name('painel-alunod');
 
