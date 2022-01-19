@@ -172,14 +172,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="sidebar-payment">
-                                    <div class="sp-title">
-                                        <h6>Secure Payment:</h6>
-                                    </div>
-                                    <div class="sp-thumb">
-                                        <img src="assets/images/pyment/01.jpg" alt="CodexCoder">
-                                    </div>
-                                </div>
+                                
                                 <div class="sidebar-social">
                                     <div class="ss-title">
                                         <h6>Share This Course:</h6>
