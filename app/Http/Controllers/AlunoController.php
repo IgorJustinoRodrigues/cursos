@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Services\Services;
 use App\Models\Aluno;
 use App\Models\Canvas;
+use App\Models\CategoriaCurso;
 use App\Models\Servico;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -52,8 +53,12 @@ class AlunoController extends Controller
             //Redirecionamento para a rota acessoAluno, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionarAluno();
 
+        $categorias = CategoriaCurso::where("status", '=', '1')->get();
+
         //Exibe a tela inícial do painel de alunoistradores passando parametros para view
-        return view('painelAluno.index');
+        return view('painelAluno.index', [
+            'categorias' => $categorias
+        ]);
     }
 
     /*
