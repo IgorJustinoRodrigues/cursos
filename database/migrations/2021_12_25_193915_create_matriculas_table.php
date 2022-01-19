@@ -22,16 +22,15 @@ class CreateMatriculasTable extends Migration
             $table->string('mes_inicio_pagamento', 7)->nullable();
             $table->string('valor_venda', 2)->nullable();
 
+            $table->string('nivel_curso', 2)->nullable();
+
             $table->string('status', 1);
 
-            $table->unsignedBigInteger('aluno_id');
+            $table->unsignedBigInteger('aluno_id')->nullable();
             $table->foreign('aluno_id')->references('id')->on('alunos');
 
             $table->unsignedBigInteger('unidade_id');
             $table->foreign('unidade_id')->references('id')->on('unidades');
-
-            $table->unsignedBigInteger('pacote_id')->nullable();
-            $table->foreign('pacote_id')->references('id')->on('pacote_cursos');
 
             $table->unsignedBigInteger('curso_id')->nullable();
             $table->foreign('curso_id')->references('id')->on('cursos');

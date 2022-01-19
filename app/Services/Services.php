@@ -216,4 +216,22 @@ class Services
         }
         return $retorno;
     }
+
+    function primeiro_pagamento($primeiro_mes = false, $segundo_mes = false, $primeiro_mes_simples = false, $segundo_mes_simples = false){
+        if($segundo_mes_simples){
+            //2º MÊS SIMPLES
+            $retorno = date('m', strtotime('+1 months', strtotime(date('Y-m')))) . '/' . date('Y', strtotime('+1 months', strtotime(date('Y-m'))));          
+        } else if($primeiro_mes_simples) {
+            //1º MÊS SIMPLES
+            $retorno = date('m') . '/' . date('Y');
+        } else if($segundo_mes) {
+            //2º MÊS
+            $retorno = $this->mes(date('m', strtotime('+1 months', strtotime(date('Y-m'))))) . '/' . date('Y', strtotime('+1 months', strtotime(date('Y-m'))));
+        } else {
+            //2º MÊS
+            $retorno = $this->mes(date('m')) . '/' . date('Y');
+        }
+
+        return $retorno;
+    }
 }

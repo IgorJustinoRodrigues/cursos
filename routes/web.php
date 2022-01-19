@@ -5,6 +5,7 @@ use App\Http\Controllers\AlunoController;
 use App\Http\Controllers\AulaController;
 use App\Http\Controllers\CategoriaCursoController;
 use App\Http\Controllers\CursoController;
+use App\Http\Controllers\MatriculaController;
 use App\Http\Controllers\ParceiroController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\SiteController;
@@ -158,6 +159,16 @@ Route::post('/unidade-inserir', [UnidadeController::class, 'inserir'])->name('un
 Route::get('/unidade-editar/{item}', [UnidadeController::class, 'editar'])->name('unidadeEditar');
 Route::put('/unidade-salvar/{item}', [UnidadeController::class, 'salvar'])->name('unidadeSalvar');
 Route::get('/unidade-delete/{item}', [UnidadeController::class, 'deletar'])->name('unidadeDeletar');
+
+/*
+ROTAS DE MATRICULA
+*/
+Route::get('/matricula', [MatriculaController::class, 'index'])->name('matriculaIndex');
+Route::get('/matricula-cadastro', [MatriculaController::class, 'cadastro'])->name('matriculaCadastro');
+Route::post('/matricula-inserir', [MatriculaController::class, 'inserir'])->name('matriculaInserir');
+Route::get('/matricula-editar/{item}', [MatriculaController::class, 'editar'])->name('matriculaEditar');
+Route::put('/matricula-salvar/{item}', [MatriculaController::class, 'salvar'])->name('matriculaSalvar');
+Route::get('/matricula-delete/{item}', [MatriculaController::class, 'deletar'])->name('matriculaDeletar');
 
 /*
 ROTAS DE VENDEDOR
