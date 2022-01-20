@@ -350,6 +350,16 @@ class AlunoController extends Controller
     }
 
 
+      /*
+    Função Ver aula do Aluno 
+    - Responsável por mostrar a tela de ver aula de Aluno 
+    */
+    public function verAula()
+    {
+        //Exibe a view
+        return view('painelAluno.aula.verAula');
+    }
+
     /*
     Função Login de Aluno
     - Responsável pelo login do alunoistrador ao painel
