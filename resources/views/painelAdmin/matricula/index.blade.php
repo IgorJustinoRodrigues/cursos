@@ -57,7 +57,7 @@
                                     {{ $item->ativacao }}
                                 </a>
                             </td>
-                            <td>{{ app(App\Http\Controllers\CategoriaCursoController::class)->status($item->status) }}</td>
+                            <td>{{ app(App\Http\Controllers\MatriculaController::class)->status($item->status) }}</td>
                             <td class="table-dropdown text-center">
                                 <a href="{{ route('matriculaEditar', $item->id) }}" class="btn btn-success">
                                     <i class="fa fa-edit"></i>

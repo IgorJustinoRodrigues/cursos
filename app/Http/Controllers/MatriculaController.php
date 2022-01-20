@@ -228,12 +228,12 @@ class MatriculaController extends Controller
 
             case 2:
                 //Retorna o status Inativo
-                return 'Inativo';
+                return 'Aguardando Ativação';
                 break;
 
             case 0:
                 //Retorna o status Excluido
-                return 'Excluido';
+                return 'Cancelado';
                 break;
         }
     }
