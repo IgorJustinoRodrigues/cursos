@@ -626,11 +626,11 @@ class AulaController extends Controller
         //Verifica o tipo da aual
         switch ($tipo) {
             case 1:
-                return 'Texto';
+                return 'Vídeo';
                 break;
 
             case 2:
-                return 'Vídeo';
+                return 'Texto';
                 break;
 
             case 3:

@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 //Dependências do controler
 use App\Services\Services;
 use App\Models\Aluno;
+use App\Models\Aula;
 use App\Models\AulaAluno;
 use App\Models\Canvas;
 use App\Models\CategoriaCurso;
+use App\Models\Curso;
 use App\Models\Matricula;
 use App\Models\Servico;
 use Carbon\Carbon;
@@ -56,18 +58,18 @@ class AlunoController extends Controller
             return (new Services())->redirecionarAluno();
 
         $categorias = CategoriaCurso::where("status", '=', '1')->get();
-        
+
         $meusCursos = Matricula::join('cursos', 'matriculas.curso_id', '=', 'cursos.id')
-        ->where('matriculas.aluno_id', '=', $_SESSION['aluno_cursos_start']['id_aluno'])
-        ->selectRaw('matriculas.*, cursos.nome as curso')
-        ->get();
+            ->where('matriculas.aluno_id', '=', $_SESSION['aluno_cursos_start']['id_aluno'])
+            ->selectRaw('matriculas.*, cursos.nome as curso')
+            ->get();
 
         $ultimasAulas = AulaAluno::join('aulas', 'aula_alunos.aula_id', '=', 'aulas.id')
-        ->join('cursos', 'aula_alunos.curso_id', '=', 'cursos.id')
-        ->where('aula_alunos.aluno_id', '=', $_SESSION['aluno_cursos_start']['id_aluno'])
-        ->selectRaw('aula_alunos.*, aulas.nome as aula, cursos.nome as curso')
-        ->limit(5)
-        ->get();
+            ->join('cursos', 'aula_alunos.curso_id', '=', 'cursos.id')
+            ->where('aula_alunos.aluno_id', '=', $_SESSION['aluno_cursos_start']['id_aluno'])
+            ->selectRaw('aula_alunos.*, aulas.nome as aula, cursos.nome as curso')
+            ->limit(5)
+            ->get();
 
         //Exibe a tela inícial do painel de alunoistradores passando parametros para view
         return view('painelAluno.index', [
@@ -350,8 +352,8 @@ class AlunoController extends Controller
     }
 
 
-    
-      /*
+
+    /*
     Função Ver aula do Aluno 
     - Responsável por mostrar a tela de ver aula de Aluno 
     */
@@ -360,18 +362,83 @@ class AlunoController extends Controller
         //Exibe a view
         return view('painelAluno.aula.verCursos');
     }
-      /*
+    /*
     Função Ver aula do Aluno 
     - Responsável por mostrar a tela de ver aula de Aluno 
     */
-    public function verAula()
+    public function verAula($id_curso, $id_aula, $titulo = '')
     {
+        session_start();
+
+        $curso = Curso::where('status', '=', '1')->find($id_curso);
+        if (!$curso) {
+            //Redirecionamento para a rota painelAluno, com mensagem de sucesso, com uma sessão ativa
+            return redirect()->route('painelAluno')->with('atencao', "Curso não encontrado!");
+        }
+
+        $matricula = Matricula::where('aluno_id', '=', $_SESSION['aluno_cursos_start']['id_aluno'])
+            ->where('curso_id', '=', $curso->id)
+            ->first();
+
+        if (!$matricula) {
+            //Redirecionamento para a rota painelAluno, com mensagem de sucesso, com uma sessão ativa
+            return redirect()->route('painelAluno')->with('atencao', "Você não está matriculado(a) no curso " . $curso->nome . "!");
+        }
+
+        if ($matricula->status == 2) {
+            //Redirecionamento para a rota painelAluno, com mensagem de sucesso, com uma sessão ativa
+            return redirect()->route('painelAluno')->with('atencao', "Você ainda não ativou o curso " . $curso->nome . "!");
+        }
+
+        $aula = Aula::find($id_aula);
+
+        $aulas = Aula::where('status', '=', 1)
+            ->where('curso_id', '=', $curso->id)
+            ->orderByRaw('-ordem desc')
+            ->orderby('ordem', 'desc')
+            ->get();
+
+        $tempoTotal = 0;
+        foreach ($aulas as $linha) {
+            $tempoTotal += $linha->duracao;
+        }
+
+        $aulasConcluidas = AulaAluno::join('aulas', 'aula_alunos.aula_id', '=', 'aulas.id')
+            ->whereNotNull('aula_alunos.conclusao')->where('aula_alunos.curso_id', '=', $curso->id)->get();
+
+        $tempoTotalConcluido = 0;
+        foreach ($aulasConcluidas as $linha) {
+            $tempoTotalConcluido += $linha->duracao;
+        }
+        switch ($aula->tipo) {
+            case 1:
+                $pagina = 'painelAluno.aula.verAulaVideo';
+                break;
+
+            case 2:
+                $pagina = 'painelAluno.aula.verAulaTexto';
+                break;
+
+            case 3:
+                $pagina = 'painelAluno.aula.verAulaQuiz';
+                break;
+        }
+
         //Exibe a view
-        return view('painelAluno.aula.verAula');
+        return view(
+            $pagina,
+            [
+                'curso' => $curso,
+                'aula' => $aula,
+                'aulas' => $aulas,
+                'tempoTotal' => $tempoTotal,
+                'tempoTotalConcluido' => $tempoTotalConcluido
+            ]
+        );
     }
 
 
-    
+
 
     /*
     Função Login de Aluno
@@ -450,7 +517,7 @@ class AlunoController extends Controller
         return redirect()->route('acessoAluno')->with('sucesso', 'Sessão encerrada com sucesso!');
     }
 
-    
+
     /*
     Função Tipo de Admin
     - Responsável por exibir o tipo do aluno

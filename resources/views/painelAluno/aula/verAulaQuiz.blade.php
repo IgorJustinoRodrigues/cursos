@@ -4,90 +4,49 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="student-dashboard.html">Início</a></li>
         <li class="breadcrumb-item"><a href="student-browse-courses.html">Meus Cursos</a></li>
-        <li class="breadcrumb-item active">Nome do Curso</li>
+        <li class="breadcrumb-item"><a href="student-browse-courses.html">{{ $curso->nome }}</a></li>
+        <li class="breadcrumb-item active">{{ $aula->nome }}</li>
     </ol>
 @endsection
 
 @section('conteudo')
-    <h1 class="h2">Nome do Curso</h1>
+    <h1 class="h2">{{ $curso->nome }}</h1>
     <div class="row">
         <div class="col-md-8">
             <div class="card">
                 <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item"
-                        src="https://player.vimeo.com/video/97243285?title=0&amp;byline=0&amp;portrait=0"
-                        allowfullscreen=""></iframe>
+                    {!! $aula->video !!}
                 </div>
                 <div class="card-body">
-                    Breve descrição da Aula, com informações adicionais.
+                    {{ $aula->descricao }}
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    {!! $aula->texto !!}
                 </div>
             </div>
 
             <!-- Lessons -->
             <ul class="card list-group list-group-fit">
+                @php $i = 1; @endphp
+                @foreach ($aulas as $linha)
                 <li class="list-group-item">
                     <div class="media">
                         <div class="media-left">
-                            <div class="text-muted">1.</div>
+                            <div class="text-muted">{{$i++}}.</div>
                         </div>
                         <div class="media-body">
-                            <a href="#">Introdução</a>
+                            <a href="{{ route('alunoAula', [$curso, $linha->id, $aula->nome]) }}">{{ $linha->nome }}</a>
                         </div>
                         <div class="media-right">
-                            <small class="text-muted-light">2:03</small>
+                            <small class="text-muted-light">{{ app(App\Services\Services::class)->minuto_hora($linha->duracao) }}</small>
                         </div>
                     </div>
                 </li>
-                <li class="list-group-item active">
-                    <div class="media">
-                        <div class="media-left">2.</div>
-                        <div class="media-body">
-                            <a class="text-white" href="#">Aula 2</a>
-                        </div>
-                        <div class="media-right">
-                            <small>25:01</small>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="media">
-                        <div class="media-left">
-                            <div class="text-muted">3.</div>
-                        </div>
-                        <div class="media-body">
-                            <a href="#">Aula 3</a>
-                        </div>
-                        <div class="media-right">
-                            <small class="text-muted-light">12:10</small>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="media">
-                        <div class="media-left">
-                            <div class="text-muted">4.</div>
-                        </div>
-                        <div class="media-body">
-                            <div class="text-muted-light">Aula 4</div>
-                        </div>
-                        <div class="media-right">
-                            <small class="text-muted-light">10:10</small>
-                        </div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="media">
-                        <div class="media-left">
-                            <div class="text-muted">6.</div>
-                        </div>
-                        <div class="media-body">
-                            <div class="text-muted-light">Avaliação</div>
-                        </div>
-                        <div class="media-right">
-                            <small class="text-muted-light">5:00</small>
-                        </div>
-                    </div>
-                </li>
+                @endforeach
+            
             </ul>
         </div>
         <div class="col-md-4">
@@ -127,7 +86,7 @@
                                 <i class="material-icons text-muted-light">assessment</i>
                             </div>
                             <div class="media-body">
-                                Tempo de curso
+                                Duração do curso {{ app(App\Services\Services::class)->minuto_hora($tempoTotal) }}
                             </div>
                         </div>
                     </li>
@@ -137,8 +96,7 @@
                                 <i class="material-icons text-muted-light">schedule</i>
                             </div>
                             <div class="media-body">
-                                2 <small class="text-muted">hrs</small> &nbsp; 26 <small
-                                    class="text-muted">min</small>
+                                Aulas concluidas {{ app(App\Services\Services::class)->minuto_hora($tempoTotalConcluido) }}
                             </div>
                         </div>
                     </li>

@@ -73,7 +73,7 @@ Route::get('/aluno-editar/{item}', [AlunoController::class, 'editar'])->name('al
 Route::put('/aluno-salvar/{item}', [AlunoController::class, 'salvar'])->name('alunoSalvar');
 Route::get('/aluno-delete/{item}', [AlunoController::class, 'deletar'])->name('alunoDeletar');
 
-Route::get("/ver-aula-curso", [AlunoController::class, 'verAula'])->name('alunoAula');
+Route::get("/ver-aula-curso/{curso}/{aula}/{titulo?}", [AlunoController::class, 'verAula'])->name('alunoAula');
 Route::get("/ver-cursos-aluno", [AlunoController::class, 'verCursos'])->name('alunoCursos');
 
 /*
