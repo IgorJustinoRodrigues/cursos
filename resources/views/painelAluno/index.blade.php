@@ -141,58 +141,23 @@
                 </div>
 
                 <ul class="list-group list-group-fit mb-0">
-
+                    @foreach ($ultimasAulas as $linha)                        
                     <li class="list-group-item">
                         <div class="media align-items-center">
                             <div class="media-body">
-                                <a class="text-body" href="student-quiz-results.html"><strong>Titulo da
-                                        Aula</strong></a><br>
+                                <a class="text-body" href="student-quiz-results.html"><strong>{{ $linha->aula }}</strong></a><br>
                                 <div class="d-flex align-items-center">
                                     <small class="text-black-50 text-uppercase mr-2">Curso</small>
-                                    <a href="">Nome do Curso</a>
+                                    <a href="">{{ $linha->curso }}</a>
                                 </div>
                             </div>
                             <div class="media-right text-center d-flex align-items-center">
-                                <span class="text-black-50 mr-3">Bom</span>
-                                <h4 class="mb-0">6.8</h4>
+                                <span class="text-black-50 mr-3">{{ app(App\Http\Controllers\AulaController::class)->msgNota($linha->nota) }}</span>
+                                <h4 class="mb-0">{{ $linha->nota }}%</h4>
                             </div>
                         </div>
                     </li>
-
-                    <li class="list-group-item">
-                        <div class="media align-items-center">
-                            <div class="media-body">
-                                <a class="text-body" href="student-quiz-results.html"><strong>Titulo da
-                                        Aula</strong></a><br>
-                                <div class="d-flex align-items-center">
-                                    <small class="text-black-50 text-uppercase mr-2">Curso</small>
-                                    <a href="">Nome do Curso</a>
-                                </div>
-                            </div>
-                            <div class="media-right text-center d-flex align-items-center">
-                                <span class="text-black-50 mr-3">Parabéns!</span>
-                                <h4 class="mb-0 text-success">9.8</h4>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="list-group-item">
-                        <div class="media align-items-center">
-                            <div class="media-body">
-                                <a class="text-body" href="student-quiz-results.html"><strong>Titulo da
-                                        Aula</strong></a><br>
-                                <div class="d-flex align-items-center">
-                                    <small class="text-black-50 text-uppercase mr-2">Curso</small>
-                                    <a href="">Nome do Curso</a>
-                                </div>
-                            </div>
-                            <div class="media-right text-center d-flex align-items-center">
-                                <span class="text-black-50 mr-3">Tente novamente</span>
-                                <h4 class="mb-0 text-danger">2.8</h4>
-                            </div>
-                        </div>
-                    </li>
-
+                    @endforeach
                 </ul>
             </div>
         </div>

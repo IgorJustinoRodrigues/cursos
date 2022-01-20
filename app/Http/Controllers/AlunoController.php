@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 //Dependências do controler
 use App\Services\Services;
 use App\Models\Aluno;
+use App\Models\AulaAluno;
 use App\Models\Canvas;
 use App\Models\CategoriaCurso;
 use App\Models\Matricula;
@@ -55,15 +56,24 @@ class AlunoController extends Controller
             return (new Services())->redirecionarAluno();
 
         $categorias = CategoriaCurso::where("status", '=', '1')->get();
+        
         $meusCursos = Matricula::join('cursos', 'matriculas.curso_id', '=', 'cursos.id')
         ->where('matriculas.aluno_id', '=', $_SESSION['aluno_cursos_start']['id_aluno'])
         ->selectRaw('matriculas.*, cursos.nome as curso')
         ->get();
 
+        $ultimasAulas = AulaAluno::join('aulas', 'aula_alunos.aula_id', '=', 'aulas.id')
+        ->join('cursos', 'aula_alunos.curso_id', '=', 'cursos.id')
+        ->where('aula_alunos.aluno_id', '=', $_SESSION['aluno_cursos_start']['id_aluno'])
+        ->selectRaw('aula_alunos.*, aulas.nome as aula, cursos.nome as curso')
+        ->limit(5)
+        ->get();
+
         //Exibe a tela inícial do painel de alunoistradores passando parametros para view
         return view('painelAluno.index', [
             'categorias' => $categorias,
-            'meusCursos' => $meusCursos
+            'meusCursos' => $meusCursos,
+            'ultimasAulas' => $ultimasAulas
         ]);
     }
 

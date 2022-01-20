@@ -714,4 +714,15 @@ class AulaController extends Controller
         //Resposta JSON
         return response()->json($retorno);
     }
+
+    public function msgNota($nota)
+    {
+        if($nota < 60){
+            return "Você não atingiu a média, tente novamente!";
+        } else if($nota < 80){
+            return "Aula concluida!";
+        } else {
+            return "Parabéns! Aula concluida.";
+        }
+    }
 }
