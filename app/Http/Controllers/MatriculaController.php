@@ -25,12 +25,12 @@ class MatriculaController extends Controller
             //Redirecionamento para a rota login de Administrador, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-        $consulta = Matricula::orderby('nome', 'asc')->where('status', '<>', '0');
+        $consulta = Matricula::orderby('id', 'desc');
 
         //Verifica se existe uma busca
         if (@$request->busca != '') {
             //Paginação dos registros com busca busca
-            $consulta->where('nome', 'like', '%' . $request->busca . '%');
+            $consulta->where('ativacao', 'like', '%' . $request->busca . '%');
         }
 
         $items = $consulta->paginate();
