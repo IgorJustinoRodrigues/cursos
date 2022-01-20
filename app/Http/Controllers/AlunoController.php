@@ -7,6 +7,7 @@ use App\Services\Services;
 use App\Models\Aluno;
 use App\Models\Canvas;
 use App\Models\CategoriaCurso;
+use App\Models\Matricula;
 use App\Models\Servico;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -54,10 +55,15 @@ class AlunoController extends Controller
             return (new Services())->redirecionarAluno();
 
         $categorias = CategoriaCurso::where("status", '=', '1')->get();
+        $meusCursos = Matricula::join('cursos', 'matriculas.curso_id', '=', 'cursos.id')
+        ->where('matriculas.aluno_id', '=', $_SESSION['aluno_cursos_start']['id_aluno'])
+        ->selectRaw('matriculas.*, cursos.nome as curso')
+        ->get();
 
         //Exibe a tela inícial do painel de alunoistradores passando parametros para view
         return view('painelAluno.index', [
-            'categorias' => $categorias
+            'categorias' => $categorias,
+            'meusCursos' => $meusCursos
         ]);
     }
 

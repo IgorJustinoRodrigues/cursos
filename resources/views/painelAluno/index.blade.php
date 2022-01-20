@@ -98,16 +98,18 @@
 
                 <ul class="list-group list-group-fit mb-0" style="z-index: initial;">
 
-                    <li class="list-group-item" style="z-index: initial;">
+                    @foreach ($meusCursos as $linha)                        
+                    <li class="list-group-item" style="z-index: initial; background-color: #f6f6f6;">
                         <div class="d-flex align-items-center">
                             <div class="flex">
-                                <a href="" class="text-body"><strong>Windows</strong></a>
+                                <a href="" class="text-body"><strong>{{ $linha->curso }}</strong></a>
                                 <div class="d-flex align-items-center">
+                                    <small class="text-muted ml-2">0%&nbsp;</small>
                                     <div class="progress" style="width: 100px;">
-                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 25%"
-                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 00%"
+                                            aria-valuenow="00" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
-                                    <small class="text-muted ml-2">25%</small>
+                                    <small class="text-muted ml-2">O curso ainda não foi ativado! Clique no código para ativar: <a href="">{{$linha->ativacao }}</a></small>
                                 </div>
                             </div>
                             <div class="dropdown ml-3">
@@ -120,55 +122,7 @@
                             </div>
                         </div>
                     </li>
-
-                    <li class="list-group-item" style="z-index: initial;">
-                        <div class="d-flex align-items-center">
-                            {{-- <a href="" class="avatar avatar-4by3 avatar-sm mr-3">
-                                <img src="assets/images/vuejs.png" alt="course" class="avatar-img rounded">
-                            </a> --}}
-                            <div class="flex">
-                                <a href="" class="text-body"><strong>Segurança Digital</strong></a>
-                                <div class="d-flex align-items-center">
-                                    <div class="progress" style="width: 100px;">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
-                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <small class="text-muted ml-2">100%</small>
-                                </div>
-                            </div>
-                            <div class="dropdown ml-3">
-                                <a href="#" class="dropdown-toggle text-muted" data-caret="false" data-toggle="dropdown">
-                                    <i class="material-icons">more_vert</i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="">Rever</a>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="list-group-item" style="z-index: initial;">
-                        <div class="d-flex align-items-center">
-                            <div class="flex">
-                                <a href="" class="text-body"><strong>Office</strong></a>
-                                <div class="d-flex align-items-center">
-                                    <div class="progress" style="width: 100px;">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 80%"
-                                            aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <small class="text-muted ml-2">80%</small>
-                                </div>
-                            </div>
-                            <div class="dropdown ml-3">
-                                <a href="#" class="dropdown-toggle text-muted" data-caret="false" data-toggle="dropdown">
-                                    <i class="material-icons">more_vert</i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="">Continuar</a>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
+                    @endforeach
 
                 </ul>
             </div>
