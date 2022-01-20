@@ -282,7 +282,7 @@
                                 <div class="sidebar-heading">Cursos</div>
                                 <ul class="sidebar-menu sm-active-button-bg">
                                     <li class="sidebar-menu-item active">
-                                        <a class="sidebar-menu-button" href="student-view-course.html">
+                                        <a class="sidebar-menu-button" href="{{route('alunoCursos')}}">
                                             <i
                                                 class="sidebar-menu-icon sidebar-menu-icon--left material-icons">import_contacts</i>
                                             Meus Cursos
