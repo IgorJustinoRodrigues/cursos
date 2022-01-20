@@ -351,6 +351,28 @@ class CursoController extends Controller
         }
     }
 
+    public function codigo_tipo($tipo)
+    {
+        //Verifica o tipo do Curso
+        switch ($tipo) {
+            case 1:
+                return 'I';
+                break;
+
+            case 2:
+                return 'M';
+                break;
+
+            case 3:
+                return 'A';                            
+                break;
+
+            case 4:
+                return 'T';
+                break;
+        }
+    }
+
     /*
     Função visibilidade de Curso
     - Responsável por exibir o visibilidade do curso

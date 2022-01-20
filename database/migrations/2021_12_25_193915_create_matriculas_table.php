@@ -22,7 +22,7 @@ class CreateMatriculasTable extends Migration
             $table->string('mes_inicio_pagamento', 7)->nullable();
             $table->string('valor_venda', 2)->nullable();
 
-            $table->string('nivel_curso', 2)->nullable();
+            $table->string('nivel_curso', 2);
 
             $table->string('status', 1);
 

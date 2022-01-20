@@ -33,10 +33,17 @@
         function verificarVendedor() {
             var unidade = $("#unidade").val();
 
+            if(unidade == ""){
+                $("#vendedor").prop('disabled', 'disabled');
+            } else {
+                $("#vendedor").prop('disabled', false);
+            }
+
             $("#vendedor").val(null).trigger("change"); 
             $(".unidade").prop("disabled", true);
             $(".unidade" + unidade).prop("disabled", false);
         }
+        verificarVendedor();
 
         function tipoPagamento(){
             var tipo_pagamento = $("#tipo_pagamento").val();
@@ -47,6 +54,8 @@
                 $(".parcelado").removeClass("d-none");
             }
         }
+
+        tipoPagamento();
     </script>
 
 @endsection
@@ -84,6 +93,15 @@
                                 </select>
                             </div>
                             <div class="col-12 col-md-12 mb-3">
+                                <label class="form-label" for="aluno">Aluno</label>
+                                <select id="aluno" class="form-control custom-select select2" name="aluno">
+                                    <option value=""></option>
+                                    @foreach ($alunos as $linha)
+                                        <option @if (old('aluno') == $linha->id) selected @endif value="{{ $linha->id }}">{{ $linha->nome }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-12 mb-3">
                                 <label class="form-label" for="unidade">Unidade</label>
                                 <select id="unidade" class="form-control custom-select select2" name="unidade" onchange="verificarVendedor()">
                                     <option value=""></option>
@@ -93,7 +111,7 @@
                                 </select>
                             </div>
                             <div class="col-12 col-md-12 mb-3">
-                                <label class="form-label" for="vendedor">Unidade</label>
+                                <label class="form-label" for="vendedor">Vendedor</label>
                                 <select id="vendedor" class="form-control custom-select select2" name="vendedor">
                                     <option value=""></option>
                                     @foreach ($vendedores as $linha)

@@ -78,15 +78,36 @@ class MatriculaController extends Controller
 
         //Validação das informações recebidas
         $validated = $request->validate([
-            'nome' => 'required|max:100',
+            'tipo_pagamento' => 'required',
+            'unidade' => 'required',
+            'nivel' => 'required',
         ]);
 
         //Nova instância do Model Matricula
         $item = new Matricula();
 
         //Atribuição dos valores recebidos da váriavel $request
-        $item->nome = $request->nome;
-        $item->status = $request->status;
+        //1 -> Código da Unidade
+        //2 -> Caracter aleatório
+        //3 -> Tipo do Curso -> I M A T
+        //4 -> Ano
+        // XXX1492FBDA3A22
+        // 111122222222344
+
+        $item->ativacao = str_pad($request->unidade, 4, "X", STR_PAD_RIGHT) . strtoupper(bin2hex(random_bytes(4))) . (new CursoController())->codigo_tipo($request->nivel) . date("y");
+        $item->tipo_pagamento = $request->tipo_pagamento;
+        if($item->tipo_pagamento == 2){
+            $item->quant_parcelas = $request->quant_parcelas_venda;
+            $item->mes_inicio_pagamento = $request->mes_inicio_pagamento;
+        }
+        $item->valor_venda = $request->valor_venda;
+        $item->nivel_curso = $request->nivel;
+        $item->status = 2;
+
+        $item->aluno_id = $request->aluno;
+        $item->unidade_id = $request->unidade;
+        $item->curso_id = $request->curso;
+        $item->vendedor_id = $request->vendedor;
 
         //Envio das informações para o banco de dados
         $resposta = $item->save();
