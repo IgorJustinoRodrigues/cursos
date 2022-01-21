@@ -66,7 +66,33 @@ class SiteController extends Controller
             $matricula = Matricula::where('ativacao', '=', $codigo)->first();
 
             if ($matricula) {
-                if($matricula->)
+                if($matricula->status == 0){
+                    return redirect()->back()->with('atencao', 'O Código informado não é mais válido!')->withInput(['codigo']);
+                }
+
+                if($matricula->data_ativacao != null){
+                    return redirect()->redirect('acessoAluno')->with('atencao', 'Código já ativado, utilize o seu usuário e senha para acessar o curso!')->withInput();
+                }
+
+                if(strtotime($matricula->created_at) < date('d/m/Y', strtotime('-90 days'))){
+                    return redirect()->back()->with('atencao', 'O período para ativação do curso já se encerrou!')->withInput(['codigo']);
+                }
+
+                if($matricula->aluno_id == null and $matricula->curso_id == null){
+                    //Não tem aluno nem curso
+
+                } else if($matricula->aluno_id == null) {
+                    //Não tem aluno, mas tem curso
+
+                } else if($matricula->curso_id == null) {
+                    //Não tem curso, mas tem aluno
+
+                } else {
+                    //Tem aluno e curso
+
+                }
+dd('o');
+
             } else {
                 return redirect()->back()->with('atencao', 'Código incorreto, verifique e tente novamente!')->withInput();
             }

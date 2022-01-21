@@ -23,7 +23,7 @@
                                 <div class="banner-icon">
                                     <i class="icofont-search"></i>
                                 </div>
-                                <input type="text" maxlength="15" minlength="15" name="codigo"
+                                <input type="text" maxlength="15" minlength="15" name="codigo" value="{{old('codigo')}}"
                                     placeholder="Digite aqui o seu código de Ativação">
                                 <button type="submit">Ativar Código</button>
                             </form>
