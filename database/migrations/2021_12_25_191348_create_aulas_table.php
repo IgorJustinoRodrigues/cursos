@@ -27,7 +27,7 @@ class CreateAulasTable extends Migration
 
             $table->string('duracao', 6);
             $table->string('avaliacao', 1);
-
+            
             $table->string('status', 2);
 
             $table->unsignedBigInteger('curso_id');
