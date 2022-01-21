@@ -17,13 +17,14 @@
                             <h6 class="subtitle text-uppercase fw-medium">EDUCAÇÃO ONLINE</h6>
                             <h2 class="title"><span class="d-lg-block">Aprenda as</span> Habilidades que você
                                 precisa<span class="d-lg-block">Ter sucesso</span></h2>
-                            <p class="desc">Cursos online. Ativando o seu código você terá acesso vitalício a todo
-                                o conteúdo.</p>
-                            <form action="/">
+                            <p class="desc">Cursos online. Ative o seu código para acessar o seu curso.</p>
+                            <form action="{{ route('site.ativacaoCodigo') }}" method="post">
+                                @csrf
                                 <div class="banner-icon">
                                     <i class="icofont-search"></i>
                                 </div>
-                                <input type="text" maxlength="15" minlength="15" placeholder="Digite aqui o seu código de Ativação">
+                                <input type="text" maxlength="15" minlength="15" name="codigo"
+                                    placeholder="Digite aqui o seu código de Ativação">
                                 <button type="submit">Ativar Código</button>
                             </form>
                             <div class="banner-catagory d-flex flex-wrap">
@@ -48,11 +49,11 @@
         <div class="all-shapes"></div>
         <div class="cbs-content-list d-none">
             <ul class="lab-ul">
-                <li class="ccl-shape shape-1"><a href="#">16M Estudantes Felizes</a></li>
-                <li class="ccl-shape shape-2"><a href="#">Mais de 700K+ Cursos Totais</a></li>
-                <li class="ccl-shape shape-3"><a href="#">89% de Estudantes bem-sucedidos</a></li>
-                <li class="ccl-shape shape-4"><a href="#">Mais de 23k+ alunos</a></li>
-                <li class="ccl-shape shape-5"><a href="#">3+ Idiomas</a></li>
+                <li class="ccl-shape shape-1"><a href="#">Cursos Rápidos</a></li>
+                <li class="ccl-shape shape-2"><a href="#">Certificado de Conclusão</a></li>
+                <li class="ccl-shape shape-3"><a href="#">Você merece o melhor!</a></li>
+                <li class="ccl-shape shape-4"><a href="#">Didática fácil</a></li>
+                <li class="ccl-shape shape-5"><a href="#">Aprenda rápido</a></li>
             </ul>
         </div>
     </section>
@@ -67,13 +68,15 @@
                     <div class="swiper-wrapper">
 
                         @foreach ($parceiro as $item)
-                            <div class="swiper-slide">
-                                <div class="sponsor-iten">
-                                    <div class="sponsor-thumb">
-                                        <img src="{{ URL::asset('storage/' . $item->logo) }}">
+                            @if ($item->logo != null)
+                                <div class="swiper-slide">
+                                    <div class="sponsor-iten">
+                                        <div class="sponsor-thumb">
+                                            <img src="{{ URL::asset('storage/' . $item->logo) }}">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         @endforeach
 
                     </div>

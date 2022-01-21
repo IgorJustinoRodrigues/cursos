@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Aula;
 use App\Models\CategoriaCurso;
 use App\Models\Curso;
+use App\Models\Matricula;
 use App\Models\Parceiro;
 use App\Models\Professor;
 use Illuminate\Http\Request;
@@ -57,12 +58,29 @@ class SiteController extends Controller
         ]);
     }
 
+    public function ativacaoCodigo(Request $request)
+    {
+        $codigo = @$request->codigo;
+
+        if ($codigo != '') {
+            $matricula = Matricula::where('ativacao', '=', $codigo)->first();
+
+            if ($matricula) {
+                if($matricula->)
+            } else {
+                return redirect()->back()->with('atencao', 'Código incorreto, verifique e tente novamente!')->withInput();
+            }
+        } else {
+            return redirect()->back()->with('atencao', 'Você acessou essa página de forma incorreta!')->withInput();
+        }
+    }
+
     //Função de Cursos
     public function cursos(Request $request, $categoria = null)
     {
         $busca = $request->busca;
 
-        if(!$categoria){
+        if (!$categoria) {
             $categoria = $request->categoria;
         }
 
