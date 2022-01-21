@@ -167,6 +167,13 @@
 
 
                                 <div class="col-12 col-md-6 mb-3">
+                                    <label class="form-label" for="aula_travada">Aulas Travadas ?</label>
+                                    <select id="aula_travada" class="form-control custom-select" name="aula_travada">
+                                        <option @if ($item->aula_travada == 1) selected @endif value="1">Sim</option>
+                                        <option @if ($item->aula_travada == 2) selected @endif value="2">Não</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-md-6 mb-3">
                                     <label class="form-label" for="status">Status</label>
                                     <select id="status" class="form-control custom-select" name="status">
                                         <option @if ($item->status == 1) selected @endif value="1">Ativo</option>

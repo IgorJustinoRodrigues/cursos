@@ -105,6 +105,7 @@ class CursoController extends Controller
         $item->professor_id = $request->professor;
         $item->categoria_id = $request->categoria;
         $item->status = $request->status;
+        $item->aula_travada = $request->aula_travada;
         $item->tipo = $request->tipo;
         $item->visibilidade = $request->visibilidade;
         $item->porcentagem_solicitacao_certificado = '100';
@@ -197,6 +198,7 @@ class CursoController extends Controller
         $item->categoria_id = $request->categoria;
         $item->descricao = $request->descricao;
         $item->tipo = $request->tipo;
+        $item->aula_travada = $request->aula_travada;
         $item->status = $request->status;
         $item->visibilidade = $request->visibilidade;
         $item->porcentagem_solicitacao_certificado = '100';
@@ -321,22 +323,22 @@ class CursoController extends Controller
             case 2:
                 if ($tipoSite == 2) {
                     //se tiver o true, exibe a primeira opção
-                 return 'Curso Intermediário';
+                    return 'Curso Intermediário';
                 } else {
                     //caso passe apenas tipo, exibe a segunda opção
-                    return 'Curso Intermediário | Até 10 Aulas | R$ 26,00'; 
+                    return 'Curso Intermediário | Até 10 Aulas | R$ 26,00';
                 }
                 break;
 
             case 3:
                 if ($tipoSite == 3) {
-                     //se tiver o true, exibe a primeira opção
+                    //se tiver o true, exibe a primeira opção
                     return 'Curso Avançado';
                 } else {
                     //caso passe apenas tipo, exibe a segunda opção
                     return 'Curso Avançado | Mais de 15 Aulas | R$ 38,00';
                 }
-                              
+
                 break;
 
             case 4:
@@ -364,7 +366,7 @@ class CursoController extends Controller
                 break;
 
             case 3:
-                return 'A';                            
+                return 'A';
                 break;
 
             case 4:
@@ -390,6 +392,27 @@ class CursoController extends Controller
             case 2:
                 //Retorna o visibilidade Não Vísivel
                 return 'Não Visível';
+                break;
+        }
+    }
+
+    /*
+    Função Aula Travada de Curso
+    - Responsável por exibir a Aula Travada do curso
+    - $aula_travada: Recebe o Id do visibilidade do curso
+    */
+    public function aula_travada($aula_travada)
+    {
+        //Verifica o visibilidade do curso
+        switch ($aula_travada) {
+            case 1:
+                //Retorna o visibilidade Vísivel
+                return 'Sim';
+                break;
+
+            case 2:
+                //Retorna o visibilidade Não Vísivel
+                return 'Não';
                 break;
         }
     }
