@@ -23,7 +23,7 @@
                                 <div class="banner-icon">
                                     <i class="icofont-search"></i>
                                 </div>
-                                <input type="text" placeholder="Digite aqui o seu código de Ativação">
+                                <input type="text" maxlength="15" minlength="15" placeholder="Digite aqui o seu código de Ativação">
                                 <button type="submit">Ativar Código</button>
                             </form>
                             <div class="banner-catagory d-flex flex-wrap">

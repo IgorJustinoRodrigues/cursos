@@ -47,7 +47,7 @@ class SiteController extends Controller
     }
 
     //Funçao de Ativação do Código sub-aba de início
-    public function ativacaoCodigo()
+    public function comoAtivarCodigo()
     {
         $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();
         //Exibe a view 
