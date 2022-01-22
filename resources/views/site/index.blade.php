@@ -160,6 +160,8 @@
             </div>
         </div>
     </div>
+    
+    @if (count($categoria) > 0)
     <!-- category section start here -->
     <div class="category-section ">
         <div class="container">
@@ -200,6 +202,7 @@
         </div>
     </div>
     <!-- category section start here -->
+    @endif
 
     @if (count($curso) > 0)
         <!-- course section start here -->
