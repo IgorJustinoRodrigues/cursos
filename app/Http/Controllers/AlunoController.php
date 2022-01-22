@@ -24,10 +24,12 @@ class AlunoController extends Controller
     Função Acesso de Aluno do Site
     - Responsável por mostrar a tela de login de Aluno no site
     */
-    public function acessoAluno()
+    public function acessoAluno($tela = 'login')
     {
         //Exibe a view
-        return view('painelAluno.aluno.acessoAluno');
+        return view('painelAluno.aluno.acessoAluno', [
+            'tela' => $tela
+        ]);
     }
 
     /*

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br" dir="ltr" {{ @session_start(); }}>
+<html lang="pt-br" dir="ltr" {{ @session_start() }}>
 
 <head>
     <meta charset="UTF-8">
@@ -91,7 +91,9 @@
                                     <a href="{{ route('site.cursos') }}">Cursos</a>
                                     <ul class="lab-ul">
                                         @foreach ($categoriasMenu as $linha)
-                                        <li><a href="{{ route('site.cursos', [$linha->id, $linha->nome]) }}">{{$linha->nome}}</a></li>                                            
+                                            <li><a
+                                                    href="{{ route('site.cursos', [$linha->id, $linha->nome]) }}">{{ $linha->nome }}</a>
+                                            </li>
                                         @endforeach
                                     </ul>
                                 </li>
@@ -99,17 +101,25 @@
                                     <a href="#0">Acesso</a>
                                     <ul class="lab-ul">
                                         <li><a href="index-2.html" target="_blank">Acesso Vendedor</a></li>
-                                        <li><a href="{{ route('acessoParceiro') }}" target="_blank">Acesso Parceiro</a></li>
-                                        <li><a href="{{ route('acessoAdmin') }}" target="_blank">Acesso Administrador</a></li>
+                                        <li><a href="{{ route('acessoParceiro') }}" target="_blank">Acesso
+                                                Parceiro</a></li>
+                                        <li><a href="{{ route('acessoAdmin') }}" target="_blank">Acesso
+                                                Administrador</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="{{ route('site.suporte') }}">Suporte</a></li>
                             </ul>
                         </div>
 
-                        <a href="{{ route('acessoAluno') }}" class="login"><i class="icofont-user"></i>
-                            <span>ACESSO DE ALUNO</span> </a>
-
+                        @if (isset($_SESSION['ativacao_start']) and $_SESSION['ativacao_start']['matricula']->id != null)
+                            <a href="{{ route('acessoAluno', 'cadastro') }}" class="login"><i
+                                    class="icofont-user"></i>
+                                <span>ACESSO DE ALUNO</span> </a>
+                        @else
+                        <a href="{{ route('acessoAluno') }}" class="login"><i
+                            class="icofont-user"></i>
+                        <span>ACESSO DE ALUNO</span> </a>
+                        @endif
                         <!-- toggle icons -->
                         <div class="header-bar d-lg-none">
                             <span></span>

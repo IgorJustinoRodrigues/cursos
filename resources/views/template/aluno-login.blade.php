@@ -73,6 +73,7 @@
 
     <script src="{{ URL::asset('telas/ini.js') }}"></script>
 
+    @yield('footer')
     <script>
         @if (session('padrao'))
             Lobibox.notify('info', {

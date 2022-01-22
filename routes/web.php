@@ -83,7 +83,7 @@ Route::get("/ver-cursos-aluno", [AlunoController::class, 'verCursos'])->name('al
 /*
 ROTAS DE LOGIN E LOGOFF DE ALUNO
 */
-Route::get('/acesso-aluno', [AlunoController::class, 'acessoAluno'])->name('acessoAluno');
+Route::get('/acesso-aluno/{tela?}', [AlunoController::class, 'acessoAluno'])->name('acessoAluno');
 Route::post('/login-aluno', [AlunoController::class, 'login'])->name('loginAluno');
 Route::get('/sair-aluno', [AlunoController::class, 'sair'])->name('sairAluno');
 Route::get('/recuperar-senha-aluno', [AlunoController::class, 'recuperacaoAluno'])->name('recuperacaoAluno');
