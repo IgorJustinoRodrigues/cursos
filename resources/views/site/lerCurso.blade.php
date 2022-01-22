@@ -52,6 +52,12 @@
                                 </span>
                             </div>
                         </div>
+                        <p class="phs-desc"></p>
+                        <form action="{{ route('site.escolhaCurso') }}" method="post" class="phs-thumb">
+                            @csrf
+                            <input type="hidden" name="curso_id" value="{{ $curso->id }}">
+                            <button class="lab-btn bg-success"><span>FAZER ESSE CURSO!</span></button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -172,7 +178,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                
+
                                 <div class="sidebar-social">
                                     <div class="ss-title">
                                         <h6>Share This Course:</h6>

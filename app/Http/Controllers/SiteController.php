@@ -8,6 +8,8 @@ use App\Models\Curso;
 use App\Models\Matricula;
 use App\Models\Parceiro;
 use App\Models\Professor;
+use App\Models\Unidade;
+use App\Models\Vendedor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 
@@ -74,12 +76,28 @@ class SiteController extends Controller
                     return redirect()->redirect('acessoAluno')->with('atencao', 'Código já ativado, utilize o seu usuário e senha para acessar o curso!')->withInput();
                 }
 
-                if(strtotime($matricula->created_at) < date('d/m/Y', strtotime('-90 days'))){
+                if(strtotime($matricula->created_at) > date('d/m/Y', strtotime('-90 days'))){
                     return redirect()->back()->with('atencao', 'O período para ativação do curso já se encerrou!')->withInput(['codigo']);
                 }
 
                 if($matricula->aluno_id == null and $matricula->curso_id == null){
                     //Não tem aluno nem curso
+
+                    //Inícia a Sessão
+                    @session_start();
+
+                    $ativacao = [
+                        'matricula' => $matricula,
+                        'aluno' => null,
+                        'curso' => null,
+                        'unidade' => Unidade::where('status', '=', 1)->find($matricula->unidade_id),
+                        'vendedor' => $matricula->vendedor_id != null ? Vendedor::where('status', '=', 1)->find($matricula->vendedor_id) : null
+                    ];
+
+                    //Cria uma sessão com as informações
+                    $_SESSION['ativacao_start'] = $ativacao;
+
+                    return redirect()->route('site.cursos');
 
                 } else if($matricula->aluno_id == null) {
                     //Não tem aluno, mas tem curso
@@ -91,10 +109,48 @@ class SiteController extends Controller
                     //Tem aluno e curso
 
                 }
-dd('o');
 
             } else {
                 return redirect()->back()->with('atencao', 'Código incorreto, verifique e tente novamente!')->withInput();
+            }
+        } else {
+            return redirect()->back()->with('atencao', 'Você acessou essa página de forma incorreta!')->withInput();
+        }
+    }
+
+    public function cancelarAtivacaoCodigo(){
+        //Inícia a Sessão
+        @session_start();
+
+        //Expira a sessão atual
+        unset($_SESSION['ativacao_start']);
+        //Redirecionamento para a rota inicio, com mensagem de sucesso, sem uma sessão ativa
+        return redirect()->route('inicio')->with('sucesso', 'Processo de Ativação de Código cancelado!');
+    }
+
+    public function escolhaCurso(Request $request){
+        //Inícia a Sessão
+        @session_start();
+
+        if(isset($_SESSION['ativacao_start']) and $_SESSION['ativacao_start']['matricula']->id != null){
+            $ativacao = $_SESSION['ativacao_start'];
+
+            $curso_id = $request->curso_id;
+
+            $curso = Curso::where('tipo', '=', $ativacao['matricula']->nivel_curso)->where('status', '=', 1)->where('visibilidade', '=', 1)->find($curso_id);
+            if($curso){
+                $ativacao['curso'] = $curso;
+
+                //Atualizar uma sessão com as informações
+                $_SESSION['ativacao_start'] = $ativacao;
+
+                if($ativacao['aluno'] != null){
+                    //Tela de confirmação de matrícula
+                } else {
+                    //Tela de cadastro ou login
+                }
+            } else {
+                return redirect()->route('site.cursos')->with('atencao', 'Selecione um curso válido!')->withInput();
             }
         } else {
             return redirect()->back()->with('atencao', 'Você acessou essa página de forma incorreta!')->withInput();
@@ -123,6 +179,13 @@ dd('o');
 
         if ($categoria != '') {
             $consulta->where('cursos.categoria_id', '=', $categoria);
+        }
+
+        //Inícia a Sessão
+        @session_start();
+
+        if(isset($_SESSION['ativacao_start']) and $_SESSION['ativacao_start']['matricula']->id != null){
+            $consulta->where('cursos.tipo', '=', $_SESSION['ativacao_start']['matricula']->nivel_curso);
         }
 
         switch ($ordem) {

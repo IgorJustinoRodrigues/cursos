@@ -508,13 +508,13 @@ class AlunoController extends Controller
     */
     public function sair()
     {
-        //Inícia a Sessão
-        @session_start();
+            //Inícia a Sessão
+            @session_start();
 
-        //Expira a sessão atual
-        unset($_SESSION['aluno_cursos_start']);
-        //Redirecionamento para a rota inicio, com mensagem de sucesso, sem uma sessão ativa
-        return redirect()->route('acessoAluno')->with('sucesso', 'Sessão encerrada com sucesso!');
+            //Expira a sessão atual
+            unset($_SESSION['aluno_cursos_start']);
+            //Redirecionamento para a rota inicio, com mensagem de sucesso, sem uma sessão ativa
+            return redirect()->route('acessoAluno')->with('sucesso', 'Sessão encerrada com sucesso!');
     }
 
 

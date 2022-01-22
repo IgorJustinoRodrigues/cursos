@@ -12,22 +12,8 @@
 @section('conteudo')
     <!-- -->
     <!-- Page Header section start here -->
-    <div class="pageheader-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="pageheader-content text-center">
-                        <h2>Cursos</h2>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb justify-content-center">
-                                <li class="breadcrumb-item"><a href="#">Início</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Cursos</li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="pageheader-section" style="padding: 55px 0 92px !important">
+        
     </div>
     <!-- Page Header section ending here -->
 

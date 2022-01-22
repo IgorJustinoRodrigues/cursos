@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br" dir="ltr" {{ @session_start() }}>
+<html lang="pt-br" dir="ltr" {{ @session_start(); }}>
 
 <head>
     <meta charset="UTF-8">

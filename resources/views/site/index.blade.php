@@ -6,6 +6,7 @@
 @endsection
 
 @section('conteudo')
+    @php @session_start(); @endphp
 
     <!-- banner section start here -->
     <section class="banner-section style-1">
@@ -17,16 +18,29 @@
                             <h6 class="subtitle text-uppercase fw-medium">EDUCAÇÃO ONLINE</h6>
                             <h2 class="title"><span class="d-lg-block">Aprenda as</span> Habilidades que você
                                 precisa<span class="d-lg-block">Ter sucesso</span></h2>
-                            <p class="desc">Cursos online. Ative o seu código para acessar o seu curso.</p>
-                            <form action="{{ route('site.ativacaoCodigo') }}" method="post">
-                                @csrf
-                                <div class="banner-icon">
-                                    <i class="icofont-search"></i>
-                                </div>
-                                <input type="text" maxlength="15" minlength="15" name="codigo" value="{{old('codigo')}}"
-                                    placeholder="Digite aqui o seu código de Ativação">
-                                <button type="submit">Ativar Código</button>
-                            </form>
+                            @if (isset($_SESSION['ativacao_start']) and $_SESSION['ativacao_start']['matricula']->id != null)
+                                <form action="{{ route('site.cancelarAtivacao') }}" method="post">
+                                    @csrf
+                                    <div class="banner-icon">
+                                        <i class="icofont-search"></i>
+                                    </div>
+                                    <input type="text" maxlength="15" minlength="15" name="codigo"
+                                        value="{{ $_SESSION['ativacao_start']['matricula']->ativacao }}" readonly
+                                        placeholder="Digite aqui o seu código de Ativação">
+                                    <button type="submit" class="bg-danger">Cancelar</button>
+                                </form>
+                            @else
+                                <p class="desc">Cursos online. Ative o seu código para acessar o seu curso.</p>
+                                <form action="{{ route('site.ativacaoCodigo') }}" method="post">
+                                    @csrf
+                                    <div class="banner-icon">
+                                        <i class="icofont-search"></i>
+                                    </div>
+                                    <input type="text" maxlength="15" minlength="15" name="codigo"
+                                        value="{{ old('codigo') }}" placeholder="Digite aqui o seu código de Ativação">
+                                    <button type="submit">Ativar Código</button>
+                                </form>
+                            @endif
                             <div class="banner-catagory d-flex flex-wrap">
                                 <p>Cursos mais Acessados: </p>
                                 <ul class="lab-ul d-flex flex-wrap">
