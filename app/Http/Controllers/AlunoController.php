@@ -81,10 +81,18 @@ class AlunoController extends Controller
         ]);
     }
 
-    public function confirmarMatricula(){
-        
+    public function confirmarMatricula()
+    {
         @session_start();
-        dd($_SESSION['ativacao_start']);
+
+        //Exibe a tela inícial do painel de alunoistradores passando parametros para view
+        return view('painelAluno.confirmarMatricula', [
+            'curso' => $_SESSION['ativacao_start']['curso'],
+            'aluno' => $_SESSION['ativacao_start']['aluno'],
+            'matricula' => $_SESSION['ativacao_start']['matricula'],
+            'vendedor' => $_SESSION['ativacao_start']['vendedor'],
+            'unidade' => $_SESSION['ativacao_start']['unidade'],
+        ]);
     }
 
     /*
@@ -143,7 +151,7 @@ class AlunoController extends Controller
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required',
-            'usuario' => 'required|max:100|unique:alunos,email',
+            'email' => 'required|max:100|unique:alunos,email',
             'senha' => 'required|min:6',
             'pontuacao' => 'required'
         ]);
@@ -167,7 +175,7 @@ class AlunoController extends Controller
         $item->endereco = $request->endereco;
         $item->cidade = $request->cidade;
         $item->estado = $request->estado;
-        $item->usuario = $request->usuario;
+        $item->email = $request->email;
         $item->senha = $request->senha;
         //pontuação resolver ainda...
         $item->pontuacao = $request->pontuacao;
@@ -252,13 +260,13 @@ class AlunoController extends Controller
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required',
-            'usuario' => 'required|max:100|unique:alunos,email',
+            'email' => 'required|max:100|unique:alunos,email',
             'pontuacao' => 'required'
         ]);
 
         //Atribuição dos valores recebidos da váriavel $request
         $item->nome = $request->nome;
-        $item->usuario = $request->usuario;
+        $item->email = $request->email;
         //Verificação se uma nova senha foi informada
         if (@$request->senha != '') {
             //Validação das informações recebidas
@@ -458,16 +466,25 @@ class AlunoController extends Controller
         //Inícia a Sessão
         @session_start();
 
-        if (isset($_SESSION['ativacao_start']) or $_SESSION['ativacao_start']['matricula']->id == null) {
+        if (isset($_SESSION['ativacao_start'])) {
             $ativacao = $_SESSION['ativacao_start'];
-            
-            if($ativacao['matricula']->aluno_id != null or $ativacao['aluno'] != null){
+
+            if ($ativacao['matricula']->aluno_id != null or $ativacao['aluno'] != null) {
                 return redirect()->route('painelAluno')->with('atencao', 'Acesso incorreto!');
             }
+        } else {
+            $ativacao = [
+                'matricula' => null,
+                'aluno' => null,
+                'curso' => null,
+                'unidade' => null,
+                'vendedor' => null
+            ];
         }
+
         if ($request->acao == 'cadastro') {
 
-            if (!isset($_SESSION['ativacao_start']) or $_SESSION['ativacao_start']['matricula']->id == null or $_SESSION['ativacao_start']['aluno'] != null) {
+            if (!isset($_SESSION['ativacao_start']) or $_SESSION['ativacao_start']['aluno'] != null) {
                 return redirect()->route('inicio')->with('atencao', 'Acesso incorreto!');
             }
             //Validação das informações recebidas
@@ -519,24 +536,26 @@ class AlunoController extends Controller
             //Cria uma sessão com as informações
             $_SESSION['aluno_cursos_start'] = $item;
 
-            $ativacao['aluno'] = $item;
-            //Atualizar uma sessão com as informações
-            $_SESSION['ativacao_start'] = $ativacao;
+            if (isset($_SESSION['ativacao_start'])) {
+                $ativacao['aluno'] = $item;
+                //Atualizar uma sessão com as informações
+                $_SESSION['ativacao_start'] = $ativacao;
+            }
 
             //Verifica se o campo lembrar senha estava selecionado
             if (@$request->remember) {
                 //Criar o Cookie com as credênciais com validade de 3 dias
-                Cookie::queue('aluno_usuario', $request->usuario, 4320);
+                Cookie::queue('aluno_email', $request->email, 4320);
                 Cookie::queue('aluno_senha', $request->senha, 4320);
             } else {
                 //Expira os Cookies de credências
-                Cookie::expire('aluno_usuario');
+                Cookie::expire('aluno_email');
                 Cookie::expire('aluno_senha');
             }
 
             $item->touch();
 
-            if($ativacao['aluno'] != null and $ativacao['curso'] != null){
+            if ($ativacao['aluno'] != null and $ativacao['curso'] != null) {
                 //Confirmar matrícula
                 return redirect()->route('confirmarMatricula');
             } else {
@@ -562,6 +581,8 @@ class AlunoController extends Controller
 
         //Expira a sessão atual
         unset($_SESSION['aluno_cursos_start']);
+        unset($_SESSION['ativacao_start']);
+
         //Redirecionamento para a rota inicio, com mensagem de sucesso, sem uma sessão ativa
         return redirect()->route('acessoAluno')->with('sucesso', 'Sessão encerrada com sucesso!');
     }

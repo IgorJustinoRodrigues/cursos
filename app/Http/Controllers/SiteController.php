@@ -242,6 +242,7 @@ class SiteController extends Controller
     //Função de Cursos
     public function cursos(Request $request, $categoria = null)
     {
+        
         $busca = $request->busca;
 
         if (!$categoria) {

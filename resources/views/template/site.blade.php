@@ -111,14 +111,21 @@
                             </ul>
                         </div>
 
-                        @if (isset($_SESSION['ativacao_start']) and $_SESSION['ativacao_start']['matricula']->id != null)
-                            <a href="{{ route('acessoAluno', 'cadastro') }}" class="login"><i
-                                    class="icofont-user"></i>
-                                <span>ACESSO DE ALUNO</span> </a>
+                        @if (!isset($_SESSION['aluno_cursos_start']))
+                            @if (isset($_SESSION['ativacao_start']))
+                                <a href="{{ route('acessoAluno', 'cadastro') }}" class="login"><i
+                                        class="icofont-user"></i>
+                                    <span>ACESSO DE ALUNO</span> </a>
+
+                            @else
+                                <a href="{{ route('acessoAluno') }}" class="login"><i
+                                        class="icofont-user"></i>
+                                    <span>ACESSO DE ALUNO</span> </a>
+                            @endif
                         @else
-                        <a href="{{ route('acessoAluno') }}" class="login"><i
+                        <a href="{{ route('painelAluno') }}" class="login"><i
                             class="icofont-user"></i>
-                        <span>ACESSO DE ALUNO</span> </a>
+                        <span>{{$_SESSION['aluno_cursos_start']->nome}}</span> </a>
                         @endif
                         <!-- toggle icons -->
                         <div class="header-bar d-lg-none">

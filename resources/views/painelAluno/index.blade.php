@@ -54,7 +54,7 @@
                     <i class="material-icons text-muted-light">star</i>
                 </div>
                 <div class="media-body" style="min-width: 180px">
-                    Olá {{ $_SESSION['aluno_cursos_start']['nome_aluno'] }}
+                    Olá {{ $_SESSION['aluno_cursos_start']->nome }}
                     Você acaba de receber a sua primeira conquista! <strong>Você preencheu todos os seus dados
                         corretamente.</strong>
                 </div>

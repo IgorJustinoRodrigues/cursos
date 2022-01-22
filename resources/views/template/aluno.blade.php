@@ -72,6 +72,9 @@
                         <!-- Menu -->
                         <ul class="nav navbar-nav flex-nowrap d-none d-lg-flex">
                             <li class="nav-item">
+                                <a class="nav-link" href="{{route('inicio')}}">Site&nbsp;<i class="material-icons">remove_red_eye</i></a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="student-help-center.html">Ajuda</a>
                             </li>
                         </ul>
@@ -206,17 +209,17 @@
                             <!-- User dropdown -->
                             <li class="nav-item dropdown ml-1 ml-md-3">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"><img
-                                        src="{{ URL::asset('storage/' . $_SESSION['aluno_cursos_start']['avatar_aluno']) }}"
+                                        src="{{ URL::asset('storage/' . $_SESSION['aluno_cursos_start']->avatar) }}"
                                         alt="Avatar" class="rounded-circle" width="40"></a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <p class="dropdown-item">
-                                        {{ $_SESSION['aluno_cursos_start']['nome_aluno'] }}
+                                        {{ $_SESSION['aluno_cursos_start']->nome }}
                                     </p>
                                     <a class="dropdown-item" href="{{ route('painelAluno') }}">
                                         <i class="material-icons">person</i> Perfil
                                     </a>
                                     <a class="dropdown-item"
-                                        href="{{ route('alunoEditar', $_SESSION['aluno_cursos_start']['id_aluno']) }}">
+                                        href="{{ route('alunoEditar', $_SESSION['aluno_cursos_start']->id) }}">
                                         <i class="material-icons">edit</i> Editar Conta
                                     </a>
                                     <a class="dropdown-item" href="{{ route('sairAluno') }}">
@@ -224,7 +227,7 @@
                                     </a>
                                     <p class="dropdown-item" style="font-size: 10px">
                                         Último acesso
-                                        em:<br>{{ $_SESSION['aluno_cursos_start']['ultimo_acesso_aluno'] }}
+                                        em:<br>{{ $_SESSION['aluno_cursos_start']->ultimo_acesso_aluno }}
                                     </p>
                                 </div>
                             </li>
