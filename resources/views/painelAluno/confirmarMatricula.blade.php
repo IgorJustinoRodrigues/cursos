@@ -1,5 +1,5 @@
 @extends('template.aluno')
-@section('title', 'Painel de aluno')
+@section('title', 'Matricula')
 
 @section('footer')
 
@@ -11,16 +11,16 @@
             <div class="row m-0">
                 <div class="col-lg container-fluid page__container">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="fixed-instructor-dashboard.html">Home</a></li>
-                        <li class="breadcrumb-item active">Edit Account</li>
+                        <li class="breadcrumb-item"><a href="fixed-instructor-dashboard.html">Matrícula</a></li>
+                        <li class="breadcrumb-item active">Fazer Matrícula</li>
                     </ol>
 
                     <div id="invoice">
                         <div class="card">
                             <div class="card-header media align-items-center">
                                 <div class="media-body">
-                                    <h1 class="card-title h2">Invoice</h1>
-                                    <div class="card-subtitle">Document 10003578 / 12 Jan 2019</div>
+                                    <h1 class="card-title h2">Matrícula</h1>
+                                    <div class="card-subtitle">Código de Ativação da Matrícula:  10003578 / 12 Jan 2019</div>
                                 </div>
                                 <div class="media-right d-flex align-items-center">
                                     <a href="javascript:window.print()" class="btn btn-flush text-muted d-print-none"><i
@@ -31,19 +31,20 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-6">
-                                        <p class="text-black-70 m-0"><strong>Prepared for</strong></p>
+                                        <p class="text-black-70 m-0"><strong>Nome do Aluno</strong></p>
                                         <h2>Alexander Watson</h2>
                                         <div class="text-black-50">
-                                            640 Joy Bypass Suite 448 <br>
-                                            Germany
+                                            Comprou o curso de Informática Básica<br>
+                                            Pelo Vendedor Mateus
                                         </div>
                                     </div>
                                     <div class="col-6">
-                                        <p class="text-black-70 m-0"><strong>Prepared by</strong></p>
-                                        <h2>LearnPlus Inc.</h2>
+                                        <p class="text-black-70 m-0"><strong>Loja que vendeu o Curso foi a</strong></p>
+                                        <h2>Moveis Estrelas</h2>
                                         <div class="text-black-50">
-                                            32 Noah Cliffs Suite 626, Romania <br>
-                                            Tax ID RO18880609
+                                            Tempo para ativação do Curso <br>
+                                            90 dias
+                                            
                                         </div>
                                     </div>
                                 </div>

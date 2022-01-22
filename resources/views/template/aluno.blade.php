@@ -72,7 +72,7 @@
                         <!-- Menu -->
                         <ul class="nav navbar-nav flex-nowrap d-none d-lg-flex">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{route('inicio')}}">Site&nbsp;<i class="material-icons">remove_red_eye</i></a>
+                                <a class="nav-link" href="{{route('inicio')}}" target="_blank">Site&nbsp;<i class="material-icons">remove_red_eye</i></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="student-help-center.html">Ajuda</a>
