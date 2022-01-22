@@ -33,7 +33,7 @@ class CreateAlunosTable extends Migration
             $table->string('senha', 32);
             
             $table->string('token', 32)->nullable();
-            $table->date('  ')->nullable();
+            $table->date('recupera_senha')->nullable();
 
             $table->integer('pontuacao');
 
