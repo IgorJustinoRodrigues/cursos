@@ -51,20 +51,16 @@
                 <div class="header-top-area">
                     <ul class="lab-ul left">
                         <li>
-                            <i class="icofont-ui-call"></i> <span>+800-123-4567 6587</span>
-                        </li>
-                        <li>
-                            <i class="icofont-location-pin"></i> Brasil, Carmo do Rio Verde / Ceres
+                            <i class="icofont-ui-call"></i> <span>0800 123 456 789</span>
                         </li>
                     </ul>
                     <ul class="lab-ul social-icons d-flex align-items-center">
                         <li>
                             <p>Encontre-nos no : </p>
                         </li>
-                        <li><a href="#" class="fb"><i class="icofont-facebook-messenger"></i></a></li>
+                        <li><a href="#" class="fb"><i class="icofont-facebook"></i></a></li>
                         <li><a href="#" class=""><i class="icofont-brand-whatsapp"></i></a></li>
                         <li><a href="#"><i class="icofont-instagram"></i></a></li>
-                        <li><a href="#" class="vimeo"><i class="icofont-vimeo"></i></a></li>
                     </ul>
                 </div>
             </div>
@@ -74,7 +70,7 @@
                 <div class="header-wrapper">
                     <div class="logo">
                         <a href="{{ route('inicio') }}"><img src="{{ URL::asset('site/images/logo/01.png') }}"
-                                alt="logo"></a>
+                                alt="logo" style="max-width: 300px"></a>
                     </div>
                     <div class="menu-area">
                         <div class="menu">
@@ -238,8 +234,7 @@
             <div class="footer-bottom style-2">
                 <div class="container">
                     <div class="section-wrapper">
-                        <p>&copy; 2021 <a href="index.html">Edukon</a> Designed by <a
-                                href="https://themeforest.net/user/CodexCoder" target="_blank">CodexCoder</a> </p>
+                        <p>Todos os direitos reservado Faça Mais Brasil &copy; {{ date('Y') }}</p>
                     </div>
                 </div>
             </div>
