@@ -46,14 +46,11 @@ class Services
         @session_start();
 
         //Verifica se não existe uma sessão ativa de aluno
-        if (!isset($_SESSION['aluno_cursos_start']) or !is_numeric($_SESSION['aluno_cursos_start']['id_aluno'])) {
+        if (!isset($_SESSION['aluno_cursos_start']) or !is_numeric($_SESSION['aluno_cursos_start']->id)) {
             //Expira a sessão
             unset($_SESSION['aluno_cursos_start']);
             return false;
         } else {
-            //Redirecionamento para a rota sairAluno após 10 minutos sem uma nova requisição
-            header("Refresh:6000; url=" . route('sairAluno'));
-
             //Retorna verdade para a sessão ativa
             return true;
         }

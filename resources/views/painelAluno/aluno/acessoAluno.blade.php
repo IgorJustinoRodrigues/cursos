@@ -17,9 +17,8 @@
             $("#div-login").addClass('d-none');
             $("#div-cadastro").removeClass('d-none');
         }
-        
 
-        @if ($tela == 'cadastro' and (!isset($_SESSION['ativacao_start']) and $_SESSION['ativacao_start']['matricula']->id == null))
+        @if ($tela == 'cadastro' and (isset($_SESSION['ativacao_start']) and $_SESSION['ativacao_start']['matricula']->id != null))
             cadastro();
         @else
             login();
@@ -33,12 +32,18 @@
                 $("#msg-senha").text("");
                 return null;
             }
+
             $('#btn-cadastro').attr('disabled', true);
 
             var verifica = 3 * (senha.length / 4);
+            
             if (senha2.length > verifica) {
                 if (senha == senha2) {
-                    $('#btn-cadastro').attr('disabled', false);
+                    if(senha.length < 6){
+                        $('#btn-cadastro').attr('disabled', true);
+                    } else {
+                        $('#btn-cadastro').attr('disabled', false);
+                    }
                     $("#msg-senha").html("<span style='color:green'>Senhas iguais</span>");
                 } else {
                     $("#msg-senha").html("<span style='color:red'>As senhas são diferentes</span>");
@@ -52,6 +57,8 @@
 
             if ($('#senha').val().length < 6) {
                 $('#senha-status').html("<span style='color:red'>Senha fraca, insira no mínimo 6 caracteres</span>");
+                
+        $('#btn-cadastro').attr('disabled', true);
             } else {
                 if ($('#senha').val().match(numeros) && $('#senha').val().match(alfabeto)) {
                     $('#senha-status').html("<span style='color:green'><b>Senha forte</b></span>");
@@ -78,10 +85,11 @@
                     <div class="card-body">
                         <form class="form-horizontal" method="POST" action="{{ route('loginAluno') }}">
                             @csrf
+                            <input type="hidden" name="acao" value="cadastro" >
                             <div class="form-group">
                                 <label class="form-label" for="nome">Nome:</label>
                                 <div class="input-group input-group-merge">
-                                    <input id="nome" type="text" required="" class="form-control form-control-prepended"
+                                    <input id="nome" name="nome" type="text" required="" value="{{ old('nome') }}" class="form-control form-control-prepended"
                                         placeholder="Informe o seu nome completo">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
@@ -93,7 +101,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="email">E-mail:</label>
                                 <div class="input-group input-group-merge">
-                                    <input id="email" type="email" required="" class="form-control form-control-prepended"
+                                    <input id="email" type="email" name="email" required="" value="{{ old('email') }}" class="form-control form-control-prepended"
                                         placeholder="Seu melhor e-mail">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
@@ -107,7 +115,7 @@
                                 <div class="input-group input-group-merge">
                                     <input id="senha" type="password" required=""
                                         class="form-control form-control-prepended"
-                                        onkeyup="verificaSenha(); verificaForcaSenha();" placeholder="Crie uma senha">
+                                        onkeyup="verificaSenha(); verificaForcaSenha();" name="senha" placeholder="Crie uma senha">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
                                             <span class="fa fa-key"></span>
@@ -117,9 +125,9 @@
                                 <div id="senha-status"></div>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" for="senha2">Senha:</label>
+                                <label class="form-label" for="senha2">Confirmar Senha:</label>
                                 <div class="input-group input-group-merge">
-                                    <input id="senha2" type="password" required=""
+                                    <input id="senha2" type="password" required="" name="senha2"
                                         class="form-control form-control-prepended" placeholder="Confirme a sua senha"
                                         onkeyup="verificaSenha()">
                                     <div class="input-group-prepend">
@@ -154,6 +162,7 @@
                 <div class="card-body">
                     <form class="form-horizontal" method="POST" action="{{ route('loginAluno') }}">
                         @csrf
+                        <input type="hidden" name="acao" value="login" >
                         <div class="form-group">
                             <label class="form-label" for="email">E-mail:</label>
                             <div class="input-group input-group-merge">

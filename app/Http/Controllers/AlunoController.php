@@ -81,6 +81,12 @@ class AlunoController extends Controller
         ]);
     }
 
+    public function confirmarMatricula(){
+        
+        @session_start();
+        dd($_SESSION['ativacao_start']);
+    }
+
     /*
     Função Index de Aluno
     - Responsável por mostrar a tela de listagem de alunoistradores
@@ -449,37 +455,73 @@ class AlunoController extends Controller
     */
     public function login(Request $request)
     {
-        //Validação das informações recebidas
-        $validated = $request->validate([
-            'usuario' => 'required|max:200',
-            'senha' => 'required'
-        ]);
+        //Inícia a Sessão
+        @session_start();
 
-        //Atribuição dos valores recebidos da váriavel $request para o objeto $item
-        $usuario = $request->usuario;
-        $senha = $request->senha;
+        if (isset($_SESSION['ativacao_start']) or $_SESSION['ativacao_start']['matricula']->id == null) {
+            $ativacao = $_SESSION['ativacao_start'];
+            
+            if($ativacao['matricula']->aluno_id != null or $ativacao['aluno'] != null){
+                return redirect()->route('painelAluno')->with('atencao', 'Acesso incorreto!');
+            }
+        }
+        if ($request->acao == 'cadastro') {
 
-        //Seleciona o aluno no banco de dados, usando as credencias de acesso
-        $item = Aluno::selectRaw("*, date_format(created_at, '%d/%m/%Y') as cadastro, date_format(updated_at, '%d/%m/%Y às %H:%i') as ultimo_acesso")->where('usuario', '=', $usuario)->where('senha', '=', $senha)->first();
+            if (!isset($_SESSION['ativacao_start']) or $_SESSION['ativacao_start']['matricula']->id == null or $_SESSION['ativacao_start']['aluno'] != null) {
+                return redirect()->route('inicio')->with('atencao', 'Acesso incorreto!');
+            }
+            //Validação das informações recebidas
+            $validated = $request->validate([
+                'nome' => 'required',
+                'email' => 'required|email|max:100|unique:alunos,email',
+                'senha' => 'required|min:6'
+            ]);
+
+            if ($request->senha != $request->senha2) {
+                return redirect()->back()->with('atencao', 'Senhas diferentes!');
+            }
+
+            //Nova instância do Model Aluno
+            $item = new Aluno();
+            $item->nome = $request->nome;
+            $item->email = $request->email;
+            $item->senha = md5($request->senha);
+
+            $item->pontuacao = 0;
+            //Fazer o envio por email para ativação da conta
+            $item->status = 1;
+
+            if (!$item->save()) {
+                return redirect()->back()->with('atencao', 'Não foi possível fazer o seu cadastro, tente novamente!');
+            }
+
+            //Seleciona o aluno no banco de dados, usando as credencias de acesso
+            $item = Aluno::selectRaw("*, date_format(created_at, '%d/%m/%Y') as cadastro, date_format(updated_at, '%d/%m/%Y às %H:%i') as ultimo_acesso")->find($item->id);
+        } else {
+            //Validação das informações recebidas
+            $validated = $request->validate([
+                'email' => 'required|email',
+                'senha' => 'required|min:6'
+            ]);
+
+            //Atribuição dos valores recebidos da váriavel $request para o objeto $item
+            $email = $request->email;
+            $senha = md5($request->senha);
+
+            //Seleciona o aluno no banco de dados, usando as credencias de acesso
+            $item = Aluno::selectRaw("*, date_format(created_at, '%d/%m/%Y') as cadastro, date_format(updated_at, '%d/%m/%Y às %H:%i') as ultimo_acesso")->where('email', '=', $email)->where('senha', '=', $senha)->where('status', '=', 1)->first();
+        }
+
 
         //Verifica se existe um aluno com as credênciais informadas
         if (@$item->id != null and is_numeric($item->id)) {
-            //Inícia a Sessão
-            @session_start();
-
-            //Obtem e preenche as informaçõs do admim encontrado
-            $logado['id_aluno'] = $item->id;
-            $logado['nome_aluno'] = $item->nome;
-            $logado['usuario_aluno'] = $item->usuario;
-            $logado['avatar_aluno'] = $item->avatar;
-            $logado['tipo_aluno'] = $this->tipo($item->tipo);
-            $logado['tipo_numero_aluno'] = $item->tipo;
-            $logado['anotacoes_aluno'] = $item->anotacoes;
-            $logado['cadastro_aluno'] = $item->cadastro;
-            $logado['ultimo_acesso_aluno'] = $item->ultimo_acesso;
 
             //Cria uma sessão com as informações
-            $_SESSION['aluno_cursos_start'] = $logado;
+            $_SESSION['aluno_cursos_start'] = $item;
+
+            $ativacao['aluno'] = $item;
+            //Atualizar uma sessão com as informações
+            $_SESSION['ativacao_start'] = $ativacao;
 
             //Verifica se o campo lembrar senha estava selecionado
             if (@$request->remember) {
@@ -494,11 +536,16 @@ class AlunoController extends Controller
 
             $item->touch();
 
-            //Redirecionamento para a rota painelAluno, com mensagem de sucesso, com uma sessão ativa
-            return redirect()->route('painelAluno')->with('sucesso', 'Olá ' . $item->nome . ', você acessou o sistema com o perfil de "' . $this->tipo($item->tipo) . '"');
+            if($ativacao['aluno'] != null and $ativacao['curso'] != null){
+                //Confirmar matrícula
+                return redirect()->route('confirmarMatricula');
+            } else {
+                //Redirecionamento para a rota painelAluno, com mensagem de sucesso, com uma sessão ativa
+                return redirect()->route('painelAluno')->with('sucesso', 'Olá ' . $item->nome . ', você acessou o sistema com o perfil de "' . $this->tipo($item->tipo) . '"');
+            }
         } else {
             //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
-            return redirect()->back()->with('atencao', 'Usuário e/ou senha incorretos!')->withInput(
+            return redirect()->route('acessoAluno')->with('atencao', 'Usuário e/ou senha incorretos!')->withInput(
                 $request->except('senha')
             );
         }
@@ -510,13 +557,13 @@ class AlunoController extends Controller
     */
     public function sair()
     {
-            //Inícia a Sessão
-            @session_start();
+        //Inícia a Sessão
+        @session_start();
 
-            //Expira a sessão atual
-            unset($_SESSION['aluno_cursos_start']);
-            //Redirecionamento para a rota inicio, com mensagem de sucesso, sem uma sessão ativa
-            return redirect()->route('acessoAluno')->with('sucesso', 'Sessão encerrada com sucesso!');
+        //Expira a sessão atual
+        unset($_SESSION['aluno_cursos_start']);
+        //Redirecionamento para a rota inicio, com mensagem de sucesso, sem uma sessão ativa
+        return redirect()->route('acessoAluno')->with('sucesso', 'Sessão encerrada com sucesso!');
     }
 
 

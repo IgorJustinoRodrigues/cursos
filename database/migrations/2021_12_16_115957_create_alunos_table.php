@@ -17,29 +17,23 @@ class CreateAlunosTable extends Migration
             $table->id();
 
             $table->string('nome', 100);
-            $table->date('nascimento');
+            $table->date('nascimento')->nullable();
             $table->string('sexo', 1)->nullable();
-            
-            $table->string('cpf', 11)->nullable()->unique();
-            $table->string('rg', 20)->nullable()->unique();
-            
-            $table->string('nome_responsavel', 100)->nullable();
-            $table->string('cpf_responsavel', 11)->nullable()->unique();
-            $table->string('rg_responsavel', 20)->nullable()->unique();
 
             $table->string('avatar', 150)->nullable();
 
-            $table->string('email', 200)->nullable();
+            $table->string('email', 200)->unique();
             $table->string('whatsapp', 16)->nullable();
             $table->string('telefone', 16)->nullable();
             $table->text('contato')->nullable();
 
-            $table->text('endereco')->nullable();
             $table->string('cidade', 50)->nullable();
             $table->string('estado', 2)->nullable();
 
-            $table->string('usuario', 20)->unique();
             $table->string('senha', 32);
+            
+            $table->string('token', 32)->nullable();
+            $table->date('  ')->nullable();
 
             $table->integer('pontuacao');
 

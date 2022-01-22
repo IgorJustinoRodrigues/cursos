@@ -66,6 +66,8 @@ Route::get('/verifica-email-admin', [AdminController::class, 'verificaEmailAdmin
 
 //Rota Painel Aluno Raiz
 Route::get('/painel-aluno', [AlunoController::class, 'painel'])->name('painelAluno');
+Route::get('/confirmar-matricula', [AlunoController::class, 'confirmarMatricula'])->name('confirmarMatricula');
+
 
 /*
 ROTAS DE ALUNO
