@@ -69,7 +69,7 @@
             <div class="container">
                 <div class="header-wrapper">
                     <div class="logo">
-                        <a href="{{ route('inicio') }}"><img src="{{ URL::asset('site/images/logo/01.png') }}"
+                        <a href="{{ route('inicio') }}"><img src="{{ URL::asset('site/images/logo/Logo.svg') }}"
                                 alt="logo" style="max-width: 300px"></a>
                     </div>
                     <div class="menu-area">
