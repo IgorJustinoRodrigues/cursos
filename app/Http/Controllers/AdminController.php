@@ -498,31 +498,26 @@ class AdminController extends Controller
 
                     //Caso de aluno
                 case 'aluno':
-                    //Consulta que busca se já existe um usuario no banco com o mesmo usuario
-                    $resultado = Aluno::where('usuario', '=', $usuario)->first();
-
-                    //Verifica se existe
+                    //Consulta que busca se já existe um email no banco com o mesmo email
+                    $resultado = Aluno::where('email', '=', $usuario)->first();
+                   
                     if ($resultado) {
-                        //Verifica se o id informado é igual ao da consulta
                         if ($resultado->id == $id) {
-                            //Retorno de usuário atual 
                             $retorno = [
-                                'msg' => 'Usuário atual!',
+                                'msg' => 'E-mail atual!',
                                 'tipo' => '3',
                                 'status' => 1
                             ];
                         } else {
-                            //Retorno de usuário não disponível
                             $retorno = [
-                                'msg' => 'Usuário "' . $usuario . '", não está disponível!',
+                                'msg' => 'E-mail "' . $usuario . '", não está disponível!',
                                 'tipo' => '2',
                                 'status' => 1
                             ];
                         }
                     } else {
-                        //Retorno do usuário disponível
                         $retorno = [
-                            'msg' => 'Usuário disponível!',
+                            'msg' => 'E-mail disponível!',
                             'tipo' => '1',
                             'status' => 1
                         ];

@@ -10,7 +10,7 @@
 
         function validaUsuario() {
             var tabela = 'aluno';
-            var usuario = $("#usuario").val();
+            var usuario = $("#email").val();
             var id = $("#id").val();
 
             if (usuario == '') {
@@ -41,7 +41,7 @@
                             $("#retorno-usuario").addClass('text-success');
                         } else if (data.tipo == 2) {
                             $("#retorno-usuario").addClass('text-danger');
-                            $("#usuario").val('');
+                            $("#email").val('');
                         } else {
                             $("#retorno-usuario").addClass('text-primary');
                         }
@@ -56,7 +56,7 @@
                             msg: data.msg
                         });
                         $("#retorno-usuario").text('');
-                        $("#usuario").val('');
+                        $("#email").val('');
                     }
                 },
                 error: function(data) {
@@ -112,9 +112,9 @@
                             </div>
 
                             <div class="col-9 col-md-4 mb-3">
-                                <label class="form-label" for="usuario">Usuário</label>
-                                <input type="text" class="form-control" onchange="validaUsuario()" id="usuario"
-                                    name="usuario" placeholder="Usuário" value="{{ $item->usuario }}" required="">
+                                <label class="form-label" for="email">Email</label>
+                                <input type="email" class="form-control" onchange="validaUsuario()" id="email" name="email"
+                                    placeholder="Email" value="{{ $item->email }}" required="">
                                 <small id="retorno-usuario" class="form-text"></small>
                             </div>
                             <div class="col-9 col-md-4 mb-3">
@@ -134,40 +134,7 @@
                                     <option @if ($item->sexo == 2) selected @endif value="2">Feminino</option>
                                 </select>
                             </div>
-                            <div class="col-12 col-md-3 mb-3">
-                                <label class="form-label" for="cpf">Cpf do Aluno</label>
-                                <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Cpf do Aluno"
-                                    value="{{ $item->cpf }}">
-                            </div>
-                            <div class="col-12 col-md-3 mb-3">
-                                <label class="form-label" for="rg">Rg do Aluno</label>
-                                <input type="text" class="form-control" id="rg" name="rg" placeholder="Rg do Aluno"
-                                    value="{{ $item->rg }}">
-                            </div>
 
-                            <div class="col-12 col-md-12 mb-3">
-                                <label class="form-label" for="nome_responsavel">Nome do Responsável</label>
-                                <input type="text" class="form-control" id="nome_responsavel   "
-                                    name="nome_responsavel   " placeholder="Nome do Responsável"
-                                    value="{{ $item->nome_responsavel }}">
-                            </div>
-                            <div class="col-12 col-md-3 mb-3">
-                                <label class="form-label" for="cpf_responsavel">Cpf do Responsável</label>
-                                <input type="text" class="form-control" id="cpf_responsavel" name="cpf_responsavel"
-                                    placeholder="Cpf do Responsável" value="{{ $item->cpf_responsavel }}">
-                            </div>
-                            <div class="col-12 col-md-3 mb-3">
-                                <label class="form-label" for="rg_responsavel">Rg do Responsável</label>
-                                <input type="text" class="form-control" id="rg_responsavel" name="rg_responsavel"
-                                    placeholder="Rg do Responsável" value="{{ $item->rg_responsavel }}">
-                            </div>
-
-
-                            <div class="col-12 col-md-6 mb-3">
-                                <label class="form-label" for="email">E-mail</label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="E-mail"
-                                    value="{{ $item->email }}">
-                            </div>
                             <div class="col-12 col-md-6 mb-3">
                                 <label class="form-label" for="whatsapp">WhatsApp</label>
                                 <input type="text" class="form-control" id="whatsapp" name="whatsapp"
@@ -185,16 +152,10 @@
                                     rows="3">{{ $item->contato }}</textarea>
                             </div>
 
-                            <div class="col-12 mb-3">
-                                <label class="form-label" for="endereco">Endereço</label>
-                                <textarea class="form-control" id="endereco" placeholder="Contato" name="endereco"
-                                    rows="3">{{ $item->endereco }}</textarea>
-                            </div>
-
                             <div class="col-9 col-md-4 mb-3">
                                 <label class="form-label" for="cidade">Cidade</label>
                                 <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Cidade"
-                                    value="{{ $item->cidade }}" >
+                                    value="{{ $item->cidade }}">
                             </div>
 
                             <div class="col-9 col-md-4 mb-3">
@@ -205,8 +166,8 @@
 
                             <div class="col-9 col-md-4 mb-3">
                                 <label class="form-label" for="pontuacao">Pontuação</label>
-                                <input type="number" class="form-control" id="pontuacao" name="pontuacao" placeholder="Estado"
-                                    value="{{ $item->pontuacao }}" maxlength="2" required="">
+                                <input type="number" class="form-control" id="pontuacao" name="pontuacao"
+                                    placeholder="Estado" value="{{ $item->pontuacao }}" maxlength="2" required="">
                             </div>
 
                             <div class="col-12 col-md-4 mb-3">

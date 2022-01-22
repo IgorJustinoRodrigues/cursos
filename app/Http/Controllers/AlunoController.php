@@ -151,7 +151,7 @@ class AlunoController extends Controller
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required',
-            'email' => 'required|max:100|unique:alunos,email',
+            'email' => 'required|email|max:100|unique:alunos,email',
             'senha' => 'required|min:6',
             'pontuacao' => 'required'
         ]);
@@ -163,16 +163,9 @@ class AlunoController extends Controller
         $item->nome = $request->nome;
         $item->nascimento = $request->nascimento;
         $item->sexo = $request->sexo;
-        $item->cpf = $request->cpf;
-        $item->rg = $request->rg;
-        $item->nome_responsavel = $request->nome_responsavel;
-        $item->cpf_responsavel = $request->cpf_responsavel;
-        $item->rg_responsavel = $request->rg_responsavel;
-        $item->email = $request->email;
         $item->whatsapp = $request->whatsapp;
         $item->telefone = $request->telefone;
         $item->contato = $request->contato;
-        $item->endereco = $request->endereco;
         $item->cidade = $request->cidade;
         $item->estado = $request->estado;
         $item->email = $request->email;
@@ -260,7 +253,7 @@ class AlunoController extends Controller
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required',
-            'email' => 'required|max:100|unique:alunos,email',
+            'email' => 'required|email|max:100|unique:alunos,email',
             'pontuacao' => 'required'
         ]);
 
@@ -280,16 +273,9 @@ class AlunoController extends Controller
 
         $item->nascimento = $request->nascimento;
         $item->sexo = $request->sexo;
-        $item->cpf = $request->cpf;
-        $item->rg = $request->rg;
-        $item->nome_responsavel = $request->nome_responsavel;
-        $item->cpf_responsavel = $request->cpf_responsavel;
-        $item->rg_responsavel = $request->rg_responsavel;
-        $item->email = $request->email;
         $item->whatsapp = $request->whatsapp;
         $item->telefone = $request->telefone;
         $item->contato = $request->contato;
-        $item->endereco = $request->endereco;
         $item->cidade = $request->cidade;
         $item->estado = $request->estado;
         //pontuação resolver ainda...

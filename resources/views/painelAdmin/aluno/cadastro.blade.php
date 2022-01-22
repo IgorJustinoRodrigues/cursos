@@ -11,7 +11,7 @@
 
         function validaUsuario() {
             var tabela = 'aluno';
-            var usuario = $("#usuario").val();
+            var usuario = $("#email").val();
             var id = null;
 
             if (usuario == '') {
@@ -42,7 +42,7 @@
                             $("#retorno-usuario").addClass('text-success');
                         } else if (data.tipo == 2) {
                             $("#retorno-usuario").addClass('text-danger');
-                            $("#usuario").val('');
+                            $("#email").val('');
                         } else {
                             $("#retorno-usuario").addClass('text-primary');
                         }
@@ -57,7 +57,7 @@
                             msg: data.msg
                         });
                         $("#retorno-usuario").text('');
-                        $("#usuario").val('');
+                        $("#email").val('');
                     }
                 },
                 error: function(data) {
@@ -99,9 +99,9 @@
                                 <input type="file" class="form-control" id="avatar" name="avatar">
                             </div>
                             <div class="col-6 col-md-4 mb-3">
-                                <label class="form-label" for="usuario">Usuário</label>
-                                <input type="text" class="form-control" onchange="validaUsuario()" id="usuario"
-                                    name="usuario" placeholder="Usuário" value="{{ old('usuario') }}" required="">
+                                <label class="form-label" for="email">Email</label>
+                                <input type="email" class="form-control" onchange="validaUsuario()" id="email" name="email"
+                                    placeholder="Email" value="{{ old('email') }}" required="">
                                 <small id="retorno-usuario" class="form-text"></small>
                             </div>
                             <div class="col-12 col-md-3 mb-3">
@@ -122,37 +122,6 @@
                                     <option @if (old('sexo') == 2) selected @endif value="2">Feminino</option>
                                 </select>
                             </div>
-                            <div class="col-12 col-md-4 mb-3">
-                                <label class="form-label" for="cpf">Cpf do Aluno</label>
-                                <input type="text" class="form-control" id="cpf" name="cpf" placeholder="CPF"
-                                    value="{{ old('cpf') }}">
-                            </div>
-                            <div class="col-12 col-md-4 mb-3">
-                                <label class="form-label" for="rg">Rg do Aluno</label>
-                                <input type="text" class="form-control" id="rg" name="rg" placeholder="RG"
-                                    value="{{ old('rg') }}">
-                            </div>
-
-                            <div class="col-12 col-md-12 mb-3">
-                                <label class="form-label" for="nome_responsavel">Nome do Responsável</label>
-                                <input type="text" class="form-control" id="nome_responsavel" name="nome_responsavel"
-                                    placeholder="Nome" value="{{ old('nome_responsavel') }}" >
-                            </div>
-                            <div class="col-12 col-md-6 mb-3">
-                                <label class="form-label" for="cpf_responsavel">Cpf do Responsável</label>
-                                <input type="text" class="form-control" id="cpf_responsavel" name="cpf_responsavel"
-                                    placeholder="Cpf do Responsavel" value="{{ old('cpf_responsavel') }}">
-                            </div>
-                            <div class="col-12 col-md-6 mb-3">
-                                <label class="form-label" for="rg_responsavel">Rg do Responsável</label>
-                                <input type="text" class="form-control" id="rg_responsavel" name="rg_responsavel"
-                                    placeholder="Rg do Responsavel" value="{{ old('rg_responsavel') }}">
-                            </div>
-                            <div class="col-12 col-md-6 mb-3">
-                                <label class="form-label" for="email">E-mail</label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="E-mail"
-                                    value="{{ old('email') }}">
-                            </div>
                             <div class="col-12 col-md-3 mb-3">
                                 <label class="form-label" for="whatsapp">WhatsApp</label>
                                 <input type="text" class="form-control" id="whatsapp" name="whatsapp"
@@ -168,11 +137,6 @@
                                 <textarea class="form-control" id="contato" placeholder="Contato" name="contato"
                                     rows="3">{{ old('contato') }}</textarea>
                             </div>
-                            <div class="col-12 mb-3">
-                                <label class="form-label" for="endereco">Endereço</label>
-                                <textarea class="form-control" id="endereco" placeholder="Endereço" name="endereco"
-                                    rows="3">{{ old('endereco') }}</textarea>
-                            </div>
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label" for="cidade">Cidade</label>
                                 <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Cidade"
@@ -187,11 +151,11 @@
 
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label" for="pontuacao">Pontuação</label>
-                                <input type="number" class="form-control" id="pontuacao" name="pontuacao" placeholder="Pontuação"
-                                    value="{{ old('pontuacao') }}">
+                                <input type="number" class="form-control" id="pontuacao" name="pontuacao"
+                                    placeholder="Pontuação" value="{{ old('pontuacao') }}">
                             </div>
 
-                          
+
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label" for="status">Status</label>
                                 <select id="status" class="form-control custom-select" name="status">
