@@ -85,6 +85,7 @@ Route::get('/aluno-delete/{item}', [AlunoController::class, 'deletar'])->name('a
 
 Route::get("/ver-aula-curso/{curso}/{aula}/{titulo?}", [AlunoController::class, 'verAula'])->name('alunoAula');
 Route::get("/ver-cursos-aluno", [AlunoController::class, 'verCursos'])->name('alunoCursos');
+Route::get("/ver-aulas-curso/{curso}/{link?}", [CursoController::class, 'verAulas'])->name('verAulas');
 
 /*
 ROTAS DE LOGIN E LOGOFF DE ALUNO
