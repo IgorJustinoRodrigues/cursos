@@ -33,6 +33,8 @@ ROTAS DE SITE
 Route::post('/ativacao-codigo', [SiteController::class, 'ativacaoCodigo'])->name('site.ativacaoCodigo');
 Route::post('/cancelar-ativacao-codigo', [SiteController::class, 'cancelarAtivacaoCodigo'])->name('site.cancelarAtivacao');
 Route::post('/ativacao-escolha-curso', [SiteController::class, 'escolhaCurso'])->name('site.escolhaCurso');
+Route::get('/confirmar-matricula', [AlunoController::class, 'confirmarMatricula'])->name('confirmarMatricula');
+Route::post('/ativar-matricula', [AlunoController::class, 'ativarMatricula'])->name('ativar');
 
 Route::get('/como-ativar-codigo', [SiteController::class, 'comoAtivarCodigo'])->name('site.comoAtivarCodigo');
 Route::get('/cursos/{categoria?}/{nome?}', [SiteController::class, 'cursos'])->name('site.cursos');
@@ -66,7 +68,6 @@ Route::get('/verifica-email-admin', [AdminController::class, 'verificaEmailAdmin
 
 //Rota Painel Aluno Raiz
 Route::get('/painel-aluno', [AlunoController::class, 'painel'])->name('painelAluno');
-Route::get('/confirmar-matricula', [AlunoController::class, 'confirmarMatricula'])->name('confirmarMatricula');
 Route::get('/minha-conta-aluno', [AlunoController::class, 'minhaConta'])->name('minhaConta');
 
 

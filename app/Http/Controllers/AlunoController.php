@@ -111,6 +111,43 @@ class AlunoController extends Controller
         ]);
     }
 
+    public function ativarMatricula()
+    {
+        //Validação de acesso
+        if (!(new Services())->validarAluno())
+            //Redirecionamento para a rota acessoAluno, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarAluno();
+
+        @session_start();
+
+        if (!isset($_SESSION['ativacao_start']) or $_SESSION['ativacao_start']['unidade'] == null) {
+            return redirect()->route('inicio')->with('atencao', 'Informe um código válido para realizar a ativação!');
+        } else {
+            if ($_SESSION['ativacao_start']['aluno'] == null) {
+                return redirect()->route('acessoAluno', 'cadastro')->with('atencao', 'Faça login para continuar!');
+            }
+            if ($_SESSION['ativacao_start']['curso'] == null) {
+                return redirect()->route('site.cursos')->with('atencao', 'Escolha um curso!');
+            }
+        }
+
+        $matricula = Matricula::find($_SESSION['ativacao_start']['matricula']->id);
+
+        $matricula->aluno_id = $_SESSION['ativacao_start']['aluno']->id;
+        $matricula->curso_id = $_SESSION['ativacao_start']['curso']->id;
+        $matricula->data_ativacao = date('Y-m-d H:i:s');
+        $matricula->status = 1;
+
+        $resposta = $matricula->save();
+
+        if($resposta){
+            return redirect()->route('painelAluno')->with('sucesso', 'Matrícula Realizada! '. $_SESSION['aluno_cursos_start']->nome . ', você já pode acessar as aulas do curso.');
+        } else {
+            return redirect()->back()->with('atencao', 'Não foi possível efetivar a matrícula! Tente novamente.');
+        }
+    }
+
+
     public function minhaConta()
     {
         //Validação de acesso

@@ -2,7 +2,11 @@
 @section('title', 'Matricula')
 @section('menu-meusCursos', 'true')
 
-@section('footer')
+@section('link')
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">Matrícula</li>
+    <li class="breadcrumb-item active">Confirmar Matrícula</li>
+</ol>
 
 @endsection
 
@@ -11,11 +15,6 @@
         <div class="container page__container p-0">
             <div class="row m-0">
                 <div class="col-lg container-fluid page__container">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">Matrícula</li>
-                        <li class="breadcrumb-item active">Confirmar Matrícula</li>
-                    </ol>
-
                     <div id="invoice">
                         <div class="card">
                             <div class="card-header media align-items-center">
@@ -23,8 +22,14 @@
                                     <h1 class="card-title h2">Matrícula</h1>
                                     <div class="card-subtitle">Código de Ativação da Matrícula:
                                         {{ $matricula->ativacao }}
-                                        - Gerado em {{ $matricula->created_at->format('d/m/Y') }} às
-                                        {{ $matricula->created_at->format('H:i') }}</div>
+                                        <br>
+                                        Gerado em {{ $matricula->created_at->format('d/m/Y') }} às
+                                        {{ $matricula->created_at->format('H:i') }}
+                                        <br>
+                                        O código deverá ser ativo até
+                                        {{ date('d/m/Y', strtotime('+90 days', strtotime($matricula->created_at))) }}
+                                    </div>
+
                                 </div>
                                 <div class="media-right d-flex align-items-center">
                                     <a href="javascript:window.print()" class="btn btn-flush text-muted d-print-none"><i
@@ -34,7 +39,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-md-6 mb-3">
                                         <p class="text-black-70 m-0"><strong>ALUNO</strong></p>
                                         <h2>{{ $aluno->nome }}</h2>
                                         <div class="text-black-50">
@@ -46,7 +51,7 @@
                                             {{ $aluno->created_at->format('H:i') }}
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-md-6 mb-3">
                                         <p class="text-black-70 m-0"><strong>CURSO</strong></p>
                                         <h2>{{ $curso->nome }}</h2>
                                         <div class="text-black-50">
@@ -73,32 +78,19 @@
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <a href="" class="btn btn-success btn-block btn-lg">
-                                            CONFIRMAR MATRÍCULA
-                                        </a>
+                                        <form action="{{ route('ativar') }}" method="post">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success btn-block btn-lg">
+                                                CONFIRMAR MATRÍCULA
+                                            </button>    
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
-                    <div class="px-16pt mb-4">
-                        <p class="text-black-70 mb-8pt"><strong>Invoice paid</strong></p>
-                        <div class="d-flex">
-                            <div class="mr-3">
-                                <img src="assets/images/visa.svg" alt="visa" width="38" />
-                            </div>
-                            <div class="flex text-black-50">
-                                You don’t need to take further action. Your credit card Visa ending in 2819 has been charged
-                                on January 12, 2019.
-                            </div>
-                        </div>
-                    </div>
                 </div>
-
             </div>
         </div>
     </div>
-
 @endsection
