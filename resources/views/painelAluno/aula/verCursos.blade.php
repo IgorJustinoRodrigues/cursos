@@ -50,6 +50,8 @@
                 </div>
             </div>
         @endforeach
+        <!-- paginação -->
+        {{ $cursos->links('template.paginacao.aluno') }}
     </div>
 
 
