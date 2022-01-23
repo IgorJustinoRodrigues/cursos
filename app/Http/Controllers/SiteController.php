@@ -271,6 +271,7 @@ class SiteController extends Controller
         $ordem = $request->ordem;
 
         $consulta = Curso::leftjoin('professors', 'professors.id', '=', 'cursos.professor_id')
+            ->join('aulas','cursos.id', '=', 'aulas.curso_id')
             ->join('categoria_cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
             ->where('cursos.visibilidade', '=', 1)
             ->where('cursos.status', '=', 1);
@@ -312,8 +313,9 @@ class SiteController extends Controller
                 break;
         }
 
-        $cursos = $consulta->selectRaw('cursos.*, professors.nome as professor, professors.avatar as avatar_professor, categoria_cursos.nome as categoria')
-            ->paginate(9);
+        $cursos = $consulta->selectRaw('cursos.*, count(aulas.id) as total_aula, professors.nome as professor, professors.avatar as avatar_professor, categoria_cursos.nome as categoria')
+        ->groupBy('cursos.id')   
+        ->paginate(9);
 
 
         $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();
