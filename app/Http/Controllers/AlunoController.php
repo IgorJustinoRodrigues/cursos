@@ -346,47 +346,44 @@ class AlunoController extends Controller
         }
     }
 
-    public function salvarMinhasInformacoes(Request $request, Aluno $item)
+    public function salvarMinhasInformacoes(Request $request)
     {
         //Validação de acesso
         if (!(new Services())->validarAluno())
             //Redirecionamento para a rota acessoAluno, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionarAluno();
 
+        $id = $_SESSION['aluno_cursos_start']->id;
+
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required',
-            'email' => 'required|email|max:100|unique:alunos,email',
-            'pontuacao' => 'required'
+            'email' => "required|email|max:100|unique:alunos,email,{$id}",
+            'nascimento' => 'date',
         ]);
+
+        $item = Aluno::find($id);
 
         //Atribuição dos valores recebidos da váriavel $request
         $item->nome = $request->nome;
-        $item->email = $request->email;
-        //Verificação se uma nova senha foi informada
-        if (@$request->senha != '') {
-            //Validação das informações recebidas
-            $validated = $request->validate([
-                'senha' => 'required|min:6',
-            ]);
-
-            //Atribuição dos valores recebidos da váriavel $request para o objeto $item
-            $item->senha = $request->senha;
-        }
-
         $item->nascimento = $request->nascimento;
         $item->sexo = $request->sexo;
+        $item->email = $request->email;
         $item->whatsapp = $request->whatsapp;
         $item->telefone = $request->telefone;
         $item->contato = $request->contato;
         $item->cidade = $request->cidade;
         $item->estado = $request->estado;
-        //pontuação resolver ainda...
-        $item->pontuacao = $request->pontuacao;
 
-        $item->status = $request->status;
-
-
+        if(@$request->senha != ''){
+            $validated = $request->validate([
+                'senha' => 'required',
+                'senha2' => 'required|same:senha'
+            ]);
+            
+            //Atribuição dos valores recebidos da váriavel $request para o objeto $item
+            $item->senha = $request->senha;
+        }
 
         //Verificação se uma nova imagem de avatar foi informado, caso seja verifica-se sua integridade
         if (@$request->file('avatar') and $request->file('avatar')->isValid()) {
@@ -423,10 +420,10 @@ class AlunoController extends Controller
             }
 
             //Redirecionamento para a rota alunoIndex, com mensagem de sucesso
-            return redirect()->route('alunoIndex')->with('sucesso', '"' . $item->nome . '", salvo!');
+            return redirect()->back()->with('sucesso', 'Edições salvas!');
         } else {
             //Redirecionamento para tela anterior com mensagem de erro
-            return redirect()->back()->with('atencao', 'Não foi possível salvar as informações, tente novamente!');
+            return redirect()->back()->with('atencao', 'Algo deu errado, tente novamente!');
         }
     }
 

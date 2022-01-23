@@ -78,8 +78,10 @@
 
 @section('conteudo')
     <div class="container page__container p-0">
-        <form action="{{ route('salvarMinhasInformacoes', $item) }}" method="post" enctype="multipart/form-data"
+        <form action="{{ route('salvarMinhasInformacoes') }}" method="post" enctype="multipart/form-data"
             class="row m-0">
+            @csrf
+            @method('PUT')
             <div class="col-lg container-fluid page__container">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('painelAluno') }}">Início</a></li>
@@ -109,7 +111,7 @@
                                             <div class="media-body">
                                                 <div class="custom-file b-form-file">
                                                     <input type="file" id="avatar" aria-describedby="label-avatar-control"
-                                                        class="custom-file-input">
+                                                        class="custom-file-input" name="avatar">
                                                     <label id="label-avatar-control" class="custom-file-label">Envie uma
                                                         foto sua</label>
                                                 </div>
@@ -125,7 +127,7 @@
                                     <label id="label-nome" for="nome"
                                         class="col-md-2 col-form-label form-label">Nome</label>
                                     <div class="col-md-10">
-                                        <input type="text" id="nome" placeholder="Informe o seu nome" class="form-control"
+                                        <input type="text" id="nome" placeholder="Informe o seu nome" class="form-control" name="nome"
                                             value="{{ $item->nome }}" required>
                                     </div>
                                 </div>
@@ -137,7 +139,8 @@
                                     <label id="label-email" for="email"
                                         class="col-md-2 col-form-label form-label">E-mail</label>
                                     <div class="col-md-10">
-                                        <input type="text" id="email" name="email" class="form-control" />
+                                        <input type="text" id="email" value="{{ $item->email }}" name="email"
+                                            class="form-control" />
                                     </div>
                                 </div>
                             </div>
@@ -170,7 +173,7 @@
                                     <label id="label-nascimento" for="nascimento"
                                         class="col-md-2 col-form-label form-label">Data de Nascimento</label>
                                     <div class="col-md-4">
-                                        <input type="date" id="nascimento" placeholder="Informe o seu nascimento"
+                                        <input type="date" id="nascimento" name="nascimento" placeholder="Informe o seu nascimento"
                                             class="form-control" value="{{ $item->nascimento }}">
                                     </div>
                                     <label id="label-sexo" for="sexo"
@@ -191,14 +194,14 @@
                                     <label id="label-whatsapp" for="whatsapp"
                                         class="col-md-2 col-form-label form-label">WhatsApp</label>
                                     <div class="col-md-4">
-                                        <input type="text" id="whatsapp" name="whatsapp" class="form-control telefone"
-                                            onkeyup="addMask('whatsapp')" />
+                                        <input type="text" id="whatsapp" name="whatsapp" value="{{ $item->whatsapp }}"
+                                            class="form-control telefone" onkeyup="addMask('whatsapp')" />
                                     </div>
                                     <label id="label-telefone" for="telefone"
                                         class="col-md-2 col-form-label form-label text-right">Telefone</label>
                                     <div class="col-md-4">
-                                        <input type="text" id="telefone" name="telefone" class="form-control telefone"
-                                            onkeyup="addMask('telefone')" />
+                                        <input type="text" id="telefone" name="telefone" value="{{ $item->telefone }}"
+                                            class="form-control telefone" onkeyup="addMask('telefone')" />
                                     </div>
                                 </div>
                             </div>
@@ -210,7 +213,7 @@
                                         class="col-md-2 col-form-label form-label">Contato Extra</label>
                                     <div class="col-md-10">
                                         <textarea id="contato" name="contato" placeholder="Contatos extras" rows="3"
-                                            class="form-control"></textarea>
+                                            class="form-control">{{ $item->contato }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -221,7 +224,7 @@
                                     <label id="label-cidade" for="cidade"
                                         class="col-md-2 col-form-label form-label">Cidade</label>
                                     <div class="col-md-5">
-                                        <input type="text" id="cidade" placeholder="Informe sua cidade"
+                                        <input type="text" id="cidade" name="cidade" placeholder="Informe sua cidade"
                                             class="form-control" value="{{ $item->cidade }}">
                                     </div>
                                     <label id="label-estado" for="estado"

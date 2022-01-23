@@ -78,7 +78,7 @@ Route::get('/aluno-cadastro', [AlunoController::class, 'cadastro'])->name('aluno
 Route::post('/aluno-inserir', [AlunoController::class, 'inserir'])->name('alunoInserir');
 Route::get('/aluno-editar/{item}', [AlunoController::class, 'editar'])->name('alunoEditar');
 Route::put('/aluno-salvar/{item}', [AlunoController::class, 'salvar'])->name('alunoSalvar');
-Route::put('/aluno-salvar-minhas-informacoes/{item}', [AlunoController::class, 'salvarMinhasInformacoes'])->name('salvarMinhasInformacoes');
+Route::put('/aluno-salvar-minhas-informacoes', [AlunoController::class, 'salvarMinhasInformacoes'])->name('salvarMinhasInformacoes');
 Route::get('/aluno-delete/{item}', [AlunoController::class, 'deletar'])->name('alunoDeletar');
 
 Route::get("/ver-aula-curso/{curso}/{aula}/{titulo?}", [AlunoController::class, 'verAula'])->name('alunoAula');
