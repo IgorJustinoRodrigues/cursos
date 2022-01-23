@@ -18,7 +18,7 @@
     <!-- Page Header section ending here -->
 
     <!-- group select section start here -->
-    <div class="group-select-section" style="padding-left: 300px !important; ">
+    <div class="group-select-section">
         <div class="container">
             <div class="section-wrapper">
                 <div class="row align-items-center g-4">

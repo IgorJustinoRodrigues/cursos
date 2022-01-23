@@ -84,8 +84,11 @@
                                 </li>
 
                                 <li>
-                                    <a href="{{ route('site.cursos') }}">Cursos</a>
+                                    <a href="javascript:void(0);">Cursos</a>
                                     <ul class="lab-ul">
+                                        <li><a
+                                                href="{{ route('site.cursos') }}">Todos os Cursos</a>
+                                        </li>
                                         @foreach ($categoriasMenu as $linha)
                                             <li><a
                                                     href="{{ route('site.cursos', [$linha->id, $linha->nome]) }}">{{ $linha->nome }}</a>
@@ -94,7 +97,7 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="#0">Acesso</a>
+                                    <a href="javascript:void(0);">Acesso</a>
                                     <ul class="lab-ul">
                                         <li><a href="index-2.html" target="_blank">Acesso Vendedor</a></li>
                                         <li><a href="{{ route('acessoParceiro') }}" target="_blank">Acesso
@@ -119,9 +122,9 @@
                                     <span>ACESSO DE ALUNO</span> </a>
                             @endif
                         @else
-                        <a href="{{ route('painelAluno') }}" target="_blank" class="login"><i
-                            class="icofont-user"></i>
-                        <span>{{$_SESSION['aluno_cursos_start']->nome}}</span> </a>
+                            <a href="{{ route('painelAluno') }}" target="_blank" class="login"><i
+                                    class="icofont-user"></i>
+                                <span>{{ $_SESSION['aluno_cursos_start']->nome }}</span> </a>
                         @endif
                         <!-- toggle icons -->
                         <div class="header-bar d-lg-none">
