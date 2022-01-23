@@ -91,7 +91,7 @@
                             <p class="card-subtitle">Cursos recentes</p>
                         </div>
                         <div class="media-right">
-                            <a class="btn btn-sm btn-primary" href="student-my-courses.html">Ver todos os cursos</a>
+                            <a class="btn btn-sm btn-primary" href="{{ route('alunoCursos') }}">Ver todos os cursos</a>
                         </div>
                     </div>
                 </div>

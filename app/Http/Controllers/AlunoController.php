@@ -90,6 +90,17 @@ class AlunoController extends Controller
 
         @session_start();
 
+        if (!isset($_SESSION['ativacao_start']) or $_SESSION['ativacao_start']['unidade'] == null) {
+            return redirect()->route('inicio')->with('atencao', 'Informe um código válido para realizar a ativação!');
+        } else {
+            if ($_SESSION['ativacao_start']['aluno'] == null) {
+                return redirect()->route('acessoAluno', 'cadastro')->with('atencao', 'Faça login para continuar!');
+            }
+            if ($_SESSION['ativacao_start']['curso'] == null) {
+                return redirect()->route('site.cursos')->with('atencao', 'Escolha um curso!');
+            }
+        }
+
         //Exibe a tela inícial do painel de alunoistradores passando parametros para view
         return view('painelAluno.confirmarMatricula', [
             'curso' => $_SESSION['ativacao_start']['curso'],
@@ -354,7 +365,7 @@ class AlunoController extends Controller
             return (new Services())->redirecionarAluno();
 
         //inicia sessão
-        @session_start();        
+        @session_start();
 
         $id = $_SESSION['aluno_cursos_start']->id;
 
@@ -379,12 +390,12 @@ class AlunoController extends Controller
         $item->cidade = $request->cidade;
         $item->estado = $request->estado;
 
-        if(@$request->senha != ''){
+        if (@$request->senha != '') {
             $validated = $request->validate([
                 'senha' => 'required',
                 'senha2' => 'required|same:senha'
             ]);
-            
+
             //Atribuição dos valores recebidos da váriavel $request para o objeto $item
             $item->senha = MD5($request->senha);
         }
@@ -419,7 +430,7 @@ class AlunoController extends Controller
 
             $_SESSION['aluno_cursos_start'] = $item;
 
-            if($request->hasCookie('aluno_email') != false){
+            if ($request->hasCookie('aluno_email') != false) {
                 //Criar o Cookie com as credênciais com validade de 3 dias
                 Cookie::queue('aluno_email', $request->email, 4320);
                 Cookie::queue('aluno_senha', $request->senha, 4320);
