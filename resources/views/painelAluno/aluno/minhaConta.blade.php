@@ -151,7 +151,7 @@
                                     <label id="label-senha" for="senha" class="col-md-2 col-form-label form-label">Editar
                                         Senha</label>
                                     <div class="col-md-4">
-                                        <input type="text" id="senha" name="senha" class="form-control"
+                                        <input type="password" id="senha" name="senha" class="form-control"
                                             onkeyup=" verificaForcaSenha(); verificaSenha();" />
                                         <div id="senha-status"></div>
                                     </div>
@@ -159,7 +159,7 @@
                                         <label id="label-senha2" for="senha2"
                                             class="col-md-4 col-form-label form-label text-right">Confirmar Senha</label>
                                         <div class="col-md-8">
-                                            <input type="text" id="senha2" name="senha2" class="form-control"
+                                            <input type="password" id="senha2" name="senha2" class="form-control"
                                                 onkeyup="verificaSenha()" />
                                             <div id="msg-senha"></div>
                                         </div>

@@ -365,7 +365,8 @@ class AlunoController extends Controller
             'nascimento' => 'date',
         ]);
 
-        $item = Aluno::find($id);
+        $item = Aluno::selectRaw("*, date_format(created_at, '%d/%m/%Y') as cadastro, date_format(updated_at, '%d/%m/%Y às %H:%i') as ultimo_acesso")
+            ->find($id);
 
         //Atribuição dos valores recebidos da váriavel $request
         $item->nome = $request->nome;
@@ -385,7 +386,7 @@ class AlunoController extends Controller
             ]);
             
             //Atribuição dos valores recebidos da váriavel $request para o objeto $item
-            $item->senha = $request->senha;
+            $item->senha = MD5($request->senha);
         }
 
         //Verificação se uma nova imagem de avatar foi informado, caso seja verifica-se sua integridade
@@ -417,7 +418,14 @@ class AlunoController extends Controller
         if ($resposta) {
 
             $_SESSION['aluno_cursos_start'] = $item;
-            
+
+            if($request->hasCookie('aluno_email') != false){
+                //Criar o Cookie com as credênciais com validade de 3 dias
+                Cookie::queue('aluno_email', $request->email, 4320);
+                Cookie::queue('aluno_senha', $request->senha, 4320);
+            }
+
+
             //Verifica se há imagem antiga para ser apagada e se caso exista, se é diferente do padrão
             if (@$avatarApagar and Storage::exists($avatarApagar) and $avatarApagar != 'avatarAluno/padrao.png') {
                 //Deleta o arquivo físico da imagem antiga
