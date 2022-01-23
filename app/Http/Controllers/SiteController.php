@@ -88,9 +88,15 @@ class SiteController extends Controller
                     //Inícia a Sessão
                     @session_start();
 
+                    if (isset($_SESSION['aluno_cursos_start']) and is_numeric($_SESSION['aluno_cursos_start']->id)) {
+                        $aluno = $_SESSION['aluno_cursos_start']->id;
+                    } else {
+                        $aluno = null;
+                    }
+
                     $ativacao = [
                         'matricula' => $matricula,
-                        'aluno' => null,
+                        'aluno' => $aluno,
                         'curso' => null,
                         'unidade' => Unidade::where('status', '=', 1)->find($matricula->unidade_id),
                         'vendedor' => $matricula->vendedor_id != null ? Vendedor::where('status', '=', 1)->find($matricula->vendedor_id) : null
@@ -99,16 +105,26 @@ class SiteController extends Controller
                     //Cria uma sessão com as informações
                     $_SESSION['ativacao_start'] = $ativacao;
 
-                    return redirect()->route('site.cursos');
+                    if (isset($_SESSION['aluno_cursos_start']) and is_numeric($_SESSION['aluno_cursos_start']->id)) {
+                        return redirect()->route('confirmarMatricula');
+                    } else {
+                        return redirect()->route('site.cursos');
+                    }
                 } else if ($matricula->aluno_id == null) {
                     //Não tem aluno, mas tem curso
 
                     //Inícia a Sessão
                     @session_start();
 
+                    if (isset($_SESSION['aluno_cursos_start']) and is_numeric($_SESSION['aluno_cursos_start']->id)) {
+                        $aluno = $_SESSION['aluno_cursos_start']->id;
+                    } else {
+                        $aluno = null;
+                    }
+
                     $ativacao = [
                         'matricula' => $matricula,
-                        'aluno' => null,
+                        'aluno' => $aluno,
                         'curso' => Curso::where('status', '=', 1)->find($matricula->curso_id),
                         'unidade' => Unidade::where('status', '=', 1)->find($matricula->unidade_id),
                         'vendedor' => $matricula->vendedor_id != null ? Vendedor::where('status', '=', 1)->find($matricula->vendedor_id) : null
@@ -117,7 +133,11 @@ class SiteController extends Controller
                     //Cria uma sessão com as informações
                     $_SESSION['ativacao_start'] = $ativacao;
 
-                    return redirect()->route('acessoAluno', 'cadastro')->with('padrao', 'Cadastre-se ou faça login para confirmar a sua matrícula!');
+                    if (isset($_SESSION['aluno_cursos_start']) and is_numeric($_SESSION['aluno_cursos_start']->id)) {
+                        return redirect()->route('confirmarMatricula');
+                    } else {
+                        return redirect()->route('acessoAluno', 'cadastro')->with('padrao', 'Cadastre-se ou faça login para confirmar a sua matrícula!');
+                    }
                 } else if ($matricula->curso_id == null) {
                     //Não tem curso, mas tem aluno
 
@@ -142,7 +162,6 @@ class SiteController extends Controller
                         $_SESSION['ativacao_start'] = $ativacao;
 
                         return redirect()->route('site.cursos');
-
                     } else {
                         unset($_SESSION['aluno_cursos_start']);
                         unset($_SESSION['ativacao_start']);
@@ -242,7 +261,7 @@ class SiteController extends Controller
     //Função de Cursos
     public function cursos(Request $request, $categoria = null)
     {
-        
+
         $busca = $request->busca;
 
         if (!$categoria) {

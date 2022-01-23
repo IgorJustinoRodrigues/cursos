@@ -70,7 +70,7 @@
                                         <p class="text-black-70 m-0"><strong>PARCEIRO</strong></p>
                                         <h2>{{ $unidade->nome }}</h2>
                                         <div class="text-black-50">
-                                            @if ($vendedor->nome != '')
+                                            @if (@$vendedor->nome != '')
                                                 Vendedor: {{ $vendedor->nome }}
                                                 <br>
                                             @endif

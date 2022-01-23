@@ -141,6 +141,8 @@ class AlunoController extends Controller
         $resposta = $matricula->save();
 
         if($resposta){
+            unset($_SESSION['ativacao_start']);
+
             return redirect()->route('painelAluno')->with('sucesso', 'Matrícula Realizada! '. $_SESSION['aluno_cursos_start']->nome . ', você já pode acessar as aulas do curso.');
         } else {
             return redirect()->back()->with('atencao', 'Não foi possível efetivar a matrícula! Tente novamente.');
