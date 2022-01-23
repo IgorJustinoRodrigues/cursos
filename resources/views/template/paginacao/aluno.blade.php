@@ -71,11 +71,4 @@
     </nav>
 @endif
 
-<p style="font-size: 12px; text-align:center">
-    {!! __('Exibindo') !!}
-    <span class="font-medium">{{ $paginator->firstItem() }}</span>
-    {!! __('a') !!}
-    <span class="font-medium">{{ $paginator->lastItem() }}</span>
-    {!! __('de') !!}
-    <span class="font-medium">{{ $paginator->total() }} Cursos</span>
-</p>
+

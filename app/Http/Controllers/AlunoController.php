@@ -574,8 +574,8 @@ class AlunoController extends Controller
 
         $consulta = Matricula::join('cursos', 'cursos.id', '=', 'matriculas.curso_id')
             ->where('matriculas.aluno_id', '=', $_SESSION['aluno_cursos_start']->id)
-            ->where('cursos.status', '=', 1)
-            ->where('matriculas.status', '=', 1);
+            ->where('cursos.status', '=', 1);
+            //->where('matriculas.status', '=', 1);
 
         if (@$request->busca != '') {
             //Paginação dos registros com busca busca
