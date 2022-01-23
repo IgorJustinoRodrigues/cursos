@@ -621,23 +621,39 @@ class AulaController extends Controller
     - Responsável por exibir o tipo da Aula
     - $tipo: Recebe o Id do tipo da aula
     */
-    public function tipo($tipo, $avaliacao = '')
+    public function tipo($tipo, $avaliacao = '', $icone = false)
     {
         //Verifica o tipo da aual
         switch ($tipo) {
             case 1:
-                return 'Vídeo';
+                if ($icone) {
+                    return '<i class="material-icons">ondemand_video</i>';
+                } else {
+                    return 'Vídeo';
+                }
                 break;
 
             case 2:
-                return 'Texto';
+                if ($icone) {
+                    return '<i class="material-icons">format_align_left</i>';
+                } else {
+                    return 'Texto';
+                }
                 break;
 
             case 3:
                 if ($avaliacao == 1) {
-                    return 'Quiz Avaliativo';
+                    if ($icone) {
+                        return '<i class="material-icons">grade</i>';
+                    } else {
+                        return 'Quiz Avaliativo';
+                    }
                 } else {
-                    return 'Quiz';
+                    if ($icone) {
+                        return '<i class="material-icons">dvr</i>';
+                    } else {
+                        return 'Quiz';
+                    }
                 }
                 break;
         }
@@ -662,7 +678,7 @@ class AulaController extends Controller
 
             //Atribuição dos valores recebidos da váriavel $request após seu upload
             $item->arquivo = $request->file->store('anexoAula');
-        } 
+        }
 
         //Envio das informações para o banco de dados
         $item->save();
@@ -717,9 +733,9 @@ class AulaController extends Controller
 
     public function msgNota($nota)
     {
-        if($nota < 60){
+        if ($nota < 60) {
             return "Você não atingiu a média, tente novamente!";
-        } else if($nota < 80){
+        } else if ($nota < 80) {
             return "Aula concluida!";
         } else {
             return "Parabéns! Aula concluida.";

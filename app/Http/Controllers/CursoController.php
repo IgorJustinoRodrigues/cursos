@@ -18,9 +18,55 @@ class CursoController extends Controller
         $curso = Curso::find($id_curso);
         $aulas = Aula::leftjoin('aula_alunos', 'aulas.id', '=', 'aula_alunos.aula_id')
             ->where('aulas.curso_id', '=', $id_curso)
+            ->where('aulas.status', '=', '1')
+            ->selectRaw('aula_alunos.*, aulas.*')
+            ->orderByRaw('-ordem desc')
+            ->orderby('ordem', 'desc')
             ->get();
+        
+        $minutos_feitos = 0;
+        $minutos_total = 0;
+        $j = null;
 
-        dd($curso, $aulas);
+        for($i = 0; $i < count($aulas); $i++){
+            if($aulas[$i]->conclusao != null){
+                //Aula Feita
+                $j = $i;
+                $minutos_feitos += $aulas[$i]->duracao;    
+            }
+
+            $minutos_total += $aulas[$i]->duracao;    
+        }
+
+        if($j != null){
+            $atual = $aulas[0];
+            $atual->indice = 3;
+        } else {
+            if(isset($aulas[$j + 1])){
+                $atual = $aulas[$j + 1];
+                $atual->indice = $j + 1;
+            } else {
+                $atual = $aulas[$j];
+                $atual->indice = $j;
+            }
+        }
+
+        if($minutos_feitos > 0){
+            $porcentagem = ($minutos_feitos * 100) / $minutos_total;
+        } else {
+            $porcentagem = 0;
+        }
+        
+
+        //Exibe a tela inícial do painel de alunoistradores passando parametros para view
+        return view('painelAluno.aula.verAulasCurso', [
+            'curso' => $curso,
+            'aulas' => $aulas,
+            'minutos_feitos' => $minutos_feitos,
+            'minutos_total' => $minutos_total,
+            'porcentagem' => $porcentagem,
+            'atual' => $atual
+        ]);
     }
 
     /*
