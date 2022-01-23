@@ -353,6 +353,9 @@ class AlunoController extends Controller
             //Redirecionamento para a rota acessoAluno, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionarAluno();
 
+        //inicia sessão
+        @session_start();        
+
         $id = $_SESSION['aluno_cursos_start']->id;
 
         //Validação das informações recebidas
@@ -413,6 +416,8 @@ class AlunoController extends Controller
         //Verifica se o Update foi bem sucedido
         if ($resposta) {
 
+            $_SESSION['aluno_cursos_start'] = $item;
+            
             //Verifica se há imagem antiga para ser apagada e se caso exista, se é diferente do padrão
             if (@$avatarApagar and Storage::exists($avatarApagar) and $avatarApagar != 'avatarAluno/padrao.png') {
                 //Deleta o arquivo físico da imagem antiga
