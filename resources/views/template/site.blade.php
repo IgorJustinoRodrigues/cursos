@@ -114,12 +114,12 @@
                                     <span>ACESSO DE ALUNO</span> </a>
 
                             @else
-                                <a href="{{ route('acessoAluno') }}" class="login"><i
+                                <a href="{{ route('acessoAluno') }}" target="_blank" class="login"><i
                                         class="icofont-user"></i>
                                     <span>ACESSO DE ALUNO</span> </a>
                             @endif
                         @else
-                        <a href="{{ route('painelAluno') }}" class="login"><i
+                        <a href="{{ route('painelAluno') }}" target="_blank" class="login"><i
                             class="icofont-user"></i>
                         <span>{{$_SESSION['aluno_cursos_start']->nome}}</span> </a>
                         @endif
