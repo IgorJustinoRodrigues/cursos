@@ -35,6 +35,7 @@ Route::post('/cancelar-ativacao-codigo', [SiteController::class, 'cancelarAtivac
 Route::post('/ativacao-escolha-curso', [SiteController::class, 'escolhaCurso'])->name('site.escolhaCurso');
 Route::get('/confirmar-matricula', [AlunoController::class, 'confirmarMatricula'])->name('confirmarMatricula');
 Route::post('/ativar-matricula', [AlunoController::class, 'ativarMatricula'])->name('ativar');
+Route::get('/trocar-aluno-curso/{troca}', [AlunoController::class, 'trocarAlunoCurso'])->name('trocar');
 
 Route::get('/como-ativar-codigo', [SiteController::class, 'comoAtivarCodigo'])->name('site.comoAtivarCodigo');
 Route::get('/cursos/{categoria?}/{nome?}', [SiteController::class, 'cursos'])->name('site.cursos');

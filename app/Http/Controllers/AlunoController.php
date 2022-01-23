@@ -149,6 +149,47 @@ class AlunoController extends Controller
         }
     }
 
+    public function trocarAlunoCurso($troca)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarAluno())
+            //Redirecionamento para a rota acessoAluno, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarAluno();
+
+        @session_start();
+
+        if (!isset($_SESSION['ativacao_start']) or $_SESSION['ativacao_start']['unidade'] == null) {
+            return redirect()->route('inicio')->with('atencao', 'Informe um código válido para realizar a ativação!');
+        }
+        
+        $ativacao = $_SESSION['ativacao_start'];
+
+        if($troca == 'aluno'){
+            if ($ativacao['matricula']->aluno_id != null) {
+                return redirect()->back()->with('atencao', 'Não é possível trocar o aluno dessa matrícula!');
+            }
+
+            $ativacao['aluno'] = null;
+
+            $_SESSION['ativacao_start'] = $ativacao;        
+            unset($_SESSION['aluno_cursos_start']);
+
+            return redirect()->route('acessoAluno', 'cadastro')->with('padrao', 'Faça o seu cadastro ou login para continuar com a ativação do código.');    
+        } else if($troca == 'curso'){
+            if ($ativacao['matricula']->curso_id != null) {
+                return redirect()->back()->with('atencao', 'Não é possível trocar o curso dessa matrícula!');
+            }
+
+            $ativacao['curso'] = null;
+            $_SESSION['ativacao_start'] = $ativacao;        
+
+            return redirect()->route('site.cursos')->with('padrao', 'Escolha um curso para continuar com a ativação do código.');
+        } else {
+            return redirect()->back()->with('atencao', 'Acesso incorreto!');
+        }
+        
+    }
+
 
     public function minhaConta()
     {
@@ -663,7 +704,6 @@ class AlunoController extends Controller
             if ($request->senha != $request->senha2) {
                 return redirect()->back()->with('atencao', 'Senhas diferentes!');
             }
-
             //Nova instância do Model Aluno
             $item = new Aluno();
             $item->nome = $request->nome;
