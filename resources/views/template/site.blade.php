@@ -46,7 +46,7 @@
 
     <!-- header section start here -->
     <header class="header-section">
-        <div class="header-top">
+        <div class="header-top" style="background-color: #fff;">
             <div class="container">
                 <div class="header-top-area">
                     <ul class="lab-ul left">
@@ -70,7 +70,7 @@
                 <div class="header-wrapper">
                     <div class="logo">
                         <a href="{{ route('inicio') }}"><img src="{{ URL::asset('site/images/logo/Logo.svg') }}"
-                                alt="logo" style="max-width: 300px"></a>
+                                alt="logo" style="max-width: 250px"></a>
                     </div>
                     <div class="menu-area">
                         <div class="menu">

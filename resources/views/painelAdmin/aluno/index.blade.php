@@ -56,10 +56,10 @@
                                 <a href="{{ route('alunoEditar', $item->id) }}">
                                     @if ($item->avatar != '')
                                         <img src="{{ URL::asset('storage/' . $item->avatar) }}" alt=""
-                                            class="avatar-img">
+                                            class="avatar-img rounded-circle">
                                     @else
                                         <img src="{{ URL::asset('storage/avatarAluno/padrao.png') }}" alt=""
-                                            class="avatar-img">
+                                            class="avatar-img rounded-circle">
                                     @endif
                                 </a>
                             </td>

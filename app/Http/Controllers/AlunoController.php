@@ -83,6 +83,11 @@ class AlunoController extends Controller
 
     public function confirmarMatricula()
     {
+        //Validação de acesso
+        if (!(new Services())->validarAluno())
+            //Redirecionamento para a rota acessoAluno, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarAluno();
+
         @session_start();
 
         //Exibe a tela inícial do painel de alunoistradores passando parametros para view
@@ -92,6 +97,20 @@ class AlunoController extends Controller
             'matricula' => $_SESSION['ativacao_start']['matricula'],
             'vendedor' => $_SESSION['ativacao_start']['vendedor'],
             'unidade' => $_SESSION['ativacao_start']['unidade'],
+        ]);
+    }
+
+    public function minhaConta()
+    {
+        //Validação de acesso
+        if (!(new Services())->validarAluno())
+            //Redirecionamento para a rota acessoAluno, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarAluno();
+
+        $item = Aluno::find($_SESSION['aluno_cursos_start']->id);
+
+        return view('painelAluno.aluno.minhaConta', [
+            'item' => $item
         ]);
     }
 
@@ -249,6 +268,90 @@ class AlunoController extends Controller
         if (!(new Services())->validarAdmin())
             //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
+
+        //Validação das informações recebidas
+        $validated = $request->validate([
+            'nome' => 'required',
+            'email' => 'required|email|max:100|unique:alunos,email',
+            'pontuacao' => 'required'
+        ]);
+
+        //Atribuição dos valores recebidos da váriavel $request
+        $item->nome = $request->nome;
+        $item->email = $request->email;
+        //Verificação se uma nova senha foi informada
+        if (@$request->senha != '') {
+            //Validação das informações recebidas
+            $validated = $request->validate([
+                'senha' => 'required|min:6',
+            ]);
+
+            //Atribuição dos valores recebidos da váriavel $request para o objeto $item
+            $item->senha = $request->senha;
+        }
+
+        $item->nascimento = $request->nascimento;
+        $item->sexo = $request->sexo;
+        $item->whatsapp = $request->whatsapp;
+        $item->telefone = $request->telefone;
+        $item->contato = $request->contato;
+        $item->cidade = $request->cidade;
+        $item->estado = $request->estado;
+        //pontuação resolver ainda...
+        $item->pontuacao = $request->pontuacao;
+
+        $item->status = $request->status;
+
+
+
+        //Verificação se uma nova imagem de avatar foi informado, caso seja verifica-se sua integridade
+        if (@$request->file('avatar') and $request->file('avatar')->isValid()) {
+            //Validação das informações recebidas
+            $validated = $request->validate([
+                'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5120'
+            ]);
+
+            //Salva o nome da antiga imagem para ser apagada em caso de sucesso
+            $avatarApagar = $item->avatar;
+            //Atribuição dos valores recebidos da váriavel $request após seu upload
+            $item->avatar = $request->avatar->store('avatarAluno');
+
+            //Nova instância do Model Canvas
+            $img = new Canvas();
+
+            //Edição da imagem recebida com a Class Canva 
+            $img->carrega(public_path('storage/' . $item->avatar))
+                ->hexa('#FFFFFF')
+                ->redimensiona(600, 600, 'preenchimento')
+                ->grava(public_path('storage/' . $item->avatar), 80);
+        }
+
+        //Envio das informações para o banco de dados
+        $resposta = $item->save();
+
+        //Verifica se o Update foi bem sucedido
+        if ($resposta) {
+
+            //Verifica se há imagem antiga para ser apagada e se caso exista, se é diferente do padrão
+            if (@$avatarApagar and Storage::exists($avatarApagar) and $avatarApagar != 'avatarAluno/padrao.png') {
+                //Deleta o arquivo físico da imagem antiga
+                Storage::delete($avatarApagar);
+            }
+
+            //Redirecionamento para a rota alunoIndex, com mensagem de sucesso
+            return redirect()->route('alunoIndex')->with('sucesso', '"' . $item->nome . '", salvo!');
+        } else {
+            //Redirecionamento para tela anterior com mensagem de erro
+            return redirect()->back()->with('atencao', 'Não foi possível salvar as informações, tente novamente!');
+        }
+    }
+
+    public function salvarMinhasInformacoes(Request $request, Aluno $item)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarAluno())
+            //Redirecionamento para a rota acessoAluno, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarAluno();
 
         //Validação das informações recebidas
         $validated = $request->validate([

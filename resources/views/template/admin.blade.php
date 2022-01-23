@@ -66,13 +66,16 @@
 
                         <!-- Brand -->
                         <a href="student-dashboard.html" class="navbar-brand">
-                            <img src="{{ URL::asset('imagem/logo-start-branca.svg') }}" style="width: 170px;"
+                            <img src="{{ URL::asset('imagem/logo.svg') }}" style="width: 170px;"
                                 class="mr-2" alt="LearnPlus">
                         </a>
                         <div class="flex"></div>
 
                         <!-- Menu -->
                         <ul class="nav navbar-nav flex-nowrap">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('inicio')}}" target="_blank">Site&nbsp;<i class="material-icons">remove_red_eye</i></a>
+                            </li>
                             <!-- Notifications dropdown -->
                             <li class="nav-item dropdown dropdown-notifications dropdown-menu-sm-full">
                                 <button class="nav-link btn-flush dropdown-toggle" type="button" data-toggle="dropdown"
