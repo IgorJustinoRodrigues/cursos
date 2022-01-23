@@ -15,9 +15,32 @@
                 <h1 class="h2">Meus cursos</h1>
             </div>
         </div>
-
-        @foreach ($cursos as $linha)
-            <div class="card-columns">
+        <div class="mb-4 d-flex align-items-center">
+            <small class="text-black-70 mr-3">
+                @if ($paginacao->total() > 1)
+                    Exibindo {{ $paginacao->firstItem() }} ao {{ $paginacao->lastItem() }} de
+                    {{ $paginacao->total() }} Registros
+                @elseif($paginacao->total() == 1)
+                    {{ $paginacao->total() }} Registro
+                @else
+                    Não há registros
+                @endif
+            </small>
+            <!-- Search -->
+            <form class="flex search-form form-control-rounded search-form--light mb-2 col-md-12"
+                action="{{ route('alunoCursos') }}" method="GET" style="min-width: 200px;">
+                <input type="hidden" name="page" value="1" />
+                <input type="text" class="form-control" placeholder="Digite sua busca" id="busca"
+                    value="{{ $busca }}" name="busca" required>
+                <button class="btn pr-3" type="submit" role="button"><i class="material-icons">search</i></button>
+                @if (@$busca)
+                    <a href="{{ route('alunoCursos') }}" class="btn pr-3 text-danger" type="button" role="button"><i
+                            class="material-icons">close</i></a>
+                @endif
+            </form>
+        </div>
+        <div class="card-columns">
+            @foreach ($paginacao as $linha)
                 <div class="card">
                     <div class="card-header">
                         <div class="media">
@@ -48,10 +71,10 @@
                                 class="material-icons btn__icon--right">play_circle_outline</i></a>
                     </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        </div>
         <!-- paginação -->
-        {{ $cursos->links('template.paginacao.aluno') }}
+        {{ $paginacao->links('template.paginacao.aluno', ['busca' => $busca]) }}
     </div>
 
 

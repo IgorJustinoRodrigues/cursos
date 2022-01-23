@@ -140,10 +140,10 @@ class AlunoController extends Controller
 
         $resposta = $matricula->save();
 
-        if($resposta){
+        if ($resposta) {
             unset($_SESSION['ativacao_start']);
 
-            return redirect()->route('painelAluno')->with('sucesso', 'Matrícula Realizada! '. $_SESSION['aluno_cursos_start']->nome . ', você já pode acessar as aulas do curso.');
+            return redirect()->route('painelAluno')->with('sucesso', 'Matrícula Realizada! ' . $_SESSION['aluno_cursos_start']->nome . ', você já pode acessar as aulas do curso.');
         } else {
             return redirect()->back()->with('atencao', 'Não foi possível efetivar a matrícula! Tente novamente.');
         }
@@ -161,33 +161,32 @@ class AlunoController extends Controller
         if (!isset($_SESSION['ativacao_start']) or $_SESSION['ativacao_start']['unidade'] == null) {
             return redirect()->route('inicio')->with('atencao', 'Informe um código válido para realizar a ativação!');
         }
-        
+
         $ativacao = $_SESSION['ativacao_start'];
 
-        if($troca == 'aluno'){
+        if ($troca == 'aluno') {
             if ($ativacao['matricula']->aluno_id != null) {
                 return redirect()->back()->with('atencao', 'Não é possível trocar o aluno dessa matrícula!');
             }
 
             $ativacao['aluno'] = null;
 
-            $_SESSION['ativacao_start'] = $ativacao;        
+            $_SESSION['ativacao_start'] = $ativacao;
             unset($_SESSION['aluno_cursos_start']);
 
-            return redirect()->route('acessoAluno', 'cadastro')->with('padrao', 'Faça o seu cadastro ou login para continuar com a ativação do código.');    
-        } else if($troca == 'curso'){
+            return redirect()->route('acessoAluno', 'cadastro')->with('padrao', 'Faça o seu cadastro ou login para continuar com a ativação do código.');
+        } else if ($troca == 'curso') {
             if ($ativacao['matricula']->curso_id != null) {
                 return redirect()->back()->with('atencao', 'Não é possível trocar o curso dessa matrícula!');
             }
 
             $ativacao['curso'] = null;
-            $_SESSION['ativacao_start'] = $ativacao;        
+            $_SESSION['ativacao_start'] = $ativacao;
 
             return redirect()->route('site.cursos')->with('padrao', 'Escolha um curso para continuar com a ativação do código.');
         } else {
             return redirect()->back()->with('atencao', 'Acesso incorreto!');
         }
-        
     }
 
 
@@ -562,7 +561,7 @@ class AlunoController extends Controller
     Função Ver aula do Aluno 
     - Responsável por mostrar a tela de ver aula de Aluno 
     */
-    public function verCursos()
+    public function verCursos(Request $request)
     {
         //Validação de acesso
         if (!(new Services())->validarAluno())
@@ -572,17 +571,23 @@ class AlunoController extends Controller
         //inicia sessão
         @session_start();
 
-        $cursos = Matricula::join('cursos', 'cursos.id', '=', 'matriculas.curso_id')
+
+        $consulta = Matricula::join('cursos', 'cursos.id', '=', 'matriculas.curso_id')
             ->where('matriculas.aluno_id', '=', $_SESSION['aluno_cursos_start']->id)
             ->where('cursos.status', '=', 1)
-            ->paginate(1);
+            ->where('matriculas.status', '=', 1);
 
+        if (@$request->busca != '') {
+            //Paginação dos registros com busca busca
+            $consulta->where('nome', 'like', '%' . $request->busca . '%');
+        }
+
+
+        $items = $consulta->paginate(1);
 
 
         //Exibe a view
-        return view('painelAluno.aula.verCursos', [
-            'cursos' => $cursos
-        ]);
+        return view('painelAluno.aula.verCursos', ['paginacao' => $items, 'busca' => @$request->busca]);
     }
     /*
     Função Ver aula do Aluno 
