@@ -464,6 +464,8 @@ class AlunoController extends Controller
     */
     public function verCursos()
     {
+        
+
         //Exibe a view
         return view('painelAluno.aula.verCursos');
     }

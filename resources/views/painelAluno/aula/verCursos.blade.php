@@ -25,13 +25,13 @@
                 <div class="card-header">
                     <div class="media">
                         <div class="media-left">
-                            <a href="{{ route('alunoAula') }}">
+                            <a href="">
                                 <img src="{{ URL::asset('template/images/vuejs.png') }}" alt="Card image cap" width="100"
                                     class="rounded">
                             </a>
                         </div>
                         <div class="media-body">
-                            <h4 class="card-title m-0"><a href="{{ route('alunoAula') }}">Learn VueJs the easy way!</a></h4>
+                            <h4 class="card-title m-0"><a href="">Learn VueJs the easy way!</a></h4>
                             <small class="text-muted">Lessons: 3 of 7</small>
                         </div>
                     </div>
@@ -41,7 +41,7 @@
                         aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <div class="card-footer bg-white">
-                    <a href="{{ route('alunoAula') }}" class="btn btn-primary btn-sm">Continue <i
+                    <a href="" class="btn btn-primary btn-sm">Continue <i
                             class="material-icons btn__icon--right">play_circle_outline</i></a>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                 <div class="card-header">
                     <div class="media">
                         <div class="media-left">
-                            <a href="{{ route('alunoAula') }}">
+                            <a href="">
                                 <img src="{{ URL::asset('template/images/gulp.png') }}" alt="Card image cap" width="100"
                                     class="rounded">
                             </a>
@@ -66,9 +66,9 @@
                         aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <div class="card-footer bg-white ">
-                    <a href="{{ route('alunoAula') }}" class="btn btn-success btn-sm">Completed <i
+                    <a href="" class="btn btn-success btn-sm">Completed <i
                             class="material-icons btn__icon--right">check</i></a>
-                    <a href="{{ route('alunoAula') }}" class="btn btn-white btn-sm">Restart <i
+                    <a href="" class="btn btn-white btn-sm">Restart <i
                             class="material-icons btn__icon--right">replay</i> </a>
                 </div>
             </div>
@@ -77,7 +77,7 @@
                 <div class="card-header">
                     <div class="media">
                         <div class="media-left">
-                            <a href="{{ route('alunoAula') }}">
+                            <a href="">
                                 <img src="{{ URL::asset('template/images/github.png') }}" alt="Card image cap" width="100"
                                     class="rounded">
                             </a>
@@ -93,7 +93,7 @@
                         aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <div class="card-footer bg-white">
-                    <a href="{{ route('alunoAula') }}" class="btn btn-primary btn-sm">Continue <i
+                    <a href="" class="btn btn-primary btn-sm">Continue <i
                             class="material-icons btn__icon--right">play_circle_outline</i></a>
                 </div>
             </div>
@@ -102,7 +102,7 @@
                 <div class="card-header">
                     <div class="media">
                         <div class="media-left">
-                            <a href="{{ route('alunoAula') }}">
+                            <a href="">
                                 <img src="{{ URL::asset('template/images/gulp.png') }}" alt="Card image cap" width="100"
                                     class="rounded">
                             </a>
@@ -118,7 +118,7 @@
                         aria-valuenow="56" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <div class="card-footer bg-white">
-                    <a href="{{ route('alunoAula') }}" class="btn btn-primary btn-sm">Continue <i
+                    <a href="" class="btn btn-primary btn-sm">Continue <i
                             class="material-icons btn__icon--right">play_circle_outline</i></a>
                 </div>
             </div>
@@ -127,7 +127,7 @@
                 <div class="card-header ">
                     <div class="media">
                         <div class="media-left">
-                            <a href="{{ route('alunoAula') }}">
+                            <a href="">
                                 <img src="{{ URL::asset('template/images/vuejs.png') }}" alt="Card image cap" width="100"
                                     class="rounded">
                             </a>
@@ -143,7 +143,7 @@
                         aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <div class="card-footer bg-white">
-                    <a href="{{ route('alunoAula') }}" class="btn btn-primary btn-sm">Continue <i
+                    <a href="" class="btn btn-primary btn-sm">Continue <i
                             class="material-icons btn__icon--right">play_circle_outline</i></a>
                 </div>
             </div>
