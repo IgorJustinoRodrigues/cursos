@@ -453,7 +453,6 @@ class AlunoController extends Controller
         $validated = $request->validate([
             'nome' => 'required',
             'email' => "required|email|max:100|unique:alunos,email,{$id}",
-            'nascimento' => 'date',
         ]);
 
         $item = Aluno::selectRaw("*, date_format(created_at, '%d/%m/%Y') as cadastro, date_format(updated_at, '%d/%m/%Y às %H:%i') as ultimo_acesso")
