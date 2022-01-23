@@ -62,13 +62,13 @@ class AlunoController extends Controller
         $categorias = CategoriaCurso::where("status", '=', '1')->get();
 
         $meusCursos = Matricula::join('cursos', 'matriculas.curso_id', '=', 'cursos.id')
-            ->where('matriculas.aluno_id', '=', $_SESSION['aluno_cursos_start']['id_aluno'])
+            ->where('matriculas.aluno_id', '=', $_SESSION['aluno_cursos_start']->id)
             ->selectRaw('matriculas.*, cursos.nome as curso')
             ->get();
 
         $ultimasAulas = AulaAluno::join('aulas', 'aula_alunos.aula_id', '=', 'aulas.id')
             ->join('cursos', 'aula_alunos.curso_id', '=', 'cursos.id')
-            ->where('aula_alunos.aluno_id', '=', $_SESSION['aluno_cursos_start']['id_aluno'])
+            ->where('aula_alunos.aluno_id', '=', $_SESSION['aluno_cursos_start']->id)
             ->selectRaw('aula_alunos.*, aulas.nome as aula, cursos.nome as curso')
             ->limit(5)
             ->get();
@@ -464,8 +464,25 @@ class AlunoController extends Controller
     */
     public function verCursos()
     {
+        //Validação de acesso
+        if (!(new Services())->validarAluno())
+            //Redirecionamento para a rota acessoAluno, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarAluno();
+
+        //inicia sessão
+        @session_start();
+
+        $cursos = Matricula::join('cursos', 'cursos.id', '=', 'matriculas.curso_id')
+            ->where('matriculas.aluno_id', '=', $_SESSION['aluno_cursos_start']->id)
+            ->where('cursos.status', '=', 1)
+            ->paginate();
+
+
+
         //Exibe a view
-        return view('painelAluno.aula.verCursos');
+        return view('painelAluno.aula.verCursos', [
+            'cursos' => $cursos
+        ]);
     }
     /*
     Função Ver aula do Aluno 
@@ -481,7 +498,7 @@ class AlunoController extends Controller
             return redirect()->route('painelAluno')->with('atencao', "Curso não encontrado!");
         }
 
-        $matricula = Matricula::where('aluno_id', '=', $_SESSION['aluno_cursos_start']['id_aluno'])
+        $matricula = Matricula::where('aluno_id', '=', $_SESSION['aluno_cursos_start']->id)
             ->where('curso_id', '=', $curso->id)
             ->first();
 
