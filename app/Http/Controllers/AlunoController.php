@@ -535,7 +535,7 @@ class AlunoController extends Controller
         $cursos = Matricula::join('cursos', 'cursos.id', '=', 'matriculas.curso_id')
             ->where('matriculas.aluno_id', '=', $_SESSION['aluno_cursos_start']->id)
             ->where('cursos.status', '=', 1)
-            ->paginate();
+            ->paginate(1);
 
 
 
