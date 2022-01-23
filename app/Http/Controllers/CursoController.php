@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\Storage;
 class CursoController extends Controller
 {
 
+    public function verAulas($id_curso, $link = ''){
+        $curso = Curso::find($id_curso);
+        $aulas = Aula::leftjoin('aula_alunos', 'aulas.id', '=', 'aula_alunos.aula_id')
+            ->where('aulas.curso_id', '=', $id_curso)
+            ->get();
+
+        dd($curso, $aulas);
+    }
+
     /*
     Função Index de Curso
     - Responsável por mostrar a tela de listagem de Curso 
