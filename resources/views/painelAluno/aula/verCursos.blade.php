@@ -1,4 +1,5 @@
 @extends('template.aluno')
+@section('menu-meusCursos', 'true')
 
 @section('link')
     <ol class="breadcrumb">

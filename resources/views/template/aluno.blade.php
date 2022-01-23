@@ -271,8 +271,8 @@
                             <div class="sidebar-p-y">
                                 <!-- Account menu -->
                                 <div class="sidebar-heading">Conta</div>
-                                <ul class="sidebar-menu">
-                                    <li class="sidebar-menu-item">
+                                <ul class="sidebar-menu sm-active-button-bg">
+                                    <li class="sidebar-menu-item @hasSection('menu-minhaConta') active @endif">
                                         <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
                                             href="#account_menu">
                                             <i
@@ -282,35 +282,49 @@
                                         </a>
                                         <ul class="sidebar-submenu sm-indent collapse" id="account_menu">
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="student-account-edit.html">
+                                                <a class="sidebar-menu-button" href="{{ route('minhaConta') }}">
                                                     <span class="sidebar-menu-text">Editar Informações</span>
                                                 </a>
                                             </li>
                                         </ul>
                                     </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button" href="student-browse-courses.html">
-                                            <i
-                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">comment</i>
-                                            Chat
-                                        </a>
-                                    </li>
                                 </ul>
                                 <div class="sidebar-heading">Cursos</div>
                                 <ul class="sidebar-menu sm-active-button-bg">
-                                    <li class="sidebar-menu-item active">
+                                    <li class="sidebar-menu-item @hasSection('menu-meusCursos') active @endif">
                                         <a class="sidebar-menu-button" href="{{ route('alunoCursos') }}">
                                             <i
                                                 class="sidebar-menu-icon sidebar-menu-icon--left material-icons">import_contacts</i>
                                             Meus Cursos
                                         </a>
                                     </li>
-                                    <li class="sidebar-menu-item">
-                                        <a class="sidebar-menu-button" href="student-help-center.html">
-                                            <i
-                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">live_help</i>
-                                            Preciso de Ajuda
+                                </ul>
+                                <div class="sidebar-heading">Ajuda</div>
+                                <ul class="sidebar-menu sm-active-button-bg">
+                                    <li class="sidebar-menu-item @hasSection('menu-ajuda') active @endif">
+                                        <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
+                                            href="#ajuda_menu">
+                                            <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">help</i>
+                                            Preciso de ajuda
+                                            <span class="ml-auto sidebar-menu-toggle-icon"></span>
                                         </a>
+                                        <ul class="sidebar-submenu sm-indent collapse" id="ajuda_menu">
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button" href="student-account-edit.html">
+                                                    <span class="sidebar-menu-text">Abrir Chamado</span>
+                                                </a>
+                                            </li>
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button" href="student-account-edit.html">
+                                                    <span class="sidebar-menu-text">Meus Chamados</span>
+                                                </a>
+                                            </li>
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button" href="student-account-edit.html">
+                                                    <span class="sidebar-menu-text">WhatsApp</span>
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </li>
                                 </ul>
                             </div>

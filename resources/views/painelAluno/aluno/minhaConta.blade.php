@@ -1,5 +1,6 @@
 @extends('template.aluno')
 @section('title', 'Painel de aluno')
+@section('menu-minhaConta', 'true')
 
 @section('footer')
     <!-- Global Settings -->
