@@ -57,7 +57,9 @@
                                     <div class="col-md-6 mb-3">
                                         <p class="text-black-70 m-0"><strong>CURSO</strong></p>
                                         <h2 class="mb-0">{{ $curso->nome }}</h2>
+                                        @if($_SESSION['ativacao_start']['matricula']->curso_id == null)
                                         <a href='{{ route('trocar', 'curso') }}' class="link mt-0">Trocar curso</a>
+                                        @endif
                                         <div class="text-black-50">
                                             @if ($curso->descricao != '')
                                                 {{ $curso->descricao }}
