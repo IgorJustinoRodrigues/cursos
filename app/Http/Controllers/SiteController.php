@@ -89,7 +89,7 @@ class SiteController extends Controller
                     @session_start();
 
                     if (isset($_SESSION['aluno_cursos_start']) and is_numeric($_SESSION['aluno_cursos_start']->id)) {
-                        $aluno = $_SESSION['aluno_cursos_start']->id;
+                        $aluno = $_SESSION['aluno_cursos_start'];
                     } else {
                         $aluno = null;
                     }
@@ -117,7 +117,7 @@ class SiteController extends Controller
                     @session_start();
 
                     if (isset($_SESSION['aluno_cursos_start']) and is_numeric($_SESSION['aluno_cursos_start']->id)) {
-                        $aluno = $_SESSION['aluno_cursos_start']->id;
+                        $aluno = $_SESSION['aluno_cursos_start'];
                     } else {
                         $aluno = null;
                     }
