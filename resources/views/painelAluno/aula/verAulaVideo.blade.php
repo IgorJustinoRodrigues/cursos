@@ -42,6 +42,30 @@
                 $("#estrela" + i).removeClass("fa-star-o");
             }
         }
+
+        function concluir() {
+            Lobibox.notify('success', {
+                size: 'mini',
+                sound: false,
+                icon: false,
+                position: 'top right',
+                msg: "Aula Concluida!"
+            });
+
+            $("#div-concluir").addClass('d-none');
+            $("#div-aula-concluida").removeClass('d-none');
+
+        }
+
+        $("#div-concluir").addClass('d-none');
+        $("#div-aula-concluida").addClass('d-none');
+        
+        function habilita_concluir() {
+            $("#div-concluir").removeClass('d-none');
+        }
+
+        setTimeout(concluir, {{ (($aula->duracao * 60) * 0.9) * 1000 }});
+        setTimeout(habilita_concluir, {{ (($aula->duracao * 60) * 0.5) * 1000 }});
     </script>
 @endsection
 
@@ -53,7 +77,12 @@
                     {!! $aula->video !!}
                 </div>
                 <div class="card-body">
-                    <b>{!! app(App\Http\Controllers\AulaController::class)->tipo($aula->tipo, $aula->avaliacao, true) !!} {{ $aula->nome }}</b>
+                    <b>
+                        {!! app(App\Http\Controllers\AulaController::class)->tipo($aula->tipo, $aula->avaliacao, true) !!} {{ $aula->nome }}
+                    </b>
+                    <small class="text-muted-light">
+                        - {{ app(App\Services\Services::class)->minuto_hora($aula->duracao) }}
+                    </small>
                     <hr>
                     {{ $aula->descricao }}
                 </div>
@@ -76,10 +105,17 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
+            <div class="card" id="div-concluir">
                 <div class="card-body text-center">
                     <a href="student-cart.html" class="btn btn-success btn-block">
                         Concluir Aula
+                    </a>
+                </div>
+            </div>
+            <div class="card" id="div-aula-concluida">
+                <div class="card-body text-center">
+                    <a href="" class="btn btn-success btn-block">
+                        Próxima Aula
                     </a>
                 </div>
             </div>
