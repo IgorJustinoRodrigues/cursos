@@ -52,12 +52,14 @@
                                 </span>
                             </div>
                         </div>
+                        @if (isset($_SESSION['ativacao_start']) and $_SESSION['ativacao_start']['matricula']->id != null)
                         <p class="phs-desc"></p>
                         <form action="{{ route('site.escolhaCurso') }}" method="post" class="phs-thumb">
                             @csrf
                             <input type="hidden" name="curso_id" value="{{ $curso->id }}">
                             <button class="lab-btn bg-success"><span>FAZER ESSE CURSO!</span></button>
                         </form>
+                        @endif  
                     </div>
                 </div>
             </div>
