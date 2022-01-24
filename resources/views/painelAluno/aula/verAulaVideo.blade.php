@@ -114,7 +114,7 @@
             </div>
             <div class="card" id="div-aula-concluida">
                 <div class="card-body text-center">
-                    <a href="" class="btn btn-success btn-block">
+                    <a href="" class="btn btn-dark btn-block">
                         Próxima Aula
                     </a>
                 </div>

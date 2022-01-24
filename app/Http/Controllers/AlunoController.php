@@ -609,7 +609,8 @@ class AlunoController extends Controller
     public function verAula($id_curso, $urlCurso, $id_aula, $titulo = '')
     {
         session_start();
-
+        $aluno_id = $_SESSION['aluno_cursos_start']->id;
+        
         $curso = Curso::where('status', '=', '1')->find($id_curso);
 
         if (!$curso) {
@@ -617,7 +618,7 @@ class AlunoController extends Controller
             return redirect()->route('painelAluno')->with('atencao', "Curso não encontrado!");
         }
 
-        $matricula = Matricula::where('aluno_id', '=', $_SESSION['aluno_cursos_start']->id)
+        $matricula = Matricula::where('aluno_id', '=', $aluno_id)
             ->where('curso_id', '=', $curso->id)
             ->orderBy('data_ativacao', 'desc')
             ->first();
@@ -633,6 +634,19 @@ class AlunoController extends Controller
         }
 
         $aula = Aula::where('status', '=', 1)->find($id_aula);
+
+        $aulaAluno = AulaAluno::where('curso_id', '=', $curso->id)->where('aluno_id', '=', $aluno_id)->first();
+
+        if(!$aulaAluno){
+            $aulaAluno = new AulaAluno();
+
+            $aulaAluno->abertura = date('Y-m-d H:i:s');
+            $aulaAluno->aluno_id -> $aluno_id;
+            $aulaAluno->aula_id -> $aula->id;
+            $aulaAluno->curso_id -> $curso->id;
+
+            $aulaAluno->save();
+        }
 
         $professor = Professor::find($curso->professor_id);
 

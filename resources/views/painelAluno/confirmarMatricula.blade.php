@@ -61,7 +61,7 @@
                                         <a href='{{ route('trocar', 'curso') }}' class="link mt-0">Trocar curso</a>
                                         @endif
                                         <div class="text-black-50">
-                                            @if ($curso->descricao != '')
+                                            @if ($curso->descricao != '<p><br></p>' and $curso->descricao != null)
                                                 {{ $curso->descricao }}
                                                 <br>
                                             @endif
