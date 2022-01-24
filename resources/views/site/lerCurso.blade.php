@@ -17,10 +17,14 @@
             <div class="row justify-content-center justify-content-lg-between align-items-center flex-row-reverse">
                 <div class="col-lg-7 col-12">
                     <div class="pageheader-thumb">
-                        <img src="{{ URL::asset('site/images/pageheader/02.jpg') }}" alt="rajibraj91"
-                            class="w-100">
-                        <a href="https://www.youtube-nocookie.com/embed/jP649ZHA8Tg" class="video-button"
-                            data-rel="lightcase"><i class="icofont-ui-play"></i></a>
+
+                        @if ($curso->imagem != '')
+                            <img src="{{ URL::asset('storage/' . $curso->imagem) }}" alt="rajibraj91"
+                                class="w-100">
+                        @else
+                            <img src="{{ URL::asset('storage/imagemCurso/padrao.png') }}" alt="rajibraj91"
+                                class="w-100">
+                        @endif
                     </div>
                 </div>
                 <div class="col-lg-5 col-12">
@@ -53,13 +57,13 @@
                             </div>
                         </div>
                         @if (isset($_SESSION['ativacao_start']) and $_SESSION['ativacao_start']['matricula']->id != null)
-                        <p class="phs-desc"></p>
-                        <form action="{{ route('site.escolhaCurso') }}" method="post" class="phs-thumb">
-                            @csrf
-                            <input type="hidden" name="curso_id" value="{{ $curso->id }}">
-                            <button class="lab-btn bg-success"><span>FAZER ESSE CURSO!</span></button>
-                        </form>
-                        @endif  
+                            <p class="phs-desc"></p>
+                            <form action="{{ route('site.escolhaCurso') }}" method="post" class="phs-thumb">
+                                @csrf
+                                <input type="hidden" name="curso_id" value="{{ $curso->id }}">
+                                <button class="lab-btn bg-success"><span>FAZER ESSE CURSO!</span></button>
+                            </form>
+                        @endif
                     </div>
                 </div>
             </div>
