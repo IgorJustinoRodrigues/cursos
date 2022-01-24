@@ -66,7 +66,7 @@
 
                         <!-- Brand -->
                         <a href="student-dashboard.html" class="navbar-brand">
-                            <img src="{{ URL::asset('imagem/logo-start-branca.svg') }}" style="width: 170px;"
+                            <img src="{{ URL::asset('imagem/Logo.svg') }}" style="width: 170px;"
                                 class="mr-2" alt="LearnPlus">
                         </a>
                         <div class="flex"></div>
