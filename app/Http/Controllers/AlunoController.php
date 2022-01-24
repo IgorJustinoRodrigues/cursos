@@ -11,6 +11,7 @@ use App\Models\Canvas;
 use App\Models\CategoriaCurso;
 use App\Models\Curso;
 use App\Models\Matricula;
+use App\Models\Professor;
 use App\Models\Servico;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -571,20 +572,32 @@ class AlunoController extends Controller
         //inicia sessão
         @session_start();
 
-
         $consulta = Matricula::join('cursos', 'cursos.id', '=', 'matriculas.curso_id')
+            ->join('aulas', 'cursos.id', '=', 'aulas.curso_id')
+            ->leftjoin('aula_alunos', function ($aula_alunos) {
+                $aula_alunos->on('aulas.id', '=', 'aula_alunos.aula_id')
+                    ->on('matriculas.aluno_id', '=', 'aula_alunos.aluno_id');
+            })
             ->where('matriculas.aluno_id', '=', $_SESSION['aluno_cursos_start']->id)
             ->where('cursos.status', '=', 1)
             ->where('matriculas.status', '=', 1);
 
         if (@$request->busca != '') {
             //Paginação dos registros com busca busca
-            $consulta->where('nome', 'like', '%' . $request->busca . '%');
+            $consulta->where('cursos.nome', 'like', '%' . $request->busca . '%');
         }
 
+        $items = $consulta->selectRaw('cursos.*, count(aulas.id) as total_aula, count(aula_alunos.conclusao) as total_aula_concluido')
+            ->groupBy('cursos.id')
+            ->paginate(9);
 
-        $items = $consulta->paginate(9);
-
+        for ($i = 0; $i < count($items); $i++) {
+            if ($items[$i]->total_aula_concluido > 0) {
+                $items[$i]->porcentagem = ($items[$i]->total_aula_concluido * 100) / $items[$i]->total_aula;
+            } else {
+                $items[$i]->porcentagem = 0;
+            }
+        }
 
         //Exibe a view
         return view('painelAluno.aula.verCursos', ['paginacao' => $items, 'busca' => @$request->busca]);
@@ -606,6 +619,7 @@ class AlunoController extends Controller
 
         $matricula = Matricula::where('aluno_id', '=', $_SESSION['aluno_cursos_start']->id)
             ->where('curso_id', '=', $curso->id)
+            ->orderBy('data_ativacao', 'desc')
             ->first();
 
         if (!$matricula) {
@@ -618,7 +632,9 @@ class AlunoController extends Controller
             return redirect()->route('painelAluno')->with('atencao', "Você ainda não ativou o curso " . $curso->nome . "!");
         }
 
-        $aula = Aula::find($id_aula);
+        $aula = Aula::where('status', '=', 1)->find($id_aula);
+
+        $professor = Professor::find($curso->professor_id);
 
         $aulas = Aula::where('status', '=', 1)
             ->where('curso_id', '=', $curso->id)
