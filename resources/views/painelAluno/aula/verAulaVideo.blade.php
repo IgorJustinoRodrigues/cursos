@@ -38,7 +38,7 @@
                             <div class="text-muted">{{$i++}}.</div>
                         </div>
                         <div class="media-body">
-                            <a href="{{ route('alunoAula', [$curso, $linha->id, $aula->nome]) }}">{{ $linha->nome }}</a>
+                            <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html']) }}">{{ $linha->nome }}</a>
                         </div>
                         <div class="media-right">
                             <small class="text-muted-light">{{ app(App\Services\Services::class)->minuto_hora($linha->duracao) }}</small>
@@ -67,7 +67,7 @@
                                 width="50" class="rounded-circle">
                         </div>
                         <div class="media-body">
-                            <h4 class="card-title"><a href="student-profile.html">Nome do Professor</a></h4>
+                            <h4 class="card-title"><a href="student-profile.html">{{ $professor->nome }}</a></h4>
                             <p class="card-subtitle">Professor</p>
                         </div>
                     </div>

@@ -185,7 +185,7 @@ Route::get('/matricula-delete/{item}', [MatriculaController::class, 'deletar'])-
 
 
 //Rota Painel Vedendor Raiz
-Route::get('/painel-vendedor', [VendedorController::class, 'painel'])->name('painelVendedor');
+Route::get('/painel-aluno', [AlunoController::class, 'painel'])->name('painelAluno');
 /*
 ROTAS DE VENDEDOR
 */
