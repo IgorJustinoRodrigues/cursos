@@ -51,7 +51,7 @@
                     </div>
                     <small class="text-muted ml-2">{{ number_format($porcentagem, 2) }}%</small>
                 </div>
-                <a href="fixed-student-take-quiz.html" class="btn btn-success mt-2">Continuar curso <i
+                <a href="{{route('aula', [$curso->id, Str::slug($curso->nome, '-'), $atual->id, Str::slug($atual->nome, '-') . '.html'])}}" class="btn btn-success mt-2">Continuar curso <i
                         class="material-icons btn__icon--right">play_arrow</i></a>
             </div>
         </div>
@@ -69,12 +69,12 @@
                             </div>
                             <div class="media-body">
                                 @if ($i <= $atual->indice)
-                                    <a href="" class="text-success">
+                                    <a href="{{route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html'])}}" class="text-success">
                                         {!! app(App\Http\Controllers\AulaController::class)->tipo($linha->tipo, $linha->avaliacao, true) !!}
                                         {{ $linha->nome }}
                                     </a>
                                 @elseif($i - 1 == $atual->indice or $curso->aula_travada != 1)
-                                    <a href="" class="text-primary">
+                                    <a href="{{route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html'])}}" class="text-primary">
                                         {!! app(App\Http\Controllers\AulaController::class)->tipo($linha->tipo, $linha->avaliacao, true) !!}
                                         {{ $linha->nome }}
                                     </a>
@@ -92,7 +92,7 @@
                             </div>
                             <div class="media-right">
                                 @if ($i <= $atual->indice)
-                                    <a href="fixed-student-take-quiz.html" class="btn btn-success btn-sm">
+                                    <a href="{{route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html'])}}" class="btn btn-success btn-sm">
                                         Rever aula
                                         <i class="material-icons btn__icon--right">play_arrow</i>
                                     </a>

@@ -21,33 +21,22 @@
                     {{ $aula->descricao }}
                 </div>
             </div>
-
-            <div class="card">
-                <div class="card-body">
-                    {!! $aula->texto !!}
-                </div>
-            </div>
-
-            <!-- Lessons -->
-            <ul class="card list-group list-group-fit">
-                @php $i = 1; @endphp
-                @foreach ($aulas as $linha)
-                <li class="list-group-item">
-                    <div class="media">
-                        <div class="media-left">
-                            <div class="text-muted">{{$i++}}.</div>
-                        </div>
-                        <div class="media-body">
-                            <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html']) }}">{{ $linha->nome }}</a>
-                        </div>
-                        <div class="media-right">
-                            <small class="text-muted-light">{{ app(App\Services\Services::class)->minuto_hora($linha->duracao) }}</small>
-                        </div>
+            @if (trim($aula->texto) != '<p><br></p>' and $aula->texto != null)
+                <div class="card">
+                    <div class="card-body">
+                        {!! $aula->texto !!}
                     </div>
-                </li>
-                @endforeach
-            
-            </ul>
+                </div>
+            @endif
+            <!-- Lessons -->
+                <textarea id="anotacao" placeholder="Suas anotações desta aula" rows="4" class="form-control"></textarea>
+                <div class="d-flex mt-2">
+                    <div class="flex">
+                        <a href="{{ route('verAulas', [$curso->id, Str::slug($curso->nome, '-') . '.html']) }}"
+                            class="btn btn-sm btn-default btn-wide">Voltar para aulas</a>
+                    </div>
+                    <a class="btn btn-sm btn-success">Salvar</a>
+                </div>
         </div>
         <div class="col-md-4">
             <div class="card">
@@ -63,19 +52,46 @@
                 <div class="card-header">
                     <div class="media align-items-center">
                         <div class="media-left">
-                            <img src="{{ URL::asset('template/images/people/110/guy-6.jpg') }}" alt="About Adrian"
-                                width="50" class="rounded-circle">
+                            @if ($professor->avatar != '')
+                                <img src="{{ URL::asset('storage/' . $professor->avatar) }}" width="50"
+                                    class="rounded-circle">
+                            @else
+                                <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}" width="50"
+                                    class="rounded-circle">
+                            @endif
                         </div>
                         <div class="media-body">
                             <h4 class="card-title"><a href="student-profile.html">{{ $professor->nome }}</a></h4>
-                            <p class="card-subtitle">Professor</p>
+                            <p class="card-subtitle">
+                                @if ($curso->cooprodutor)
+                                    Coprodução: {{ $curso->cooprodutor }}
+                                @endif
+                            </p>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <p>Descrição Professor</p>
-                    <a href="" class="btn btn-light"><i class="fab fa-facebook"></i></a>
-                    <a href="" class="btn btn-light"><i class="fab fa-instagram"></i></a>
+                    <p>{!! $professor->curriculo !!}</p>
+                    @if ($professor->email)
+                        <a href="mailto:{{ $professor->email }}" target="_blank" class="btn btn-light"><i
+                                class="fas fa-envelope"></i></a>
+                    @endif
+                    @if ($professor->facebook)
+                        <a href="{{ $professor->facebook }}" target="_blank" class="btn btn-light"><i
+                                class="fab fa-facebook"></i></a>
+                    @endif
+                    @if ($professor->instagram)
+                        <a href="{{ $professor->instagram }}" target="_blank" class="btn btn-light"><i
+                                class="fab fa-instagram"></i></a>
+                    @endif
+                    @if ($professor->linkedin)
+                        <a href="{{ $professor->linkedin }}" target="_blank" class="btn btn-light"><i
+                                class="fab fa-linkedin"></i></a>
+                    @endif
+                    @if ($professor->site)
+                        <a href="{{ $professor->site }}" target="_blank" class="btn btn-light"><i
+                                class="fas fa-globe"></i></a>
+                    @endif
                 </div>
             </div>
             <div class="card">
@@ -96,7 +112,8 @@
                                 <i class="material-icons text-muted-light">schedule</i>
                             </div>
                             <div class="media-body">
-                                Aulas concluidas {{ app(App\Services\Services::class)->minuto_hora($tempoTotalConcluido) }}
+                                Aulas concluidas
+                                {{ app(App\Services\Services::class)->minuto_hora($tempoTotalConcluido) }}
                             </div>
                         </div>
                     </li>

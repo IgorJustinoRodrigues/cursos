@@ -673,6 +673,7 @@ class AlunoController extends Controller
             $pagina,
             [
                 'curso' => $curso,
+                'professor' => $professor,
                 'aula' => $aula,
                 'aulas' => $aulas,
                 'tempoTotal' => $tempoTotal,
