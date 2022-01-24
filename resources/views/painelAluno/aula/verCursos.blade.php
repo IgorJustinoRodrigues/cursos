@@ -57,7 +57,7 @@
                                 </a>
                             </div>
                             <div class="media-body">
-                                <h4 class="card-title m-0"><a href="">{{ $linha->nome }}</a></h4>
+                                <h4 class="card-title m-0"><a href="{{ route('verAulas', [$linha->curso_id, Str::slug($linha->nome, '-') . '.html']) }}">{{ $linha->nome }}</a></h4>
                                 <small class="text-muted">Aulas: 3 de 7</small>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
                             aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <div class="card-footer bg-white">
-                        <a href="" class="btn btn-primary btn-sm">Acessar Aulas <i
+                        <a href="{{ route('verAulas', [$linha->curso_id, Str::slug($linha->nome, '-') . '.html']) }}" class="btn btn-primary btn-sm">Acessar Aulas <i
                                 class="material-icons btn__icon--right">play_circle_outline</i></a>
                     </div>
                 </div>

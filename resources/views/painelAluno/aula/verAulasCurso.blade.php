@@ -38,23 +38,21 @@
                     <div class="col-12 col-md-9">
                         <h4 class="mb-0">{!! $atual->descricao !!}</h4>
                         <span
-                            class="text-muted-light">{{ app(App\Services\Services::class)->minuto_hora($atual->duracao) }}</span>
+                            class="text-muted-light">Duração da aula: {{ app(App\Services\Services::class)->minuto_hora($atual->duracao) }}</span>
                     </div>
-                </div>
-                <div class="media-right">
-                    <a href="fixed-student-take-quiz.html" class="btn btn-success">Continuar curso <i
-                            class="material-icons btn__icon--right">play_arrow</i></a>
                 </div>
             </div>
             <div class="card-body">
                 <hr>
                 <div class="d-flex align-items-center">
-                    <div class="progress" style="width: 100px;">
+                    <div class="progress" style="width: 100%;">
                         <div class="progress-bar bg-primary" role="progressbar" style="width: {{ $porcentagem }}%"
                             aria-valuenow="{{ $porcentagem }}" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <small class="text-muted ml-2">{{ number_format($porcentagem, 2) }}%</small>
                 </div>
+                <a href="fixed-student-take-quiz.html" class="btn btn-success mt-2">Continuar curso <i
+                        class="material-icons btn__icon--right">play_arrow</i></a>
             </div>
         </div>
         <div class="card">
@@ -88,6 +86,7 @@
                                     </small>
                                 @endif
                                 <small class="text-muted-light ml-3">
+                                    <br>
                                     {{ app(App\Services\Services::class)->minuto_hora($linha->duracao) }}
                                 </small>
                             </div>
@@ -114,5 +113,11 @@
                 @endforeach
             </ul>
         </div>
+        <div class="d-flex">
+            <div class="flex">
+                <a href="{{ route('alunoCursos') }}" class="btn btn-default btn-wide">Voltar</a>
+            </div>
+        </div>
+
     </div>
 @endsection
