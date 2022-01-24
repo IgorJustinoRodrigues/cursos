@@ -362,7 +362,7 @@ class VendedorController extends Controller
             $item->touch();
 
             //Redirecionamento para a rota painelVendedor, com mensagem de sucesso, com uma sessão ativa
-            return redirect()->route('painelVendedor')->with('sucesso', 'Olá ' . $item->nome . ', você acessou o sistema com o perfil de "' . $this->tipo($item->tipo) . '"');
+            return redirect()->route('painelVendedor')->with('sucesso', 'Olá ' . $item->nome . ', você acessou o sistema com o perfil de "' . $this->tipo($item->id) . '"');
         } else {
             //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
             return redirect()->route('acessoVendedor')->with('atencao', 'Usuário e/ou senha incorretos!')->withInput(
