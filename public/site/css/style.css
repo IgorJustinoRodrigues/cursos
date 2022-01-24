@@ -4073,7 +4073,7 @@ button {
 @media (max-width: 991px) {
     .header-top {
         display: none;
-        background-color: rgba(241, 97, 38, 0.95);
+        background-color: #2073b3;
     }
 }
 

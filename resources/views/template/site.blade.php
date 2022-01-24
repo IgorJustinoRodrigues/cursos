@@ -46,7 +46,7 @@
 
     <!-- header section start here -->
     <header class="header-section">
-        <div class="header-top" style="background-color: #fff;">
+        <div class="header-top">
             <div class="container">
                 <div class="header-top-area">
                     <ul class="lab-ul left">
@@ -99,6 +99,7 @@
                                 <li>
                                     <a href="javascript:void(0);">Acesso</a>
                                     <ul class="lab-ul">
+                                        <li><a href="{{ route('acessoAluno') }}" target="_blank">Acesso Aluno</a></li>
                                         <li><a href="index-2.html" target="_blank">Acesso Vendedor</a></li>
                                         <li><a href="{{ route('acessoParceiro') }}" target="_blank">Acesso
                                                 Parceiro</a></li>

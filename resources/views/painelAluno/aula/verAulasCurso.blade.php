@@ -24,14 +24,36 @@
                 <h4 class="card-title">{!! app(App\Http\Controllers\AulaController::class)->tipo($atual->tipo, $atual->avaliacao, true) !!} {{ $atual->nome }}</h4>
             </div>
             <div class="card-body media align-items-center">
-                <div class="media-body">
-                    <h4 class="mb-0">{!! $atual->descricao !!}</h4>
-                    <span
-                        class="text-muted-light">{{ app(App\Services\Services::class)->minuto_hora($atual->duracao) }}</span>
+                <div class="media-body row">
+                    <div class="col-12 col-md-3">
+                        @if ($curso->imagem != '')
+                            <img src="{{ URL::asset('storage/' . $curso->imagem) }}" alt="" style="width: 100%"
+                                class="rounded">
+                        @else
+                            <img src="{{ URL::asset('storage/imagemCurso/padrao.png') }}" alt="" style="width: 100%"
+                                class="rounded">
+                        @endif
+
+                    </div>
+                    <div class="col-12 col-md-9">
+                        <h4 class="mb-0">{!! $atual->descricao !!}</h4>
+                        <span
+                            class="text-muted-light">{{ app(App\Services\Services::class)->minuto_hora($atual->duracao) }}</span>
+                    </div>
                 </div>
                 <div class="media-right">
                     <a href="fixed-student-take-quiz.html" class="btn btn-success">Continuar curso <i
                             class="material-icons btn__icon--right">play_arrow</i></a>
+                </div>
+            </div>
+            <div class="card-body">
+                <hr>
+                <div class="d-flex align-items-center">
+                    <div class="progress" style="width: 100px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{ $porcentagem }}%"
+                            aria-valuenow="{{ $porcentagem }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <small class="text-muted ml-2">{{ number_format($porcentagem, 2) }}%</small>
                 </div>
             </div>
         </div>
@@ -48,15 +70,23 @@
                                 <div class="text-muted-light">{{ $i }}.</div>
                             </div>
                             <div class="media-body">
-                                <a href=""
-                                    class="                                
-                                @if ($linha->conclusao != null)
-                                    text-success
+                                @if ($i <= $atual->indice)
+                                    <a href="" class="text-success">
+                                        {!! app(App\Http\Controllers\AulaController::class)->tipo($linha->tipo, $linha->avaliacao, true) !!}
+                                        {{ $linha->nome }}
+                                    </a>
+                                @elseif($i - 1 == $atual->indice or $curso->aula_travada != 1)
+                                    <a href="" class="text-primary">
+                                        {!! app(App\Http\Controllers\AulaController::class)->tipo($linha->tipo, $linha->avaliacao, true) !!}
+                                        {{ $linha->nome }}
+                                    </a>
+                                @else
+                                    <small class="text-muted-light"
+                                        title='Conclua a aula "{{ $atual->nome }}" para ver essa aula'>
+                                        {!! app(App\Http\Controllers\AulaController::class)->tipo($linha->tipo, $linha->avaliacao, true) !!}
+                                        {{ $linha->nome }}
+                                    </small>
                                 @endif
-                                    ">
-                                    {!! app(App\Http\Controllers\AulaController::class)->tipo($linha->tipo, $linha->avaliacao, true) !!}
-                                    {{ $linha->nome }}
-                                </a>
                                 <small class="text-muted-light ml-3">
                                     {{ app(App\Services\Services::class)->minuto_hora($linha->duracao) }}
                                 </small>
@@ -67,9 +97,9 @@
                                         Rever aula
                                         <i class="material-icons btn__icon--right">play_arrow</i>
                                     </a>
-                                @elseif($i - 1 == $atual->indice)
+                                @elseif($i - 1 == $atual->indice or $curso->aula_travada != 1)
                                     <a href="fixed-student-take-quiz.html" class="btn btn-primary btn-sm">
-                                        Continuar
+                                        Acessar
                                         <i class="material-icons btn__icon--right">play_arrow</i>
                                     </a>
                                 @else
