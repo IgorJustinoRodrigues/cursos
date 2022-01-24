@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 //Class AlunoController
 class AlunoController extends Controller
@@ -185,9 +186,8 @@ class AlunoController extends Controller
             return redirect()->back()->with('atencao', 'Acesso incorreto!');
         }
 
-            $ativacao['curso'] = null;
-            $_SESSION['ativacao_start'] = $ativacao;
-
+        $ativacao['curso'] = null;
+        $_SESSION['ativacao_start'] = $ativacao;
     }
 
 
@@ -608,14 +608,26 @@ class AlunoController extends Controller
     */
     public function verAula($id_curso, $urlCurso, $id_aula, $titulo = '')
     {
-        session_start();
+
+        //Validação de acesso
+        if (!(new Services())->validarAluno())
+            //Redirecionamento para a rota acessoAluno, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarAluno();
+
         $aluno_id = $_SESSION['aluno_cursos_start']->id;
-        
+
         $curso = Curso::where('status', '=', '1')->find($id_curso);
 
         if (!$curso) {
             //Redirecionamento para a rota painelAluno, com mensagem de sucesso, com uma sessão ativa
             return redirect()->route('painelAluno')->with('atencao', "Curso não encontrado!");
+        }
+
+        $aula = Aula::where('status', '=', 1)->where('curso_id', '=', $curso->id)->find($id_aula);
+
+        if (!$aula) {
+            //Redirecionamento para a rota painelAluno, com mensagem de sucesso, com uma sessão ativa
+            return redirect()->route('verAulas', [$curso->id, Str::slug($curso->nome, '-') . '.html'])->with('atencao', "Aula não encontrada!");
         }
 
         $matricula = Matricula::where('aluno_id', '=', $aluno_id)
@@ -628,30 +640,90 @@ class AlunoController extends Controller
             return redirect()->route('painelAluno')->with('atencao', "Você não está matriculado(a) no curso " . $curso->nome . "!");
         }
 
-        if ($matricula->status == 2) {
+        if ($matricula->status == 2 and (strtotime($matricula->created_at) <= date('d/m/Y', strtotime('-90 days')))) {
             //Redirecionamento para a rota painelAluno, com mensagem de sucesso, com uma sessão ativa
-            return redirect()->route('painelAluno')->with('atencao', "Você ainda não ativou o curso " . $curso->nome . "!");
+            return redirect()->route('painelAluno')->with('atencao', "Você não tem acesso a esse curso!");
         }
 
-        $aula = Aula::where('status', '=', 1)->find($id_aula);
+        if (strtotime($matricula->data_ativacao) < strtotime(date('d-m-Y', strtotime('-90 days')))) {
+            //Redirecionamento para a rota painelAluno, com mensagem de sucesso, com uma sessão ativa
+            return redirect()->route('painelAluno')->with('atencao', "O período de acesso a esse curso já se encerrou!");
+        }
 
-        $aulaAluno = AulaAluno::where('curso_id', '=', $curso->id)->where('aluno_id', '=', $aluno_id)->first();
+        $aulas = Aula::join('cursos', 'cursos.id', '=', 'aulas.curso_id')
+            ->join('matriculas', 'matriculas.curso_id', '=', 'cursos.id')
+            ->leftjoin('aula_alunos', function ($aula_alunos) {
+                $aula_alunos->on('aulas.id', '=', 'aula_alunos.aula_id')
+                    ->on('matriculas.aluno_id', '=', 'aula_alunos.aluno_id');
+            })
+            ->where('aulas.curso_id', '=', $id_curso)
+            ->where('aulas.status', '=', '1')
+            ->selectRaw('aula_alunos.*, aulas.*, aula_alunos.id as id_aula_aluno, aula_alunos.updated_at as ultimo_acesso')
+            ->groupBy('aulas.id')
+            ->orderByRaw('-ordem desc')
+            ->orderby('ordem', 'desc')
+            ->get();
 
-        if(!$aulaAluno){
+        $minutos_feitos = 0;
+        $minutos_total = 0;
+        $j = 0;
+
+        for ($i = 0; $i < count($aulas); $i++) {
+            if ($aulas[$i]->conclusao != null) {
+                //Aula Feita
+                $j = $i;
+                $minutos_feitos += $aulas[$i]->duracao;
+            }
+
+            $minutos_total += $aulas[$i]->duracao;
+        }
+
+        if (count($aulas)) {
+            if ($j != null) {
+                $atual = $aulas[0];
+                $atual->indice = 0;
+            } else {
+                if (isset($aulas[$j + 1]) and $aulas[$j]->conclusao != null) {
+                    $atual = $aulas[$j + 1];
+                    $atual->indice = $j + 1;
+                } else {
+                    $atual = $aulas[$j];
+                    $atual->indice = $j;
+                }
+            }
+        } else {
+            return redirect()->route('alunoCursos')->with('atencao', 'O curso selecionado não pode ser acessado no momento, tente mais tarde!');
+        }
+
+        if (!$atual->id_aula_aluno) {
             $aulaAluno = new AulaAluno();
 
             $aulaAluno->abertura = date('Y-m-d H:i:s');
-            $aulaAluno->aluno_id -> $aluno_id;
-            $aulaAluno->aula_id -> $aula->id;
-            $aulaAluno->curso_id -> $curso->id;
+            $aulaAluno->aluno_id = $aluno_id;
+            $aulaAluno->aula_id = $aula->id;
+            $aulaAluno->curso_id = $curso->id;
 
-            $aulaAluno->save();
+            if($aulaAluno->save()){
+                $atual->id_aula_aluno = $aulaAluno->id;
+            } else {
+                return redirect()->route('alunoCursos')->with('atencao', 'Não foi possível iniciar essa aula no momento, tente mais tarde!');
+            }
+
         }
 
+        dd($atual);
         $professor = Professor::find($curso->professor_id);
 
-        $aulas = Aula::where('status', '=', 1)
-            ->where('curso_id', '=', $curso->id)
+        $aulas = Aula::join('cursos', 'cursos.id', '=', 'aulas.curso_id')
+            ->join('matriculas', 'matriculas.curso_id', '=', 'cursos.id')
+            ->leftjoin('aula_alunos', function ($aula_alunos) {
+                $aula_alunos->on('aulas.id', '=', 'aula_alunos.aula_id')
+                    ->on('matriculas.aluno_id', '=', 'aula_alunos.aluno_id');
+            })
+            ->where('aulas.curso_id', '=', $id_curso)
+            ->where('aulas.status', '=', '1')
+            ->selectRaw('aula_alunos.*, aulas.*')
+            ->groupBy('aulas.id')
             ->orderByRaw('-ordem desc')
             ->orderby('ordem', 'desc')
             ->get();
@@ -681,6 +753,8 @@ class AlunoController extends Controller
                 $pagina = 'painelAluno.aula.verAulaQuiz';
                 break;
         }
+
+        dd('');
 
         //Exibe a view
         return view(
