@@ -184,8 +184,8 @@ Route::put('/matricula-salvar/{item}', [MatriculaController::class, 'salvar'])->
 Route::get('/matricula-delete/{item}', [MatriculaController::class, 'deletar'])->name('matriculaDeletar');
 
 
-//Rota Painel Vedendor Raiz
-Route::get('/painel-aluno', [AlunoController::class, 'painel'])->name('painelAluno');
+//Rota Painel Vendedor Raiz
+Route::get('/painel-vendedor', [VendedorController::class, 'painel'])->name('painelVendedor');
 /*
 ROTAS DE VENDEDOR
 */
