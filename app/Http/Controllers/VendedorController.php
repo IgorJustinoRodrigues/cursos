@@ -371,6 +371,20 @@ class VendedorController extends Controller
         }
     }
 
+      /*
+    Função Painel
+    - Responsável por mostrar a tela inícial do painel de vendedor
+    */
+    public function painel()
+    {
+        //Validação de acesso
+        if (!(new Services())->validarVendedor())
+            //Redirecionamento para a rota acessoParceiro, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarVendedor();
+
+        //Exibe a tela inícial do painel de vendedor passando parametros para view
+        return view('painelVendedor.index');
+    }
 
     /*
     Função Sair de Vendedor
@@ -386,6 +400,8 @@ class VendedorController extends Controller
         //Redirecionamento para a rota inicio, com mensagem de sucesso, sem uma sessão ativa
         return redirect()->route('acessoVendedor')->with('sucesso', 'Sessão encerrada com sucesso!');
     }
+
+    
 
     /*
     Função status de Vendedor

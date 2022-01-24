@@ -207,19 +207,13 @@
                                     <p class="dropdown-item">
                                         {{ $_SESSION['vendedor_cursos_start']['nome_vendedor'] }}
                                     </p>
-                                    <a class="dropdown-item" href="{{ route('painelParceiro') }}">
-                                        <i class="material-icons">person</i> Perfil
-                                    </a>
-                                    <a class="dropdown-item"
-                                        href="{{ route('vendedorEditar', $_SESSION['vendedor_cursos_start']['id_vendedor']) }}">
-                                        <i class="material-icons">edit</i> Editar Conta
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('sairParceiro') }}">
+                                  
+                                    <a class="dropdown-item" href="{{ route('sairVendedor') }}">
                                         <i class="material-icons">lock</i> Sair
                                     </a>
                                     <p class="dropdown-item" style="font-size: 10px">
                                         Último acesso
-                                        em:<br>{{ $_SESSION['vendedor_cursos_start']['ultimo_acesso_vendedor'] }}
+                                        em:<br>{{ $_SESSION['vendedor_cursos_start']->ultimo_acesso }}
                                     </p>
                                 </div>
                             </li>
