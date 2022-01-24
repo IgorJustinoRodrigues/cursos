@@ -57,18 +57,33 @@
                                 </a>
                             </div>
                             <div class="media-body">
-                                <h4 class="card-title m-0"><a href="{{ route('verAulas', [$linha->curso_id, Str::slug($linha->nome, '-') . '.html']) }}">{{ $linha->nome }}</a></h4>
-                                <small class="text-muted">Aulas: 3 de 7</small>
+                                <h4 class="card-title m-0"><a
+                                        href="{{ route('verAulas', [$linha->id, Str::slug($linha->nome, '-') . '.html']) }}">{{ $linha->nome }}</a>
+                                </h4>
+                                <small class="text-muted">Aulas concluidas: {{ $linha->total_aula_concluido }} de
+                                    {{ $linha->total_aula }}</small>
                             </div>
                         </div>
                     </div>
                     <div class="progress rounded-0">
-                        <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" style="width: 10%"
-                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar progress-bar-striped @if ($linha->porcentagem == 100) bg-success @else bg-primary @endif" role="progressbar"
+                            style="width: {{ $linha->porcentagem }}%" aria-valuenow="{{ $linha->porcentagem }}"
+                            aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <div class="card-footer bg-white">
-                        <a href="{{ route('verAulas', [$linha->curso_id, Str::slug($linha->nome, '-') . '.html']) }}" class="btn btn-primary btn-sm">Acessar Aulas <i
-                                class="material-icons btn__icon--right">play_circle_outline</i></a>
+                        @if ($linha->porcentagem == 100)
+                            <a href="{{ route('verAulas', [$linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
+                                class="btn btn-primary btn-sm">Rever Aulas <i
+                                    class="material-icons btn__icon--right">play_circle_outline</i></a>
+
+                            <a href="{{ route('verAulas', [$linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
+                                class="btn btn-success btn-sm">Certificado <i
+                                    class="material-icons btn__icon--right">play_circle_outline</i></a>
+                        @else
+                            <a href="{{ route('verAulas', [$linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
+                                class="btn btn-primary btn-sm">Acessar Aulas <i
+                                    class="material-icons btn__icon--right">play_circle_outline</i></a>
+                        @endif
                     </div>
                 </div>
             @endforeach

@@ -15,46 +15,53 @@ use Illuminate\Support\Facades\Storage;
 class CursoController extends Controller
 {
 
-    public function verAulas($id_curso, $link = ''){
+    public function verAulas($id_curso, $link = '')
+    {
         //Inícia a Sessão
         @session_start();
 
         $matricula = Matricula::where('aluno_id', '=', $_SESSION['aluno_cursos_start']->id)
-        ->where('curso_id', '=', $id_curso)
-        ->where('status', '=', 1)
-        ->first();
+            ->where('curso_id', '=', $id_curso)
+            ->where('status', '=', 1)
+            ->first();
 
-        if($matricula){
+        if ($matricula) {
 
             $curso = Curso::find($id_curso);
-            $aulas = Aula::leftjoin('aula_alunos', 'aulas.id', '=', 'aula_alunos.aula_id')
+            $aulas = Aula::join('cursos', 'cursos.id', '=', 'aulas.curso_id')
+                ->join('matriculas', 'matriculas.curso_id', '=', 'cursos.id')
+                ->leftjoin('aula_alunos', function ($aula_alunos) {
+                $aula_alunos->on('aulas.id', '=', 'aula_alunos.aula_id')
+                    ->on('matriculas.aluno_id', '=', 'aula_alunos.aluno_id');
+                })
                 ->where('aulas.curso_id', '=', $id_curso)
                 ->where('aulas.status', '=', '1')
                 ->selectRaw('aula_alunos.*, aulas.*')
+                ->groupBy('aulas.id')
                 ->orderByRaw('-ordem desc')
                 ->orderby('ordem', 'desc')
                 ->get();
-            
+
             $minutos_feitos = 0;
             $minutos_total = 0;
             $j = 0;
 
-            for($i = 0; $i < count($aulas); $i++){
-                if($aulas[$i]->conclusao != null){
+            for ($i = 0; $i < count($aulas); $i++) {
+                if ($aulas[$i]->conclusao != null) {
                     //Aula Feita
                     $j = $i;
-                    $minutos_feitos += $aulas[$i]->duracao;    
+                    $minutos_feitos += $aulas[$i]->duracao;
                 }
 
-                $minutos_total += $aulas[$i]->duracao;    
+                $minutos_total += $aulas[$i]->duracao;
             }
 
-            if(count($aulas)){
-                if($j != null){
+            if (count($aulas)) {
+                if ($j != null) {
                     $atual = $aulas[0];
                     $atual->indice = 0;
                 } else {
-                    if(isset($aulas[$j + 1]) and $aulas[$j]->conclusao != null){
+                    if (isset($aulas[$j + 1]) and $aulas[$j]->conclusao != null) {
                         $atual = $aulas[$j + 1];
                         $atual->indice = $j + 1;
                     } else {
@@ -66,12 +73,12 @@ class CursoController extends Controller
                 return redirect()->route('alunoCursos')->with('atencao', 'O curso selecionado não pode ser acessado no momento, tente mais tarde!');
             }
 
-            if($minutos_feitos > 0){
+            if ($minutos_feitos > 0) {
                 $porcentagem = ($minutos_feitos * 100) / $minutos_total;
             } else {
                 $porcentagem = 0;
             }
-            
+
 
             //Exibe a tela inícial do painel de alunoistradores passando parametros para view
             return view('painelAluno.aula.verAulasCurso', [
