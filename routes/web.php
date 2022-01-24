@@ -83,9 +83,9 @@ Route::put('/aluno-salvar/{item}', [AlunoController::class, 'salvar'])->name('al
 Route::put('/aluno-salvar-minhas-informacoes', [AlunoController::class, 'salvarMinhasInformacoes'])->name('salvarMinhasInformacoes');
 Route::get('/aluno-delete/{item}', [AlunoController::class, 'deletar'])->name('alunoDeletar');
 
-Route::get("/ver-aula-curso/{curso}/{aula}/{titulo?}", [AlunoController::class, 'verAula'])->name('alunoAula');
 Route::get("/ver-cursos", [AlunoController::class, 'verCursos'])->name('alunoCursos');
 Route::get("/ver-aulas-curso/{curso}/{link?}", [CursoController::class, 'verAulas'])->name('verAulas');
+Route::get("/aula/{id_curso}/{urlCurso}/{id_aula}/{titulo?}", [AlunoController::class, 'verAula'])->name('aula');
 
 /*
 ROTAS DE LOGIN E LOGOFF DE ALUNO

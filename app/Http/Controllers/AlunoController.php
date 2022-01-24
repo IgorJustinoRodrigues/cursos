@@ -605,11 +605,12 @@ class AlunoController extends Controller
     Função Ver aula do Aluno 
     - Responsável por mostrar a tela de ver aula de Aluno 
     */
-    public function verAula($id_curso, $id_aula, $titulo = '')
+    public function verAula($id_curso, $urlCurso, $id_aula, $titulo = '')
     {
         session_start();
 
         $curso = Curso::where('status', '=', '1')->find($id_curso);
+
         if (!$curso) {
             //Redirecionamento para a rota painelAluno, com mensagem de sucesso, com uma sessão ativa
             return redirect()->route('painelAluno')->with('atencao', "Curso não encontrado!");

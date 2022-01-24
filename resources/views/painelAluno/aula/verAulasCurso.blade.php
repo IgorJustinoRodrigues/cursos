@@ -97,7 +97,7 @@
                                         <i class="material-icons btn__icon--right">play_arrow</i>
                                     </a>
                                 @elseif($i - 1 == $atual->indice or $curso->aula_travada != 1)
-                                    <a href="fixed-student-take-quiz.html" class="btn btn-primary btn-sm">
+                                    <a href="{{route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html'])}}" class="btn btn-primary btn-sm">
                                         Acessar
                                         <i class="material-icons btn__icon--right">play_arrow</i>
                                     </a>
