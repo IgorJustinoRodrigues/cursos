@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class AulaAluno extends Model
 {
     use HasFactory;
+
+    protected $casts = [
+        'conclusao' => 'date',
+    ];
 }

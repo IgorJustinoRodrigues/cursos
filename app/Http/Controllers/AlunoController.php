@@ -604,7 +604,8 @@ class AlunoController extends Controller
         return view('painelAluno.aula.verCursos', ['paginacao' => $items, 'busca' => @$request->busca]);
     }
 
-    public function concluirAula(Request $request){
+    public function concluirAula(Request $request)
+    {
         //Validação de acesso
         if (!(new Services())->validarAluno())
             //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
@@ -614,11 +615,19 @@ class AlunoController extends Controller
         $aula_aluno_id = $request->aula_aluno;
 
         $aula_aluno = AulaAluno::find($aula_aluno_id);
+        if ($aula_aluno->conclusao != null) {
+            $retorno = [
+                'msg' => 'Essa aula foi concluida em ' . $aula_aluno->conclusao->format('d/m/Y') . ' às ' . $aula_aluno->conclusao->format('H:i'),
+                'status' => 0
+            ];
+
+            return response()->json($retorno);
+        }
         $aula_aluno->conclusao = date("Y-m-d H:i:s");
 
         $resposta = $aula_aluno->save();
 
-        if($resposta){
+        if ($resposta) {
             $retorno = [
                 'msg' => 'Aula concluida!',
                 'status' => 1
@@ -629,7 +638,7 @@ class AlunoController extends Controller
                 'status' => 0
             ];
         }
-    
+
         return response()->json($retorno);
     }
 
@@ -706,7 +715,7 @@ class AlunoController extends Controller
                 $minutos_feitos += $aulas[$i]->duracao;
             }
 
-            if($aulas[$i]->id == $aula->id){
+            if ($aulas[$i]->id == $aula->id) {
                 $atual = $aulas[$i];
                 $atual->indice = $i;
             }
@@ -714,13 +723,13 @@ class AlunoController extends Controller
             $minutos_total += $aulas[$i]->duracao;
         }
 
-        if(isset($aulas[$atual->indice - 1])){
+        if (isset($aulas[$atual->indice - 1])) {
             $anterior = $aulas[$atual->indice - 1];
         } else {
             $anterior = null;
         }
 
-        if(isset($aulas[$atual->indice + 1])){
+        if (isset($aulas[$atual->indice + 1])) {
             $proxima = $aulas[$atual->indice + 1];
         } else {
             $proxima = null;
@@ -731,9 +740,9 @@ class AlunoController extends Controller
         } else {
             $porcentagem = 0;
         }
-        
-        if($curso->aula_travada == 1){
-            if(isset($anterior) and $anterior->conclusao == null){
+
+        if ($curso->aula_travada == 1) {
+            if (isset($anterior) and $anterior->conclusao == null) {
                 return redirect()->route('aula', [$curso->id, Str::slug($curso->nome, '-'), $anterior->id, Str::slug($anterior->nome, '-') . '.html'])->with('padrao', "Conclua a aula atual para ter acesso as próximas aulas!");
             }
         }
@@ -757,8 +766,8 @@ class AlunoController extends Controller
         $anexos = AnexoAula::where('aula_id', '=', $aula->id)->get();
 
         $avaliacaoAula = AulaAluno::where('curso_id', '=', $curso->id)
-        ->where('aula_id', '=', $aula->id)
-        ->avg('avaliacao_aula');
+            ->where('aula_id', '=', $aula->id)
+            ->avg('avaliacao_aula');
 
         switch ($aula->tipo) {
             case 1:
