@@ -606,9 +606,9 @@ class AlunoController extends Controller
 
     public function concluirAula(Request $request){
         //Validação de acesso
-        if (!(new Services())->validarAdmin())
+        if (!(new Services())->validarAluno())
             //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
-            return (new Services())->redirecionar();
+            return (new Services())->redirecionarAluno();
 
         //Atribuição dos valores
         $aula_aluno_id = $request->aula_aluno;
@@ -616,8 +616,21 @@ class AlunoController extends Controller
         $aula_aluno = AulaAluno::find($aula_aluno_id);
         $aula_aluno->conclusao = date("Y-m-d H:i:s");
 
-        $aula_aluno->save();
+        $resposta = $aula_aluno->save();
+
+        if($resposta){
+            $retorno = [
+                'msg' => 'Aula concluida!',
+                'status' => 1
+            ];
+        } else {
+            $retorno = [
+                'msg' => 'Não foi possível concluir a aula!',
+                'status' => 0
+            ];
+        }
     
+        return response()->json($retorno);
     }
 
     /*

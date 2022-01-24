@@ -50,7 +50,6 @@
         function concluir() {
             if (!window.concluido) {
                 window.concluido = true;
-
                 $.ajax({
                     type: 'post',
                     url: "{{ route('concluirAula') }}",
@@ -58,7 +57,7 @@
                         aula_aluno: {{ $atual->id_aula_aluno }},
                         _token: $("input[name='_token']").val()
                     },
-                    dataType: 'json'
+                    dataType: 'json',
                     success: function(data) {
                         if (data.status == '1') {
                             Lobibox.notify('success', {
@@ -157,7 +156,7 @@
         <div class="col-md-4">
             <div class="card" id="div-concluir">
                 <div class="card-body text-center">
-                    <a href="student-cart.html" class="btn btn-success btn-block">
+                    <a onclick="concluir()" class="btn btn-success btn-block">
                         Concluir Aula
                     </a>
                 </div>
