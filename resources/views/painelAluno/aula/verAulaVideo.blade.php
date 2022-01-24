@@ -44,30 +44,42 @@
                 $("#estrela" + i).removeClass("fa-star-o");
             }
         }
+        
+        window.concluido = false;
 
         function concluir() {
-            Lobibox.notify('success', {
-                size: 'mini',
-                sound: false,
-                icon: false,
-                position: 'top right',
-                msg: "Aula Concluida!"
-            });
+            if(!window.concluido){
+                window.concluido = true;
 
-            $("#div-concluir").addClass('d-none');
-            $("#div-aula-concluida").removeClass('d-none');
+                Lobibox.notify('success', {
+                    size: 'mini',
+                    sound: false,
+                    icon: false,
+                    position: 'top right',
+                    msg: "Aula Concluida!"
+                });
 
+                $("#div-concluir").addClass('d-none');
+                $("#div-aula-concluida").removeClass('d-none');
+            }
         }
-
-        $("#div-concluir").addClass('d-none');
-        $("#div-aula-concluida").addClass('d-none');
-
+      
         function habilita_concluir() {
-            $("#div-concluir").removeClass('d-none');
+            if(!window.concluido){
+                $("#div-concluir").removeClass('d-none');
+            }
         }
 
-        setTimeout(concluir, {{ $aula->duracao * 60 * 0.9 * 1000 }});
-        setTimeout(habilita_concluir, {{ $aula->duracao * 60 * 0.5 * 1000 }});
+        @if($atual->conclusao != null)
+            $("#div-concluir").addClass('d-none');
+
+        @else
+            $("#div-concluir").addClass('d-none');
+            $("#div-aula-concluida").addClass('d-none');
+
+            setTimeout(concluir, {{ $aula->duracao * 60 * 0.9 * 1000 }});
+            setTimeout(habilita_concluir, {{ $aula->duracao * 60 * 0.5 * 1000 }});
+        @endif
     </script>
 @endsection
 
@@ -119,31 +131,33 @@
                 <div class="card-body text-center">
                     <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $proxima->id, Str::slug($proxima->nome, '-') . '.html']) }}"
                         class="btn btn-dark btn-block">
-                        Próxima Aula
+                        Próxima Aula <i class="material-icons mr-1">trending_flat</i>
                     </a>
                 </div>
             </div>
-            @if(count($anexos) > 0)
-            <div class="card">
-                <div class="card-body text-center">
-                    <a class="btn btn-primary btn-block"> Conteúdos Auxiliares
-                    </a>
+            @if (count($anexos) > 0)
+                <div class="card">
+                    <div class="card-body text-center">
+                        <a class="btn btn-primary btn-block"> Conteúdos Auxiliares
+                        </a>
+                    </div>
+                    <ul class="card list-group list-group-fit">
+                        @foreach ($aenxos as $linha)
+                            <li class="list-group-item">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <div class="text-muted-light">{{ $linha->nome }}</div>
+                                    </div>
+                                    <div class="media-right">
+                                        <button type="button" class="btn btn-success">
+                                            <i class="material-icons mr-1">file_download</i> Baixar
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
-                <ul class="card list-group list-group-fit">
-                    <li class="list-group-item">
-                        <div class="media">
-                            <div class="media-body">
-                                <div class="text-muted-light">Nome do arquivo</div>
-                            </div>
-                            <div class="media-right">
-                                <button type="button" class="btn btn-success">
-                                    <i class="material-icons mr-1">file_download</i> Baixar
-                                </button>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
             @endif
             <div class="card">
                 <div class="card-header">
@@ -231,25 +245,43 @@
                 </ul>
             </div>
             <div class="card">
+                @if ($atual->avaliacao_aula != null)
+                <div class="card-header">
+                    <h4 class="card-title">Sua Avaliação</h4>
+                </div>
+                <div class="card-body">
+                    <div class="rating">
+                        @for ($i = 1; $i < 6; $i++)
+                            @if ($i <= $atual->avaliacao_aula)
+                                <i class="fa fa-star dourado" style="font-size: 20px"></i>
+                            @else
+                                <i class="fa fa-star-o" style="font-size: 20px"></i>
+                            @endif
+                        @endfor
+                        @else
                 <div class="card-header">
                     <h4 class="card-title">Avalie a aula</h4>
                 </div>
                 <div class="card-body">
                     <div class="rating">
-                        <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(1)" id="estrela1"
-                            nota='1'></i>
-                        <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(2)" id="estrela2"
-                            nota='2'></i>
-                        <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(3)" id="estrela3"
-                            nota='3'></i>
-                        <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(4)" id="estrela4"
-                            nota='4'></i>
-                        <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(5)" id="estrela5"
-                            nota='5'></i>
-                    </div>
-                    <small class="text-muted">Média 4.5</small>
-                </div>
+
+                        <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(1)"
+                            id="estrela1" nota='1'></i>
+                        <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(2)"
+                            id="estrela2" nota='2'></i>
+                        <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(3)"
+                            id="estrela3" nota='3'></i>
+                        <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(4)"
+                            id="estrela4" nota='4'></i>
+                        <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(5)"
+                            id="estrela5" nota='5'></i>
+                @endif
             </div>
+            @if ($avaliacaoAula)
+                <small class="text-muted">Média {{ $avaliacaoAula }}</small>
+            @endif
         </div>
+    </div>
+    </div>
     </div>
 @endsection

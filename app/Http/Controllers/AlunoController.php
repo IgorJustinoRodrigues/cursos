@@ -726,6 +726,10 @@ class AlunoController extends Controller
         $professor = Professor::where('status', '=', '1')->find($curso->professor_id);
         $anexos = AnexoAula::where('aula_id', '=', $aula->id)->get();
 
+        $avaliacaoAula = AulaAluno::where('curso_id', '=', $curso->id)
+        ->where('aula_id', '=', $aula->id)
+        ->avg('avaliacao_aula');
+
         switch ($aula->tipo) {
             case 1:
                 $pagina = 'painelAluno.aula.verAulaVideo';
@@ -755,6 +759,7 @@ class AlunoController extends Controller
                 'minutos_total' => $minutos_total,
                 'porcentagem' => $porcentagem,
                 'anexos' => $anexos,
+                'avaliacaoAula' => $avaliacaoAula
             ]
         );
     }
