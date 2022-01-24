@@ -44,39 +44,73 @@
                 $("#estrela" + i).removeClass("fa-star-o");
             }
         }
-        
+
         window.concluido = false;
 
         function concluir() {
-            if(!window.concluido){
+            if (!window.concluido) {
                 window.concluido = true;
 
-                Lobibox.notify('success', {
-                    size: 'mini',
-                    sound: false,
-                    icon: false,
-                    position: 'top right',
-                    msg: "Aula Concluida!"
-                });
+                $.ajax({
+                    type: 'post',
+                    url: "{{ route('concluirAula') }}",
+                    data: {
+                        aula_aluno: {{ $atual->id_aula_aluno }},
+                        _token: $("input[name='_token']").val()
+                    },
+                    dataType: 'json'
+                    success: function(data) {
+                        if (data.status == '1') {
+                            Lobibox.notify('success', {
+                                size: 'mini',
+                                sound: false,
+                                icon: false,
+                                position: 'top right',
+                                msg: data.msg
+                            });
 
-                $("#div-concluir").addClass('d-none');
-                $("#div-aula-concluida").removeClass('d-none');
+                            $("#div-concluir").addClass('d-none');
+                            $("#div-aula-concluida").removeClass('d-none');
+                        } else {
+                            Lobibox.notify('error', {
+                                size: 'mini',
+                                sound: false,
+                                icon: false,
+                                position: 'top right',
+                                msg: data.msg
+                            });
+                            
+                            $("#div-concluir").removeClass('d-none');
+                            $("#div-aula-concluida").addClass('d-none');
+                        }
+                    },
+                    error: function(data) {
+                        Lobibox.notify('error', {
+                            size: 'mini',
+                            sound: false,
+                            icon: false,
+                            position: 'top right',
+                            msg: "O sistema está passando por instabilidades no momento! Tente novamente mais tarde."
+                        });
+                        window.concluido = false;
+                    }
+                });
             }
         }
-      
+
         function habilita_concluir() {
-            if(!window.concluido){
+            if (!window.concluido) {
                 $("#div-concluir").removeClass('d-none');
             }
         }
 
-        @if($atual->conclusao != null)
+        @if ($atual->conclusao != null)
             $("#div-concluir").addClass('d-none');
-
+        
         @else
             $("#div-concluir").addClass('d-none');
             $("#div-aula-concluida").addClass('d-none');
-
+        
             setTimeout(concluir, {{ $aula->duracao * 60 * 0.9 * 1000 }});
             setTimeout(habilita_concluir, {{ $aula->duracao * 60 * 0.5 * 1000 }});
         @endif
@@ -84,6 +118,7 @@
 @endsection
 
 @section('conteudo')
+    @csrf
     <div class="row">
         <div class="col-md-8 mb-2">
             <div class="card">
@@ -246,35 +281,35 @@
             </div>
             <div class="card">
                 @if ($atual->avaliacao_aula != null)
-                <div class="card-header">
-                    <h4 class="card-title">Sua Avaliação</h4>
-                </div>
-                <div class="card-body">
-                    <div class="rating">
-                        @for ($i = 1; $i < 6; $i++)
-                            @if ($i <= $atual->avaliacao_aula)
-                                <i class="fa fa-star dourado" style="font-size: 20px"></i>
-                            @else
-                                <i class="fa fa-star-o" style="font-size: 20px"></i>
-                            @endif
-                        @endfor
+                    <div class="card-header">
+                        <h4 class="card-title">Sua Avaliação</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="rating">
+                            @for ($i = 1; $i < 6; $i++)
+                                @if ($i <= $atual->avaliacao_aula)
+                                    <i class="fa fa-star dourado" style="font-size: 20px"></i>
+                                @else
+                                    <i class="fa fa-star-o" style="font-size: 20px"></i>
+                                @endif
+                            @endfor
                         @else
-                <div class="card-header">
-                    <h4 class="card-title">Avalie a aula</h4>
-                </div>
-                <div class="card-body">
-                    <div class="rating">
+                            <div class="card-header">
+                                <h4 class="card-title">Avalie a aula</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="rating">
 
-                        <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(1)"
-                            id="estrela1" nota='1'></i>
-                        <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(2)"
-                            id="estrela2" nota='2'></i>
-                        <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(3)"
-                            id="estrela3" nota='3'></i>
-                        <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(4)"
-                            id="estrela4" nota='4'></i>
-                        <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(5)"
-                            id="estrela5" nota='5'></i>
+                                    <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(1)"
+                                        id="estrela1" nota='1'></i>
+                                    <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(2)"
+                                        id="estrela2" nota='2'></i>
+                                    <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(3)"
+                                        id="estrela3" nota='3'></i>
+                                    <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(4)"
+                                        id="estrela4" nota='4'></i>
+                                    <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(5)"
+                                        id="estrela5" nota='5'></i>
                 @endif
             </div>
             @if ($avaliacaoAula)

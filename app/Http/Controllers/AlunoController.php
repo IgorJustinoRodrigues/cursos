@@ -603,6 +603,23 @@ class AlunoController extends Controller
         //Exibe a view
         return view('painelAluno.aula.verCursos', ['paginacao' => $items, 'busca' => @$request->busca]);
     }
+
+    public function concluirAula(Request $request){
+        //Validação de acesso
+        if (!(new Services())->validarAdmin())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionar();
+
+        //Atribuição dos valores
+        $aula_aluno_id = $request->aula_aluno;
+
+        $aula_aluno = AulaAluno::find($aula_aluno_id);
+        $aula_aluno->conclusao = date("Y-m-d H:i:s");
+
+        $aula_aluno->save();
+    
+    }
+
     /*
     Função Ver aula do Aluno 
     - Responsável por mostrar a tela de ver aula de Aluno 
