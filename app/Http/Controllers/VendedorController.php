@@ -91,7 +91,7 @@ class VendedorController extends Controller
         $item->email = $request->email;
         $item->whatsapp = $request->whatsapp;
         $item->usuario = $request->usuario;
-        $item->senha = $request->senha;
+        $item->senha = md5($request->senha);
         $item->status = $request->status;
         $item->unidade_id = $request->unidade_id;
 
@@ -201,11 +201,11 @@ class VendedorController extends Controller
             ]);
 
             //Atribuição dos valores recebidos da váriavel $request para o objeto $item
-            $item->senha = $request->senha;
+            $item->senha = md5($request->senha);
         }
 
         $item->status = $request->status;
-        
+
 
 
 
@@ -292,7 +292,7 @@ class VendedorController extends Controller
             return (new Services())->redirecionar();
 
 
-        $item->senha = '123456';
+        $item->senha = md5('123456');
 
         //Deleta o vendedori informado
         if ($item->save()) {
@@ -305,7 +305,7 @@ class VendedorController extends Controller
         }
     }
 
-        /*
+    /*
     Função Acesso de Vendedor do Site
     - Responsável por mostrar a tela de login de Vendedor no site
     */
@@ -315,7 +315,6 @@ class VendedorController extends Controller
         return view('painelVendedor.vendedor.acessoVendedor');
     }
 
-
     /*
     Função Login de Vendedor
     - Responsável pelo login do vendedoristrador ao painel
@@ -323,36 +322,31 @@ class VendedorController extends Controller
     */
     public function login(Request $request)
     {
+        //Inícia a Sessão
+        @session_start();
+
+
         //Validação das informações recebidas
         $validated = $request->validate([
-            'usuario' => 'required|max:20',
-            'senha' => 'required'
+            'usuario' => 'required',
+            'senha' => 'required|min:6'
         ]);
 
         //Atribuição dos valores recebidos da váriavel $request para o objeto $item
         $usuario = $request->usuario;
-        $senha = $request->senha;
+        $senha = md5($request->senha);
 
         //Seleciona o vendedor no banco de dados, usando as credencias de acesso
-        $item = Vendedor::where('usuario', '=', $usuario)->where('senha', '=', $senha)->where('status', '=', 1)->first();
+        $item = Vendedor::selectRaw("*, date_format(created_at, '%d/%m/%Y') as cadastro, date_format(updated_at, '%d/%m/%Y às %H:%i') as ultimo_acesso")->where('usuario', '=', $usuario)->where('senha', '=', $senha)->where('status', '=', 1)->first();
+
+
 
         //Verifica se existe um vendedor com as credênciais informadas
         if (@$item->id != null and is_numeric($item->id)) {
-            //Inícia a Sessão
-            @session_start();
-
-            //Obtem e preenche as informaçõs do vendedor encontrado
-            $logado['id_vendedor'] = $item->id;
-            $logado['nome_vendedor'] = $item->nome;
-            $logado['avatar_vendedor'] = $item->avatar;
-            $logado['usuario_vendedor'] = $item->usuario;
-            $logado['status_vendedor'] = $item->status;
-            $logado['visibilidade_vendedor'] = $item->visibilidade;
-            $logado['cadastro_vendedor'] = $item->created_at->format('d/m/Y') . ' às ' . $item->created_at->format('H:i');
-            $logado['ultimo_acesso_vendedor'] = $item->updated_at->format('d/m/Y') . ' às ' . $item->updated_at->format('H:i');
 
             //Cria uma sessão com as informações
-            $_SESSION['vendedor_cursos_start'] = $logado;
+            $_SESSION['vendedor_cursos_start'] = $item;
+
 
             //Verifica se o campo lembrar senha estava selecionado
             if (@$request->remember) {
@@ -365,18 +359,18 @@ class VendedorController extends Controller
                 Cookie::expire('vendedor_senha');
             }
 
-            //Atualiza a data e hora do campo updated_at
             $item->touch();
 
             //Redirecionamento para a rota painelVendedor, com mensagem de sucesso, com uma sessão ativa
-            return redirect()->route('painelVendedor')->with('sucesso', 'Olá ' . $item->nome . ', você acessou o sistema com o perfil de vendedor!');
+            return redirect()->route('painelVendedor')->with('sucesso', 'Olá ' . $item->nome . ', você acessou o sistema com o perfil de "' . $this->tipo($item->tipo) . '"');
         } else {
             //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
-            return redirect()->back()->with('atencao', 'Usuário e/ou senha incorretos!')->withInput(
+            return redirect()->route('acessoVendedor')->with('atencao', 'Usuário e/ou senha incorretos!')->withInput(
                 $request->except('senha')
             );
         }
     }
+
 
     /*
     Função Sair de Vendedor
@@ -419,4 +413,19 @@ class VendedorController extends Controller
         }
     }
 
+    /*
+    Função Tipo de Admin
+    - Responsável por exibir o tipo do vendedor
+    - $tipo: Recebe o Id do tipo do vendedor
+    */
+    public function tipo($tipo)
+    {
+        //Verifica o tipo do vendedor
+        switch ($tipo) {
+            case 1:
+                //Retorna o tipo Vendedor
+                return 'Vendedor';
+                break;
+        }
+    }
 }

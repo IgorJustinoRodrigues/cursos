@@ -98,13 +98,12 @@
                                 <li>
                                     <a href="javascript:void(0);">Acesso</a>
                                     <ul class="lab-ul">
-<<<<<<< Updated upstream
-                                        <li><a href="{{ route('acessoAluno') }}" target="_blank">Acesso Aluno</a></li>
-                                        <li><a href="index-2.html" target="_blank">Acesso Vendedor</a></li>
-=======
-                                        <li><a href="{{ route('acessoVendedor') }}" target="_blank">Acesso Vendedor</a>
+                                        <li><a href="{{ route('acessoAluno') }}" target="_blank">Acesso Aluno</a>
                                         </li>
->>>>>>> Stashed changes
+                                        <li><a href="{{ route('acessoVendedor') }}" target="_blank">Acesso
+                                                Vendedor</a>
+                                        </li>
+
                                         <li><a href="{{ route('acessoParceiro') }}" target="_blank">Acesso
                                                 Parceiro</a></li>
                                         <li><a href="{{ route('acessoAdmin') }}" target="_blank">Acesso
