@@ -61,6 +61,33 @@ class Services
         return redirect()->route('acessoAluno')->with('erro', 'Para acessar esse conteúdo é necessário fazer login no sistema!');
     }
 
+    
+    /*
+    Função Validar Vendedor
+    - Responsável por verificar se há uma sessão ativa de um vendedor
+    */
+    public function validarVendedor()
+    {
+        //Inícia a Sessão
+        @session_start();
+
+        //Verifica se não existe uma sessão ativa de vendedor
+        if (!isset($_SESSION['vendedor_cursos_start']) or !is_numeric($_SESSION['vendedor_cursos_start']->id)) {
+            //Expira a sessão
+            unset($_SESSION['vendedor_cursos_start']);
+            return false;
+        } else {
+            //Retorna verdade para a sessão ativa
+            return true;
+        }
+    }
+
+    public function redirecionarVendedor()
+    {
+        return redirect()->route('acessoVendedor')->with('erro', 'Para acessar esse conteúdo é necessário fazer login no sistema!');
+    }
+
+
 
     /*
     Função Validar Parceiro

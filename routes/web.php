@@ -183,6 +183,9 @@ Route::get('/matricula-editar/{item}', [MatriculaController::class, 'editar'])->
 Route::put('/matricula-salvar/{item}', [MatriculaController::class, 'salvar'])->name('matriculaSalvar');
 Route::get('/matricula-delete/{item}', [MatriculaController::class, 'deletar'])->name('matriculaDeletar');
 
+
+//Rota Painel Vedendor Raiz
+Route::get('/painel-aluno', [AlunoController::class, 'painel'])->name('painelAluno');
 /*
 ROTAS DE VENDEDOR
 */
@@ -193,10 +196,15 @@ Route::get('/vendedor-editar/{item}', [VendedorController::class, 'editar'])->na
 Route::put('/vendedor-salvar/{item}', [VendedorController::class, 'salvar'])->name('vendedorSalvar');
 Route::get('/vendedor-delete/{item}', [VendedorController::class, 'deletar'])->name('vendedorDeletar');
 
+/*
+ROTAS DE LOGIN E LOGOFF DE PARCEIRO
+*/
+Route::get('/acesso-vendedor', [VendedorController::class, 'acessoVendedor'])->name('acessoVendedor');
+Route::post('/login-vendedor', [VendedorController::class, 'login'])->name('loginVendedor');
+Route::get('/sair-vendedor', [VendedorController::class, 'sair'])->name('sairVendedor');
 
 Route::get("/dlogin-aluno", [SiteController::class, 'login']);
 Route::get("/dver-curso", [SiteController::class, 'ver'])->name('verd');
 Route::get("/dver-quiz", [SiteController::class, 'quiz'])->name('quizd');
 Route::get("/dinfo-aluno", [SiteController::class, 'info'])->name('info-alunod');
 Route::get("/dpainel-aluno", [SiteController::class, 'painel'])->name('painel-alunod');
-

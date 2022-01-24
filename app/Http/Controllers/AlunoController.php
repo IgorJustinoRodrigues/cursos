@@ -50,7 +50,7 @@ class AlunoController extends Controller
 
     /*
     Função Painel
-    - Responsável por mostrar a tela inícial do painel de alunoistradores
+    - Responsável por mostrar a tela inícial do painel de aluno
     */
     public function painel()
     {
@@ -179,14 +179,14 @@ class AlunoController extends Controller
             if ($ativacao['matricula']->curso_id != null) {
                 return redirect()->back()->with('atencao', 'Não é possível trocar o curso dessa matrícula!');
             }
-
-            $ativacao['curso'] = null;
-            $_SESSION['ativacao_start'] = $ativacao;
-
             return redirect()->route('site.cursos')->with('padrao', 'Escolha um curso para continuar com a ativação do código.');
         } else {
             return redirect()->back()->with('atencao', 'Acesso incorreto!');
         }
+
+            $ativacao['curso'] = null;
+            $_SESSION['ativacao_start'] = $ativacao;
+
     }
 
 

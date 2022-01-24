@@ -305,6 +305,16 @@ class VendedorController extends Controller
         }
     }
 
+        /*
+    Função Acesso de Vendedor do Site
+    - Responsável por mostrar a tela de login de Vendedor no site
+    */
+    public function acessoVendedor()
+    {
+        //Exibe a view
+        return view('painelVendedor.vendedor.acessoVendedor');
+    }
+
 
     /*
     Função Login de Vendedor

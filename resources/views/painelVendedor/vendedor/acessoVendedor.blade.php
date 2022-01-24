@@ -1,5 +1,5 @@
-@extends('template.parceiro-login')
-@section('title', 'Acesso de Parceiro')
+@extends('template.vendedor-login')
+@section('title', 'Acesso de Vendedor')
 
 @section('header')
 @endsection
@@ -12,16 +12,16 @@
         <div class="col-sm-8 col-md-6 col-lg-4 mx-auto" style="min-width: 300px;">
             <div class="card navbar-shadow">
                 <div class="card-header text-center">
-                    <h4 class="card-title">Login de Parceiro</h4>
+                    <h4 class="card-title">Login de Vendedor</h4>
                     <p class="card-subtitle">Acesso restrito</p>
                 </div>
                 <div class="card-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('loginParceiro') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('loginVendedor') }}">
                         @csrf
                         <div class="form-group">
                             <label class="form-label" for="usuario">Usuário:</label>
                             <div class="input-group input-group-merge">
-                                <input id="usuario" type="text" name="usuario" value="@if (Cookie::get('parceiro_usuario') != null)<?= Cookie::get('parceiro_usuario') ?>@else{{ old('usuario') }}@endif" required
+                                <input id="usuario" type="text" name="usuario" value="@if (Cookie::get('vendedor_usuario') != null)<?= Cookie::get('vendedor_usuario') ?>@else{{ old('usuario') }}@endif" required
                                     class="form-control form-control-prepended" placeholder="Usuário de acesso">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
@@ -33,7 +33,7 @@
                         <div class="form-group">
                             <label class="form-label" for="senha">Senha:</label>
                             <div class="input-group input-group-merge">
-                                <input id="senha" type="password" name="senha" value="<?= Cookie::get('parceiro_senha') ?>"
+                                <input id="senha" type="password" name="senha" value="<?= Cookie::get('vendedor_senha') ?>"
                                     required class="form-control form-control-prepended" placeholder="********"
                                     autocomplete="current-password">
                                 <div class="input-group-prepend">
@@ -46,7 +46,7 @@
 
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10"><label>
-                                    <input type="checkbox" name="remember" @if (Cookie::get('parceiro_usuario') != null) checked="checked" @endif>
+                                    <input type="checkbox" name="remember" @if (Cookie::get('vendedor_usuario') != null) checked="checked" @endif>
                                     Lembrar senha</label>
                             </div>
                         </div>
