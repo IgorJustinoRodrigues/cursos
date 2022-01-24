@@ -676,26 +676,24 @@ class AlunoController extends Controller
                 $minutos_feitos += $aulas[$i]->duracao;
             }
 
+            if($aulas[$i]->id == $aula->id){
+                $atual = $aulas[$i];
+                $atual->indice = $i;
+            }
+
             $minutos_total += $aulas[$i]->duracao;
         }
 
-        if ($j != null) {
-            $atual = $aulas[0];
-            $atual->indice = 0;
+        if(isset($aulas[$atual->indice - 1])){
+            $anterior = $aulas[$atual->indice - 1];
         } else {
-            if (isset($aulas[$j + 1]) and $aulas[$j]->conclusao != null) {
-                $atual = $aulas[++$j];
-                $atual->indice = $j;
-            } else {
-                $atual = $aulas[$j];
-                $atual->indice = $j;
-            }
+            $anterior = null;
+        }
 
-            if (isset($aulas[$j + 1])) {
-                $proximo = $aulas[$j + 1];
-            } else {
-                $proximo = null;
-            }
+        if(isset($aulas[$atual->indice + 1])){
+            $proxima = $aulas[$atual->indice + 1];
+        } else {
+            $proxima = null;
         }
 
         if ($minutos_feitos > 0) {
@@ -703,10 +701,10 @@ class AlunoController extends Controller
         } else {
             $porcentagem = 0;
         }
-
-        if (isset($aulas[$j - 1])) {
-            if($aulas[$j - 1]->conclusao == null){
-dd('');
+        
+        if($curso->aula_travada == 1){
+            if(isset($anterior) and $anterior->conclusao == null){
+                return redirect()->route('aula', [$curso->id, Str::slug($curso->nome, '-'), $anterior->id, Str::slug($anterior->nome, '-') . '.html'])->with('padrao', "Conclua a aula atual para ter acesso as próximas aulas!");
             }
         }
 
@@ -734,7 +732,7 @@ dd('');
                 break;
 
             case 2:
-                $pagina = 'painelAluno.aula.verAulaTexto';
+                $pagina = 'painelAluno.aula.verAulaVideo';
                 break;
 
             case 3:
@@ -752,7 +750,7 @@ dd('');
                 'professor' => $professor,
                 'matricula' => $matricula,
                 'atual' => $atual,
-                'proximo' => $proximo,
+                'proxima' => $proxima,
                 'minutos_feitos' => $minutos_feitos,
                 'minutos_total' => $minutos_total,
                 'porcentagem' => $porcentagem,

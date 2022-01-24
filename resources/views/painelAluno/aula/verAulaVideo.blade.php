@@ -2,9 +2,11 @@
 
 @section('link')
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="student-dashboard.html">Início</a></li>
-        <li class="breadcrumb-item"><a href="student-browse-courses.html">Meus Cursos</a></li>
-        <li class="breadcrumb-item"><a href="student-browse-courses.html">{{ $curso->nome }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('painelAluno') }}">Início</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('alunoCursos') }}">Meus Cursos</a></li>
+        <li class="breadcrumb-item"><a
+                href="{{ route('verAulas', [$curso->id, Str::slug($curso->nome, '-') . '.html']) }}">{{ $curso->nome }}</a>
+        </li>
         <li class="breadcrumb-item active">{{ $aula->nome }}</li>
     </ol>
 @endsection
@@ -59,13 +61,13 @@
 
         $("#div-concluir").addClass('d-none');
         $("#div-aula-concluida").addClass('d-none');
-        
+
         function habilita_concluir() {
             $("#div-concluir").removeClass('d-none');
         }
 
-        setTimeout(concluir, {{ (($aula->duracao * 60) * 0.9) * 1000 }});
-        setTimeout(habilita_concluir, {{ (($aula->duracao * 60) * 0.5) * 1000 }});
+        setTimeout(concluir, {{ $aula->duracao * 60 * 0.9 * 1000 }});
+        setTimeout(habilita_concluir, {{ $aula->duracao * 60 * 0.5 * 1000 }});
     </script>
 @endsection
 
@@ -95,7 +97,8 @@
                 </div>
             @endif
             <!-- Lessons -->
-            <textarea id="anotacao" placeholder="Suas anotações desta aula" rows="4" class="form-control">{{$atual->anotacao}}</textarea>
+            <textarea id="anotacao" placeholder="Suas anotações desta aula" rows="4"
+                class="form-control">{{ $atual->anotacao }}</textarea>
             <div class="d-flex mt-2">
                 <div class="flex">
                     <a href="{{ route('verAulas', [$curso->id, Str::slug($curso->nome, '-') . '.html']) }}"
@@ -114,18 +117,34 @@
             </div>
             <div class="card" id="div-aula-concluida">
                 <div class="card-body text-center">
-                    <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $proximo->id, Str::slug($proximo->nome, '-') . '.html']) }}" class="btn btn-dark btn-block">
+                    <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $proxima->id, Str::slug($proxima->nome, '-') . '.html']) }}"
+                        class="btn btn-dark btn-block">
                         Próxima Aula
                     </a>
                 </div>
             </div>
+            @if(count($anexos) > 0)
             <div class="card">
                 <div class="card-body text-center">
-                    <a href="student-cart.html" class="btn btn-primary btn-block flex-column">
-                        <i class="material-icons" style="font-size: 20px">cloud_download</i> Baixar Conteúdo Auxiliar
+                    <a class="btn btn-primary btn-block"> Conteúdos Auxiliares
                     </a>
                 </div>
+                <ul class="card list-group list-group-fit">
+                    <li class="list-group-item">
+                        <div class="media">
+                            <div class="media-body">
+                                <div class="text-muted-light">Nome do arquivo</div>
+                            </div>
+                            <div class="media-right">
+                                <button type="button" class="btn btn-success">
+                                    <i class="material-icons mr-1">file_download</i> Baixar
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
+            @endif
             <div class="card">
                 <div class="card-header">
                     <div class="media align-items-center">
