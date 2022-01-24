@@ -205,9 +205,9 @@
                                         alt="Avatar" class="rounded-circle" width="40"></a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <p class="dropdown-item">
-                                        {{ $_SESSION['vendedor_cursos_start']['nome_vendedor'] }}
+                                        {{ $_SESSION['vendedor_cursos_start']->nome }}
                                     </p>
-                                  
+                                    
                                     <a class="dropdown-item" href="{{ route('sairVendedor') }}">
                                         <i class="material-icons">lock</i> Sair
                                     </a>
