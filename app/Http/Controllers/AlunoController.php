@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 //Dependências do controler
 use App\Services\Services;
 use App\Models\Aluno;
+use App\Models\AnexoAula;
 use App\Models\Aula;
 use App\Models\AulaAluno;
 use App\Models\Canvas;
@@ -678,21 +679,35 @@ class AlunoController extends Controller
             $minutos_total += $aulas[$i]->duracao;
         }
 
-        if (count($aulas)) {
-            if ($j != null) {
-                $atual = $aulas[0];
-                $atual->indice = 0;
-            } else {
-                if (isset($aulas[$j + 1]) and $aulas[$j]->conclusao != null) {
-                    $atual = $aulas[$j + 1];
-                    $atual->indice = $j + 1;
-                } else {
-                    $atual = $aulas[$j];
-                    $atual->indice = $j;
-                }
-            }
+        if ($j != null) {
+            $atual = $aulas[0];
+            $atual->indice = 0;
         } else {
-            return redirect()->route('alunoCursos')->with('atencao', 'O curso selecionado não pode ser acessado no momento, tente mais tarde!');
+            if (isset($aulas[$j + 1]) and $aulas[$j]->conclusao != null) {
+                $atual = $aulas[++$j];
+                $atual->indice = $j;
+            } else {
+                $atual = $aulas[$j];
+                $atual->indice = $j;
+            }
+
+            if (isset($aulas[$j + 1])) {
+                $proximo = $aulas[$j + 1];
+            } else {
+                $proximo = null;
+            }
+        }
+
+        if ($minutos_feitos > 0) {
+            $porcentagem = ($minutos_feitos * 100) / $minutos_total;
+        } else {
+            $porcentagem = 0;
+        }
+
+        if (isset($aulas[$j - 1])) {
+            if($aulas[$j - 1]->conclusao == null){
+dd('');
+            }
         }
 
         if (!$atual->id_aula_aluno) {
@@ -703,43 +718,16 @@ class AlunoController extends Controller
             $aulaAluno->aula_id = $aula->id;
             $aulaAluno->curso_id = $curso->id;
 
-            if($aulaAluno->save()){
+            if ($aulaAluno->save()) {
                 $atual->id_aula_aluno = $aulaAluno->id;
             } else {
                 return redirect()->route('alunoCursos')->with('atencao', 'Não foi possível iniciar essa aula no momento, tente mais tarde!');
             }
-
         }
 
-        dd($atual);
-        $professor = Professor::find($curso->professor_id);
+        $professor = Professor::where('status', '=', '1')->find($curso->professor_id);
+        $anexos = AnexoAula::where('aula_id', '=', $aula->id)->get();
 
-        $aulas = Aula::join('cursos', 'cursos.id', '=', 'aulas.curso_id')
-            ->join('matriculas', 'matriculas.curso_id', '=', 'cursos.id')
-            ->leftjoin('aula_alunos', function ($aula_alunos) {
-                $aula_alunos->on('aulas.id', '=', 'aula_alunos.aula_id')
-                    ->on('matriculas.aluno_id', '=', 'aula_alunos.aluno_id');
-            })
-            ->where('aulas.curso_id', '=', $id_curso)
-            ->where('aulas.status', '=', '1')
-            ->selectRaw('aula_alunos.*, aulas.*')
-            ->groupBy('aulas.id')
-            ->orderByRaw('-ordem desc')
-            ->orderby('ordem', 'desc')
-            ->get();
-
-        $tempoTotal = 0;
-        foreach ($aulas as $linha) {
-            $tempoTotal += $linha->duracao;
-        }
-
-        $aulasConcluidas = AulaAluno::join('aulas', 'aula_alunos.aula_id', '=', 'aulas.id')
-            ->whereNotNull('aula_alunos.conclusao')->where('aula_alunos.curso_id', '=', $curso->id)->get();
-
-        $tempoTotalConcluido = 0;
-        foreach ($aulasConcluidas as $linha) {
-            $tempoTotalConcluido += $linha->duracao;
-        }
         switch ($aula->tipo) {
             case 1:
                 $pagina = 'painelAluno.aula.verAulaVideo';
@@ -754,18 +742,21 @@ class AlunoController extends Controller
                 break;
         }
 
-        dd('');
-
         //Exibe a view
         return view(
             $pagina,
             [
                 'curso' => $curso,
-                'professor' => $professor,
                 'aula' => $aula,
                 'aulas' => $aulas,
-                'tempoTotal' => $tempoTotal,
-                'tempoTotalConcluido' => $tempoTotalConcluido
+                'professor' => $professor,
+                'matricula' => $matricula,
+                'atual' => $atual,
+                'proximo' => $proximo,
+                'minutos_feitos' => $minutos_feitos,
+                'minutos_total' => $minutos_total,
+                'porcentagem' => $porcentagem,
+                'anexos' => $anexos,
             ]
         );
     }

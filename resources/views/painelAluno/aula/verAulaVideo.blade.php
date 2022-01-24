@@ -95,7 +95,7 @@
                 </div>
             @endif
             <!-- Lessons -->
-            <textarea id="anotacao" placeholder="Suas anotações desta aula" rows="4" class="form-control"></textarea>
+            <textarea id="anotacao" placeholder="Suas anotações desta aula" rows="4" class="form-control">{{$atual->anotacao}}</textarea>
             <div class="d-flex mt-2">
                 <div class="flex">
                     <a href="{{ route('verAulas', [$curso->id, Str::slug($curso->nome, '-') . '.html']) }}"
@@ -114,7 +114,7 @@
             </div>
             <div class="card" id="div-aula-concluida">
                 <div class="card-body text-center">
-                    <a href="" class="btn btn-dark btn-block">
+                    <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $proximo->id, Str::slug($proximo->nome, '-') . '.html']) }}" class="btn btn-dark btn-block">
                         Próxima Aula
                     </a>
                 </div>
@@ -194,7 +194,7 @@
                                 <i class="material-icons text-muted-light">assessment</i>
                             </div>
                             <div class="media-body">
-                                Duração do curso {{ app(App\Services\Services::class)->minuto_hora($tempoTotal) }}
+                                Duração do curso {{ app(App\Services\Services::class)->minuto_hora($minutos_total) }}
                             </div>
                         </div>
                     </li>
@@ -205,7 +205,7 @@
                             </div>
                             <div class="media-body">
                                 Aulas concluidas
-                                {{ app(App\Services\Services::class)->minuto_hora($tempoTotalConcluido) }}
+                                {{ app(App\Services\Services::class)->minuto_hora($minutos_feitos) }}
                             </div>
                         </div>
                     </li>
