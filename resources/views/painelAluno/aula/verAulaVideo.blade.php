@@ -22,6 +22,40 @@
 
 @section('footer')
     <script>
+        function anotacao() {
+            var anotacao = $("#anotacao").val();
+
+            $.ajax({
+                type: 'post',
+                url: "{{ route('anotacao') }}",
+                data: {
+                    aula_aluno: {{ $atual->id_aula_aluno }},
+                    anotacao: anotacao,
+                    _token: $("input[name='_token']").val()
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if (data.status == '1') {
+                        Lobibox.notify('success', {
+                            size: 'mini',
+                            sound: false,
+                            icon: false,
+                            position: 'top right',
+                            msg: data.msg
+                        });
+                    } else {
+                        Lobibox.notify('warning', {
+                            size: 'mini',
+                            sound: false,
+                            icon: false,
+                            position: 'top right',
+                            msg: data.msg
+                        });
+                    }
+                }
+            });
+        }
+
         function avaliar(nota) {
             if (confirm("A sua avaliação é " + nota + " estrelas?")) {
                 $.ajax({
@@ -46,10 +80,10 @@
                             $("#div-avaliacao").empty();
 
                             var div = '<div class="card-header">';
-                                div += '<h4 class="card-title">Sua avaliação</h4>';
-                                div += '</div>';
-                                div += '<div class="card-body">';
-                                    div += '<div class="rating">';
+                            div += '<h4 class="card-title">Sua avaliação</h4>';
+                            div += '</div>';
+                            div += '<div class="card-body">';
+                            div += '<div class="rating">';
 
                             for (i = 1; i < 6; i++) {
                                 if (i <= nota) {
@@ -203,7 +237,7 @@
                     <a href="{{ route('verAulas', [$curso->id, Str::slug($curso->nome, '-') . '.html']) }}"
                         class="btn btn-sm btn-default btn-wide">Voltar para aulas</a>
                 </div>
-                <a class="btn btn-sm btn-success">Salvar Anotações</a>
+                <a class="btn btn-sm btn-success" onclick="anotacao()">Salvar Anotações</a>
             </div>
         </div>
         <div class="col-md-4">

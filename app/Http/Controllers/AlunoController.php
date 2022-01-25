@@ -690,6 +690,37 @@ class AlunoController extends Controller
         return response()->json($retorno);
     }
 
+    public function anotacao(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarAluno())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarAluno();
+
+        //Atribuição dos valores
+        $aula_aluno_id = $request->aula_aluno;
+
+        $aula_aluno = AulaAluno::find($aula_aluno_id);
+
+        $aula_aluno->anotacao = $request->anotacao;
+
+        $resposta = $aula_aluno->save();
+
+        if ($resposta) {
+            $retorno = [
+                'msg' => 'Anotação salva!',
+                'status' => 1
+            ];
+        } else {
+            $retorno = [
+                'msg' => 'Não foi possível salvar a anotação!',
+                'status' => 0
+            ];
+        }
+
+        return response()->json($retorno);
+    }
+
 
     /*
     Função Ver aula do Aluno 
