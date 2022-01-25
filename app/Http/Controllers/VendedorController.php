@@ -394,7 +394,9 @@ class VendedorController extends Controller
             //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionarVendedor();
 
-        $item = Vendedor::find($_SESSION['vendedor_cursos_start']->id);
+        $item = Vendedor::join('unidades', 'vendedors.unidade_id', '=', 'unidades.id')
+            ->selectRaw("vendedors.*, unidades.nome as unidade")
+            ->find($_SESSION['vendedor_cursos_start']->id);
 
         return view('painelVendedor.vendedor.minhaConta', [
             'item' => $item
@@ -426,7 +428,6 @@ class VendedorController extends Controller
         $item->cpf = $request->cpf;
         $item->email = $request->email;
         $item->whatsapp = $request->whatsapp;
-        $item->status = $request->status;
         $item->usuario = $request->usuario;
 
         if (@$request->senha != '') {
@@ -469,9 +470,9 @@ class VendedorController extends Controller
 
             $_SESSION['vendedor_cursos_start'] = $item;
 
-            if ($request->hasCookie('vendedor_email') != false) {
+            if ($request->hasCookie('vendedor_usuario') != false) {
                 //Criar o Cookie com as credênciais com validade de 3 dias
-                Cookie::queue('vendedor_email', $request->email, 4320);
+                Cookie::queue('vendedor_usuario', $request->usuario, 4320);
                 Cookie::queue('vendedor_senha', $request->senha, 4320);
             }
 

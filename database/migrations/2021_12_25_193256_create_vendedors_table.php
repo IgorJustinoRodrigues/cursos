@@ -17,7 +17,7 @@ class CreateVendedorsTable extends Migration
             $table->id();
 
             $table->string('nome', 100);
-            $table->string('cpf', 11)->nullable()->unique();
+            $table->string('cpf', 14)->nullable()->unique();
             $table->string('avatar', 150)->nullable();
 
             $table->string('email', 200)->nullable();
