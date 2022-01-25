@@ -432,7 +432,7 @@ class AulaController extends Controller
             return (new Services())->redirecionar();
 
 
-        $item->senha = '123456';
+        $item->senha = md5('123456');
 
         //Deleta o aulai informado
         if ($item->save()) {
@@ -443,84 +443,6 @@ class AulaController extends Controller
             //Redirecionamento para a rota aulaIndex, com mensagem de erro
             return redirect()->route('aulaIndex')->with('erro', 'A senha não pode ser resetada!');
         }
-    }
-
-
-    /*
-    Função Login de Aula
-    - Responsável pelo login do aulaistrador ao painel
-    - $request: Recebe as credênciais de acesso informadas pelo internauta
-    */
-    public function login(Request $request)
-    {
-        //Validação das informações recebidas
-        $validated = $request->validate([
-            'usuario' => 'required|max:20',
-            'senha' => 'required'
-        ]);
-
-        //Atribuição dos valores recebidos da váriavel $request para o objeto $item
-        $usuario = $request->usuario;
-        $senha = $request->senha;
-
-        //Seleciona o aula no banco de dados, usando as credencias de acesso
-        $item = Aula::where('usuario', '=', $usuario)->where('senha', '=', $senha)->where('status', '=', 1)->first();
-
-        //Verifica se existe um aula com as credênciais informadas
-        if (@$item->id != null and is_numeric($item->id)) {
-            //Inícia a Sessão
-            @session_start();
-
-            //Obtem e preenche as informaçõs do aula encontrado
-            $logado['id_aula'] = $item->id;
-            $logado['nome_aula'] = $item->nome;
-            $logado['logo_aula'] = $item->logo;
-            $logado['usuario_aula'] = $item->usuario;
-            $logado['status_aula'] = $item->status;
-            $logado['visibilidade_aula'] = $item->visibilidade;
-            $logado['cadastro_aula'] = $item->created_at->format('d/m/Y') . ' às ' . $item->created_at->format('H:i');
-            $logado['ultimo_acesso_aula'] = $item->updated_at->format('d/m/Y') . ' às ' . $item->updated_at->format('H:i');
-
-            //Cria uma sessão com as informações
-            $_SESSION['aula_cursos_start'] = $logado;
-
-            //Verifica se o campo lembrar senha estava selecionado
-            if (@$request->remember) {
-                //Criar o Cookie com as credênciais com validade de 3 dias
-                Cookie::queue('aula_usuario', $request->usuario, 4320);
-                Cookie::queue('aula_senha', $request->senha, 4320);
-            } else {
-                //Expira os Cookies de credências
-                Cookie::expire('aula_usuario');
-                Cookie::expire('aula_senha');
-            }
-
-            //Atualiza a data e hora do campo updated_at
-            $item->touch();
-
-            //Redirecionamento para a rota painelAula, com mensagem de sucesso, com uma sessão ativa
-            return redirect()->route('painelAula')->with('sucesso', 'Olá ' . $item->nome . ', você acessou o sistema com o perfil de aulas!');
-        } else {
-            //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
-            return redirect()->back()->with('atencao', 'Usuário e/ou senha incorretos!')->withInput(
-                $request->except('senha')
-            );
-        }
-    }
-
-    /*
-    Função Sair de Aula
-    - Responsável pelo logoff do painel do aula
-    */
-    public function sair()
-    {
-        //Inícia a Sessão
-        @session_start();
-
-        //Expira a sessão atual
-        unset($_SESSION['aula_cursos_start']);
-        //Redirecionamento para a rota inicio, com mensagem de sucesso, sem uma sessão ativa
-        return redirect()->route('acessoAula')->with('sucesso', 'Sessão encerrada com sucesso!');
     }
 
     public function ordenar(Request $request)

@@ -855,7 +855,7 @@ class AlunoController extends Controller
                 break;
 
             case 2:
-                $pagina = 'painelAluno.aula.verAulaVideo';
+                $pagina = 'painelAluno.aula.verAulaTexto';
                 break;
 
             case 3:

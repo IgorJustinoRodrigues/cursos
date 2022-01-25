@@ -50,7 +50,6 @@ class CursoController extends Controller
                 if ($aulas[$i]->conclusao != null) {
                     //Aula Feita
                     $j = $i;
-                    print_r($j);
                     $minutos_feitos += $aulas[$i]->duracao;
                 }
 
