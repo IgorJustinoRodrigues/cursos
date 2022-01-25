@@ -272,9 +272,9 @@
                                         <div class="text-muted-light">{{ $linha->nome }}</div>
                                     </div>
                                     <div class="media-right">
-                                        <button type="button" class="btn btn-success">
+                                        <a href="{{ URL::asset('storage/' . $linha->arquivo) }}" download="{{ $linha->nome }}" class="btn btn-success">
                                             <i class="material-icons mr-1">file_download</i> Baixar
-                                        </button>
+                                        </a>
                                     </div>
                                 </div>
                             </li>
