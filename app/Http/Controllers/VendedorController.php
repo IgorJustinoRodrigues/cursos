@@ -371,7 +371,7 @@ class VendedorController extends Controller
         }
     }
 
-      /*
+    /*
     Função Painel
     - Responsável por mostrar a tela inícial do painel de vendedor
     */
@@ -386,7 +386,7 @@ class VendedorController extends Controller
         return view('painelVendedor.index');
     }
 
-    
+
     public function minhaContaVendedor()
     {
         //Validação de acesso
@@ -394,11 +394,101 @@ class VendedorController extends Controller
             //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionarVendedor();
 
-        $item = Vendedor::find($_SESSION['vendedor_cursos_start']->id);
+        $item = Vendedor::join('unidades', 'vendedors.unidade_id', '=', 'unidades.id')
+            ->selectRaw("vendedors.*, unidades.nome as unidade")
+            ->find($_SESSION['vendedor_cursos_start']->id);
 
         return view('painelVendedor.vendedor.minhaConta', [
             'item' => $item
         ]);
+    }
+
+    public function salvarMinhasInformacoesVendedor(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarVendedor())
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarVendedor();
+
+        //inicia sessão
+        @session_start();
+
+        $id = $_SESSION['vendedor_cursos_start']->id;
+
+        //Validação das informações recebidas
+        $validated = $request->validate([
+            'nome' => 'required',
+        ]);
+
+        $item = Vendedor::selectRaw("*, date_format(created_at, '%d/%m/%Y') as cadastro, date_format(updated_at, '%d/%m/%Y às %H:%i') as ultimo_acesso")
+            ->find($id);
+
+        //Atribuição dos valores recebidos da váriavel $request
+        $item->nome = $request->nome;
+        $item->cpf = $request->cpf;
+        $item->email = $request->email;
+        $item->whatsapp = $request->whatsapp;
+        $item->usuario = $request->usuario;
+
+        if (@$request->senha != '') {
+            $validated = $request->validate([
+                'senha' => 'required',
+                'senha2' => 'required|same:senha'
+            ]);
+
+            //Atribuição dos valores recebidos da váriavel $request para o objeto $item
+            $item->senha = MD5($request->senha);
+        }
+
+        //Verificação se uma nova imagem de avatar foi informado, caso seja verifica-se sua integridade
+        if (@$request->file('avatar') and $request->file('avatar')->isValid()) {
+            //Validação das informações recebidas
+            $validated = $request->validate([
+                'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5120'
+            ]);
+
+            //Salva o nome da antiga imagem para ser apagada em caso de sucesso
+            $avatarApagar = $item->avatar;
+            //Atribuição dos valores recebidos da váriavel $request após seu upload
+            $item->avatar = $request->avatar->store('avatarVendedor');
+
+            //Nova instância do Model Canvas
+            $img = new Canvas();
+
+            //Edição da imagem recebida com a Class Canva 
+            $img->carrega(public_path('storage/' . $item->avatar))
+                ->hexa('#FFFFFF')
+                ->redimensiona(600, 600, 'preenchimento')
+                ->grava(public_path('storage/' . $item->avatar), 80);
+        }
+
+        //Envio das informações para o banco de dados
+        $resposta = $item->save();
+
+        //Verifica se o Update foi bem sucedido
+        if ($resposta) {
+
+            $_SESSION['vendedor_cursos_start'] = $item;
+
+            if ($request->hasCookie('vendedor_usuario') != false) {
+                //Criar o Cookie com as credênciais com validade de 3 dias
+                Cookie::queue('vendedor_usuario', $request->usuario, 4320);
+                Cookie::queue('vendedor_senha', $request->senha, 4320);
+            }
+
+
+            //Verifica se há imagem antiga para ser apagada e se caso exista, se é diferente do padrão
+            if (@$avatarApagar and Storage::exists($avatarApagar) and $avatarApagar != 'avatarVendedor/padrao.png') {
+                //Deleta o arquivo físico da imagem antiga
+                Storage::delete($avatarApagar);
+            }
+
+            //Redirecionamento para a rota vendedorIndex, com mensagem de sucesso
+            return redirect()->back()->with('sucesso', 'Edições salvas!');
+        } else {
+            //Redirecionamento para tela anterior com mensagem de erro
+            return redirect()->back()->with('atencao', 'Algo deu errado, tente novamente!');
+        }
     }
 
     /*
@@ -416,7 +506,7 @@ class VendedorController extends Controller
         return redirect()->route('acessoVendedor')->with('sucesso', 'Sessão encerrada com sucesso!');
     }
 
-    
+
 
     /*
     Função status de Vendedor
