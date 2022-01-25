@@ -252,10 +252,18 @@
             </div>
             <div class="card" id="div-aula-concluida">
                 <div class="card-body text-center">
+                    @if(isset($proxima))
                     <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $proxima->id, Str::slug($proxima->nome, '-') . '.html']) }}"
                         class="btn btn-dark btn-block">
                         Próxima Aula <i class="material-icons mr-1">trending_flat</i>
                     </a>
+                    @else
+                    <a href="{{ route('verAulas', [$curso->id, Str::slug($curso->nome, '-') . '.html']) }}"
+                        class="btn btn-dark btn-block">
+                        <i class="material-icons mr-1">dvr</i> 
+                        Ver todas as aulas
+                    </a>
+                    @endif
                 </div>
             </div>
             @if (count($anexos) > 0)
