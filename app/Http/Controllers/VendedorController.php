@@ -386,6 +386,21 @@ class VendedorController extends Controller
         return view('painelVendedor.index');
     }
 
+    
+    public function minhaContaVendedor()
+    {
+        //Validação de acesso
+        if (!(new Services())->validarVendedor())
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarVendedor();
+
+        $item = Vendedor::find($_SESSION['vendedor_cursos_start']->id);
+
+        return view('painelVendedor.vendedor.minhaConta', [
+            'item' => $item
+        ]);
+    }
+
     /*
     Função Sair de Vendedor
     - Responsável pelo avatarff do painel do vendedor

@@ -65,12 +65,22 @@
                         </button>
 
                         <!-- Brand -->
-                        <a href="{{route('painelVendedor')}}" class="navbar-brand">
+                        <a href="{{ route('painelVendedor') }}" class="navbar-brand">
                             <img src="{{ URL::asset('imagem/Logo.svg') }}" style="width: 170px;"
                                 class="mr-2" alt="LearnPlus">
                         </a>
                         <div class="flex"></div>
 
+                        <!-- Menu -->
+                        <ul class="nav navbar-nav flex-nowrap d-none d-lg-flex">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('inicio') }}" target="_blank">Site&nbsp;<i
+                                        class="material-icons">remove_red_eye</i></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="student-help-center.html">Ajuda</a>
+                            </li>
+                        </ul>
                         <!-- Menu -->
                         <ul class="nav navbar-nav flex-nowrap">
                             <!-- Notifications dropdown -->
@@ -200,9 +210,15 @@
                             <!-- // END Notifications dropdown -->
                             <!-- User dropdown -->
                             <li class="nav-item dropdown ml-1 ml-md-3">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"><img
-                                        src="{{ URL::asset('storage/' . $_SESSION['vendedor_cursos_start']['logo_vendedor']) }}"
-                                        alt="Avatar" class="rounded-circle" width="40"></a>
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">
+                                    @if ($_SESSION['vendedor_cursos_start']->avatar != '')
+                                        <img src="{{ URL::asset('storage/' . $_SESSION['vendedor_cursos_start']->avatar) }}"
+                                            alt="Avatar" class="rounded-circle" width="40">
+                                    @else
+                                        <img src="{{ URL::asset('storage/avatarAluno/padrao.png') }}" alt="Avatar"
+                                            class="rounded-circle" width="40">
+                                    @endif
+                                </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <p class="dropdown-item">
                                         {{ $_SESSION['vendedor_cursos_start']->nome }}
@@ -262,7 +278,7 @@
                                         </a>
                                         <ul class="sidebar-submenu sm-indent collapse" id="account_menu">
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('vendedorIndex') }}">
+                                                <a class="sidebar-menu-button" href="{{ route('minhaContaVendedor') }}">
                                                     <span class="sidebar-menu-text">Editar Informações</span>
                                                 </a>
                                             </li>
