@@ -642,6 +642,55 @@ class AlunoController extends Controller
         return response()->json($retorno);
     }
 
+    public function avaliar(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarAluno())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarAluno();
+
+        //Atribuição dos valores
+        $aula_aluno_id = $request->aula_aluno;
+
+        if($request->nota < 0 and $request->nota > 5){
+            $retorno = [
+                'msg' => 'Acesso incorreto!',
+                'status' => 0
+            ];
+
+            return response()->json($retorno);
+        }
+
+        $aula_aluno = AulaAluno::find($aula_aluno_id);
+        if ($aula_aluno->avaliacao_aula != null) {
+            $retorno = [
+                'msg' => 'Você já avaliou essa aula com ' . $aula_aluno->avaliacao_aula . ' estrelas!',
+                'status' => 0
+            ];
+
+            return response()->json($retorno);
+        }
+
+        $aula_aluno->avaliacao_aula = $request->nota;
+
+        $resposta = $aula_aluno->save();
+
+        if ($resposta) {
+            $retorno = [
+                'msg' => 'Aula avaliada!',
+                'status' => 1
+            ];
+        } else {
+            $retorno = [
+                'msg' => 'Não foi possível avaliar a aula!',
+                'status' => 0
+            ];
+        }
+
+        return response()->json($retorno);
+    }
+
+
     /*
     Função Ver aula do Aluno 
     - Responsável por mostrar a tela de ver aula de Aluno 

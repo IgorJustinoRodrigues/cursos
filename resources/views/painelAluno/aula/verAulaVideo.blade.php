@@ -22,6 +22,59 @@
 
 @section('footer')
     <script>
+        function avaliar(nota) {
+            if (confirm("A sua avaliação é " + nota + " estrelas?")) {
+                $.ajax({
+                    type: 'post',
+                    url: "{{ route('avaliar') }}",
+                    data: {
+                        aula_aluno: {{ $atual->id_aula_aluno }},
+                        nota: nota,
+                        _token: $("input[name='_token']").val()
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.status == '1') {
+                            Lobibox.notify('success', {
+                                size: 'mini',
+                                sound: false,
+                                icon: false,
+                                position: 'top right',
+                                msg: data.msg
+                            });
+
+                            $("#div-avaliacao").empty();
+
+                            var div = '<div class="card-header">';
+                                div += '<h4 class="card-title">Sua avaliação</h4>';
+                                div += '</div>';
+                                div += '<div class="card-body">';
+                                    div += '<div class="rating">';
+
+                            for (i = 1; i < 6; i++) {
+                                if (i <= nota) {
+                                    div += '<i class="fa fa-star dourado" style="font-size: 20px"></i>';
+                                } else {
+                                    div += '<i class="fa fa-star-o" style="font-size: 20px"></i>';
+                                }
+                            }
+                            div += '</div>';
+
+                            $("#div-avaliacao").html(div);
+                        } else {
+                            Lobibox.notify('warning', {
+                                size: 'mini',
+                                sound: false,
+                                icon: false,
+                                position: 'top right',
+                                msg: data.msg
+                            });
+                        }
+                    }
+                });
+            }
+        }
+
         $(".estrela").hover(
             function() {
                 nota($(this).attr('nota'));
@@ -78,7 +131,7 @@
                                 position: 'top right',
                                 msg: data.msg
                             });
-                            
+
                             $("#div-concluir").removeClass('d-none');
                             $("#div-aula-concluida").addClass('d-none');
                         }
@@ -293,22 +346,24 @@
                                 @endif
                             @endfor
                         @else
-                            <div class="card-header">
-                                <h4 class="card-title">Avalie a aula</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="rating">
+                            <div id="div-avaliacao">
+                                <div class="card-header">
+                                    <h4 class="card-title">Avalie a aula</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="rating">
 
-                                    <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(1)"
-                                        id="estrela1" nota='1'></i>
-                                    <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(2)"
-                                        id="estrela2" nota='2'></i>
-                                    <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(3)"
-                                        id="estrela3" nota='3'></i>
-                                    <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(4)"
-                                        id="estrela4" nota='4'></i>
-                                    <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(5)"
-                                        id="estrela5" nota='5'></i>
+                                        <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(1)"
+                                            id="estrela1" nota='1'></i>
+                                        <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(2)"
+                                            id="estrela2" nota='2'></i>
+                                        <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(3)"
+                                            id="estrela3" nota='3'></i>
+                                        <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(4)"
+                                            id="estrela4" nota='4'></i>
+                                        <i class="fa fa-star-o estrela" style="font-size: 20px" onclick="avaliar(5)"
+                                            id="estrela5" nota='5'></i>
+                                    </div>
                 @endif
             </div>
             @if ($avaliacaoAula)

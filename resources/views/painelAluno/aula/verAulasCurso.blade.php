@@ -12,9 +12,6 @@
 @section('conteudo')
     <div class="container page__container">
         <div class="media mb-headings align-items-center">
-            <div class="media-left">
-                <img src="assets/images/vuejs.png" alt="" width="80" class="rounded">
-            </div>
             <div class="media-body">
                 <h1 class="h2">{{ $curso->nome }}</h1>
             </div>

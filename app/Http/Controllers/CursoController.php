@@ -41,7 +41,7 @@ class CursoController extends Controller
                 ->orderByRaw('-ordem desc')
                 ->orderby('ordem', 'desc')
                 ->get();
-
+            
             $minutos_feitos = 0;
             $minutos_total = 0;
             $j = 0;
@@ -50,6 +50,7 @@ class CursoController extends Controller
                 if ($aulas[$i]->conclusao != null) {
                     //Aula Feita
                     $j = $i;
+                    print_r($j);
                     $minutos_feitos += $aulas[$i]->duracao;
                 }
 
@@ -57,7 +58,7 @@ class CursoController extends Controller
             }
 
             if (count($aulas)) {
-                if ($j != null) {
+                if ($j == null) {
                     $atual = $aulas[0];
                     $atual->indice = 0;
                 } else {
