@@ -265,7 +265,7 @@
                         </a>
                     </div>
                     <ul class="card list-group list-group-fit">
-                        @foreach ($aenxos as $linha)
+                        @foreach ($anexos as $linha)
                             <li class="list-group-item">
                                 <div class="media">
                                     <div class="media-body">

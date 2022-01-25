@@ -9,44 +9,61 @@
 @endsection
 
 @section('footer')
+
+<div class="modal fade" id="modalDeletar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmação</h5>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="id-delete">
+                <h3 id="div-descricao-delete"></h3>
+            </div>
+            <div class="modal-footer">
+                <a onclick="$('#modalDeletar').modal('hide');" class="btn btn-dark">Fechar</a>
+                <a onclick="excluirAjax()" class="btn btn-success">Confirmar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     <!-- Quill -->
     <script src="{{ URL::asset('template/js/select2.min.js') }}"></script>
     <script src="{{ URL::asset('template/js/dropzone.min.js') }}"></script>
     <script>
-        $(function($) {
-            Dropzone.options.myAwesomeDropzone = {
-                paramName: "arquivo", // The name that will be used to transfer the file
-                autoProcessQueue: true,
-                acceptedFiles: ".png,.jpg,.gif,.bmp,.jpeg",
-                maxFilesize: 10, // MB
-                success: function(file, response) {
+        Dropzone.options.myAwesomeDropzone = {
+            paramName: "arquivo", // The name that will be used to transfer the file
+            autoProcessQueue: true,
+            acceptedFiles: ".png,.jpg,.gif,.bmp,.jpeg",
+            maxFilesize: 10, // MB
+            success: function(file, response) {
+                Lobibox.notify('success', {
+                    size: 'mini',
+                    sound: false,
+                    icon: false,
+                    position: 'top right',
+                    msg: response
+                });
 
-                    Lobibox.notify('success', {
-                        size: 'mini',
-                        sound: false,
-                        icon: false,
-                        position: 'top right',
-                        msg: response
+                this.removeFile(file);
+                listarAnexo();
+            },
+            error: function(file, response) {
+                if (typeof response.message !== "undefined") {
+                    response.errors.arquivo.forEach(element => {
+                        response.message += '\n' + element;
                     });
 
-                    this.removeFile(file);
-                    listarAnexo();
-                },
-                error: function(file, response) {
-                    if (typeof response.message !== "undefined") {
-                        response.errors.arquivo.forEach(element => {
-                            response.message += '\n' + element;
-                        });
-
-                        $(file.previewElement).addClass("dz-error").find('.dz-error-message').text(response
-                            .message);
-                    } else {
-                        $(file.previewElement).addClass("dz-error").find('.dz-error-message').text(
+                    $(file.previewElement).addClass("dz-error").find('.dz-error-message').text(response
+                        .message);
+                } else {
+                    $(file.previewElement).addClass("dz-error").find('.dz-error-message').text(
                         response);
-                    }
-                },
-            };
-        });
+                }
+            },
+        };
 
         function prepararSubmit() {
             var texto = $(".ql-editor").html();
@@ -181,7 +198,7 @@
                 url: "{{ route('aulaListarAnexo') }}",
                 data: {
                     _token: $("input[name='_token']").val(),
-                    'id': $("#id").val()
+                    'id': {{ $item->id }}
                 },
                 dataType: 'json',
                 success: function(data) {
@@ -198,7 +215,7 @@
                             $("#div-anexos").append(div);
                         });
                     } else {
-                        $("#div-anexos").append('<h3 class="text-center">'+ data.msg +'</h3>');
+                        $("#div-anexos").append('<h3 class="text-center">' + data.msg + '</h3>');
                     }
                 }
             });
@@ -223,7 +240,7 @@
                             position: 'top right',
                             msg: data.msg
                         });
-                        $("#modalExcluir").modal("hide");
+                        $("#modalDeletar").modal("hide");
                         listarAnexo();
                     } else {
 
@@ -237,6 +254,13 @@
                     }
                 }
             });
+        }
+
+        function excluir(id, nome) {
+            $("#div-descricao-delete").text('Excluir o anexo "' + nome + '"?');
+            $("#id-delete").val(id);
+
+            $("#modalDeletar").modal("show");
         }
     </script>
     <script src="{{ URL::asset('template/vendor/quill.min.js') }}"></script>
@@ -350,7 +374,7 @@
                             <div class="col-md-12">
                                 <h4 class="pt-0">Anexos</h4>
                                 <form action="{{ route('aulaInserirAnexo') }}" method="post" class="dropzone"
-                                    id="my-awesome-dropzone"  enctype="multipart/form-data">
+                                    id="my-awesome-dropzone">
                                     @csrf
                                     <input type="hidden" name="aula_id" id="aula_id" value="{{ $item->id }}">
                                     <div class="dz-message needsclick">

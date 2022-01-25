@@ -311,8 +311,6 @@ class CursoController extends Controller
 
         //Verifica se o Update foi bem sucedido
         if ($resposta) {
-
-
             //Verifica se há imagem antiga para ser apagada e se caso exista, se é diferente do padrão
             if (@$imagemApagar and Storage::exists($imagemApagar)) {
                 //Deleta o arquivo físico da imagem antiga

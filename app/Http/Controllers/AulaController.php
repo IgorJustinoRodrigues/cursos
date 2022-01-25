@@ -668,23 +668,24 @@ class AulaController extends Controller
 
         $item = new AnexoAula();
         $item->aula_id = $request->aula_id;
+        $item->nome = $request->file('arquivo')->getClientOriginalName();
 
         //Verificação se imagem de imagem foi informado, caso seja verifica-se sua integridade
-        if (@$request->file('file') and $request->file('file')->isValid()) {
+        if (@$request->file('arquivo') and $request->file('arquivo')->isValid()) {
             //Validação das informações recebidas
             $validated = $request->validate([
-                'file' => 'required|max:10240'
+                'arquivo' => 'required|max:10240'
             ]);
 
             //Atribuição dos valores recebidos da váriavel $request após seu upload
-            $item->arquivo = $request->file->store('anexoAula');
+            $item->arquivo = $request->arquivo->store('anexoAula');
         }
 
         //Envio das informações para o banco de dados
         $item->save();
 
         //Verificação do insert
-        echo ('"' . $request->file('file')->getClientOriginalName() . '" enviado com sucesso!');
+        echo ('"' . $request->file('arquivo')->getClientOriginalName() . '" enviado com sucesso!');
     }
 
     public function listarAnexo(Request $request)
@@ -695,6 +696,7 @@ class AulaController extends Controller
             return (new Services())->redirecionar();
 
         $anexo = AnexoAula::where('aula_id', '=', $request->id)
+            ->selectRaw('*, date_format(created_at, "%d/%m/%H às %H:%i") as data')
             ->get();
 
         if (count($anexo) > 0) {
@@ -720,12 +722,26 @@ class AulaController extends Controller
             //Redirecionamento para a rota acessoAula, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
+        $anexo = AnexoAula::find($request->id);
+        if($anexo->delete()){
+            $arquivoApagar = $anexo->arquivo;
 
+            //Verifica se há imagem antiga para ser apagada e se caso exista, se é diferente do padrão
+            if (@$arquivoApagar and Storage::exists($arquivoApagar)) {
+                //Deleta o arquivo físico da imagem antiga
+                Storage::delete($arquivoApagar);
+            }
 
-        $retorno = [
-            'msg' => 'Aulas reordenadas!',
-            'status' => 1
-        ];
+            $retorno = [
+                'msg' => 'Anexo excluido!',
+                'status' => 1
+            ];
+        } else {
+            $retorno = [
+                'msg' => 'Não foi possível excluir o anexo!',
+                'status' => 0
+            ];
+        }
 
         //Resposta JSON
         return response()->json($retorno);
