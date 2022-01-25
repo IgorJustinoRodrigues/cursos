@@ -91,19 +91,19 @@
                                 </small>
                             </div>
                             <div class="media-right">
-                                @if ($i <= $aulas[$atual]->indice)
+                                @if (in_array($linha->id, $ids_feitos))
                                     <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
                                         class="btn btn-success btn-sm">
                                         Rever aula
                                         <i class="material-icons btn__icon--right">play_arrow</i>
                                     </a>
-                                @elseif($i - 1 == $aulas[$atual]->indice or $curso->aula_travada != 1)
+                                    @elseif($atual == $i - 1)
                                     <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
                                         class="btn btn-primary btn-sm">
                                         Acessar
                                         <i class="material-icons btn__icon--right">play_arrow</i>
                                     </a>
-                                @else
+                                    @else
                                     <a class="btn btn-light btn-sm">
                                         <i class="material-icons btn__icon--right">lock</i>
                                     </a>
