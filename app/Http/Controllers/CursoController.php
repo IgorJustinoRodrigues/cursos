@@ -57,7 +57,7 @@ class CursoController extends Controller
             }
 
             if (count($aulas)) {
-                if ($j == null) {
+                if ($j === null) {
                     $atual = $aulas[0];
                     $atual->indice = 0;
                 } else {
@@ -78,7 +78,6 @@ class CursoController extends Controller
             } else {
                 $porcentagem = 0;
             }
-
 
             //Exibe a tela inícial do painel de alunoistradores passando parametros para view
             return view('painelAluno.aula.verAulasCurso', [
