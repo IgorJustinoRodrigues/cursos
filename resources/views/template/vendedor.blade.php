@@ -224,7 +224,7 @@
                                     <p class="dropdown-item">
                                         {{ $_SESSION['vendedor_cursos_start']->nome }}
                                     </p>
-                                    <a class="dropdown-item" href="">
+                                    <a class="dropdown-item" href="{{ route('minhaContaVendedor') }}">
                                         <i class="material-icons">edit</i> Editar Conta
                                     </a>
                                     <a class="dropdown-item" href="{{ route('sairVendedor') }}">
