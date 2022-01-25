@@ -72,12 +72,20 @@
                                         {!! app(App\Http\Controllers\AulaController::class)->tipo($linha->tipo, $linha->avaliacao, true) !!}
                                         {{ $linha->nome }}
                                     </a>
+                                    <small class="text-muted-light ml-3">
+                                        {{ app(App\Http\Controllers\AulaController::class)->msgNota($linha->registro->nota) }}
+                                    </small>
                                 @elseif($atual == $i - 1)
                                     <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
                                         class="text-primary">
                                         {!! app(App\Http\Controllers\AulaController::class)->tipo($linha->tipo, $linha->avaliacao, true) !!}
                                         {{ $linha->nome }}
                                     </a>
+                                    @if (isset($linha->registro))
+                                        <small class="text-muted-light ml-3">
+                                            {{ app(App\Http\Controllers\AulaController::class)->msgNota($linha->registro->nota) }}
+                                        </small>
+                                    @endif
                                 @else
                                     <small class="text-muted-light"
                                         title='Conclua a aula "{{ $aulas[$atual]->nome }}" para ver essa aula'>
@@ -92,18 +100,21 @@
                             </div>
                             <div class="media-right">
                                 @if (in_array($linha->id, $ids_feitos))
+                                    <small class="text-muted-light mr-3">
+                                        Nota obtida - {{ $linha->registro->nota }}
+                                    </small>
                                     <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
                                         class="btn btn-success btn-sm">
                                         Rever aula
                                         <i class="material-icons btn__icon--right">play_arrow</i>
                                     </a>
-                                    @elseif($atual == $i - 1)
+                                @elseif($atual == $i - 1)
                                     <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
                                         class="btn btn-primary btn-sm">
                                         Acessar
                                         <i class="material-icons btn__icon--right">play_arrow</i>
                                     </a>
-                                    @else
+                                @else
                                     <a class="btn btn-light btn-sm">
                                         <i class="material-icons btn__icon--right">lock</i>
                                     </a>

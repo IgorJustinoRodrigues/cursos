@@ -623,8 +623,24 @@ class AlunoController extends Controller
 
             return response()->json($retorno);
         }
-        $aula_aluno->conclusao = date("Y-m-d H:i:s");
 
+        $aula = Aula::find($aula_aluno->aula_id);
+
+        $aula_aluno->conclusao = date("Y-m-d H:i:s");
+        if($aula->tipo == 3 and $aula->avaliacao == 1){
+            if($request->nota >= 0 and $request->nota <= 100){
+                $aula_aluno->nota = $request->nota;
+            } else {
+                $retorno = [
+                    'msg' => 'A sua nota não foi registrada. Tente novamente!',
+                    'status' => 0
+                ];
+    
+                return response()->json($retorno);
+            }
+        } else {
+            $aula_aluno->nota = 100;
+        }
         $resposta = $aula_aluno->save();
 
         if ($resposta) {

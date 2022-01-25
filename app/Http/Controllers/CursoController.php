@@ -20,9 +20,9 @@ class CursoController extends Controller
     {
         //Validação de acesso
         if (!(new Services())->validarAluno())
-        //Redirecionamento para a rota login de Administrador, com mensagem de erro, sem uma sessão ativa
-        return (new Services())->redirecionarAluno();
-        
+            //Redirecionamento para a rota login de Administrador, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarAluno();
+
         $id_aluno = $_SESSION['aluno_cursos_start']->id;
 
         $matricula = Matricula::where('aluno_id', '=', $id_aluno)
@@ -35,16 +35,16 @@ class CursoController extends Controller
             $curso = Curso::find($id_curso);
 
             $aulas = Aula::where('aulas.curso_id', '=', $id_curso)
-            ->where('aulas.status', '=', '1')
-            ->orderByRaw('-ordem desc')
-            ->orderby('ordem', 'desc')
-            ->get();
+                ->where('aulas.status', '=', '1')
+                ->orderByRaw('-ordem desc')
+                ->orderby('ordem', 'desc')
+                ->get();
 
             $aulas_feitas = AulaAluno::where('aluno_id', '=', $id_aluno)
-            ->where('curso_id', '=', $id_curso)
-            ->whereNotNull('conclusao')
-            ->get();
-          
+                ->where('curso_id', '=', $id_curso)
+                ->whereNotNull('conclusao')
+                ->get();
+
             $minutos_feitos = 0;
             $minutos_total = 0;
             $j = 0;
@@ -53,28 +53,29 @@ class CursoController extends Controller
             $atual = 9999;
             $proxima_afazer = null;
 
-            for($i = 0; $i < count($aulas); $i++){
-                if(in_array($aulas[$i]->id, $ids_feitos)){
+            for ($i = 0; $i < count($aulas); $i++) {
+                if (in_array($aulas[$i]->id, $ids_feitos)) {
                     $minutos_feitos += $aulas[$i]->duracao;
-                    
+                    $aulas[$i]->registro = $aulas_feitas->firstWhere('aula_id', $aulas[$i]->id);
                 } else {
-                    if($atual > $i){
+
+                    if ($atual > $i) {
 
                         $atual = $i;
 
-                        if(isset($aulas[$i + 1])){
+                        if (isset($aulas[$i + 1])) {
                             $proxima_afazer = $i + 1;
                         }
                     }
                 }
-                
-                if( isset($aulas[$i - 1]) and in_array($aulas[$i - 1]->id, $ids_feitos) ){
+
+                if (isset($aulas[$i - 1]) and in_array($aulas[$i - 1]->id, $ids_feitos)) {
                     $ultima_feita = $i - 1;
                 }
 
                 $minutos_total += $aulas[$i]->duracao;
             }
-            
+
             if ($minutos_feitos > 0) {
                 $porcentagem = ($minutos_feitos * 100) / $minutos_total;
             } else {
