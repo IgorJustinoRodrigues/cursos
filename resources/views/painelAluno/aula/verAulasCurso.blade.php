@@ -109,6 +109,11 @@
                                         <i class="material-icons btn__icon--right">play_arrow</i>
                                     </a>
                                 @elseif($atual == $i - 1)
+                                    @if (isset($linha->registro))
+                                        <small class="text-muted-light ml-3">
+                                            {{ app(App\Http\Controllers\AulaController::class)->msgNota($linha->registro->nota) }}
+                                        </small>
+                                    @endif
                                     <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
                                         class="btn btn-primary btn-sm">
                                         Acessar

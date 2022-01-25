@@ -58,11 +58,8 @@ class CursoController extends Controller
                     $minutos_feitos += $aulas[$i]->duracao;
                     $aulas[$i]->registro = $aulas_feitas->firstWhere('aula_id', $aulas[$i]->id);
                 } else {
-
                     if ($atual > $i) {
-
                         $atual = $i;
-
                         if (isset($aulas[$i + 1])) {
                             $proxima_afazer = $i + 1;
                         }
