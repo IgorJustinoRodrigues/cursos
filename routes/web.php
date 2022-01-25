@@ -198,6 +198,7 @@ Route::get('/vendedor-cadastro', [VendedorController::class, 'cadastro'])->name(
 Route::post('/vendedor-inserir', [VendedorController::class, 'inserir'])->name('vendedorInserir');
 Route::get('/vendedor-editar/{item}', [VendedorController::class, 'editar'])->name('vendedorEditar');
 Route::put('/vendedor-salvar/{item}', [VendedorController::class, 'salvar'])->name('vendedorSalvar');
+Route::put('/vendedor-salvar-minhas-informacoes', [VendedorController::class, 'salvarMinhasInformacoesVendedor'])->name('salvarMinhasInformacoesVendedor');
 Route::get('/vendedor-delete/{item}', [VendedorController::class, 'deletar'])->name('vendedorDeletar');
 
 /*
