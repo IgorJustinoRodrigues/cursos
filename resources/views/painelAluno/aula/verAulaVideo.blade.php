@@ -1,5 +1,7 @@
 @extends('template.aluno')
 
+@section('title', $aula->nome . ' | ' . $curso->nome)
+
 @section('link')
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('painelAluno') }}">Início</a></li>
