@@ -18,7 +18,7 @@
         </div>
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">{!! app(App\Http\Controllers\AulaController::class)->tipo($atual->tipo, $atual->avaliacao, true) !!} {{ $atual->nome }}</h4>
+                <h4 class="card-title">{!! app(App\Http\Controllers\AulaController::class)->tipo($aulas[$atual]->tipo, $aulas[$atual]->avaliacao, true) !!} {{ $aulas[$atual]->nome }}</h4>
             </div>
             <div class="card-body media align-items-center">
                 <div class="media-body row">
@@ -33,9 +33,9 @@
 
                     </div>
                     <div class="col-12 col-md-9">
-                        <h4 class="mb-0">{!! $atual->descricao !!}</h4>
-                        <span
-                            class="text-muted-light">Duração da aula: {{ app(App\Services\Services::class)->minuto_hora($atual->duracao) }}</span>
+                        <h4 class="mb-0">{!! $aulas[$atual]->descricao !!}</h4>
+                        <span class="text-muted-light">Duração da aula:
+                            {{ app(App\Services\Services::class)->minuto_hora($aulas[$atual]->duracao) }}</span>
                     </div>
                 </div>
             </div>
@@ -48,7 +48,8 @@
                     </div>
                     <small class="text-muted ml-2">{{ number_format($porcentagem, 2) }}%</small>
                 </div>
-                <a href="{{route('aula', [$curso->id, Str::slug($curso->nome, '-'), $atual->id, Str::slug($atual->nome, '-') . '.html'])}}" class="btn btn-success mt-2">Continuar curso <i
+                <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $aulas[$atual]->id, Str::slug($aulas[$atual]->nome, '-') . '.html']) }}"
+                    class="btn btn-success mt-2">Continuar curso <i
                         class="material-icons btn__icon--right">play_arrow</i></a>
             </div>
         </div>
@@ -65,19 +66,21 @@
                                 <div class="text-muted-light">{{ $i }}.</div>
                             </div>
                             <div class="media-body">
-                                @if ($i <= $atual->indice)
-                                    <a href="{{route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html'])}}" class="text-success">
+                                @if (in_array($linha->id, $ids_feitos))
+                                    <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
+                                        class="text-success">
                                         {!! app(App\Http\Controllers\AulaController::class)->tipo($linha->tipo, $linha->avaliacao, true) !!}
                                         {{ $linha->nome }}
                                     </a>
-                                @elseif($i - 1 == $atual->indice or $curso->aula_travada != 1)
-                                    <a href="{{route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html'])}}" class="text-primary">
+                                @elseif($atual == $i - 1)
+                                    <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
+                                        class="text-primary">
                                         {!! app(App\Http\Controllers\AulaController::class)->tipo($linha->tipo, $linha->avaliacao, true) !!}
                                         {{ $linha->nome }}
                                     </a>
                                 @else
                                     <small class="text-muted-light"
-                                        title='Conclua a aula "{{ $atual->nome }}" para ver essa aula'>
+                                        title='Conclua a aula "{{ $aulas[$atual]->nome }}" para ver essa aula'>
                                         {!! app(App\Http\Controllers\AulaController::class)->tipo($linha->tipo, $linha->avaliacao, true) !!}
                                         {{ $linha->nome }}
                                     </small>
@@ -88,13 +91,15 @@
                                 </small>
                             </div>
                             <div class="media-right">
-                                @if ($i <= $atual->indice)
-                                    <a href="{{route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html'])}}" class="btn btn-success btn-sm">
+                                @if ($i <= $aulas[$atual]->indice)
+                                    <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
+                                        class="btn btn-success btn-sm">
                                         Rever aula
                                         <i class="material-icons btn__icon--right">play_arrow</i>
                                     </a>
-                                @elseif($i - 1 == $atual->indice or $curso->aula_travada != 1)
-                                    <a href="{{route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html'])}}" class="btn btn-primary btn-sm">
+                                @elseif($i - 1 == $aulas[$atual]->indice or $curso->aula_travada != 1)
+                                    <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
+                                        class="btn btn-primary btn-sm">
                                         Acessar
                                         <i class="material-icons btn__icon--right">play_arrow</i>
                                     </a>

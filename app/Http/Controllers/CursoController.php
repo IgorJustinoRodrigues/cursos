@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aula;
+use App\Models\AulaAluno;
 use App\Models\Canvas;
 use App\Models\CategoriaCurso;
 use App\Models\Curso;
@@ -17,10 +18,14 @@ class CursoController extends Controller
 
     public function verAulas($id_curso, $link = '')
     {
-        //Inícia a Sessão
-        @session_start();
+        //Validação de acesso
+        if (!(new Services())->validarAluno())
+        //Redirecionamento para a rota login de Administrador, com mensagem de erro, sem uma sessão ativa
+        return (new Services())->redirecionarAluno();
+        
+        $id_aluno = $_SESSION['aluno_cursos_start']->id;
 
-        $matricula = Matricula::where('aluno_id', '=', $_SESSION['aluno_cursos_start']->id)
+        $matricula = Matricula::where('aluno_id', '=', $id_aluno)
             ->where('curso_id', '=', $id_curso)
             ->where('status', '=', 1)
             ->first();
@@ -28,51 +33,48 @@ class CursoController extends Controller
         if ($matricula) {
 
             $curso = Curso::find($id_curso);
-            $aulas = Aula::join('cursos', 'cursos.id', '=', 'aulas.curso_id')
-                ->join('matriculas', 'matriculas.curso_id', '=', 'cursos.id')
-                ->leftjoin('aula_alunos', function ($aula_alunos) {
-                $aula_alunos->on('aulas.id', '=', 'aula_alunos.aula_id')
-                    ->on('matriculas.aluno_id', '=', 'aula_alunos.aluno_id');
-                })
-                ->where('aulas.curso_id', '=', $id_curso)
-                ->where('aulas.status', '=', '1')
-                ->selectRaw('aula_alunos.*, aulas.*')
-                ->groupBy('aulas.id')
-                ->orderByRaw('-ordem desc')
-                ->orderby('ordem', 'desc')
-                ->get();
-            
+
+            $aulas = Aula::where('aulas.curso_id', '=', $id_curso)
+            ->where('aulas.status', '=', '1')
+            ->orderByRaw('-ordem desc')
+            ->orderby('ordem', 'desc')
+            ->get();
+
+            $aulas_feitas = AulaAluno::where('aluno_id', '=', $id_aluno)
+            ->where('curso_id', '=', $id_curso)
+            ->whereNotNull('conclusao')
+            ->get();
+          
             $minutos_feitos = 0;
             $minutos_total = 0;
             $j = 0;
+            $ids_feitos = data_get($aulas_feitas, '*.aula_id');
+            $ultima_feita = null;
+            $atual = 9999;
+            $proxima_afazer = null;
 
-            for ($i = 0; $i < count($aulas); $i++) {
-                if ($aulas[$i]->conclusao != null) {
-                    //Aula Feita
-                    $j = $i;
+            for($i = 0; $i < count($aulas); $i++){
+                if(in_array($aulas[$i]->id, $ids_feitos)){
                     $minutos_feitos += $aulas[$i]->duracao;
+                    
+                } else {
+                    if($atual > $i){
+
+                        $atual = $i;
+
+                        if(isset($aulas[$i + 1])){
+                            $proxima_afazer = $i + 1;
+                        }
+                    }
+                }
+                
+                if( isset($aulas[$i - 1]) and in_array($aulas[$i - 1]->id, $ids_feitos) ){
+                    $ultima_feita = $i - 1;
                 }
 
                 $minutos_total += $aulas[$i]->duracao;
             }
-
-            if (count($aulas)) {
-                if ($j === null) {
-                    $atual = $aulas[0];
-                    $atual->indice = 0;
-                } else {
-                    if (isset($aulas[$j + 1]) and $aulas[$j]->conclusao != null) {
-                        $atual = $aulas[$j + 1];
-                        $atual->indice = $j + 1;
-                    } else {
-                        $atual = $aulas[$j];
-                        $atual->indice = $j;
-                    }
-                }
-            } else {
-                return redirect()->route('alunoCursos')->with('atencao', 'O curso selecionado não pode ser acessado no momento, tente mais tarde!');
-            }
-
+            
             if ($minutos_feitos > 0) {
                 $porcentagem = ($minutos_feitos * 100) / $minutos_total;
             } else {
@@ -83,10 +85,13 @@ class CursoController extends Controller
             return view('painelAluno.aula.verAulasCurso', [
                 'curso' => $curso,
                 'aulas' => $aulas,
+                'ids_feitos' => $ids_feitos,
                 'minutos_feitos' => $minutos_feitos,
                 'minutos_total' => $minutos_total,
                 'porcentagem' => $porcentagem,
-                'atual' => $atual
+                'ultima_feita' => $ultima_feita,
+                'atual' => $atual,
+                'proxima_afazer' => $proxima_afazer
             ]);
         } else {
             return redirect()->route('alunoCursos')->with('atencao', 'Selecione um de seus cursos!');
