@@ -74,11 +74,11 @@
                         @if ($linha->porcentagem == 100)
                             <a href="{{ route('verAulas', [$linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
                                 class="btn btn-primary btn-sm">Rever Aulas <i
-                                    class="material-icons btn__icon--right">play_circle_outline</i></a>
+                                    class="material-icons btn__icon--right">autorenew</i></a>
 
                             <a href="{{ route('verAulas', [$linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
                                 class="btn btn-success btn-sm">Certificado <i
-                                    class="material-icons btn__icon--right">play_circle_outline</i></a>
+                                    class="material-icons btn__icon--right">beenhere</i></a>
                         @else
                             <a href="{{ route('verAulas', [$linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
                                 class="btn btn-primary btn-sm">Acessar Aulas <i
@@ -91,6 +91,10 @@
         <!-- paginação -->
         {{ $paginacao->links('template.paginacao.aluno', ['busca' => $busca]) }}
     </div>
-
+    <div class="d-flex">
+        <div class="flex">
+            <a href="{{ route('painelAluno') }}" class="btn btn-default btn-wide">Voltar</a>
+        </div>
+    </div>
 
 @endsection

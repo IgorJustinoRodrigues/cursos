@@ -98,30 +98,45 @@
 
                 <ul class="list-group list-group-fit mb-0" style="z-index: initial;">
 
-                    @foreach ($meusCursos as $linha)                        
-                    <li class="list-group-item" style="z-index: initial; background-color: #f6f6f6;">
-                        <div class="d-flex align-items-center">
-                            <div class="flex">
-                                <a href="" class="text-body"><strong>{{ $linha->curso }}</strong></a>
-                                <div class="d-flex align-items-center">
-                                    <small class="text-muted ml-2">0%&nbsp;</small>
-                                    <div class="progress" style="width: 100px;">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 00%"
-                                            aria-valuenow="00" aria-valuemin="0" aria-valuemax="100"></div>
+                    @foreach ($meusCursos as $linha)
+                        <li class="list-group-item" style="z-index: initial; background-color: #f6f6f6;">
+                            <div class="d-flex align-items-center">
+                                <div class="flex">
+                                    <a href="" class="text-body"><strong>{{ $linha->nome }}</strong></a>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress" style="width: {{ $linha->porcentagem }}px;">
+                                            <div class="progress-bar bg-success" role="progressbar"
+                                                style="width: {{ $linha->porcentagem }}%" aria-valuenow="00"
+                                                aria-valuemin="0" aria-valuemax="{{ $linha->porcentagem }}"></div>
+                                        </div>
+                                        <small class="text-muted ml-2">{{ $linha->porcentagem }}%&nbsp;</small>
                                     </div>
-                                    <small class="text-muted ml-2">O curso ainda não foi ativado! Clique no código para ativar: <a href="">{{$linha->ativacao }}</a></small>
+                                    <small class="text-muted">Aulas concluidas: {{ $linha->total_aula_concluido }} de
+                                        {{ $linha->total_aula }}</small>
+                            </div>
+                                <div class="dropdown ml-3">
+                                    <a href="#" class="dropdown-toggle text-muted" data-caret="false"
+                                        data-toggle="dropdown">
+                                        <i class="material-icons">more_vert</i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        @if ($linha->porcentagem == 100)
+                                            <a href="{{ route('verAulas', [$linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
+                                                class="dropdown-item">Rever Aulas <i
+                                                    class="material-icons btn__icon--right">autorenew</i></a>
+
+                                            <a href="{{ route('verAulas', [$linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
+                                                class="dropdown-item">Certificado <i
+                                                    class="material-icons btn__icon--right">beenhere</i></a>
+                                        @else
+                                            <a href="{{ route('verAulas', [$linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
+                                                class="dropdown-item" >Acessar Aulas <i
+                                                    class="material-icons btn__icon--right">play_circle_outline</i></a>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                            <div class="dropdown ml-3">
-                                <a href="#" class="dropdown-toggle text-muted" data-caret="false" data-toggle="dropdown">
-                                    <i class="material-icons">more_vert</i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="">Continuar</a>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
+                        </li>
                     @endforeach
 
                 </ul>
@@ -141,22 +156,24 @@
                 </div>
 
                 <ul class="list-group list-group-fit mb-0">
-                    @foreach ($ultimasAulas as $linha)                        
-                    <li class="list-group-item">
-                        <div class="media align-items-center">
-                            <div class="media-body">
-                                <a class="text-body" href="student-quiz-results.html"><strong>{{ $linha->aula }}</strong></a><br>
-                                <div class="d-flex align-items-center">
-                                    <small class="text-black-50 text-uppercase mr-2">Curso</small>
-                                    <a href="">{{ $linha->curso }}</a>
+                    @foreach ($ultimasAulas as $linha)
+                        <li class="list-group-item">
+                            <div class="media align-items-center">
+                                <div class="media-body">
+                                    <a class="text-body"
+                                        href="student-quiz-results.html"><strong>{{ $linha->aula }}</strong></a><br>
+                                    <div class="d-flex align-items-center">
+                                        <small class="text-black-50 text-uppercase mr-2">Curso</small>
+                                        <a href="">{{ $linha->curso }}</a>
+                                    </div>
+                                </div>
+                                <div class="media-right text-center d-flex align-items-center">
+                                    <span
+                                        class="text-black-50 mr-3">{{ app(App\Http\Controllers\AulaController::class)->msgNota($linha->nota) }}</span>
+                                    <h4 class="mb-0">{{ $linha->nota }}%</h4>
                                 </div>
                             </div>
-                            <div class="media-right text-center d-flex align-items-center">
-                                <span class="text-black-50 mr-3">{{ app(App\Http\Controllers\AulaController::class)->msgNota($linha->nota) }}</span>
-                                <h4 class="mb-0">{{ $linha->nota }}%</h4>
-                            </div>
-                        </div>
-                    </li>
+                        </li>
                     @endforeach
                 </ul>
             </div>

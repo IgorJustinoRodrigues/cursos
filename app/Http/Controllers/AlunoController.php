@@ -66,10 +66,29 @@ class AlunoController extends Controller
 
         $categorias = CategoriaCurso::where("status", '=', '1')->get();
 
-        $meusCursos = Matricula::join('cursos', 'matriculas.curso_id', '=', 'cursos.id')
+        $meusCursos = $consulta = Matricula::join('cursos', 'cursos.id', '=', 'matriculas.curso_id')
+            ->join('aulas', 'cursos.id', '=', 'aulas.curso_id')
+            ->leftjoin('aula_alunos', function ($aula_alunos) {
+                $aula_alunos->on('aulas.id', '=', 'aula_alunos.aula_id')
+                    ->on('matriculas.aluno_id', '=', 'aula_alunos.aluno_id');
+            })
             ->where('matriculas.aluno_id', '=', $_SESSION['aluno_cursos_start']->id)
-            ->selectRaw('matriculas.*, cursos.nome as curso')
+            ->where('cursos.status', '=', 1)
+            ->where('aulas.status', '=', 1)
+            ->where('matriculas.status', '=', 1)
+            ->selectRaw('cursos.*, count(aulas.id) as total_aula, count(aula_alunos.conclusao) as total_aula_concluido')
+            ->groupBy('cursos.id')
+            ->orderBy('aula_alunos.created_at', 'desc')
+            ->limit(4)
             ->get();
+
+        for ($i = 0; $i < count($meusCursos); $i++) {
+            if ($meusCursos[$i]->total_aula_concluido > 0) {
+                $meusCursos[$i]->porcentagem = ($meusCursos[$i]->total_aula_concluido * 100) / $meusCursos[$i]->total_aula;
+            } else {
+                $meusCursos[$i]->porcentagem = 0;
+            }
+        }
 
         $ultimasAulas = AulaAluno::join('aulas', 'aula_alunos.aula_id', '=', 'aulas.id')
             ->join('cursos', 'aula_alunos.curso_id', '=', 'cursos.id')
@@ -583,6 +602,7 @@ class AlunoController extends Controller
             })
             ->where('matriculas.aluno_id', '=', $_SESSION['aluno_cursos_start']->id)
             ->where('cursos.status', '=', 1)
+            ->where('aulas.status', '=', 1)
             ->where('matriculas.status', '=', 1);
 
         if (@$request->busca != '') {
@@ -662,9 +682,9 @@ class AlunoController extends Controller
             $porcentagem = 0;
         }
 
-        if($aula->avaliacao == 1){
-            if($porcentagem >= 60){
-                if($aula_aluno->nota == null or $aula_aluno->nota < $porcentagem){
+        if ($aula->avaliacao == 1) {
+            if ($porcentagem >= 60) {
+                if ($aula_aluno->nota == null or $aula_aluno->nota < $porcentagem) {
                     $nota = $porcentagem;
 
                     $aula_aluno->conclusao = date('Y-m-d H:i:s');
