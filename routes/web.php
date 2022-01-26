@@ -103,6 +103,7 @@ Route::get('/verifica-email-aluno', [AlunoController::class, 'verificaEmailAluno
 
 //Rota Painel Parceiro Raiz
 Route::get('/painel-parceiro', [ParceiroController::class, 'painel'])->name('painelParceiro');
+Route::get('/minha-conta-parceiro', [VendedorController::class, 'minhaContaParceiro'])->name('minhaContaParceiro');
 
 /*
 ROTAS DE PARCEIRO

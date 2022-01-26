@@ -262,18 +262,13 @@
                                             href="#account_menu">
                                             <i
                                                 class="sidebar-menu-icon sidebar-menu-icon--left material-icons">person_outline</i>
-                                            Parceiro
+                                            Minha Conta
                                             <span class="ml-auto sidebar-menu-toggle-icon"></span>
                                         </a>
                                         <ul class="sidebar-submenu sm-indent collapse" id="account_menu">
                                             <li class="sidebar-menu-item">
                                                 <a class="sidebar-menu-button" href="{{ route('parceiroIndex') }}">
-                                                    <span class="sidebar-menu-text">Listar</span>
-                                                </a>
-                                            </li>
-                                            <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('parceiroCadastro') }}">
-                                                    <span class="sidebar-menu-text">Cadastro</span>
+                                                    <span class="sidebar-menu-text">Editar Informações</span>
                                                 </a>
                                             </li>
                                         </ul>
@@ -289,7 +284,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalConfirmacao" tabindex="-1" aria-labelledby="confirmacaoLabel" aria-hidden="true">
+    <div class="modal fade" id="modalConfirmacao" tabindex="-1" aria-labelledby="confirmacaoLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
