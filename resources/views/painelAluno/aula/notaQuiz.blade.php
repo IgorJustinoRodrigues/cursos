@@ -23,77 +23,52 @@
     <div class="card">
         <div class="card-body media align-items-center">
             <div class="media-body">
-                <h4 class="mb-0">A sua nota foi {{ $nota }}</h4>
-                <span class="text-muted-light">{{ app(App\Http\Controllers\AulaController::class)->msgNota($nota) }}</span>
+                @if ($aula->avaliacao == 1)
+                    <h4 class="mb-0">{{ app(App\Http\Controllers\AulaController::class)->msgNota($nota) }}</h4>
+                    <span class="text-muted-light">Quiz avaliativo, o seu desempenho foi {{ $nota }}</span>
+                @else
+                    <h4 class="mb-0">Aula concluida!</h4>
+                    <span class="text-muted-light">Quiz não avaliativo, o seu desempenho foi {{ $nota }}</span>
+                @endif
             </div>
             <div class="media-right">
-                @if($nota >= 60)
-                <a href="fixed-student-take-quiz.html" class="btn btn-primary">Voltar para aulas</a>
+                @if ($nota >= 60)
+                    <a href="{{ route('verAulas', [$curso->id, Str::slug($curso->nome, '-') . '.html']) }}"
+                        class="btn btn-primary">Voltar para aulas</a>
                 @else
-                <a href="fixed-student-take-quiz.html" class="btn btn-warning">Tentar novamente <i class="material-icons btn__icon--right">refresh</i></a>
+                    <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $aula->id, Str::slug($aula->nome, '-') . '.html']) }}"
+                        class="btn btn-warning">Tentar novamente <i class="material-icons btn__icon--right">refresh</i></a>
                 @endif
             </div>
         </div>
     </div>
     <div class="card">
         <div class="card-header">
-            <h4 class="card-title">Questions</h4>
+            <h4 class="card-title">Correção</h4>
         </div>
         <ul class="list-group list-group-fit mb-0">
-            <li class="list-group-item">
-                <div class="media">
-                    <div class="media-left">
-                        <div class="text-muted-light">1.</div>
+            @foreach ($pergunta_certa as $linha)
+                <li class="list-group-item">
+                    <div class="media">
+                        <div class="media-body">
+                            {{ $linha->pergunta }}
+                            <div class="text-muted-light">Resposta marcada: {{ $linha->marcada->resposta }}</div>
+                        </div>
+                        <div class="media-right"><span class="badge badge-success">Correta</span></div>
                     </div>
-                    <div class="media-body">Installation</div>
-                    <div class="media-right"><span class="badge badge-success ">Correct</span></div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div class="media">
-                    <div class="media-left">
-                        <div class="text-muted-light">2.</div>
+                </li>
+            @endforeach
+            @foreach ($pergunta_errada as $linha)
+                <li class="list-group-item">
+                    <div class="media">
+                        <div class="media-body">
+                            {{ $linha->pergunta }}
+                            <div class="text-muted-light">Resposta marcada: {{ $linha->marcada->resposta }}</div>
+                        </div>
+                        <div class="media-right"><span class="badge badge-danger ">Incorreta</span></div>
                     </div>
-                    <div class="media-body">The MVC architectural pattern</div>
-                    <div class="media-right"><span class="badge badge-success ">Correct</span></div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div class="media">
-                    <div class="media-left">
-                        <div class="text-muted-light">3.</div>
-                    </div>
-                    <div class="media-body">Database Models</div>
-                    <div class="media-right"><span class="badge badge-success ">Correct</span></div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div class="media">
-                    <div class="media-left">
-                        <div class="text-muted-light">4.</div>
-                    </div>
-                    <div class="media-body">Database Access</div>
-                    <div class="media-right"><span class="badge badge-danger ">Wrong</span></div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div class="media">
-                    <div class="media-left">
-                        <div class="text-muted-light">5.</div>
-                    </div>
-                    <div class="media-body">Eloquent Basics</div>
-                    <div class="media-right"><span class="badge badge-primary ">Pending Review</span></div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div class="media">
-                    <div class="media-left">
-                        <div class="text-muted-light">6.</div>
-                    </div>
-                    <div class="media-body">Take Quiz</div>
-                    <div class="media-right"><span class="badge badge-success ">Correct</span></div>
-                </div>
-            </li>
+                </li>
+            @endforeach
         </ul>
     </div>
 @endsection

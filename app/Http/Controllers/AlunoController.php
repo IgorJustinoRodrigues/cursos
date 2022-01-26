@@ -619,18 +619,15 @@ class AlunoController extends Controller
         $aluno_id = $_SESSION['aluno_cursos_start']->id;
 
         $aula = Aula::find($aula_id);
+        $curso = Curso::find($curso_id);
         $aula_aluno = AulaAluno::where('curso_id', '=', $curso_id)->where('aula_id', '=', $aula_id)->where('aluno_id', '=', $aluno_id)->first();
-
-        if(!isset($aula_aluno) or $aula_aluno->concluido != null){
-            //Redirecionamento para tela anterior com mensagem de erro
-            return redirect()->back()->with('atencao', 'Essa aula já foi concluida!');
-        }
 
         $acertos = 0;
         $erro = 0;
         $i = 0;
 
         $pergunta_errada = array();
+        $pergunta_certa = array();
 
         foreach ($request->pergunta_id as $linha) {
             $pergunta = Perguntas::find($linha);
@@ -640,7 +637,10 @@ class AlunoController extends Controller
             if ($pergunta) {
                 $resposta = Respostas::where('pergunta_id', '=', $pergunta->id)->find($request->input($indiceResposta));
                 if ($resposta) {
+                    $pergunta->marcada = $resposta;
+
                     if ($resposta->correta == 1) {
+                        $pergunta_certa[] = $pergunta;
                         $acertos++;
                     } else {
                         $pergunta_errada[] = $pergunta;
@@ -657,16 +657,24 @@ class AlunoController extends Controller
         }
 
         if ($acertos > 0) {
-            $porcentagem = ($acertos * 100) / ($acertos + $erro);
+            $porcentagem = number_format(($acertos * 100) / ($acertos + $erro), 2, '.', '');
         } else {
             $porcentagem = 0;
         }
 
-        if($porcentagem >= 60){
-            $nota = $porcentagem;
+        if($aula->avaliacao == 1){
+            if($porcentagem >= 60){
+                if($aula_aluno->nota == null or $aula_aluno->nota < $porcentagem){
+                    $nota = $porcentagem;
 
+                    $aula_aluno->conclusao = date('Y-m-d H:i:s');
+                    $aula_aluno->nota = $nota;
+                    $aula_aluno->save();
+                }
+            }
+        } else {
             $aula_aluno->conclusao = date('Y-m-d H:i:s');
-            $aula_aluno->nota = $nota;
+            $aula_aluno->nota = '100';
 
             $aula_aluno->save();
         }
@@ -675,7 +683,10 @@ class AlunoController extends Controller
         return view('painelAluno.aula.notaQuiz', [
             'nota' => $porcentagem,
             'aula' => $aula,
-            'aula_aluno' => $aula_aluno
+            'curso' => $curso,
+            'aula_aluno' => $aula_aluno,
+            'pergunta_errada' => $pergunta_errada,
+            'pergunta_certa' => $pergunta_certa
         ]);
     }
 
