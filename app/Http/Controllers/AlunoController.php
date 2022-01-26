@@ -12,7 +12,9 @@ use App\Models\Canvas;
 use App\Models\CategoriaCurso;
 use App\Models\Curso;
 use App\Models\Matricula;
+use App\Models\Perguntas;
 use App\Models\Professor;
+use App\Models\Respostas;
 use App\Models\Servico;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -604,6 +606,77 @@ class AlunoController extends Controller
         return view('painelAluno.aula.verCursos', ['paginacao' => $items, 'busca' => @$request->busca]);
     }
 
+    public function concluirAulaQuiz(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarAluno())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarAluno();
+
+        //Atribuição dos valores
+        $aula_id = $request->aula_id;
+        $curso_id = $request->curso_id;
+        $aluno_id = $_SESSION['aluno_cursos_start']->id;
+
+        $aula = Aula::find($aula_id);
+        $aula_aluno = AulaAluno::where('curso_id', '=', $curso_id)->where('aula_id', '=', $aula_id)->where('aluno_id', '=', $aluno_id)->first();
+
+        if(!isset($aula_aluno) or $aula_aluno->concluido != null){
+            //Redirecionamento para tela anterior com mensagem de erro
+            return redirect()->back()->with('atencao', 'Essa aula já foi concluida!');
+        }
+
+        $acertos = 0;
+        $erro = 0;
+        $i = 0;
+
+        $pergunta_errada = array();
+
+        foreach ($request->pergunta_id as $linha) {
+            $pergunta = Perguntas::find($linha);
+
+            $indiceResposta = "resposta" . $i;
+
+            if ($pergunta) {
+                $resposta = Respostas::where('pergunta_id', '=', $pergunta->id)->find($request->input($indiceResposta));
+                if ($resposta) {
+                    if ($resposta->correta == 1) {
+                        $acertos++;
+                    } else {
+                        $pergunta_errada[] = $pergunta;
+                        $erro++;
+                    }
+                } else {
+                    return redirect()->back()->with('atencao', "Encontramos um erro. Tente novamente!");
+                }
+            } else {
+                return redirect()->back()->with('atencao', "Encontramos um erro. Tente novamente!");
+            }
+
+            $i++;
+        }
+
+        if ($acertos > 0) {
+            $porcentagem = ($acertos * 100) / ($acertos + $erro);
+        } else {
+            $porcentagem = 0;
+        }
+
+        if($porcentagem >= 60){
+            $nota = $porcentagem;
+
+            $aula_aluno->conclusao = date('Y-m-d H:i:s');
+            $aula_aluno->nota = $nota;
+
+            $aula_aluno->save();
+        }
+
+        //Exibe a tela de cadastro de aula
+        return view('painelAluno.aula.notaQuiz', [
+
+        ]);
+    }
+
     public function concluirAula(Request $request)
     {
         //Validação de acesso
@@ -627,15 +700,15 @@ class AlunoController extends Controller
         $aula = Aula::find($aula_aluno->aula_id);
 
         $aula_aluno->conclusao = date("Y-m-d H:i:s");
-        if($aula->tipo == 3 and $aula->avaliacao == 1){
-            if($request->nota >= 0 and $request->nota <= 100){
+        if ($aula->tipo == 3 and $aula->avaliacao == 1) {
+            if ($request->nota >= 0 and $request->nota <= 100) {
                 $aula_aluno->nota = $request->nota;
             } else {
                 $retorno = [
                     'msg' => 'A sua nota não foi registrada. Tente novamente!',
                     'status' => 0
                 ];
-    
+
                 return response()->json($retorno);
             }
         } else {
@@ -668,7 +741,7 @@ class AlunoController extends Controller
         //Atribuição dos valores
         $aula_aluno_id = $request->aula_aluno;
 
-        if($request->nota < 0 and $request->nota > 5){
+        if ($request->nota < 0 and $request->nota > 5) {
             $retorno = [
                 'msg' => 'Acesso incorreto!',
                 'status' => 0
@@ -864,6 +937,16 @@ class AlunoController extends Controller
         $avaliacaoAula = AulaAluno::where('curso_id', '=', $curso->id)
             ->where('aula_id', '=', $aula->id)
             ->avg('avaliacao_aula');
+
+        if ($aula->tipo == 3) {
+            $perguntas = Perguntas::where('aulas_id', '=', $aula->id)->inRandomOrder()->get();
+
+            for ($i = 0; $i < count($perguntas); $i++) {
+                $perguntas[$i]->respostas = Respostas::where('pergunta_id', '=', $perguntas[$i]->id)->inRandomOrder()->get();
+            }
+
+            $aula->perguntas = $perguntas;
+        }
 
         switch ($aula->tipo) {
             case 1:

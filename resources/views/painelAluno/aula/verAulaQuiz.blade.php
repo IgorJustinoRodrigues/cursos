@@ -29,8 +29,10 @@
 @endsection
 
 @section('conteudo')
-    @csrf
-    <div class="row">
+    <form class="row" action="{{ route('concluirAulaQuiz') }}" method="post">
+        @csrf
+        <input type="hidden" name="aula_id" value="{{ $aula->id }}">
+        <input type="hidden" name="curso_id" value="{{ $curso->id }}">
         <div class="col-md-12 mb-2">
             <div class="card">
                 <div class="card-body">
@@ -44,116 +46,46 @@
                     {{ $aula->descricao }}
                 </div>
             </div>
-            <div class="card">
-                <div class="card-header">
-                    <div class="media align-items-center">
-                        <div class="media-left">
-                            <h4 class="mb-0"><strong>#9</strong></h4>
+            @php $i = 1; @endphp
+            @foreach ($aula->perguntas as $pergunta)
+                <div class="card">
+                    <div class="card-header">
+                        <div class="media align-items-center">
+                            <div class="media-left">
+                                <h4 class="mb-0"><strong>#{{ $i }}</strong></h4>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="card-title">
+                                    {{ $pergunta->pergunta }}
+                                </h4>
+                            </div>
                         </div>
-                        <div class="media-body">
-                            <h4 class="card-title">
-                                Github command to deploy comits?
-                            </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="custom-controls-stacked">
+                            <input type="hidden" name="pergunta_id[]" value="{{ $pergunta->id }}">
+                            @foreach ($pergunta->respostas as $respostas)
+                                <div class="custom-control custom-radio">
+                                    <input id="resposta{{ $respostas->id }}" name="resposta{{$i - 1}}"
+                                        value="{{ $respostas->id }}" type="radio" class="custom-control-input" required>
+                                    <label for="resposta{{ $respostas->id }}"
+                                        class="custom-control-label">{{ $respostas->resposta }}</label>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="custom-controls-stacked">
-                        <div class="custom-control custom-radio">
-                            <input id="radioStacked1" name="radio-stacked" type="radio" class="custom-control-input">
-                            <label for="radioStacked1" class="custom-control-label">Toggle this custom radio</label>
-                        </div>
-                        <div class="custom-control custom-radio">
-                            <input id="radioStacked2" name="radio-stacked" type="radio" class="custom-control-input">
-                            <label for="radioStacked2" class="custom-control-label">Or toggle this other custom radio</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <div class="media align-items-center">
-                        <div class="media-left">
-                            <h4 class="mb-0"><strong>#9</strong></h4>
-                        </div>
-                        <div class="media-body">
-                            <h4 class="card-title">
-                                Github command to deploy comits?
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="custom-controls-stacked">
-                        <div class="custom-control custom-radio">
-                            <input id="radioStacked1" name="radio-stacked" type="radio" class="custom-control-input">
-                            <label for="radioStacked1" class="custom-control-label">Toggle this custom radio</label>
-                        </div>
-                        <div class="custom-control custom-radio">
-                            <input id="radioStacked2" name="radio-stacked" type="radio" class="custom-control-input">
-                            <label for="radioStacked2" class="custom-control-label">Or toggle this other custom radio</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <div class="media align-items-center">
-                        <div class="media-left">
-                            <h4 class="mb-0"><strong>#9</strong></h4>
-                        </div>
-                        <div class="media-body">
-                            <h4 class="card-title">
-                                Github command to deploy comits?
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="custom-controls-stacked">
-                        <div class="custom-control custom-radio">
-                            <input id="radioStacked1" name="radio-stacked" type="radio" class="custom-control-input">
-                            <label for="radioStacked1" class="custom-control-label">Toggle this custom radio</label>
-                        </div>
-                        <div class="custom-control custom-radio">
-                            <input id="radioStacked2" name="radio-stacked" type="radio" class="custom-control-input">
-                            <label for="radioStacked2" class="custom-control-label">Or toggle this other custom radio</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <div class="media align-items-center">
-                        <div class="media-left">
-                            <h4 class="mb-0"><strong>#9</strong></h4>
-                        </div>
-                        <div class="media-body">
-                            <h4 class="card-title">
-                                Github command to deploy comits?
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="custom-controls-stacked">
-                        <div class="custom-control custom-radio">
-                            <input id="radioStacked1" name="radio-stacked" type="radio" class="custom-control-input">
-                            <label for="radioStacked1" class="custom-control-label">Toggle this custom radio</label>
-                        </div>
-                        <div class="custom-control custom-radio">
-                            <input id="radioStacked2" name="radio-stacked" type="radio" class="custom-control-input">
-                            <label for="radioStacked2" class="custom-control-label">Or toggle this other custom radio</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                @php $i++; @endphp
+            @endforeach
+
             <div class="card">
                 <div class="card-footer">
-                    <a href="#" class="btn btn-white">Skip</a>
-                    <a href="#" class="btn btn-success float-right">Submit <i class="material-icons btn__icon--right">send</i></a>
+                    <a href="{{ route('verAulas', [$curso->id, Str::slug($curso->nome, '-') . '.html']) }}"
+                        class="btn btn-white">Voltar para aulas</a>
+                    <button type="submit" class="btn btn-primary float-right">Corrigir <i
+                            class="material-icons btn__icon--right">send</i></button>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 @endsection

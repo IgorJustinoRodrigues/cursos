@@ -17,30 +17,36 @@
             </div>
         </div>
         <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">{!! app(App\Http\Controllers\AulaController::class)->tipo($aulas[$atual]->tipo, $aulas[$atual]->avaliacao, true) !!} {{ $aulas[$atual]->nome }}</h4>
-            </div>
-            <div class="card-body media align-items-center">
-                <div class="media-body row">
-                    <div class="col-12 col-md-3">
-                        @if ($curso->imagem != '')
-                            <img src="{{ URL::asset('storage/' . $curso->imagem) }}" alt="" style="width: 100%"
-                                class="rounded">
-                        @else
-                            <img src="{{ URL::asset('storage/imagemCurso/padrao.png') }}" alt="" style="width: 100%"
-                                class="rounded">
-                        @endif
-
-                    </div>
-                    <div class="col-12 col-md-9">
-                        <h4 class="mb-0">{!! $aulas[$atual]->descricao !!}</h4>
-                        <span class="text-muted-light">Duração da aula:
-                            {{ app(App\Services\Services::class)->minuto_hora($aulas[$atual]->duracao) }}</span>
-                    </div>
+            @if (isset($aulas[$atual]))
+                <div class="card-header">
+                    <h4 class="card-title">{!! app(App\Http\Controllers\AulaController::class)->tipo($aulas[$atual]->tipo, $aulas[$atual]->avaliacao, true) !!} {{ $aulas[$atual]->nome }}</h4>
                 </div>
+                <div class="card-body media align-items-center">
+                    <div class="media-body row">
+                        <div class="col-12 col-md-3">
+                            @if ($curso->imagem != '')
+                                <img src="{{ URL::asset('storage/' . $curso->imagem) }}" alt="" style="width: 100%"
+                                    class="rounded">
+                            @else
+                                <img src="{{ URL::asset('storage/imagemCurso/padrao.png') }}" alt="" style="width: 100%"
+                                    class="rounded">
+                            @endif
+
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <h4 class="mb-0">{!! $aulas[$atual]->descricao !!}</h4>
+                            <span class="text-muted-light">Duração da aula:
+                                {{ app(App\Services\Services::class)->minuto_hora($aulas[$atual]->duracao) }}</span>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            @else   
+            <div class="card-header">
+                <h4 class="card-title">Parabéns você concluiu o curso!</h4>
             </div>
+            @endif
             <div class="card-body">
-                <hr>
                 <div class="d-flex align-items-center">
                     <div class="progress" style="width: 100%;">
                         <div class="progress-bar bg-primary" role="progressbar" style="width: {{ $porcentagem }}%"
@@ -48,9 +54,11 @@
                     </div>
                     <small class="text-muted ml-2">{{ number_format($porcentagem, 2) }}%</small>
                 </div>
-                <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $aulas[$atual]->id, Str::slug($aulas[$atual]->nome, '-') . '.html']) }}"
-                    class="btn btn-success mt-2">Continuar curso <i
-                        class="material-icons btn__icon--right">play_arrow</i></a>
+                @if (isset($aulas[$atual]))
+                    <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $aulas[$atual]->id, Str::slug($aulas[$atual]->nome, '-') . '.html']) }}"
+                        class="btn btn-success mt-2">Continuar curso <i
+                            class="material-icons btn__icon--right">play_arrow</i></a>
+                @endif
             </div>
         </div>
         <div class="card">
