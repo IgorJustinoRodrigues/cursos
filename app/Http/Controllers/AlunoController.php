@@ -673,7 +673,9 @@ class AlunoController extends Controller
 
         //Exibe a tela de cadastro de aula
         return view('painelAluno.aula.notaQuiz', [
-
+            'nota' => $porcentagem,
+            'aula' => $aula,
+            'aula_aluno' => $aula_aluno
         ]);
     }
 
