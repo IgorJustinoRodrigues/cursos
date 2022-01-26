@@ -83,7 +83,7 @@
                                     <small class="text-muted-light ml-3">
                                         {{ app(App\Http\Controllers\AulaController::class)->msgNota($linha->registro->nota) }}
                                     </small>
-                                @elseif($atual == $i - 1)
+                                @elseif($atual == $i - 1 or $curso->aula_travada == 2)
                                     <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
                                         class="text-primary">
                                         {!! app(App\Http\Controllers\AulaController::class)->tipo($linha->tipo, $linha->avaliacao, true) !!}
@@ -116,7 +116,7 @@
                                         Rever aula
                                         <i class="material-icons btn__icon--right">play_arrow</i>
                                     </a>
-                                @elseif($atual == $i - 1)
+                                @elseif($atual == $i - 1 or $curso->aula_travada == 2)
                                     @if (isset($linha->registro))
                                         <small class="text-muted-light ml-3">
                                             {{ app(App\Http\Controllers\AulaController::class)->msgNota($linha->registro->nota) }}
