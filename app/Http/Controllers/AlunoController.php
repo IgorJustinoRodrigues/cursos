@@ -659,14 +659,21 @@ class AlunoController extends Controller
             $porcentagem = 0;
         }
 
-        if($porcentagem >= 60){
-            if($aula_aluno->nota == null or $aula_aluno->nota < $porcentagem){
-                $nota = $porcentagem;
+        if($aula->avaliacao == 1){
+            if($porcentagem >= 60){
+                if($aula_aluno->nota == null or $aula_aluno->nota < $porcentagem){
+                    $nota = $porcentagem;
 
-                $aula_aluno->conclusao = date('Y-m-d H:i:s');
-                $aula_aluno->nota = $nota;
-                $aula_aluno->save();
+                    $aula_aluno->conclusao = date('Y-m-d H:i:s');
+                    $aula_aluno->nota = $nota;
+                    $aula_aluno->save();
+                }
             }
+        } else {
+            $aula_aluno->conclusao = date('Y-m-d H:i:s');
+            $aula_aluno->nota = '100';
+
+            $aula_aluno->save();
         }
 
         //Exibe a tela de cadastro de aula
