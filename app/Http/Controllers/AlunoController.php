@@ -654,7 +654,7 @@ class AlunoController extends Controller
         }
 
         if ($acertos > 0) {
-            $porcentagem = ($acertos * 100) / ($acertos + $erro);
+            $porcentagem = number_format(($acertos * 100) / ($acertos + $erro), 2, '.', '');
         } else {
             $porcentagem = 0;
         }
