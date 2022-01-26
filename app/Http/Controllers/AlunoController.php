@@ -627,6 +627,7 @@ class AlunoController extends Controller
         $i = 0;
 
         $pergunta_errada = array();
+        $pergunta_certa = array();
 
         foreach ($request->pergunta_id as $linha) {
             $pergunta = Perguntas::find($linha);
@@ -636,10 +637,12 @@ class AlunoController extends Controller
             if ($pergunta) {
                 $resposta = Respostas::where('pergunta_id', '=', $pergunta->id)->find($request->input($indiceResposta));
                 if ($resposta) {
+                    $pergunta->marcada = $resposta;
+
                     if ($resposta->correta == 1) {
+                        $pergunta_certa[] = $pergunta;
                         $acertos++;
                     } else {
-                        $pergunta->marcada = $resposta;
                         $pergunta_errada[] = $pergunta;
                         $erro++;
                     }
@@ -682,7 +685,8 @@ class AlunoController extends Controller
             'aula' => $aula,
             'curso' => $curso,
             'aula_aluno' => $aula_aluno,
-            'pergunta_errada' => $pergunta_errada
+            'pergunta_errada' => $pergunta_errada,
+            'pergunta_certa' => $pergunta_certa
         ]);
     }
 
