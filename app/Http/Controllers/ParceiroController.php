@@ -295,43 +295,38 @@ class ParceiroController extends Controller
     }
 
 
-    /*
+   /*
     Função Login de Parceiro
-    - Responsável pelo login do parceiroistrador ao painel
+    - Responsável pelo login do parceiro ao painel
     - $request: Recebe as credênciais de acesso informadas pelo internauta
     */
     public function login(Request $request)
     {
+        //Inícia a Sessão
+        @session_start();
+
+
         //Validação das informações recebidas
         $validated = $request->validate([
-            'usuario' => 'required|max:20',
-            'senha' => 'required'
+            'usuario' => 'required',
+            'senha' => 'required|min:6'
         ]);
 
         //Atribuição dos valores recebidos da váriavel $request para o objeto $item
         $usuario = $request->usuario;
-        $senha = $request->senha;
+        $senha = md5($request->senha);
 
         //Seleciona o parceiro no banco de dados, usando as credencias de acesso
-        $item = Parceiro::where('usuario', '=', $usuario)->where('senha', '=', $senha)->where('status', '=', 1)->first();
+        $item = Parceiro::selectRaw("*, date_format(created_at, '%d/%m/%Y') as cadastro, date_format(updated_at, '%d/%m/%Y às %H:%i') as ultimo_acesso_parceiro")->where('usuario', '=', $usuario)->where('senha', '=', $senha)->where('status', '=', 1)->first();
+
+
 
         //Verifica se existe um parceiro com as credênciais informadas
         if (@$item->id != null and is_numeric($item->id)) {
-            //Inícia a Sessão
-            @session_start();
-
-            //Obtem e preenche as informaçõs do parceiro encontrado
-            $logado['id_parceiro'] = $item->id;
-            $logado['nome_parceiro'] = $item->nome;
-            $logado['logo_parceiro'] = $item->logo;
-            $logado['usuario_parceiro'] = $item->usuario;
-            $logado['status_parceiro'] = $item->status;
-            $logado['visibilidade_parceiro'] = $item->visibilidade;
-            $logado['cadastro_parceiro'] = $item->created_at->format('d/m/Y') . ' às ' . $item->created_at->format('H:i');
-            $logado['ultimo_acesso_parceiro'] = $item->updated_at->format('d/m/Y') . ' às ' . $item->updated_at->format('H:i');
 
             //Cria uma sessão com as informações
-            $_SESSION['parceiro_cursos_start'] = $logado;
+            $_SESSION['parceiro_cursos_start'] = $item;
+
 
             //Verifica se o campo lembrar senha estava selecionado
             if (@$request->remember) {
@@ -344,17 +339,34 @@ class ParceiroController extends Controller
                 Cookie::expire('parceiro_senha');
             }
 
-            //Atualiza a data e hora do campo updated_at
             $item->touch();
 
             //Redirecionamento para a rota painelParceiro, com mensagem de sucesso, com uma sessão ativa
-            return redirect()->route('painelParceiro')->with('sucesso', 'Olá ' . $item->nome . ', você acessou o sistema com o perfil de parceiros!');
+            return redirect()->route('painelParceiro')->with('sucesso', 'Olá ' . $item->nome . ', você acessou o sistema com o perfil de "' . $this->tipo($item->id) . '"');
         } else {
             //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
-            return redirect()->back()->with('atencao', 'Usuário e/ou senha incorretos!')->withInput(
+            return redirect()->route('acessoParceiro')->with('atencao', 'Usuário e/ou senha incorretos!')->withInput(
                 $request->except('senha')
             );
         }
+    }
+
+     /*
+    Função Minha Conta de Parceiro
+    - Responsável exibir a view de minha conta de parceiro painel do parceiro
+    */
+    public function minhaContaParceiro()
+    {
+        //Validação de acesso
+        if (!(new Services())->validarParceiro())
+            //Redirecionamento para a rota acessoAluno, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarParceiro();
+
+        $item = Parceiro::find($_SESSION['parceiro_cursos_start']->id);
+
+        return view('painelParceiro.parceiro.minhaConta', [
+            'item' => $item
+        ]);
     }
 
     /*
@@ -415,6 +427,22 @@ class ParceiroController extends Controller
             case 2:
                 //Retorna o visibilidade Não Vísivel
                 return 'Não Visível';
+                break;
+        }
+    }
+
+      /*
+    Função Tipo de Admin
+    - Responsável por exibir o tipo do parceiro
+    - $tipo: Recebe o Id do tipo do parceiro
+    */
+    public function tipo($tipo)
+    {
+        //Verifica o tipo do parceiro
+        switch ($tipo) {
+            case 1:
+                //Retorna o tipo Parceiro
+                return 'Parceiro';
                 break;
         }
     }

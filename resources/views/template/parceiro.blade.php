@@ -202,17 +202,17 @@
                             <!-- User dropdown -->
                             <li class="nav-item dropdown ml-1 ml-md-3">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"><img
-                                        src="{{ URL::asset('storage/' . $_SESSION['parceiro_cursos_start']['logo_parceiro']) }}"
+                                        src="{{ URL::asset('storage/' . $_SESSION['parceiro_cursos_start']->logo) }}"
                                         alt="Avatar" class="rounded-circle" width="40"></a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <p class="dropdown-item">
-                                        {{ $_SESSION['parceiro_cursos_start']['nome_parceiro'] }}
+                                        {{ $_SESSION['parceiro_cursos_start']->nome }}
                                     </p>
                                     <a class="dropdown-item" href="{{ route('painelParceiro') }}">
                                         <i class="material-icons">person</i> Perfil
                                     </a>
                                     <a class="dropdown-item"
-                                        href="{{ route('parceiroEditar', $_SESSION['parceiro_cursos_start']['id_parceiro']) }}">
+                                        href="{{ route('parceiroEditar', $_SESSION['parceiro_cursos_start']->id) }}">
                                         <i class="material-icons">edit</i> Editar Conta
                                     </a>
                                     <a class="dropdown-item" href="{{ route('sairParceiro') }}">
@@ -220,7 +220,7 @@
                                     </a>
                                     <p class="dropdown-item" style="font-size: 10px">
                                         Último acesso
-                                        em:<br>{{ $_SESSION['parceiro_cursos_start']['ultimo_acesso_parceiro'] }}
+                                        em:<br>{{ $_SESSION['parceiro_cursos_start']->ultimo_acesso_parceiro }}
                                     </p>
                                 </div>
                             </li>
@@ -267,7 +267,7 @@
                                         </a>
                                         <ul class="sidebar-submenu sm-indent collapse" id="account_menu">
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('parceiroIndex') }}">
+                                                <a class="sidebar-menu-button" href="{{ route('minhaContaParceiro') }}">
                                                     <span class="sidebar-menu-text">Editar Informações</span>
                                                 </a>
                                             </li>

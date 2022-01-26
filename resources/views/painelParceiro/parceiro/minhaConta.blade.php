@@ -1,6 +1,6 @@
-@extends('template.vendedor')
-@section('title', 'Painel de vendedor')
-@section('menu-minhaConta', 'true')
+@extends('template.parceiro')
+@section('title', 'Painel de Parceiro')
+@section('menu-parceiro', 'true')
 
 @section('footer')
     <!-- Global Settings -->
@@ -147,18 +147,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="list-group-item">
-                            <div role="group" aria-labelledby="label-email" class="m-0 form-group">
-                                <div class="form-row">
-                                    <label id="label-email" for="email"
-                                        class="col-md-2 col-form-label form-label">E-mail</label>
-                                    <div class="col-md-10">
-                                        <input type="text" id="email" value="{{ $item->email }}" name="email"
-                                            class="form-control" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="list-group-item">
                             <div role="group" aria-labelledby="label-usuario" class="m-0 form-group">
                                 <div class="form-row">
@@ -189,25 +178,6 @@
                                                 onkeyup="verificaSenha()" />
                                             <div id="msg-senha"></div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="list-group-item">
-                            <div role="group" aria-labelledby="label-cpf" class="m-0 form-group">
-                                <div class="form-row">
-                                    <label id="label-cpf" for="cpf"
-                                        class="col-md-2 col-form-label form-label">CPF</label>
-                                    <div class="col-md-4">
-                                        <input type="text" id="cpf" name="cpf" value="{{ $item->cpf }}"
-                                            class="form-control cpf" />
-                                    </div>
-                                    <label id="label-whatsapp" for="whatsapp"
-                                        class="col-md-2 col-form-label form-label">WhatsApp</label>
-                                    <div class="col-md-4">
-                                        <input type="text" id="whatsapp" name="whatsapp" value="{{ $item->whatsapp }}"
-                                            class="form-control telefone" onkeyup="addMask('whatsapp')" />
                                     </div>
                                 </div>
                             </div>

@@ -99,7 +99,7 @@ class Services
         @session_start();
 
         //Verifica se não existe uma sessão ativa de parceiro
-        if (!isset($_SESSION['parceiro_cursos_start']) or !is_numeric($_SESSION['parceiro_cursos_start']['id_parceiro'])) {
+        if (!isset($_SESSION['parceiro_cursos_start']) or !is_numeric($_SESSION['parceiro_cursos_start']->id)) {
             //Expira a sessão
             unset($_SESSION['parceiro_cursos_start']);
             return false;
