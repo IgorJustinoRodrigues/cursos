@@ -2,6 +2,10 @@
 @section('title', 'Painel de Parceiro')
 @section('menu-parceiro', 'true')
 
+
+@section('header')
+    <link type="text/css" href="{{ URL::asset('template/css/quill.css') }}" rel="stylesheet">
+@endsection
 @section('footer')
     <!-- Global Settings -->
     <script src="{{ URL::asset('template/js/settings.js') }}"></script>
@@ -10,9 +14,20 @@
     <script src="{{ URL::asset('template/vendor/moment.min.js') }}"></script>
     <script src="{{ URL::asset('template/vendor/moment-range.js') }}"></script>
 
+    <!-- Quill -->
+    <script src="{{ URL::asset('template/vendor/quill.min.js') }}"></script>
+    <script src="{{ URL::asset('template/js/quill.js') }}"></script>
+
     <!-- jQuery Mask Plugin -->
     <script src="{{ URL::asset('template/vendor/jquery.mask.min.js') }}"></script>
     <script>
+        function prepararSubmit() {
+            var sobre = $(".ql-editor").html();
+            $("#input-sobre").val(sobre);
+
+            return true;
+        }
+
         $('.cpf').mask('000.000.000-00');
 
         function addMask(id) {
@@ -79,10 +94,11 @@
 
 @section('conteudo')
     <div class="container page__container p-0">
-        <form action="{{ route('salvarMinhasInformacoesVendedor') }}" method="post" enctype="multipart/form-data"
-            class="row m-0">
+        <form action="{{ route('salvarMinhasInformacoesParceiro') }}" onsubmit="return prepararSubmit();" method="post"
+            enctype="multipart/form-data" class="row m-0">
             @csrf
             @method('PUT')
+            <input type="hidden" name="sobre" id="input-sobre">
             <div class="col-lg container-fluid page__container">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('painelAluno') }}">Início</a></li>
@@ -182,9 +198,22 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="list-group-item">
+                            <div role="group" aria-labelledby="label-sobre" class="m-0 form-group">
+                                <div class="form-row">
+                                    <label id="label-sobre" for="sobre"
+                                        class="col-md-2 col-form-label form-label">Sobre</label>
+                                    <div class="form-control" id="sobre" data-toggle="quill" style="height: 150px;">
+                                        {!! $item->sobre !!}</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+
             <div id="page-nav" class="col-lg-auto page-nav">
                 <div data-perfect-scrollbar="" class="ps">
                     <div class="page-section pt-lg-32pt">

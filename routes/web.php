@@ -113,6 +113,7 @@ Route::get('/parceiro-cadastro', [ParceiroController::class, 'cadastro'])->name(
 Route::post('/parceiro-inserir', [ParceiroController::class, 'inserir'])->name('parceiroInserir');
 Route::get('/parceiro-editar/{item}', [ParceiroController::class, 'editar'])->name('parceiroEditar');
 Route::put('/parceiro-salvar/{item}', [ParceiroController::class, 'salvar'])->name('parceiroSalvar');
+Route::put('/parceiro-salvar-minhas-informacoes', [ParceiroController::class, 'salvarMinhasInformacoesParceiro'])->name('salvarMinhasInformacoesParceiro');
 Route::get('/parceiro-delete/{item}', [ParceiroController::class, 'deletar'])->name('parceiroDeletar');
 Route::get('/parceiro-resete-senha/{item}', [ParceiroController::class, 'reseteSenha'])->name('parceiroReseteSenha');
 

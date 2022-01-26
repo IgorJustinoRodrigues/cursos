@@ -369,6 +369,93 @@ class ParceiroController extends Controller
         ]);
     }
 
+    public function salvarMinhasInformacoesParceiro(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarParceiro())
+            //Redirecionamento para a rota acessoParceiro, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarParceiro();
+
+        //inicia sessão
+        @session_start();
+
+        $id = $_SESSION['parceiro_cursos_start']->id;
+
+        //Validação das informações recebidas
+        $validated = $request->validate([
+            'nome' => 'required',
+        ]);
+
+        $item = Parceiro::selectRaw("*, date_format(created_at, '%d/%m/%Y') as cadastro, date_format(updated_at, '%d/%m/%Y às %H:%i') as ultimo_acesso_parceiro")
+            ->find($id);
+
+        //Atribuição dos valores recebidos da váriavel $request
+        $item->nome = $request->nome;
+        $item->sobre = $request->sobre;
+        $item->usuario = $request->usuario;
+
+        if (@$request->senha != '') {
+            $validated = $request->validate([
+                'senha' => 'required',
+                'senha2' => 'required|same:senha'
+            ]);
+
+            //Atribuição dos valores recebidos da váriavel $request para o objeto $item
+            $item->senha = MD5($request->senha);
+        }
+
+        //Verificação se uma nova imagem de logo foi informado, caso seja verifica-se sua integridade
+        if (@$request->file('logo') and $request->file('logo')->isValid()) {
+            //Validação das informações recebidas
+            $validated = $request->validate([
+                'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5120'
+            ]);
+
+            //Salva o nome da antiga imagem para ser apagada em caso de sucesso
+            $logoApagar = $item->logo;
+            //Atribuição dos valores recebidos da váriavel $request após seu upload
+            $item->logo = $request->logo->store('logoParceiro');
+
+            //Nova instância do Model Canvas
+            $img = new Canvas();
+
+            //Edição da imagem recebida com a Class Canva 
+            $img->carrega(public_path('storage/' . $item->logo))
+                ->hexa('#FFFFFF')
+                ->redimensiona(600, 600, 'preenchimento')
+                ->grava(public_path('storage/' . $item->logo), 80);
+        }
+
+        //Envio das informações para o banco de dados
+        $resposta = $item->save();
+
+        //Verifica se o Update foi bem sucedido
+        if ($resposta) {
+
+            $_SESSION['parceiro_cursos_start'] = $item;
+
+            if ($request->hasCookie('parceiro_usuario') != false) {
+                //Criar o Cookie com as credênciais com validade de 3 dias
+                Cookie::queue('parceiro_usuario', $request->usuario, 4320);
+                Cookie::queue('parceiro_senha', $request->senha, 4320);
+            }
+
+
+            //Verifica se há imagem antiga para ser apagada e se caso exista, se é diferente do padrão
+            if (@$logoApagar and Storage::exists($logoApagar) and $logoApagar != 'logoParceiro/padrao.png') {
+                //Deleta o arquivo físico da imagem antiga
+                Storage::delete($logoApagar);
+            }
+
+            //Redirecionamento para a rota parceiroIndex, com mensagem de sucesso
+            return redirect()->back()->with('sucesso', 'Edições salvas!');
+        } else {
+            //Redirecionamento para tela anterior com mensagem de erro
+            return redirect()->back()->with('atencao', 'Algo deu errado, tente novamente!');
+        }
+    }
+
+
     /*
     Função Sair de Parceiro
     - Responsável pelo logoff do painel do parceiro

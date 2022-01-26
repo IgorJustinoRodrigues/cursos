@@ -66,9 +66,9 @@
                         </button>
 
                         <!-- Brand -->
-                        <a href="student-dashboard.html" class="navbar-brand">
-                            <img src="{{ URL::asset('imagem/logo-start-branca.svg') }}" style="width: 170px;"
-                                class="mr-2" alt="LearnPlus">
+                        <a href="{{ route('painelParceiro') }}" class="navbar-brand">
+                            <img src="{{ URL::asset('imagem/Logo.svg') }}" style="width: 170px;"
+                                class="mr-2" alt="logo">
                         </a>
                         <div class="flex"></div>
 
