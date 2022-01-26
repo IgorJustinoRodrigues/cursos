@@ -10,6 +10,7 @@ use App\Services\Services;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class VendedorController extends Controller
 {
@@ -379,7 +380,7 @@ class VendedorController extends Controller
     {
         //Validação de acesso
         if (!(new Services())->validarVendedor())
-            //Redirecionamento para a rota acessoParceiro, com mensagem de erro, sem uma sessão ativa
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionarVendedor();
 
         //Exibe a tela inícial do painel de vendedor passando parametros para view
@@ -548,5 +549,66 @@ class VendedorController extends Controller
                 return 'Vendedor';
                 break;
         }
+    }
+
+
+    /*
+    Função Valida Usuário
+    - Responsável por verificar se usuário de login já existe
+    */
+    public function validaUsuarioVendedor(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarVendedor())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarVendedor();
+
+        //Atribuição dos valores
+      
+        $usuario = $request->usuario;
+        $id = @$request->id;
+
+        //Verificação do tamanho do usuário informado
+        if (Str::length($usuario) >= 3) {
+                       
+                    //Consulta que busca se já existe um usuario no banco com o mesmo usuario
+                    $resultado = Vendedor::where('usuario', '=', $usuario)->first();
+
+                    //Verifica se existe
+                    if ($resultado) {
+                        //Verifica se o id informado é igual ao da consulta
+                        if ($resultado->id == $id) {
+                            //Retorno de usuário atual 
+                            $retorno = [
+                                'msg' => 'Usuário atual!',
+                                'tipo' => '3',
+                                'status' => 1
+                            ];
+                        } else {
+                            //Retorno de usuário não disponível
+                            $retorno = [
+                                'msg' => 'Usuário "' . $usuario . '", não está disponível!',
+                                'tipo' => '2',
+                                'status' => 1
+                            ];
+                        }
+                    } else {
+                        //Retorno do usuário disponível
+                        $retorno = [
+                            'msg' => 'Usuário disponível!',
+                            'tipo' => '1',
+                            'status' => 1
+                        ];
+                    }   
+           
+        } else {
+            $retorno = [
+                'msg' => 'O usuário deve ter no mínimo 3 caracteres!',
+                'status' => 0
+            ];
+        }
+
+        //Resposta JSON
+        return response()->json($retorno);
     }
 }

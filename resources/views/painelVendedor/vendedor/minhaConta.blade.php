@@ -74,6 +74,69 @@
                 }
             }
         }
+
+        function validaUsuario() {
+            var usuario = $("#usuario").val();
+            var id = $("#id").val();
+
+            if (usuario == '') {
+                $("#retorno-usuario").text('');
+                return null;
+            }
+
+            $.ajax({
+                type: 'post',
+                url: "{{ route('validaUsuarioVendedor') }}",
+                data: {
+                    usuario: usuario,
+                    id: id,
+                    _token: $("input[name='_token']").val()
+                },
+                dataType: 'json',
+                beforeSend: function() {
+                    $("#retorno-usuario").text('Consultado...');
+                },
+                success: function(data) {
+                    if (data.status == '1') {
+                        $("#retorno-usuario").removeClass('text-success');
+                        $("#retorno-usuario").removeClass('text-danger');
+                        $("#retorno-usuario").removeClass('text-primary');
+
+                        if (data.tipo == 1) {
+                            $("#retorno-usuario").addClass('text-success');
+                        } else if (data.tipo == 2) {
+                            $("#retorno-usuario").addClass('text-danger');
+                            $("#usuario").val('');
+                        } else {
+                            $("#retorno-usuario").addClass('text-primary');
+                        }
+
+                        $("#retorno-usuario").text(data.msg);
+                    } else {
+                        Lobibox.notify('warning', {
+                            size: 'mini',
+                            sound: false,
+                            icon: false,
+                            position: 'top right',
+                            msg: data.msg
+                        });
+                        $("#retorno-usuario").text('');
+                        $("#usuario").val('');
+                    }
+                },
+                error: function(data) {
+                    Lobibox.notify('error', {
+                        size: 'mini',
+                        sound: false,
+                        icon: false,
+                        position: 'top right',
+                        msg: "O sistema está passando por instabilidades no momento! Tente novamente mais tarde."
+                    });
+                }
+            });
+        }
+
+        validaUsuario();
     </script>
 @endsection
 
@@ -83,6 +146,7 @@
             class="row m-0">
             @csrf
             @method('PUT')
+            <input type="hidden" name="id" id="id" value="{{ $item->id }}">
             <div class="col-lg container-fluid page__container">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('painelAluno') }}">Início</a></li>
@@ -165,8 +229,9 @@
                                     <label id="label-usuario" for="usuario"
                                         class="col-md-2 col-form-label form-label">Usuário</label>
                                     <div class="col-md-10">
-                                        <input type="text" id="usuario" value="{{ $item->usuario }}" name="usuario"
-                                            class="form-control" />
+                                        <input type="text" onchange="validaUsuario()" id="usuario"
+                                            value="{{ $item->usuario }}" name="usuario" class="form-control" />
+                                        <small id="retorno-usuario" class="form-text"></small>
                                     </div>
                                 </div>
                             </div>
@@ -197,8 +262,7 @@
                         <div class="list-group-item">
                             <div role="group" aria-labelledby="label-cpf" class="m-0 form-group">
                                 <div class="form-row">
-                                    <label id="label-cpf" for="cpf"
-                                        class="col-md-2 col-form-label form-label">CPF</label>
+                                    <label id="label-cpf" for="cpf" class="col-md-2 col-form-label form-label">CPF</label>
                                     <div class="col-md-4">
                                         <input type="text" id="cpf" name="cpf" value="{{ $item->cpf }}"
                                             class="form-control cpf" />

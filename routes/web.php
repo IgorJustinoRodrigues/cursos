@@ -204,7 +204,7 @@ Route::get('/vendedor-editar/{item}', [VendedorController::class, 'editar'])->na
 Route::put('/vendedor-salvar/{item}', [VendedorController::class, 'salvar'])->name('vendedorSalvar');
 Route::put('/vendedor-salvar-minhas-informacoes', [VendedorController::class, 'salvarMinhasInformacoesVendedor'])->name('salvarMinhasInformacoesVendedor');
 Route::get('/vendedor-delete/{item}', [VendedorController::class, 'deletar'])->name('vendedorDeletar');
-
+Route::post('/vendedor-valida-usuario', [VendedorController::class, 'validaUsuarioVendedor'])->name('validaUsuarioVendedor');
 /*
 ROTAS DE LOGIN E LOGOFF DE PARCEIRO
 */
