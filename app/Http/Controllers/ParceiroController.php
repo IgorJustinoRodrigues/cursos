@@ -537,7 +537,7 @@ class ParceiroController extends Controller
         }
     }
 
-    
+
     /*
     Função Valida Usuário
     - Responsável por verificar se usuário de login já existe
@@ -658,7 +658,7 @@ class ParceiroController extends Controller
                         ];
                     }
                     break;
-             
+
                 default:
                     $retorno = [
                         'msg' => 'Paramêtros incorretos!',
