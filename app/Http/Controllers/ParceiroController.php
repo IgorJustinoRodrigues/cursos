@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Canvas;
 use App\Models\Parceiro;
+use App\Models\Unidade;
+use App\Models\Vendedor;
 use App\Services\Services;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ParceiroController extends Controller
 {
@@ -160,7 +163,7 @@ class ParceiroController extends Controller
         //Verifica se há algum parceiro selecionado
         if (@$item) {
 
-            if($item->status == 0){
+            if ($item->status == 0) {
                 return redirect()->route('parceiroIndex')->with('atencao', 'Parceiro excluido!');
             }
 
@@ -295,7 +298,7 @@ class ParceiroController extends Controller
     }
 
 
-   /*
+    /*
     Função Login de Parceiro
     - Responsável pelo login do parceiro ao painel
     - $request: Recebe as credênciais de acesso informadas pelo internauta
@@ -351,7 +354,7 @@ class ParceiroController extends Controller
         }
     }
 
-     /*
+    /*
     Função Minha Conta de Parceiro
     - Responsável exibir a view de minha conta de parceiro painel do parceiro
     */
@@ -518,7 +521,7 @@ class ParceiroController extends Controller
         }
     }
 
-      /*
+    /*
     Função Tipo de Admin
     - Responsável por exibir o tipo do parceiro
     - $tipo: Recebe o Id do tipo do parceiro
@@ -532,5 +535,145 @@ class ParceiroController extends Controller
                 return 'Parceiro';
                 break;
         }
+    }
+
+
+    /*
+    Função Valida Usuário
+    - Responsável por verificar se usuário de login já existe
+    */
+    public function validaUsuarioParceiro(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarParceiro())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarParceiro();
+
+        //Atribuição dos valores
+        $tabela = $request->tabela;
+        $usuario = $request->usuario;
+        $id = @$request->id;
+
+        //Verificação do tamanho do usuário informado
+        if (Str::length($usuario) >= 3) {
+            //Direcionamento para a tabela desejada
+            switch ($tabela) {
+                    //Caso de parceiro
+                case 'parceiro':
+                    //Consulta que busca se já existe um usuario no banco com o mesmo usuario
+                    $resultado = Parceiro::where('usuario', '=', $usuario)->first();
+
+                    //Verifica se existe
+                    if ($resultado) {
+                        //Verifica se o id informado é igual ao da consulta
+                        if ($resultado->id == $id) {
+                            //Retorno de usuário atual 
+                            $retorno = [
+                                'msg' => 'Usuário atual!',
+                                'tipo' => '3',
+                                'status' => 1
+                            ];
+                        } else {
+                            //Retorno de usuário não disponível
+                            $retorno = [
+                                'msg' => 'Usuário "' . $usuario . '", não está disponível!',
+                                'tipo' => '2',
+                                'status' => 1
+                            ];
+                        }
+                    } else {
+                        //Retorno do usuário disponível
+                        $retorno = [
+                            'msg' => 'Usuário disponível!',
+                            'tipo' => '1',
+                            'status' => 1
+                        ];
+                    }
+                    break;
+
+
+
+                    //Caso de vendedor
+                case 'vendedor':
+                    //Consulta que busca se já existe um usuario no banco com o mesmo usuario
+                    $resultado = Vendedor::where('usuario', '=', $usuario)->first();
+
+                    //Verifica se existe
+                    if ($resultado) {
+                        //Verifica se o id informado é igual ao da consulta
+                        if ($resultado->id == $id) {
+                            //Retorno de usuário atual 
+                            $retorno = [
+                                'msg' => 'Usuário atual!',
+                                'tipo' => '3',
+                                'status' => 1
+                            ];
+                        } else {
+                            //Retorno de usuário não disponível
+                            $retorno = [
+                                'msg' => 'Usuário "' . $usuario . '", não está disponível!',
+                                'tipo' => '2',
+                                'status' => 1
+                            ];
+                        }
+                    } else {
+                        //Retorno do usuário disponível
+                        $retorno = [
+                            'msg' => 'Usuário disponível!',
+                            'tipo' => '1',
+                            'status' => 1
+                        ];
+                    }
+                    break;
+
+                    //Caso de unidade
+                case 'unidade':
+                    //Consulta que busca se já existe um usuario no banco com o mesmo usuario
+                    $resultado = Unidade::where('usuario', '=', $usuario)->first();
+
+                    //Verifica se existe
+                    if ($resultado) {
+                        //Verifica se o id informado é igual ao da consulta
+                        if ($resultado->id == $id) {
+                            //Retorno de usuário atual 
+                            $retorno = [
+                                'msg' => 'Usuário atual!',
+                                'tipo' => '3',
+                                'status' => 1
+                            ];
+                        } else {
+                            //Retorno de usuário não disponível
+                            $retorno = [
+                                'msg' => 'Usuário "' . $usuario . '", não está disponível!',
+                                'tipo' => '2',
+                                'status' => 1
+                            ];
+                        }
+                    } else {
+                        //Retorno do usuário disponível
+                        $retorno = [
+                            'msg' => 'Usuário disponível!',
+                            'tipo' => '1',
+                            'status' => 1
+                        ];
+                    }
+                    break;
+
+                default:
+                    $retorno = [
+                        'msg' => 'Paramêtros incorretos!',
+                        'status' => 0
+                    ];
+                    break;
+            }
+        } else {
+            $retorno = [
+                'msg' => 'O usuário deve ter no mínimo 3 caracteres!',
+                'status' => 0
+            ];
+        }
+
+        //Resposta JSON
+        return response()->json($retorno);
     }
 }

@@ -20,8 +20,8 @@
             var tabela = 'parceiro';
             var usuario = $("#usuario").val();
             var id = $("#id").val();
-            
-            if(usuario == ''){
+
+            if (usuario == '') {
                 $("#retorno-usuario").text('');
                 return null;
             }
@@ -44,10 +44,10 @@
                         $("#retorno-usuario").removeClass('text-success');
                         $("#retorno-usuario").removeClass('text-danger');
                         $("#retorno-usuario").removeClass('text-primary');
-                        
-                        if(data.tipo == 1){
+
+                        if (data.tipo == 1) {
                             $("#retorno-usuario").addClass('text-success');
-                        } else if(data.tipo == 2){
+                        } else if (data.tipo == 2) {
                             $("#retorno-usuario").addClass('text-danger');
                             $("#usuario").val('');
                         } else {
@@ -125,11 +125,11 @@
 
                             <div class="col-12 col-md-6 mb-3">
                                 <label class="form-label" for="usuario">Usuário</label>
-                                <input type="usuario" class="form-control" id="usuario" onchange="validaUsuario()" name="usuario"
-                                    placeholder="Usuário" value="{{ $item->usuario }}" required="">
+                                <input type="usuario" class="form-control" id="usuario" onchange="validaUsuario()"
+                                    name="usuario" placeholder="Usuário" value="{{ $item->usuario }}" required="">
                                 <small id="retorno-usuario" class="form-text"></small>
                             </div>
-                           
+
                             <div class="col-12 col-md-12 mb-3">
                                 <label class="form-label">Sobre</label>
                                 <div class="form-control" id="sobre" data-toggle="quill" style="height: 150px;">

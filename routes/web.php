@@ -116,6 +116,7 @@ Route::put('/parceiro-salvar/{item}', [ParceiroController::class, 'salvar'])->na
 Route::put('/parceiro-salvar-minhas-informacoes', [ParceiroController::class, 'salvarMinhasInformacoesParceiro'])->name('salvarMinhasInformacoesParceiro');
 Route::get('/parceiro-delete/{item}', [ParceiroController::class, 'deletar'])->name('parceiroDeletar');
 Route::get('/parceiro-resete-senha/{item}', [ParceiroController::class, 'reseteSenha'])->name('parceiroReseteSenha');
+Route::post('/parceiro-valida-usuario', [ParceiroController::class, 'validaUsuarioParceiro'])->name('validaUsuarioParceiro');
 
 
 /*
