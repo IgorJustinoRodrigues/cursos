@@ -409,7 +409,9 @@ class UnidadeController extends Controller
             //Redirecionamento para a rota acessoAluno, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionarUnidade();
 
-        $item = Unidade::find($_SESSION['unidade_cursos_start']->id);
+            $item = Unidade::join('parceiros', 'unidades.parceiro_id', '=', 'parceiros.id')
+            ->selectRaw("unidades.*, parceiros.nome as parceiro")
+            ->find($_SESSION['unidade_cursos_start']->id);
 
         return view('painelUnidade.unidade.minhaConta', [
             'item' => $item

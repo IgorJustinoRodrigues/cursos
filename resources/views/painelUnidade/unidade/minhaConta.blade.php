@@ -180,11 +180,13 @@
                         <div class="list-group-item">
                             <div role="group" aria-labelledby="label-unidade" class="m-0 form-group">
                                 <div class="form-row">
-                                    <label id="label-unidade" for="unidade"
-                                        class="col-md-12 col-form-label form-label">Minha Unidade</label>
-                                    <label id="label-unidade" for="unidade" class="col-md-12 col-form-label form-label">
-                                        <h3>{{ $item->unidade }}</h3>
-                                    </label>
+                                    <label id="label-parceiro" for="parceiro"
+                                    class="col-md-2 col-form-label form-label">Unidade Matriz:</label>
+                                    <div class="col-md-10">
+                                        <label id="label-unidade" for="unidade" class="col-md-12 col-form-label form-label">
+                                            <h3>{{ $item->parceiro }}</h3>
+                                        </label>
+                                    </div>
 
                                 </div>
                             </div>
@@ -193,7 +195,7 @@
                             <div role="group" aria-labelledby="label-logo" class="m-0 form-group">
                                 <div class="form-row">
                                     <label id="label-logo" for="logo"
-                                        class="col-md-2 col-form-label form-label">Foto</label>
+                                        class="col-md-2 col-form-label form-label">Logo</label>
                                     <div class="col-md-10">
                                         <div class="media align-items-center">
                                             <div class="d-flex mr-3 align-self-center">
