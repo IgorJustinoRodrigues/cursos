@@ -161,16 +161,23 @@
                             <div class="media align-items-center">
                                 <div class="media-body">
                                     <a class="text-body"
-                                        href="student-quiz-results.html"><strong>{{ $linha->aula }}</strong></a><br>
+                                        href="{{ route('aula', [$linha->curso_id, Str::slug($linha->curso, '-'), $linha->aula_id, Str::slug($linha->aula, '-') . '.html']) }}">
+                                        <strong>{!! app(App\Http\Controllers\AulaController::class)->tipo($linha->tipo, $linha->avaliacao, true) !!}{{ $linha->aula }}</strong></a>
+                                        <br>
                                     <div class="d-flex align-items-center">
                                         <small class="text-black-50 text-uppercase mr-2">Curso</small>
-                                        <a href="">{{ $linha->curso }}</a>
+                                        <a href="{{ route('verAulas', [$linha->curso_id, Str::slug($linha->curso, '-') . '.html']) }}">{{ $linha->curso }}</a>
                                     </div>
                                 </div>
                                 <div class="media-right text-center d-flex align-items-center">
+                                    @if($linha->conclusao != null)
                                     <span
                                         class="text-black-50 mr-3">{{ app(App\Http\Controllers\AulaController::class)->msgNota($linha->nota) }}</span>
                                     <h4 class="mb-0">{{ $linha->nota }}%</h4>
+                                    @else
+                                    <span
+                                        class="text-black-50 mr-3">Aula iniciada em {{ $linha->created_at->format('d/m') }} às {{ $linha->created_at->format('H:i') }}</span>
+                                    @endif
                                 </div>
                             </div>
                         </li>

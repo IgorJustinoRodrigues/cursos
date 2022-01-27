@@ -93,7 +93,8 @@ class AlunoController extends Controller
         $ultimasAulas = AulaAluno::join('aulas', 'aula_alunos.aula_id', '=', 'aulas.id')
             ->join('cursos', 'aula_alunos.curso_id', '=', 'cursos.id')
             ->where('aula_alunos.aluno_id', '=', $_SESSION['aluno_cursos_start']->id)
-            ->selectRaw('aula_alunos.*, aulas.nome as aula, cursos.nome as curso')
+            ->selectRaw('aula_alunos.*, aulas.nome as aula, cursos.nome as curso, aulas.tipo, aulas.avaliacao')
+            ->orderBy('aula_alunos.created_at', 'desc')
             ->limit(5)
             ->get();
 
