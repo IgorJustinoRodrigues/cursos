@@ -71,6 +71,16 @@
                                 class="mr-2" alt="logo">
                         </a>
                         <div class="flex"></div>
+                        <!-- Menu -->
+                        <ul class="nav navbar-nav flex-nowrap d-none d-lg-flex">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('inicio') }}" target="_blank">Site&nbsp;<i
+                                        class="material-icons">remove_red_eye</i></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="student-help-center.html">Ajuda</a>
+                            </li>
+                        </ul>
 
                         <!-- Menu -->
                         <ul class="nav navbar-nav flex-nowrap">
@@ -267,7 +277,8 @@
                                         </a>
                                         <ul class="sidebar-submenu sm-indent collapse" id="account_menu">
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('minhaContaParceiro') }}">
+                                                <a class="sidebar-menu-button"
+                                                    href="{{ route('minhaContaParceiro') }}">
                                                     <span class="sidebar-menu-text">Editar Informações</span>
                                                 </a>
                                             </li>
