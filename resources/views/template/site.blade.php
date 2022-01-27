@@ -37,7 +37,7 @@
             background: #2073b3 !important;
         }
 
-        .newsletters-section > h2 {
+        .texto-branco {
             color: #ffffff !important;
         }
 
@@ -201,13 +201,13 @@
                 <div class="row justify-content-between align-items-center">
                     <div class="col-lg-6 col-12">
                         <div class="section-header">
-                            <h2 class="title">Assine a Newsletter</h2>
+                            <h2 class="title texto-branco">Assine a Newsletter</h2>
                             <p>Inscreva-se gratuitamente e receba a notificação e as últimas ofertas de nossos cursos.</p>
                         </div>
                     </div>
                     <div class="col-lg-6 col-12">
                         <div class="section-wrapper">
-                            <h5>Informe o seu nome e e-mail</h5>
+                            <h5 class="texto-branco">Informe o seu nome e e-mail</h5>
                             <form class="newsletter-form">
                                 <input type="text" placeholder="Informe o seu nome" required>
                                 <input type="email" placeholder="Informe o seu e-mail" required>
@@ -267,10 +267,14 @@
                                     </div>
                                     <div class="content">
                                         <ul class="lab-ul">
-                                            <li><a href="#">Ver todos os cursos</a></li>
-                                            <li><a href="#">Forms and Admision materials</a></li>
-                                            <li><a href="#">Professional Courses</a></li>
-                                            <li><a href="#">Course Outline</a></li>
+                                            <li><a href="{{ route('site.cursos') }}">Todos os Cursos</a>
+                                            </li>
+                                            @foreach ($principaisCategorias as $linha)
+                                                <li><a
+                                                        href="{{ route('site.cursos', [$linha->id, $linha->nome]) }}">{{ $linha->nome }}</a>
+                                                </li>
+                                            @endforeach
+                                            
                                         </ul>
                                     </div>
                                 </div>
@@ -305,19 +309,17 @@
                         <p>Todos os direitos reservado Faça Mais Brasil &copy; {{ date('Y') }}</p>
                     </div>
                     <div class="col-md-6 link-rodape">
-                        <a href="#">Administrador</a>
-                        <a href="#">Parceiro</a>
-                        <a href="#">Unidade</a>
-                        <a href="#">Vendedor</a>
-                        <a href="#">Aluno</a>
+                        <a href="{{ route('acessoAdmin') }}">Administrador</a>
+                        <a href="{{ route('acessoParceiro') }}">Parceiro</a>
+                        <a href="{{ route('acessoParceiro') }}">Unidade</a>
+                        <a href="{{ route('acessoVendedor') }}">Vendedor</a>
+                        <a href="{{ route('acessoAluno') }}">Aluno</a>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
     <!-- Footer Section Ending Here -->
-
-
 
     <script src="{{ URL::asset('site/js/bootstrap.min.js') }}"></script>
     <script src="{{ URL::asset('site/js/swiper.min.js') }}"></script>

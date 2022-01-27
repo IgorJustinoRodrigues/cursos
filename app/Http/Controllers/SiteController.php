@@ -27,19 +27,32 @@ class SiteController extends Controller
             ->groupBy('cursos.categoria_id')
             ->get();
 
+        $principaisCategorias = Matricula::join("cursos", "matriculas.curso_id", "=", "cursos.id")
+            ->join("categoria_cursos", "cursos.categoria_id", "=", "categoria_cursos.id")
+            ->selectRaw("categoria_cursos.*")
+            ->groupBy('categoria_cursos.id')
+            ->orderByRaw('count(*) desc')
+            ->limit(3)
+            ->get();
+
         //Listagem de Parceiros
         $parceiros = Parceiro::where('visibilidade', '=', 1)->where('status', '=', 1)->get();
 
         //listagem de cursos 
         $cursos = Curso::join('categoria_cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
-            ->join('professors', 'professors.id', '=', 'cursos.professor_id')
-            ->leftjoin('aulas', 'aulas.curso_id', '=', 'cursos.id')
+            ->join('aulas', 'aulas.curso_id', '=', 'cursos.id')
+            ->leftjoin('professors', 'professors.id', '=', 'cursos.professor_id')
             ->where('cursos.visibilidade', '=', 1)
             ->where('cursos.status', '=', 1)
             ->selectRaw('count(aulas.curso_id) as soma, cursos.id,cursos.tipo, cursos.imagem, cursos.nome, categoria_cursos.nome as categoria, categoria_cursos.id as categoria_id, professors.nome as professor, professors.avatar')
             ->groupBy('aulas.curso_id')
             ->limit(6)
             ->get();
+
+        for($i = 0; $i < count($cursos); $i++){
+            $cursos[$i]->estrelas = AulaAluno::where('curso_id', '=', $cursos[$i]->id)->avg('avaliacao_aula');
+            $cursos[$i]->alunos = Matricula::where('curso_id', '=', $cursos[$i]->id)->count();
+        }
 
         $metricas = array();
 
@@ -54,7 +67,8 @@ class SiteController extends Controller
             'categoria' => $categorias,
             'curso' => $cursos,
             'categoriasMenu' => $categorias,
-            'metricas' => $metricas 
+            'metricas' => $metricas,
+            'principaisCategorias' => $principaisCategorias
         ]);
     }
 
@@ -279,7 +293,7 @@ class SiteController extends Controller
         $ordem = $request->ordem;
 
         $consulta = Curso::leftjoin('professors', 'professors.id', '=', 'cursos.professor_id')
-            ->join('aulas','cursos.id', '=', 'aulas.curso_id')
+            ->join('aulas', 'cursos.id', '=', 'aulas.curso_id')
             ->join('categoria_cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
             ->where('cursos.visibilidade', '=', 1)
             ->where('cursos.status', '=', 1);
@@ -322,8 +336,8 @@ class SiteController extends Controller
         }
 
         $cursos = $consulta->selectRaw('cursos.*, count(aulas.id) as total_aula, professors.nome as professor, professors.avatar as avatar_professor, categoria_cursos.nome as categoria')
-        ->groupBy('cursos.id')   
-        ->paginate(9);
+            ->groupBy('cursos.id')
+            ->paginate(9);
 
 
         $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();

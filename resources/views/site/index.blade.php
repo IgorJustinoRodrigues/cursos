@@ -1,8 +1,15 @@
 @extends('template.site')
 @section('title', 'Início')
 
-@section('footer')
-
+@section('header')
+<style>
+    .dourado {
+        color: #ffd400 !important;
+    }
+    .prata{
+        color: #f2f1ea !important;
+    }
+</style>
 @endsection
 
 @section('conteudo')
@@ -42,12 +49,11 @@
                                 </form>
                             @endif
                             <div class="banner-catagory d-flex flex-wrap">
-                                <p>Cursos mais Acessados: </p>
+                                <p>Categorias mais Acessados: </p>
                                 <ul class="lab-ul d-flex flex-wrap">
-                                    <li><a href="#">Figma</a></li>
-                                    <li><a href="#">Adobe XD</a></li>
-                                    <li><a href="#">illustration</a></li>
-                                    <li><a href="#">Photoshop</a></li>
+                                    @foreach ($principaisCategorias as $linha)
+                                    <li><a href="{{ route('site.cursos', [$linha->id, $linha->nome]) }}">{{ $linha->nome }}</a></li>                                        
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
@@ -63,11 +69,11 @@
         <div class="all-shapes"></div>
         <div class="cbs-content-list d-none">
             <ul class="lab-ul">
-                <li class="ccl-shape shape-1"><a href="#">Cursos Rápidos</a></li>
-                <li class="ccl-shape shape-2"><a href="#">Certificado de Conclusão</a></li>
-                <li class="ccl-shape shape-3"><a href="#">Você merece o melhor!</a></li>
-                <li class="ccl-shape shape-4"><a href="#">Didática fácil</a></li>
-                <li class="ccl-shape shape-5"><a href="#">Aprenda rápido</a></li>
+                <li class="ccl-shape shape-1"><a href="{{ route('site.cursos') }}">Cursos Rápidos</a></li>
+                <li class="ccl-shape shape-2"><a href="{{ route('site.cursos') }}">Certificado de Conclusão</a></li>
+                <li class="ccl-shape shape-3"><a href="{{ route('site.cursos') }}">Você merece o melhor!</a></li>
+                <li class="ccl-shape shape-4"><a href="{{ route('site.cursos') }}">Didática fácil</a></li>
+                <li class="ccl-shape shape-5"><a href="{{ route('site.cursos') }}">Aprenda rápido</a></li>
             </ul>
         </div>
     </section>
@@ -238,20 +244,22 @@
                                         <div class="course-content">
                                             <div class="course-category">
                                                 <div class="course-cate">
-                                                    <a href="{{ $item->categoria_id }}">{{ $item->categoria }}</a>
+                                                    <a href="{{ route('site.cursos', [$item->categoria_id, $item->categoria]) }}">{{ $item->categoria }}</a>
                                                 </div>
                                                 <div class="course-reiew">
                                                     <span class="ratting">
-                                                        <i class="icofont-ui-rating"></i>
-                                                        <i class="icofont-ui-rating"></i>
-                                                        <i class="icofont-ui-rating"></i>
-                                                        <i class="icofont-ui-rating"></i>
-                                                        <i class="icofont-ui-rating"></i>
+                                                        @for ($i = 1; $i < 6; $i++)
+                                                        @if ($i <= $item->estrelas)
+                                                            <i class="icofont-ui-rating dourado"></i>
+                                                        @else
+                                                            <i class="icofont-ui-rating prata"></i>
+                                                        @endif
+                                                    @endfor
                                                     </span>
 
                                                 </div>
                                             </div>
-                                            <a href="course-single.html">
+                                            <a href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}">
                                                 <h5>{{ $item->nome }}</h5>
                                             </a>
                                             <div class="course-details">
@@ -259,7 +267,7 @@
                                                     {{ $item->soma }}
                                                     @if ($item->soma == 1) Aula @else Aulas @endif
                                                 </div>
-                                                <div class="couse-topic"><span class="ratting-count">03 reviews</span>
+                                                <div class="couse-topic"><span class="ratting-count">{{ $item->alunos }} alunos</span>
                                                 </div>
                                             </div>
                                             <div class="course-footer">
@@ -275,7 +283,7 @@
                                                         class="ca-name">{{ $item->professor }}</a>
                                                 </div>
                                                 <div class="course-btn">
-                                                    <a href="course-single.html" class="lab-btn-text">Conhecer <i
+                                                    <a href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}" class="lab-btn-text">Conhecer <i
                                                             class="icofont-external-link"></i></a>
                                                 </div>
                                             </div>
@@ -343,7 +351,7 @@
                 <div class="col">
                     <div class="about-left">
                         <div class="about-thumb">
-                            <img src="{{ URL::asset('site/images/about/01.png') }}" alt="about">
+                            <img src="{{ URL::asset('site/images/about/01.jpg') }}" alt="about">
                         </div>
                     </div>
                 </div>
