@@ -172,6 +172,19 @@ Route::get('/categoria-curso-editar/{item}', [CategoriaCursoController::class, '
 Route::put('/categoria-curso-salvar/{item}', [CategoriaCursoController::class, 'salvar'])->name('categoriaCursoSalvar');
 Route::get('/categoria-curso-delete/{item}', [CategoriaCursoController::class, 'deletar'])->name('categoriaCursoDeletar');
 
+
+
+//Rota Painel Unidade Raiz
+Route::get('/painel-unidade', [UnidadeController::class, 'painel'])->name('painelUnidade');
+Route::get('/minha-conta-unidade', [UnidadeController::class, 'minhaContaUnidade'])->name('minhaContaUnidade');
+
+/*
+ROTAS DE LOGIN E LOGOFF DE UNIDADE
+*/
+Route::get('/acesso-unidade', [UnidadeController::class, 'acessoUnidade'])->name('acessoUnidade');
+Route::post('/login-unidade', [UnidadeController::class, 'login'])->name('loginUnidade');
+Route::get('/sair-unidade', [UnidadeController::class, 'sair'])->name('sairUnidade');
+
 /*
 ROTAS DE UNIDADE
 */

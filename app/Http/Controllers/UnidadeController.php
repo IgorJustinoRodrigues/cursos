@@ -27,18 +27,18 @@ class UnidadeController extends Controller
             //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-        $consulta = Unidade::join('parceiros', 'unidades.parceiro_id', '=', 'parceiros.id')
-            ->orderby('parceiros.nome', 'asc')
-            ->where('parceiros.status', '<>', '0');
+        $consulta = Unidade::join('unidades', 'unidades.unidade_id', '=', 'unidades.id')
+            ->orderby('unidades.nome', 'asc')
+            ->where('unidades.status', '<>', '0');
 
         //Verifica se existe uma busca
         if (@$request->busca != '') {
             //Paginação dos registros com busca busca
-            $consulta->where('parceiros.nome', 'like', '%' . $request->busca . '%');
+            $consulta->where('unidades.nome', 'like', '%' . $request->busca . '%');
         }
 
 
-        $items = $consulta->selectRaw('unidades.*, parceiros.nome as parceiro')
+        $items = $consulta->selectRaw('unidades.*, unidades.nome as unidade')
             ->paginate();
 
         //Exibe a tela de listagem de unidade passando parametros para view
@@ -56,10 +56,10 @@ class UnidadeController extends Controller
             //Redirecionamento para a rota acessoUnidade, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-        $parceiro = Parceiro::where('status', '=', '1')->get();
+        $unidade = Parceiro::where('status', '=', '1')->get();
 
         //Exibe a tela de cadastro de unidadeistradores
-        return view('painelAdmin.unidade.cadastro', ['parceiro' => $parceiro]);
+        return view('painelAdmin.unidade.cadastro', ['unidade' => $unidade]);
     }
 
     /*
@@ -97,7 +97,7 @@ class UnidadeController extends Controller
         $item->facebook = $request->facebook;
         $item->instagram = $request->instagram;
         $item->site = $request->site;
-        $item->parceiro_id = $request->parceiro_id;
+        $item->unidade_id = $request->unidade_id;
         $item->status = $request->status;
 
         //Verificação se imagem de logo foi informado, caso seja verifica-se sua integridade
@@ -149,10 +149,10 @@ class UnidadeController extends Controller
             //Redirecionamento para a rota acessoUnidade, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-        $item = Unidade::join('parceiros', 'unidades.parceiro_id', '=', 'parceiros.id')
-            ->orderby('parceiros.nome', 'asc')
-            ->where('parceiros.status', '<>', '0')
-            ->selectRaw('unidades.*, parceiros.nome as parceiro')
+        $item = Unidade::join('unidades', 'unidades.unidade_id', '=', 'unidades.id')
+            ->orderby('unidades.nome', 'asc')
+            ->where('unidades.status', '<>', '0')
+            ->selectRaw('unidades.*, unidades.nome as unidade')
             ->find($id);
 
         //Verifica se há algum unidade selecionado
@@ -195,7 +195,7 @@ class UnidadeController extends Controller
         //Atribuição dos valores recebidos da váriavel $request
         $item->nome = $request->nome;
         $item->usuario = $request->usuario;
-        
+
         //Verificação se uma nova senha foi informada
         if (@$request->senha != '') {
             //Validação das informações recebidas
@@ -316,42 +316,48 @@ class UnidadeController extends Controller
 
 
     /*
+    Função Acesso de Unidade do Site
+    - Responsável por mostrar a tela de login de Unidade no site
+    */
+    public function acessoUnidade()
+    {
+        //Exibe a view
+        return view('painelUnidade.unidade.acessoUnidade');
+    }
+
+
+    /*
     Função Login de Unidade
-    - Responsável pelo login do unidadeistrador ao painel
+    - Responsável pelo login do unidade ao painel
     - $request: Recebe as credênciais de acesso informadas pelo internauta
     */
     public function login(Request $request)
     {
+        //Inícia a Sessão
+        @session_start();
+
+
         //Validação das informações recebidas
         $validated = $request->validate([
-            'usuario' => 'required|max:20',
-            'senha' => 'required'
+            'usuario' => 'required',
+            'senha' => 'required|min:6'
         ]);
 
         //Atribuição dos valores recebidos da váriavel $request para o objeto $item
         $usuario = $request->usuario;
-        $senha = $request->senha;
+        $senha = md5($request->senha);
 
         //Seleciona o unidade no banco de dados, usando as credencias de acesso
-        $item = Unidade::where('usuario', '=', $usuario)->where('senha', '=', $senha)->where('status', '=', 1)->first();
+        $item = Unidade::selectRaw("*, date_format(created_at, '%d/%m/%Y') as cadastro, date_format(updated_at, '%d/%m/%Y às %H:%i') as ultimo_acesso_unidade")->where('usuario', '=', $usuario)->where('senha', '=', $senha)->where('status', '=', 1)->first();
+
+
 
         //Verifica se existe um unidade com as credênciais informadas
         if (@$item->id != null and is_numeric($item->id)) {
-            //Inícia a Sessão
-            @session_start();
-
-            //Obtem e preenche as informaçõs do unidade encontrado
-            $logado['id_unidade'] = $item->id;
-            $logado['nome_unidade'] = $item->nome;
-            $logado['logo_unidade'] = $item->logo;
-            $logado['usuario_unidade'] = $item->usuario;
-            $logado['status_unidade'] = $item->status;
-            $logado['visibilidade_unidade'] = $item->visibilidade;
-            $logado['cadastro_unidade'] = $item->created_at->format('d/m/Y') . ' às ' . $item->created_at->format('H:i');
-            $logado['ultimo_acesso_unidade'] = $item->updated_at->format('d/m/Y') . ' às ' . $item->updated_at->format('H:i');
 
             //Cria uma sessão com as informações
-            $_SESSION['unidade_cursos_start'] = $logado;
+            $_SESSION['unidade_cursos_start'] = $item;
+
 
             //Verifica se o campo lembrar senha estava selecionado
             if (@$request->remember) {
@@ -364,19 +370,33 @@ class UnidadeController extends Controller
                 Cookie::expire('unidade_senha');
             }
 
-            //Atualiza a data e hora do campo updated_at
             $item->touch();
 
             //Redirecionamento para a rota painelUnidade, com mensagem de sucesso, com uma sessão ativa
-            return redirect()->route('painelUnidade')->with('sucesso', 'Olá ' . $item->nome . ', você acessou o sistema com o perfil de unidade!');
+            return redirect()->route('painelUnidade')->with('sucesso', 'Olá ' . $item->nome . ', você acessou o sistema com o perfil de "' . $this->tipo($item->id) . '"');
         } else {
             //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
-            return redirect()->back()->with('atencao', 'Usuário e/ou senha incorretos!')->withInput(
+            return redirect()->route('acessoUnidade')->with('atencao', 'Usuário e/ou senha incorretos!')->withInput(
                 $request->except('senha')
             );
         }
     }
 
+    /*
+    Função Painel
+    - Responsável por mostrar a tela inícial do painel de parceiroistradores
+    */
+    public function painel()
+    {
+        //Validação de acesso
+        if (!(new Services())->validarUnidade())
+            //Redirecionamento para a rota acessoUnidade, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarUnidade();
+
+        //Exibe a tela inícial do painel de unidade passando parametros para view
+        return view('painelUnidade.index');
+    }
+    
     /*
     Função Sair de Unidade
     - Responsável pelo logoff do painel do unidade
@@ -438,4 +458,21 @@ class UnidadeController extends Controller
                 break;
         }
     }
+
+        /*
+    Função Tipo de Admin
+    - Responsável por exibir o tipo do unidade
+    - $tipo: Recebe o Id do tipo do unidade
+    */
+    public function tipo($tipo)
+    {
+        //Verifica o tipo do unidade
+        switch ($tipo) {
+            case 1:
+                //Retorna o tipo Unidade
+                return 'Unidade';
+                break;
+        }
+    }
+
 }

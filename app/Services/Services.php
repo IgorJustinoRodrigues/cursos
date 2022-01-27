@@ -61,7 +61,7 @@ class Services
         return redirect()->route('acessoAluno')->with('erro', 'Para acessar esse conteúdo é necessário fazer login no sistema!');
     }
 
-    
+
     /*
     Função Validar Vendedor
     - Responsável por verificar se há uma sessão ativa de um vendedor
@@ -117,6 +117,34 @@ class Services
         return redirect()->route('acessoParceiro')->with('erro', 'Para acessar esse conteúdo é necessário fazer login no sistema!');
     }
 
+
+    /*
+    Função Validar Unidade
+    - Responsável por verificar se há uma sessão ativa de um unidade
+    */
+    public function validarUnidade()
+    {
+        //Inícia a Sessão
+        @session_start();
+
+        //Verifica se não existe uma sessão ativa de unidade
+        if (!isset($_SESSION['unidade_cursos_start']) or !is_numeric($_SESSION['unidade_cursos_start']->id)) {
+            //Expira a sessão
+            unset($_SESSION['unidade_cursos_start']);
+            return false;
+        } else {
+            //Redirecionamento para a rota sairParceiro após 10 minutos sem uma nova requisição
+            header("Refresh:6000; url=" . route('sairUnidade'));
+
+            //Retorna verdade para a sessão ativa
+            return true;
+        }
+    }
+
+    public function redirecionarUnidade()
+    {
+        return redirect()->route('acessoUnidade')->with('erro', 'Para acessar esse conteúdo é necessário fazer login no sistema!');
+    }
 
     public function data_atual()
     {
@@ -241,14 +269,15 @@ class Services
         return $retorno;
     }
 
-    function primeiro_pagamento($primeiro_mes = false, $segundo_mes = false, $primeiro_mes_simples = false, $segundo_mes_simples = false){
-        if($segundo_mes_simples){
+    function primeiro_pagamento($primeiro_mes = false, $segundo_mes = false, $primeiro_mes_simples = false, $segundo_mes_simples = false)
+    {
+        if ($segundo_mes_simples) {
             //2º MÊS SIMPLES
-            $retorno = date('m', strtotime('+1 months', strtotime(date('Y-m')))) . '/' . date('Y', strtotime('+1 months', strtotime(date('Y-m'))));          
-        } else if($primeiro_mes_simples) {
+            $retorno = date('m', strtotime('+1 months', strtotime(date('Y-m')))) . '/' . date('Y', strtotime('+1 months', strtotime(date('Y-m'))));
+        } else if ($primeiro_mes_simples) {
             //1º MÊS SIMPLES
             $retorno = date('m') . '/' . date('Y');
-        } else if($segundo_mes) {
+        } else if ($segundo_mes) {
             //2º MÊS
             $retorno = $this->mes(date('m', strtotime('+1 months', strtotime(date('Y-m'))))) . '/' . date('Y', strtotime('+1 months', strtotime(date('Y-m'))));
         } else {
