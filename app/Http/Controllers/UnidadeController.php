@@ -10,6 +10,7 @@ use App\Services\Services;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class UnidadeController extends Controller
 {
@@ -384,7 +385,7 @@ class UnidadeController extends Controller
 
     /*
     Função Painel
-    - Responsável por mostrar a tela inícial do painel de parceiroistradores
+    - Responsável por mostrar a tela inícial do painel de parceiro
     */
     public function painel()
     {
@@ -396,7 +397,25 @@ class UnidadeController extends Controller
         //Exibe a tela inícial do painel de unidade passando parametros para view
         return view('painelUnidade.index');
     }
-    
+
+      /*
+    Função Minha Conta de Unidade
+    - Responsável exibir a view de minha conta de unidade painel do unidade
+    */
+    public function minhaContaUnidade()
+    {
+        //Validação de acesso
+        if (!(new Services())->validarUnidade())
+            //Redirecionamento para a rota acessoAluno, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarUnidade();
+
+        $item = Unidade::find($_SESSION['unidade_cursos_start']->id);
+
+        return view('painelUnidade.unidade.minhaConta', [
+            'item' => $item
+        ]);
+    }
+
     /*
     Função Sair de Unidade
     - Responsável pelo logoff do painel do unidade
@@ -459,7 +478,66 @@ class UnidadeController extends Controller
         }
     }
 
-        /*
+    /*
+    Função Valida Usuário
+    - Responsável por verificar se usuário de login já existe
+    */
+    public function validaUsuarioUnidade(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarUnidade())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarUnidade();
+
+        //Atribuição dos valores
+
+        $usuario = $request->usuario;
+        $id = @$request->id;
+
+        
+        //Verificação do tamanho do usuário informado
+        if (Str::length($usuario) >= 3) {
+
+            //Consulta que busca se já existe um usuario no banco com o mesmo usuario
+            $resultado = Unidade::where('usuario', '=', $usuario)->first();
+
+            //Verifica se existe
+            if ($resultado) {
+                //Verifica se o id informado é igual ao da consulta
+                if ($resultado->id == $id) {
+                    //Retorno de usuário atual 
+                    $retorno = [
+                        'msg' => 'Usuário atual!',
+                        'tipo' => '3',
+                        'status' => 1
+                    ];
+                } else {
+                    //Retorno de usuário não disponível
+                    $retorno = [
+                        'msg' => 'Usuário "' . $usuario . '", não está disponível!',
+                        'tipo' => '2',
+                        'status' => 1
+                    ];
+                }
+            } else {
+                //Retorno do usuário disponível
+                $retorno = [
+                    'msg' => 'Usuário disponível!',
+                    'tipo' => '1',
+                    'status' => 1
+                ];
+            }
+        } else {
+            $retorno = [
+                'msg' => 'O usuário deve ter no mínimo 3 caracteres!',
+                'status' => 0
+            ];
+        }
+
+        //Resposta JSON
+        return response()->json($retorno);
+    }
+    /*
     Função Tipo de Admin
     - Responsável por exibir o tipo do unidade
     - $tipo: Recebe o Id do tipo do unidade
@@ -474,5 +552,4 @@ class UnidadeController extends Controller
                 break;
         }
     }
-
 }

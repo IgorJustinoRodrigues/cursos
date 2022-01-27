@@ -194,6 +194,8 @@ Route::post('/unidade-inserir', [UnidadeController::class, 'inserir'])->name('un
 Route::get('/unidade-editar/{item}', [UnidadeController::class, 'editar'])->name('unidadeEditar');
 Route::put('/unidade-salvar/{item}', [UnidadeController::class, 'salvar'])->name('unidadeSalvar');
 Route::get('/unidade-delete/{item}', [UnidadeController::class, 'deletar'])->name('unidadeDeletar');
+Route::post('/unidade-valida-usuario', [UnidadeController::class, 'validaUsuarioUnidade'])->name('validaUsuarioUnidade');
+
 
 /*
 ROTAS DE MATRICULA

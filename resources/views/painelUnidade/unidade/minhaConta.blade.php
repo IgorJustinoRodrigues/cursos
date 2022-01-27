@@ -1,6 +1,6 @@
-@extends('template.parceiro')
-@section('title', 'Painel de Parceiro')
-@section('menu-parceiro', 'true')
+@extends('template.unidade')
+@section('title', 'Painel de Unidade')
+@section('menu-unidade', 'true')
 
 
 @section('header')
@@ -91,7 +91,6 @@
         }
 
         function validaUsuario() {
-            var tabela = 'parceiro';
             var usuario = $("#usuario").val();
             var id = $("#id").val();
 
@@ -102,10 +101,9 @@
 
             $.ajax({
                 type: 'post',
-                url: "{{ route('validaUsuarioParceiro') }}",
+                url: "{{ route('validaUsuarioUnidade') }}",
                 data: {
                     usuario: usuario,
-                    tabela: tabela,
                     id: id,
                     _token: $("input[name='_token']").val()
                 },
