@@ -160,11 +160,19 @@ class AlunoController extends Controller
             ->limit(5)
             ->get();
 
+        $grafico7dias = AulaAluno::where('aluno_id', '=', $_SESSION['aluno_cursos_start']->id)
+            ->groupBy('conclusao')
+            ->selectRaw('aula_alunos.*, count(*) as total')
+            ->where("conclusao", ">", Carbon::now()->subDays(7))
+            ->limit(7)
+            ->get();
+
         //Exibe a tela inícial do painel de alunoistradores passando parametros para view
         return view('painelAluno.index', [
             'categorias' => $categorias,
             'meusCursos' => $meusCursos,
-            'ultimasAulas' => $ultimasAulas
+            'ultimasAulas' => $ultimasAulas,
+            'grafico7dias' => $grafico7dias
         ]);
     }
 

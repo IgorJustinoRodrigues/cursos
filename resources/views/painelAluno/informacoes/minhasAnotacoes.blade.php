@@ -1,5 +1,5 @@
 @extends('template.aluno')
-@section('title', 'Matricula')
+@section('title', 'Anotações')
 @section('menu-informacoes', 'true')
 
 @section('link')
@@ -24,7 +24,7 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="mb-4 d-flex align-items-center">
+                                <div class="mb-4 d-flex align-items-center d-print-none">
                                     <small class="text-black-70 mr-3">
                                         @if ($paginacao->total() > 1)
                                             Exibindo {{ $paginacao->firstItem() }} ao {{ $paginacao->lastItem() }} de
@@ -37,14 +37,14 @@
                                     </small>
                                     <!-- Search -->
                                     <form class="flex search-form form-control-rounded search-form--light mb-2 col-md-12"
-                                        action="{{ route('aulasFeitas') }}" method="GET" style="min-width: 200px;">
+                                        action="{{ route('minhasAnotacoes') }}" method="GET" style="min-width: 200px;">
                                         <input type="hidden" name="page" value="1" />
                                         <input type="text" class="form-control" placeholder="Digite sua busca" id="busca"
                                             value="{{ $busca }}" name="busca" required>
                                         <button class="btn pr-3" type="submit" role="button"><i
                                                 class="material-icons">search</i></button>
                                         @if (@$busca)
-                                            <a href="{{ route('aulasFeitas') }}" class="btn pr-3 text-danger"
+                                            <a href="{{ route('minhasAnotacoes') }}" class="btn pr-3 text-danger"
                                                 type="button" role="button"><i class="material-icons">close</i></a>
                                         @endif
                                     </form>
@@ -61,7 +61,7 @@
                                                     <a href="{{ route('verAulas', [$linha->curso_id, Str::slug($linha->curso, '-') . '.html']) }}" class="text-muted">{{ $linha->curso }}</a>
                                                 </p>
                                                 <hr>
-                                                {!! $linha->anotacao !!}
+                                                {!! preg_replace("/(\\r)?\\n/i", "<br/>", $linha->anotacao) !!}
                                             </div>
                                         </div>
                                     </div>
