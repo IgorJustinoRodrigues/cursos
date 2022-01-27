@@ -167,7 +167,7 @@
             <input type="hidden" name="sobre" id="input-sobre">
             <div class="col-lg container-fluid page__container">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('painelAluno') }}">Início</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('painelParceiro') }}">Início</a></li>
                     <li class="breadcrumb-item active">Minha Conta</li>
                 </ol>
                 <h1 class="h2">{{ $item->nome }}</h1>
@@ -196,10 +196,10 @@
                                                 <span class="logo logo-lg">
                                                     @if ($item->logo != '')
                                                         <img src="{{ URL::asset('storage/' . $item->logo) }}"
-                                                            alt="Avatar" class="w-100">
+                                                            alt="logo" class="w-100">
                                                     @else
                                                         <img src="{{ URL::asset('storage/logoParceiro/padrao.png') }}"
-                                                            alt="Avatar" class="w-100">
+                                                            alt="logo" class="w-100">
                                                     @endif
                                                 </span>
                                             </div>
