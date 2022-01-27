@@ -308,8 +308,8 @@
                                         </a>
                                         <ul class="sidebar-submenu sm-indent collapse" id="informacoes_menu">
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="student-account-edit.html">
-                                                    <span class="sidebar-menu-text">Meus Comentários</span>
+                                                <a class="sidebar-menu-button" href="{{ route('minhasAnotacoes') }}">
+                                                    <span class="sidebar-menu-text">Minhas Anotações</span>
                                                 </a>
                                             </li>
                                             <li class="sidebar-menu-item">
