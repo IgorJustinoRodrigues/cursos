@@ -106,7 +106,7 @@ class ParceiroController extends Controller
         //Atribuição dos valores recebidos da váriavel $request
         $item->nome = $request->nome;
         $item->usuario = $request->usuario;
-        $item->senha = '123456';
+        $item->senha = md5('123456');
         $item->status = $request->status;
         $item->visibilidade = $request->visibilidade;
         $item->sobre = $request->sobre;
@@ -284,7 +284,7 @@ class ParceiroController extends Controller
             return (new Services())->redirecionar();
 
 
-        $item->senha = '123456';
+        $item->senha = md5('123456');
 
         //Deleta o parceiroi informado
         if ($item->save()) {
