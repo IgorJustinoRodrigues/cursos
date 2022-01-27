@@ -16,8 +16,6 @@
         href="https://fonts.googleapis.com/css?family=Oswald:400,500,700%7CRoboto:400,500%7CRoboto:400,500&display=swap"
         rel="stylesheet">
 
-    <!-- Perfect Scrollbar -->
-    <link type="text/css" href="{{ URL::asset('template/vendor/perfect-scrollbar.css') }}" rel="stylesheet">
 
     <!-- Material Design Icons -->
     <link type="text/css" href="{{ URL::asset('template/css/material-icons.css') }}" rel="stylesheet">
@@ -25,8 +23,6 @@
     <!-- Font Awesome Icons -->
     <link type="text/css" href="{{ URL::asset('template/css/fontawesome.css') }}" rel="stylesheet">
 
-    <!-- Preloader -->
-    <link type="text/css" href="{{ URL::asset('template/vendor/spinkit.css') }}" rel="stylesheet">
 
     <!-- App CSS -->
     <link type="text/css" href="{{ URL::asset('template/css/app.css') }}" rel="stylesheet">
@@ -66,11 +62,6 @@
     <!-- App JS -->
     <script src="{{ URL::asset('template/js/app.js') }}"></script>
 
-    <!-- Highlight.js -->
-    <script src="{{ URL::asset('template/js/hljs.js') }}"></script>
-
-    <!-- App Settings (safe to remove) -->
-    <script src="{{ URL::asset('template/js/app-settings.js') }}"></script>
 
     <script src="{{ URL::asset('telas/ini.js') }}"></script>
 

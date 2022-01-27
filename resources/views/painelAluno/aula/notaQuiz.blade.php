@@ -13,9 +13,6 @@
 
 @section('conteudo')
     <div class="media mb-headings align-items-center">
-        <div class="media-left">
-            <img src="assets/images/vuejs.png" alt="" width="80" class="rounded">
-        </div>
         <div class="media-body">
             <h1 class="h2">{{ $aula->nome }}</h1>
         </div>

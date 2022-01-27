@@ -56,7 +56,8 @@
                                 </span>
                             </div>
                         </div>
-                        @if (isset($_SESSION['ativacao_start']) and $_SESSION['ativacao_start']['matricula']->id != null)
+                        @php session_start(); @endphp
+                        @if (isset($_SESSION['ativacao_start']))
                             <p class="phs-desc"></p>
                             <form action="{{ route('site.escolhaCurso') }}" method="post" class="phs-thumb">
                                 @csrf
