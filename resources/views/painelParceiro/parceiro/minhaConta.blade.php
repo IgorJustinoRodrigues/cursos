@@ -174,18 +174,6 @@
                 <div class="card">
                     <div class="list-group list-group-fit">
                         <div class="list-group-item">
-                            <div role="group" aria-labelledby="label-unidade" class="m-0 form-group">
-                                <div class="form-row">
-                                    <label id="label-unidade" for="unidade"
-                                        class="col-md-12 col-form-label form-label">Minha Unidade</label>
-                                    <label id="label-unidade" for="unidade" class="col-md-12 col-form-label form-label">
-                                        <h3>{{ $item->unidade }}</h3>
-                                    </label>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-group-item">
                             <div role="group" aria-labelledby="label-logo" class="m-0 form-group">
                                 <div class="form-row">
                                     <label id="label-logo" for="logo"
@@ -195,8 +183,8 @@
                                             <div class="d-flex mr-3 align-self-center">
                                                 <span class="logo logo-lg">
                                                     @if ($item->logo != '')
-                                                        <img src="{{ URL::asset('storage/' . $item->logo) }}"
-                                                            alt="logo" class="w-100">
+                                                        <img src="{{ URL::asset('storage/' . $item->logo) }}" alt="logo"
+                                                            class="w-100">
                                                     @else
                                                         <img src="{{ URL::asset('storage/logoParceiro/padrao.png') }}"
                                                             alt="logo" class="w-100">

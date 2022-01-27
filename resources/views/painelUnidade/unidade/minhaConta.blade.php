@@ -181,13 +181,12 @@
                             <div role="group" aria-labelledby="label-unidade" class="m-0 form-group">
                                 <div class="form-row">
                                     <label id="label-parceiro" for="parceiro"
-                                    class="col-md-2 col-form-label form-label">Unidade Matriz:</label>
+                                        class="col-md-2 col-form-label form-label">Unidade Matriz:</label>
                                     <div class="col-md-10">
                                         <label id="label-unidade" for="unidade" class="col-md-12 col-form-label form-label">
                                             <h3>{{ $item->parceiro }}</h3>
                                         </label>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
