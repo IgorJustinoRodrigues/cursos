@@ -212,7 +212,7 @@
                                         <i class="material-icons">person</i> Perfil
                                     </a>
                                     <a class="dropdown-item"
-                                        href="{{ route('parceiroEditar', $_SESSION['parceiro_cursos_start']->id) }}">
+                                        href="{{ route('minhaContaParceiro', $_SESSION['parceiro_cursos_start']->id) }}">
                                         <i class="material-icons">edit</i> Editar Conta
                                     </a>
                                     <a class="dropdown-item" href="{{ route('sairParceiro') }}">

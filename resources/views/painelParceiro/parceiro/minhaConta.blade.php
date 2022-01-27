@@ -268,8 +268,9 @@
                         <div class="list-group-item">
                             <div role="group" aria-labelledby="label-sobre" class="m-0 form-group">
                                 <div class="form-row">
-                                    <div class="col-12 col-md-12 mb-3">
-                                        <label class="form-label">Sobre</label>
+                                    <label id="label-sobre" for="sobre"
+                                        class="col-md-2 col-form-label form-label">Sobre</label>
+                                    <div class="col-md-10">
                                         <div class="form-control" id="sobre" data-toggle="quill" style="height: 150px;">
                                             {!! $item->sobre !!}</div>
                                     </div>
