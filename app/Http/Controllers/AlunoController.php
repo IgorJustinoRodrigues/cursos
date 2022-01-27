@@ -37,6 +37,36 @@ class AlunoController extends Controller
         ]);
     }
 
+    public function aulasFeitas(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarAluno())
+            //Redirecionamento para a rota acessoAula, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarAluno();
+
+        $consulta = AulaAluno::join('aulas', 'aula_alunos.aula_id', '=', 'aulas.id')
+            ->join('cursos', 'aula_alunos.curso_id', '=', 'cursos.id')
+            ->where('aula_alunos.aluno_id', '=', $_SESSION['aluno_cursos_start']->id)
+            ->selectRaw('aula_alunos.*, aulas.nome as aula, cursos.nome as curso, aulas.tipo, aulas.avaliacao');
+
+        //Verifica se existe uma busca
+        if (@$request->busca != '') {
+            //Paginação dos registros com busca busca
+            $consulta->where('aulas.nome', 'like', '%' . $request->busca . '%')
+                ->orWhere('cursos.nome', 'like', '%' . $request->busca . '%');
+        }
+
+        $aulas = $consulta->orderBy('aula_alunos.created_at', 'desc')
+            ->paginate();
+
+        //Exibe a tela de listagem de aula passando parametros para view
+        return view('painelAluno.informacoes.aulasFeitas', [
+            'paginacao' => $aulas,
+            'busca' => @$request->busca
+        ]);
+    }
+
+
     /*
     Função Acesso de Aluno do Site
     - Responsável por mostrar a tela de login de Aluno no site

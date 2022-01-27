@@ -150,7 +150,7 @@
                             <p class="card-subtitle">Acompanhe a sua performance</p>
                         </div>
                         <div class="media-right">
-                            <a class="btn btn-sm btn-primary" href="#">Ver todas as aulas feitas</a>
+                            <a class="btn btn-sm btn-primary" href="{{ route('aulasFeitas') }}">Ver todas as aulas feitas</a>
                         </div>
                     </div>
                 </div>

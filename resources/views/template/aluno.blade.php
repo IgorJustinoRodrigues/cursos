@@ -299,6 +299,26 @@
                                             Meus Cursos
                                         </a>
                                     </li>
+                                    <li class="sidebar-menu-item @hasSection('menu-informacoes') active @endif">
+                                        <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
+                                            href="#informacoes_menu">
+                                            <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">list</i>
+                                            Informações
+                                            <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                                        </a>
+                                        <ul class="sidebar-submenu sm-indent collapse" id="informacoes_menu">
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button" href="student-account-edit.html">
+                                                    <span class="sidebar-menu-text">Meus Comentários</span>
+                                                </a>
+                                            </li>
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button" href="{{ route('aulasFeitas') }}">
+                                                    <span class="sidebar-menu-text">Aulas Feitas</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
                                 </ul>
                                 <div class="sidebar-heading">Ajuda</div>
                                 <ul class="sidebar-menu sm-active-button-bg">
