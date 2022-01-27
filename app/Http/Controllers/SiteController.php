@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Aluno;
 use App\Models\Aula;
+use App\Models\AulaAluno;
 use App\Models\CategoriaCurso;
+use App\Models\Certificado;
 use App\Models\Curso;
 use App\Models\Matricula;
 use App\Models\Parceiro;
@@ -28,7 +30,6 @@ class SiteController extends Controller
         //Listagem de Parceiros
         $parceiros = Parceiro::where('visibilidade', '=', 1)->where('status', '=', 1)->get();
 
-
         //listagem de cursos 
         $cursos = Curso::join('categoria_cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
             ->join('professors', 'professors.id', '=', 'cursos.professor_id')
@@ -40,13 +41,20 @@ class SiteController extends Controller
             ->limit(6)
             ->get();
 
+        $metricas = array();
+
+        $metricas['cursos'] = Curso::where('status', '=', 1)->where('visibilidade', '=', 1)->count();
+        $metricas['alunos'] = Aluno::count();
+        $metricas['certificados'] = Certificado::count();
+        $metricas['horas_aulas_assistidas'] = number_format(ceil(AulaAluno::join('aulas', 'aula_alunos.aula_id', '=', 'aulas.id')->sum('aulas.duracao') / 60), 0);
 
         //Exibe a view 
         return view('site.index', [
             'parceiro' => $parceiros,
             'categoria' => $categorias,
             'curso' => $cursos,
-            'categoriasMenu' => $categorias
+            'categoriasMenu' => $categorias,
+            'metricas' => $metricas 
         ]);
     }
 

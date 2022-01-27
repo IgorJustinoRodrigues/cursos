@@ -98,15 +98,25 @@
             </div>
         </div>
     </div>
-    <!-- sponsor section ending here -->
 
+    <!-- sponsor section ending here -->
+    <div class="video-section padding-tb">
+        <div class="container">
+            <div class="section-wrapper text-center">
+                <h3>Já conhece o Faça Mais Brasil?</h3>
+                <div class="video-thumb">
+                    <a href="https://www.youtube-nocookie.com/embed/7BeGmVo6ZJY" class="video-button " data-rel="lightcase"><i class="icofont-ui-play"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Achievement section start here -->
     <div class="achievement-section padding-tb">
         <div class="container">
             <div class="section-header text-center">
                 <span class="subtitle">COMECE A TER SUCESSO</span>
-                <h2 class="title">Alcance seus objetivos com Edukon</h2>
+                <h2 class="title">Alcance seus objetivos com o Faça Mais Brasil</h2>
             </div>
             <div class="section-wrapper">
                 <div class="counter-part mb-4">
@@ -115,9 +125,9 @@
                             <div class="count-item">
                                 <div class="count-inner">
                                     <div class="count-content">
-                                        <h2><span class="count" data-to="30"
+                                        <h2><span class="count" data-to="{{ $metricas['cursos'] }}"
                                                 data-speed="1500"></span><span>+</span></h2>
-                                        <p>Years of Language Education Experience</p>
+                                        <p>Cursos disponíveis</p>
                                     </div>
                                 </div>
                             </div>
@@ -126,9 +136,9 @@
                             <div class="count-item">
                                 <div class="count-inner">
                                     <div class="count-content">
-                                        <h2><span class="count" data-to="3080"
+                                        <h2><span class="count" data-to="{{ $metricas['alunos'] }}"
                                                 data-speed="1500"></span><span>+</span></h2>
-                                        <p>Learners Enrolled in Edukon Courses</p>
+                                        <p>Alunos matrículados</p>
                                     </div>
                                 </div>
                             </div>
@@ -137,9 +147,9 @@
                             <div class="count-item">
                                 <div class="count-inner">
                                     <div class="count-content">
-                                        <h2><span class="count" data-to="330"
+                                        <h2><span class="count" data-to="{{ $metricas['certificados'] }}"
                                                 data-speed="1500"></span><span>+</span></h2>
-                                        <p>Qualified Teachers And Language Experts</p>
+                                        <p>Certificados emitidos</p>
                                     </div>
                                 </div>
                             </div>
@@ -148,9 +158,9 @@
                             <div class="count-item">
                                 <div class="count-inner">
                                     <div class="count-content">
-                                        <h2><span class="count" data-to="2300"
+                                        <h2><span class="count" data-to="{{ $metricas['horas_aulas_assistidas'] }}"
                                                 data-speed="1500"></span><span>+</span></h2>
-                                        <p>Innovative Foreign Language Courses</p>
+                                        <p>Horas de aulas assistidas</p>
                                     </div>
                                 </div>
                             </div>
@@ -184,7 +194,7 @@
                                         @endif
                                     </div>
                                     <div class="category-content">
-                                        <a href="{{ $item->id }}">
+                                        <a href="{{ route('site.cursos', [$item->id, $item->nome]) }}">
                                             <h6>{{ $item->nome }}</h6>
                                         </a>
                                         <span>{{ $item->quantCursoCategoria }} Cursos</span>
@@ -256,10 +266,10 @@
                                                 <div class="course-author">
                                                     @if ($item->avatar != '')
                                                         <img src="{{ URL::asset('storage/' . $item->avatar) }}"
-                                                            style="width: 50px" class="avatar-img">
+                                                            style="width: 30px" class="rounded-circle">
                                                     @else
                                                         <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}"
-                                                            style="width: 50px">
+                                                        style="width: 50px" class="rounded-circle">
                                                     @endif
                                                     <a href="team-single.html"
                                                         class="ca-name">{{ $item->professor }}</a>

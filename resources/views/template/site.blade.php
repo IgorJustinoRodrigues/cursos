@@ -258,6 +258,7 @@
     <script src="{{ URL::asset('site/js/counter-up.js') }}"></script>
     <script src="{{ URL::asset('site/js/isotope.pkgd.js') }}"></script>
     <script src="{{ URL::asset('site/js/functions.js') }}"></script>
+    
     @yield('footer')
     <script>
         @if (session('padrao'))
