@@ -416,6 +416,93 @@ class UnidadeController extends Controller
         ]);
     }
 
+    public function salvarMinhasInformacoesUnidade(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarUnidade())
+            //Redirecionamento para a rota acessoUnidade, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarUnidade();
+
+        //inicia sessão
+        @session_start();
+
+        $id = $_SESSION['unidade_cursos_start']->id;
+
+        //Validação das informações recebidas
+        $validated = $request->validate([
+            'nome' => 'required',
+        ]);
+
+        $item = Unidade::selectRaw("*, date_format(created_at, '%d/%m/%Y') as cadastro, date_format(updated_at, '%d/%m/%Y às %H:%i') as ultimo_acesso")
+            ->find($id);
+
+        //Atribuição dos valores recebidos da váriavel $request
+        $item->nome = $request->nome;
+        $item->cpf = $request->cpf;
+        $item->email = $request->email;
+        $item->whatsapp = $request->whatsapp;
+        $item->usuario = $request->usuario;
+
+        if (@$request->senha != '') {
+            $validated = $request->validate([
+                'senha' => 'required',
+                'senha2' => 'required|same:senha'
+            ]);
+
+            //Atribuição dos valores recebidos da váriavel $request para o objeto $item
+            $item->senha = MD5($request->senha);
+        }
+
+        //Verificação se uma nova imagem de logo foi informado, caso seja verifica-se sua integridade
+        if (@$request->file('logo') and $request->file('logo')->isValid()) {
+            //Validação das informações recebidas
+            $validated = $request->validate([
+                'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5120'
+            ]);
+
+            //Salva o nome da antiga imagem para ser apagada em caso de sucesso
+            $logoApagar = $item->logo;
+            //Atribuição dos valores recebidos da váriavel $request após seu upload
+            $item->logo = $request->logo->store('logoUnidade');
+
+            //Nova instância do Model Canvas
+            $img = new Canvas();
+
+            //Edição da imagem recebida com a Class Canva 
+            $img->carrega(public_path('storage/' . $item->logo))
+                ->hexa('#FFFFFF')
+                ->redimensiona(600, 600, 'preenchimento')
+                ->grava(public_path('storage/' . $item->logo), 80);
+        }
+
+        //Envio das informações para o banco de dados
+        $resposta = $item->save();
+
+        //Verifica se o Update foi bem sucedido
+        if ($resposta) {
+
+            $_SESSION['unidade_cursos_start'] = $item;
+
+            if ($request->hasCookie('unidade_usuario') != false) {
+                //Criar o Cookie com as credênciais com validade de 3 dias
+                Cookie::queue('unidade_usuario', $request->usuario, 4320);
+                Cookie::queue('unidade_senha', $request->senha, 4320);
+            }
+
+
+            //Verifica se há imagem antiga para ser apagada e se caso exista, se é diferente do padrão
+            if (@$logoApagar and Storage::exists($logoApagar) and $logoApagar != 'logoUnidade/padrao.png') {
+                //Deleta o arquivo físico da imagem antiga
+                Storage::delete($logoApagar);
+            }
+
+            //Redirecionamento para a rota unidadeIndex, com mensagem de sucesso
+            return redirect()->back()->with('sucesso', 'Edições salvas!');
+        } else {
+            //Redirecionamento para tela anterior com mensagem de erro
+            return redirect()->back()->with('atencao', 'Algo deu errado, tente novamente!');
+        }
+    }
     /*
     Função Sair de Unidade
     - Responsável pelo logoff do painel do unidade

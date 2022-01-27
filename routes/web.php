@@ -193,6 +193,7 @@ Route::get('/unidade-cadastro', [UnidadeController::class, 'cadastro'])->name('u
 Route::post('/unidade-inserir', [UnidadeController::class, 'inserir'])->name('unidadeInserir');
 Route::get('/unidade-editar/{item}', [UnidadeController::class, 'editar'])->name('unidadeEditar');
 Route::put('/unidade-salvar/{item}', [UnidadeController::class, 'salvar'])->name('unidadeSalvar');
+Route::put('/unidade-salvar-minhas-informacoes', [UnidadeController::class, 'salvarMinhasInformacoesUnidade'])->name('salvarMinhasInformacoesUnidade');
 Route::get('/unidade-delete/{item}', [UnidadeController::class, 'deletar'])->name('unidadeDeletar');
 Route::post('/unidade-valida-usuario', [UnidadeController::class, 'validaUsuarioUnidade'])->name('validaUsuarioUnidade');
 

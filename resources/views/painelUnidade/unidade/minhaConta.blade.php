@@ -4,8 +4,16 @@
 
 
 @section('header')
-    <link type="text/css" href="{{ URL::asset('template/css/quill.css') }}" rel="stylesheet">
+    <style>
+        .logo-lg {
+            font-size: 1.33333rem;
+            width: 4rem;
+            height: 4rem;
+        }
+
+    </style>
 @endsection
+
 @section('footer')
     <!-- Global Settings -->
     <script src="{{ URL::asset('template/js/settings.js') }}"></script>
@@ -14,9 +22,7 @@
     <script src="{{ URL::asset('template/vendor/moment.min.js') }}"></script>
     <script src="{{ URL::asset('template/vendor/moment-range.js') }}"></script>
 
-    <!-- Quill -->
-    <script src="{{ URL::asset('template/vendor/quill.min.js') }}"></script>
-    <script src="{{ URL::asset('template/js/quill.js') }}"></script>
+
 
     <!-- jQuery Mask Plugin -->
     <script src="{{ URL::asset('template/vendor/jquery.mask.min.js') }}"></script>
@@ -157,7 +163,7 @@
 
 @section('conteudo')
     <div class="container page__container p-0">
-        <form action="{{ route('salvarMinhasInformacoesParceiro') }}" onsubmit="return prepararSubmit();" method="post"
+        <form action="{{ route('salvarMinhasInformacoesUnidade') }}" onsubmit="return prepararSubmit();" method="post"
             enctype="multipart/form-data" class="row m-0">
             @csrf
             @method('PUT')
@@ -193,8 +199,8 @@
                                             <div class="d-flex mr-3 align-self-center">
                                                 <span class="logo logo-lg">
                                                     @if ($item->logo != '')
-                                                        <img src="{{ URL::asset('storage/' . $item->logo) }}"
-                                                            alt="logo" class="w-100">
+                                                        <img src="{{ URL::asset('storage/' . $item->logo) }}" alt="logo"
+                                                            class="w-100">
                                                     @else
                                                         <img src="{{ URL::asset('storage/logoParceiro/padrao.png') }}"
                                                             alt="logo" class="w-100">
@@ -214,7 +220,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="list-group-item">
                             <div role="group" aria-labelledby="label-nome" class="m-0 form-group">
                                 <div class="form-row">
