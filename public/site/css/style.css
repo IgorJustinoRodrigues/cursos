@@ -969,7 +969,7 @@ footer.style-2 .footer-top .footer-item.twitter-post .footer-inner .footer-conte
 .form-message.success,
 .news-letter .section-wrapper .news-form form .nf-list::after,
 .skill-section .section-header .lab-btn span {
-    color: #26c976
+    color: #66b54b
 }
 
 .about-section.style-3 .about-left .about-left-content,
@@ -1037,7 +1037,7 @@ footer.style-2 .footer-top .footer-item.twitter-post .footer-inner .footer-conte
 .pageheader-section.style-2 .pageheader-content .course-category .course-cate,
 .post-item.qute-post .post-inner .post-thumb,
 .skill-section::before {
-    background: #26c976
+    background: #66b54b
 }
 
 .comment-respond .add-comment .comment-form input,
@@ -5501,7 +5501,7 @@ button {
 .about-section::before {
     width: 50%;
     height: 100%;
-    border-bottom: 753px solid #26c976;
+    border-bottom: 753px solid #66b54b;
     border-right: 960px solid transparent
 }
 
@@ -6035,7 +6035,7 @@ button {
     height: 100%;
     top: 0;
     left: 0;
-    border-bottom: 690px solid #26c976;
+    border-bottom: 690px solid #66b54b;
     border-right: 648px solid transparent
 }
 
@@ -6047,7 +6047,7 @@ button {
 
 @media (min-width:1200px) and (max-width:1439px) {
     .instructor-single-section .instructor-wrapper .instructor-single-top::before {
-        border-bottom: 645px solid #26c976;
+        border-bottom: 645px solid #66b54b;
         border-right: 635px solid transparent
     }
 }
@@ -6345,14 +6345,6 @@ button {
 
 .newsletters-section {
     background: #f8f8f8
-}
-
-.newsletters-section::after {
-    bottom: 0;
-    left: 0;
-    background: url(../../assets/images/shape-img/06.png) no-repeat;
-    background-position: center;
-    background-size: cover
 }
 
 .newsletters-section .newsletter-area {
@@ -7024,7 +7016,7 @@ button {
     width: 50%;
     height: 100%;
     top: 0;
-    border-bottom: 786px solid #26c976;
+    border-bottom: 786px solid #66b54b;
     border-right: 960px solid transparent
 }
 

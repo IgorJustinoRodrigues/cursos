@@ -173,7 +173,7 @@
     
     @if (count($categoria) > 0)
     <!-- category section start here -->
-    <div class="category-section ">
+    <div class="category-section"  style="padding-bottom: 80px;">
         <div class="container">
             <div class="section-header text-center">
                 <span class="subtitle">Categoria Popular</span>
@@ -292,13 +292,13 @@
     @endif
 
     <!-- abouts section start here -->
-    <div class="about-section">
+    <div class="about-section" style="padding-bottom: 80px;">
         <div class="container">
             <div class="row justify-content-center row-cols-xl-2 row-cols-1 align-items-end flex-row-reverse">
                 <div class="col">
                     <div class="about-right padding-tb">
                         <div class="section-header">
-                            <span class="subtitle">SOBRE O NOSSO EDUK</span>
+                            <span class="subtitle">SOBRE O FAÇA MAIS BRASIL</span>
                             <h2 class="title">Bons serviços de qualificação e melhores habilidades</h2>
                             <p>Distintamente fornecer acesso a usuários mutáveis ​​enquanto processos transparentes
                                 incentivam funcionalidades eficientes ao invés de arquitetura extensível comunicar serviços

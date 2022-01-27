@@ -23,6 +23,49 @@
     <script src="{{ URL::asset('site/js/jquery.js') }}"></script>
     <link rel="stylesheet" href="{{ URL::asset('template/css/lobibox.min.css') }}" />
     <script src="{{ URL::asset('template/js/lobibox.js') }}"></script>
+
+    <style>
+        .newsletters-section::after {
+            bottom: 0;
+            left: 0;
+            background: url({{ URL::asset('site/images/shape-img/06.png') }}) no-repeat;
+            background-position: center;
+            background-size: cover
+        }
+
+        .newsletters-section {
+            background: #2073b3 !important;
+        }
+
+        .newsletters-section > h2 {
+            color: #ffffff !important;
+        }
+
+        .section-header>p {
+            color: #dbdbdb !important;
+        }
+
+        .link-rodape {
+            text-align: right;
+        }
+
+        @media (max-width: 576px) {
+            .link-rodape {
+                text-align: center;
+            }
+
+            .link-rodape>a {
+                margin-left: 20px;
+                margin-right: 20px
+            }
+
+        }
+
+        .link-rodape>a {
+            margin-left: 20px
+        }
+
+    </style>
 </head>
 
 <body>
@@ -148,89 +191,105 @@
 
     @yield('conteudo')
 
-    <!-- footer -->
-    <div class="news-footer-wrap">
-        <div class="fs-shape">
-            <img src="{{ URL::asset('site/images/shape-img/03.png') }}" alt="fst" class="fst-1">
-            <img src="{{ URL::asset('site/images/shape-img/04.png') }}" alt="fst" class="fst-2">
-        </div>
-        <!-- Newsletter Section Start Here -->
-        <div class="news-letter">
-            <div class="container">
-                <div class="section-wrapper">
-                    <div class="news-title">
-                        <h3>Quer que enviemos um e-mail sobre ofertas especiais e atualizações?</h3>
+    <!-- Newsletters Section Start Here -->
+    <div class="newsletters-section padding-tb">
+        <div class="container">
+            <div class="newsletter-area">
+                <div class="news-mass">
+                    <i class="icofont-email"></i>
+                </div>
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-lg-6 col-12">
+                        <div class="section-header">
+                            <h2 class="title">Assine a Newsletter</h2>
+                            <p>Inscreva-se gratuitamente e receba a notificação e as últimas ofertas de nossos cursos.</p>
+                        </div>
                     </div>
-                    <div class="news-form">
-                        <form action="/">
-                            <div class="nf-list">
-                                <input type="email" name="email" placeholder="Digite o Seu Email">
-                                <input type="submit" name="submit" value="Inscrever-se">
-                            </div>
-                        </form>
+                    <div class="col-lg-6 col-12">
+                        <div class="section-wrapper">
+                            <h5>Informe o seu nome e e-mail</h5>
+                            <form class="newsletter-form">
+                                <input type="text" placeholder="Informe o seu nome" required>
+                                <input type="email" placeholder="Informe o seu e-mail" required>
+                                <button type="submit" class="lab-btn"><span>Me inscrever agora!</span></button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Newsletter Section Ending Here -->
+    </div>
+    <!-- Newsletters Section Ending Here -->
 
-        <!-- Footer Section Start Here -->
-        <footer>
-            <div class="footer-top padding-tb pt-0">
-                <div class="container">
-                    <div class="row g-4 row-cols-xl-4 row-cols-md-2 row-cols-1 justify-content-center">
-                        <div class="col">
-                            <div class="footer-item">
-                                <div class="footer-inner">
-                                    <div class="footer-content">
-                                        <div class="title">
-                                            <h4>Links</h4>
-                                        </div>
-                                        <div class="content">
-                                            <ul class="lab-ul">
-                                                <li><a href="#">Sobre Nós</a></li>
-                                                <li><a href="#">Cursos</a></li>
-                                                <li><a href="#">Novidades</a></li>
-                                                <li><a href="#">Contato</a></li>
-                                            </ul>
-                                        </div>
+
+
+
+    <!-- Footer Section Start Here -->
+    <footer class="style-2">
+        <div class="footer-top padding-tb">
+            <div class="container">
+                <div class="row g-4 row-cols-xl-4 row-cols-sm-2 row-cols-1 justify-content-center">
+                    <div class="col">
+                        <div class="footer-item our-address">
+                            <div class="footer-inner">
+                                <div class="footer-content">
+                                    <div class="title">
+                                        <img src="{{ URL::asset('site/images/logo/Logo.svg') }}" alt="education">
+                                    </div>
+                                    <div class="content">
+                                        <p>Venha fazer parte do futuro com o Faça Mais Brasil!</p>
+                                        <ul class="lab-ul office-address">
+                                            <li><i class="icofont-phone"></i>(62) 9 9999-9999</li>
+                                            <li><i class="icofont-envelope"></i>contato.educamaisbrasil@gmail.com</li>
+                                        </ul>
+                                        <ul class="lab-ul social-icons">
+                                            <li>
+                                                <a href="#" class="facebook"><i class="icofont-facebook"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="instagram"><i class="icofont-instagram"></i></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="whatsapp"><i class="icofont-whatsapp"></i></a>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="footer-item">
-                                <div class="footer-inner">
-                                    <div class="footer-content">
-                                        <div class="title">
-                                            <h4>Contato social</h4>
-                                        </div>
-                                        <div class="content">
-                                            <ul class="lab-ul">
-                                                <li><a href="#">Facebook</a></li>
-                                                <li><a href="#">WhatsApp</a></li>
-                                                <li><a href="#">Instagram</a></li>
-                                                <li><a href="#">YouTube</a></li>
-                                            </ul>
-                                        </div>
+                    </div>
+                    <div class="col text-center">
+                        <div class="footer-item">
+                            <div class="footer-inner">
+                                <div class="footer-content">
+                                    <div class="title">
+                                        <h4>Conheça</h4>
+                                    </div>
+                                    <div class="content">
+                                        <ul class="lab-ul">
+                                            <li><a href="#">Ver todos os cursos</a></li>
+                                            <li><a href="#">Forms and Admision materials</a></li>
+                                            <li><a href="#">Professional Courses</a></li>
+                                            <li><a href="#">Course Outline</a></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="footer-item">
-                                <div class="footer-inner">
-                                    <div class="footer-content">
-                                        <div class="title">
-                                            <h4>Nosso Suporte</h4>
-                                        </div>
-                                        <div class="content">
-                                            <ul class="lab-ul">
-                                                <li><a href="#">Suporte Vendedor</a></li>
-                                                <li><a href="#">Suporte Parceiro</a></li>
-                                                <li><a href="#">Contatar Suporte</a></li>
-                                            </ul>
-                                        </div>
+                    </div>
+                    <div class="col text-center">
+                        <div class="footer-item">
+                            <div class="footer-inner">
+                                <div class="footer-content">
+                                    <div class="title">
+                                        <h4>Links Últeis</h4>
+                                    </div>
+                                    <div class="content">
+                                        <ul class="lab-ul">
+                                            <li><a href="#">Ajuda</a></li>
+                                            <li><a href="#">Política de Privacidade</a></li>
+                                            <li><a href="#">Termo de Uso</a></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -238,17 +297,26 @@
                     </div>
                 </div>
             </div>
-            <div class="footer-bottom style-2">
-                <div class="container">
-                    <div class="section-wrapper">
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
                         <p>Todos os direitos reservado Faça Mais Brasil &copy; {{ date('Y') }}</p>
                     </div>
+                    <div class="col-md-6 link-rodape">
+                        <a href="#">Administrador</a>
+                        <a href="#">Parceiro</a>
+                        <a href="#">Unidade</a>
+                        <a href="#">Vendedor</a>
+                        <a href="#">Aluno</a>
+                    </div>
                 </div>
             </div>
-        </footer>
-        <!-- Footer Section Ending Here -->
-    </div>
-    <!-- footer -->
+        </div>
+    </footer>
+    <!-- Footer Section Ending Here -->
+
 
 
     <script src="{{ URL::asset('site/js/bootstrap.min.js') }}"></script>
@@ -258,7 +326,7 @@
     <script src="{{ URL::asset('site/js/counter-up.js') }}"></script>
     <script src="{{ URL::asset('site/js/isotope.pkgd.js') }}"></script>
     <script src="{{ URL::asset('site/js/functions.js') }}"></script>
-    
+
     @yield('footer')
     <script>
         @if (session('padrao'))
