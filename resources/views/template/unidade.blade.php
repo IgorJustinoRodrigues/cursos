@@ -105,9 +105,9 @@
 
                                                 </span>
                                                 <span class="d-flex">
-                                                    <span class="avatar avatar-xs mr-2">
+                                                    <span class="logo logo-xs mr-2">
                                                         <img src="{{ URL::asset('template/images/people/110/woman-5.jpg') }}"
-                                                            alt="people" class="avatar-img rounded-circle">
+                                                            alt="people" class="logo-img rounded-circle">
                                                     </span>
                                                     <span class="flex d-flex flex-column">
                                                         <strong>Michelle</strong>
@@ -126,9 +126,9 @@
 
                                                 </span>
                                                 <span class="d-flex">
-                                                    <span class="avatar avatar-xs mr-2">
+                                                    <span class="logo logo-xs mr-2">
                                                         <img src="{{ URL::asset('template/images/people/110/woman-5.jpg') }}"
-                                                            alt="people" class="avatar-img rounded-circle">
+                                                            alt="people" class="logo-img rounded-circle">
                                                     </span>
                                                     <span class="flex d-flex flex-column">
                                                         <strong>Michelle</strong>
@@ -149,8 +149,8 @@
 
                                                 </span>
                                                 <span class="d-flex">
-                                                    <span class="avatar avatar-xs mr-2">
-                                                        <span class="avatar-title rounded-circle bg-light">
+                                                    <span class="logo logo-xs mr-2">
+                                                        <span class="logo-title rounded-circle bg-light">
                                                             <i
                                                                 class="material-icons font-size-16pt text-danger">account_circle</i>
                                                         </span>
@@ -170,8 +170,8 @@
 
                                                 </span>
                                                 <span class="d-flex">
-                                                    <span class="avatar avatar-xs mr-2">
-                                                        <span class="avatar-title rounded-circle bg-light">
+                                                    <span class="logo logo-xs mr-2">
+                                                        <span class="logo-title rounded-circle bg-light">
                                                             <i
                                                                 class="material-icons font-size-16pt text-success">group_add</i>
                                                         </span>
@@ -191,8 +191,8 @@
 
                                                 </span>
                                                 <span class="d-flex">
-                                                    <span class="avatar avatar-xs mr-2">
-                                                        <span class="avatar-title rounded-circle bg-light">
+                                                    <span class="logo logo-xs mr-2">
+                                                        <span class="logo-title rounded-circle bg-light">
                                                             <i
                                                                 class="material-icons font-size-16pt text-warning">storage</i>
                                                         </span>
@@ -211,9 +211,15 @@
                             <!-- // END Notifications dropdown -->
                             <!-- User dropdown -->
                             <li class="nav-item dropdown ml-1 ml-md-3">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"><img
-                                        src="{{ URL::asset('storage/' . $_SESSION['unidade_cursos_start']->logo) }}"
-                                        alt="Avatar" class="rounded-circle" width="40"></a>
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">
+                                    @if ($_SESSION['unidade_cursos_start']->logo != '')
+                                        <img src="{{ URL::asset('storage/' . $_SESSION['unidade_cursos_start']->logo) }}"
+                                            alt="Avatar" class="rounded-circle" width="40">
+                                    @else
+                                        <img src="{{ URL::asset('storage/logoUnidade/padrao.png') }}" alt="Avatar"
+                                            class="rounded-circle" width="40">
+                                    @endif
+                                    </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <p class="dropdown-item">
                                         {{ $_SESSION['unidade_cursos_start']->nome }}

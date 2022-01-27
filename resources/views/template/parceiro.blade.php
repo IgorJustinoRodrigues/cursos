@@ -211,9 +211,15 @@
                             <!-- // END Notifications dropdown -->
                             <!-- User dropdown -->
                             <li class="nav-item dropdown ml-1 ml-md-3">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"><img
-                                        src="{{ URL::asset('storage/' . $_SESSION['parceiro_cursos_start']->logo) }}"
-                                        alt="Avatar" class="rounded-circle" width="40"></a>
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">
+                                    @if ($_SESSION['parceiro_cursos_start']->logo != '')
+                                        <img src="{{ URL::asset('storage/' . $_SESSION['parceiro_cursos_start']->logo) }}"
+                                            alt="Avatar" class="rounded-circle" width="40">
+                                    @else
+                                        <img src="{{ URL::asset('storage/logoParceiro/padrao.png') }}" alt="Avatar"
+                                            class="rounded-circle" width="40">
+                                    @endif
+                                    </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <p class="dropdown-item">
                                         {{ $_SESSION['parceiro_cursos_start']->nome }}
