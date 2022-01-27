@@ -186,29 +186,29 @@
                             </div>
                         </div>
                         <div class="list-group-item">
-                            <div role="group" aria-labelledby="label-avatar" class="m-0 form-group">
+                            <div role="group" aria-labelledby="label-logo" class="m-0 form-group">
                                 <div class="form-row">
-                                    <label id="label-avatar" for="avatar"
+                                    <label id="label-logo" for="logo"
                                         class="col-md-2 col-form-label form-label">Foto</label>
                                     <div class="col-md-10">
                                         <div class="media align-items-center">
                                             <div class="d-flex mr-3 align-self-center">
-                                                <span class="avatar avatar-lg">
-                                                    @if ($item->avatar != '')
-                                                        <img src="{{ URL::asset('storage/' . $item->avatar) }}"
+                                                <span class="logo logo-lg">
+                                                    @if ($item->logo != '')
+                                                        <img src="{{ URL::asset('storage/' . $item->logo) }}"
                                                             alt="Avatar" class="w-100">
                                                     @else
-                                                        <img src="{{ URL::asset('storage/avatarAluno/padrao.png') }}"
+                                                        <img src="{{ URL::asset('storage/logoParceiro/padrao.png') }}"
                                                             alt="Avatar" class="w-100">
                                                     @endif
                                                 </span>
                                             </div>
                                             <div class="media-body">
                                                 <div class="custom-file b-form-file">
-                                                    <input type="file" id="avatar" aria-describedby="label-avatar-control"
-                                                        class="custom-file-input" name="avatar">
-                                                    <label id="label-avatar-control" class="custom-file-label">Envie uma
-                                                        foto sua</label>
+                                                    <input type="file" id="logo" aria-describedby="label-logo-control"
+                                                        class="custom-file-input" name="logo">
+                                                    <label id="label-logo-control" class="custom-file-label">Envie uma
+                                                        logo sua</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -265,14 +265,14 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="list-group-item">
                             <div role="group" aria-labelledby="label-sobre" class="m-0 form-group">
                                 <div class="form-row">
-                                    <label id="label-sobre" for="sobre"
-                                        class="col-md-2 col-form-label form-label">Sobre</label>
-                                    <div class="form-control" id="sobre" data-toggle="quill" style="height: 150px;">
-                                        {!! $item->sobre !!}</div>
+                                    <div class="col-12 col-md-12 mb-3">
+                                        <label class="form-label">Sobre</label>
+                                        <div class="form-control" id="sobre" data-toggle="quill" style="height: 150px;">
+                                            {!! $item->sobre !!}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -281,12 +281,14 @@
             </div>
 
 
+
             <div id="page-nav" class="col-lg-auto page-nav">
                 <div data-perfect-scrollbar="" class="ps">
                     <div class="page-section pt-lg-32pt">
                         <ul class="nav page-nav__menu">
                             <li class="nav-item">
-                                <a href="fixed-student-account-edit-profile.html" class="nav-link active">Minha Conta</a>
+                                <a href="fixed-student-account-edit-profile.html" class="nav-link active">Minha
+                                    Conta</a>
                             </li>
                         </ul>
                         <div class="page-nav__content">
