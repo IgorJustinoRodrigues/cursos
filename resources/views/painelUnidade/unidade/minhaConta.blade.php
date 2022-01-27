@@ -27,13 +27,6 @@
     <!-- jQuery Mask Plugin -->
     <script src="{{ URL::asset('template/vendor/jquery.mask.min.js') }}"></script>
     <script>
-        function prepararSubmit() {
-            var sobre = $(".ql-editor").html();
-            $("#input-sobre").val(sobre);
-
-            return true;
-        }
-
         $('.cpf').mask('000.000.000-00');
 
         function addMask(id) {
@@ -163,12 +156,11 @@
 
 @section('conteudo')
     <div class="container page__container p-0">
-        <form action="{{ route('salvarMinhasInformacoesUnidade') }}" onsubmit="return prepararSubmit();" method="post"
-            enctype="multipart/form-data" class="row m-0">
+        <form action="{{ route('salvarMinhasInformacoesUnidade') }}" method="post" enctype="multipart/form-data"
+            class="row m-0">
             @csrf
             @method('PUT')
             <input type="hidden" name="id" id="id" value="{{ $item->id }}">
-            <input type="hidden" name="sobre" id="input-sobre">
             <div class="col-lg container-fluid page__container">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('painelParceiro') }}">Início</a></li>
@@ -265,18 +257,6 @@
                                                 onkeyup="verificaSenha()" />
                                             <div id="msg-senha"></div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-group-item">
-                            <div role="group" aria-labelledby="label-sobre" class="m-0 form-group">
-                                <div class="form-row">
-                                    <label id="label-sobre" for="sobre"
-                                        class="col-md-2 col-form-label form-label">Sobre</label>
-                                    <div class="col-md-10">
-                                        <div class="form-control" id="sobre" data-toggle="quill" style="height: 150px;">
-                                            {!! $item->sobre !!}</div>
                                     </div>
                                 </div>
                             </div>
