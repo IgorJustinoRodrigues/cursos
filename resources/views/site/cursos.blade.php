@@ -2,7 +2,14 @@
 @section('title', 'Cursos')
 
 @section('header')
-
+<style>
+    .dourado {
+        color: #ffd400 !important;
+    }
+    .prata{
+        color: #f2f1ea !important;
+    }
+</style>
 @endsection
 
 @section('footer')
@@ -113,18 +120,17 @@
                                             <div class="course-category">
                                                 <div class="course-cate">
                                                     <a
-                                                        href="{{ route('site.lerCurso', ['10', 'lerCurso.html']) }}">{{ $item->categoria }}</a>
+                                                        href="{{ route('site.cursos', [$item->categoria_id, $item->categoria]) }}">{{ $item->categoria }}</a>
                                                 </div>
                                                 <div class="course-reiew">
                                                     <span class="ratting">
-                                                        <i class="icofont-ui-rating"></i>
-                                                        <i class="icofont-ui-rating"></i>
-                                                        <i class="icofont-ui-rating"></i>
-                                                        <i class="icofont-ui-rating"></i>
-                                                        <i class="icofont-ui-rating"></i>
-                                                    </span>
-                                                    <span class="ratting-count">
-                                                        03 reviews
+                                                        @for ($i = 1; $i < 6; $i++)
+                                                        @if ($i <= $item->estrelas)
+                                                            <i class="icofont-ui-rating dourado"></i>
+                                                        @else
+                                                            <i class="icofont-ui-rating prata"></i>
+                                                        @endif
+                                                    @endfor
                                                     </span>
                                                 </div>
                                             </div>

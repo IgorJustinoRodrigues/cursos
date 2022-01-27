@@ -33,6 +33,13 @@
             background-size: cover
         }
 
+
+        .pageheader-section.style-2 {
+            padding-top: 250px;
+            background-image: url({{ URL::asset('site/images/pageheader/bg/02.jpg') }})
+        }
+
+
         .newsletters-section {
             background: #2073b3 !important;
         }
@@ -202,7 +209,8 @@
                     <div class="col-lg-6 col-12">
                         <div class="section-header">
                             <h2 class="title texto-branco">Assine a Newsletter</h2>
-                            <p>Inscreva-se gratuitamente e receba a notificação e as últimas ofertas de nossos cursos.</p>
+                            <p>Inscreva-se gratuitamente e receba a notificação e as últimas ofertas de nossos cursos.
+                            </p>
                         </div>
                     </div>
                     <div class="col-lg-6 col-12">
@@ -269,12 +277,12 @@
                                         <ul class="lab-ul">
                                             <li><a href="{{ route('site.cursos') }}">Todos os Cursos</a>
                                             </li>
-                                            @foreach ($principaisCategorias as $linha)
+                                            @foreach ($categoriasMenu as $linha)
                                                 <li><a
                                                         href="{{ route('site.cursos', [$linha->id, $linha->nome]) }}">{{ $linha->nome }}</a>
                                                 </li>
                                             @endforeach
-                                            
+
                                         </ul>
                                     </div>
                                 </div>

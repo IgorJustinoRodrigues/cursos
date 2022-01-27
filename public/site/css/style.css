@@ -5121,11 +5121,6 @@ button {
     margin-bottom: 10px
 }
 
-.pageheader-section.style-2 {
-    padding-top: 250px;
-    background-image: url(../images/pageheader/bg/02.jpg)
-}
-
 @media (max-width:991px) {
     .pageheader-section.style-2 {
         padding-bottom: 60px;

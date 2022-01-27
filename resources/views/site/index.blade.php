@@ -256,7 +256,6 @@
                                                         @endif
                                                     @endfor
                                                     </span>
-
                                                 </div>
                                             </div>
                                             <a href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}">
