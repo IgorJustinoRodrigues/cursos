@@ -398,7 +398,7 @@ class UnidadeController extends Controller
         return view('painelUnidade.index');
     }
 
-      /*
+    /*
     Função Minha Conta de Unidade
     - Responsável exibir a view de minha conta de unidade painel do unidade
     */
@@ -409,7 +409,7 @@ class UnidadeController extends Controller
             //Redirecionamento para a rota acessoAluno, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionarUnidade();
 
-            $item = Unidade::join('parceiros', 'unidades.parceiro_id', '=', 'parceiros.id')
+        $item = Unidade::join('parceiros', 'unidades.parceiro_id', '=', 'parceiros.id')
             ->selectRaw("unidades.*, parceiros.nome as parceiro")
             ->find($_SESSION['unidade_cursos_start']->id);
 
@@ -439,10 +439,15 @@ class UnidadeController extends Controller
             ->find($id);
 
         //Atribuição dos valores recebidos da váriavel $request
-        $item->nome = $request->nome;
-        $item->cpf = $request->cpf;
         $item->email = $request->email;
         $item->whatsapp = $request->whatsapp;
+        $item->contato = $request->contato;
+        $item->endereco = $request->endereco;
+        $item->cidade = $request->cidade;
+        $item->estado = $request->estado;
+        $item->facebook = $request->facebook;
+        $item->instagram = $request->instagram;
+        $item->site = $request->site;      
         $item->usuario = $request->usuario;
 
         if (@$request->senha != '') {
@@ -583,7 +588,7 @@ class UnidadeController extends Controller
         $usuario = $request->usuario;
         $id = @$request->id;
 
-        
+
         //Verificação do tamanho do usuário informado
         if (Str::length($usuario) >= 3) {
 

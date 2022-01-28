@@ -163,7 +163,7 @@
             <input type="hidden" name="id" id="id" value="{{ $item->id }}">
             <div class="col-lg container-fluid page__container">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('painelParceiro') }}">Início</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('painelUnidade') }}">Início</a></li>
                     <li class="breadcrumb-item active">Minha Conta</li>
                 </ol>
                 <h1 class="h2">{{ $item->nome }}</h1>
@@ -257,6 +257,136 @@
                                                 onkeyup="verificaSenha()" />
                                             <div id="msg-senha"></div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div role="group" aria-labelledby="label-email" class="m-0 form-group">
+                                <div class="form-row">
+                                    <label id="label-email" for="email"
+                                        class="col-md-2 col-form-label form-label">Email</label>
+                                    <div class="col-md-10">
+                                        <input type="email" id="email" placeholder="Informe o seu email"
+                                            class="form-control" name="email" value="{{ $item->email }}" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div role="group" aria-labelledby="label-whatsapp" class="m-0 form-group">
+                                <div class="form-row">
+                                    <label id="label-whatsapp" for="whatsapp"
+                                        class="col-md-2 col-form-label form-label">WhatsApp</label>
+                                    <div class="col-md-4">
+                                        <input type="text" id="whatsapp" name="whatsapp" value="{{ $item->whatsapp }}"
+                                            class="form-control telefone" onkeyup="addMask('whatsapp')" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div role="group" aria-labelledby="label-contato" class="m-0 form-group">
+                                <div class="form-row">
+                                    <label id="label-contato" for="contato"
+                                        class="col-md-2 col-form-label form-label">Contato Extra</label>
+                                    <div class="col-md-10">
+                                        <textarea id="contato" name="contato" placeholder="Contatos extras" rows="3"
+                                            class="form-control">{{ $item->contato }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div role="group" aria-labelledby="label-endereco" class="m-0 form-group">
+                                <div class="form-row">
+                                    <label id="label-endereco" for="endereco"
+                                        class="col-md-2 col-form-label form-label">Endereço</label>
+                                    <div class="col-md-4">
+                                        <input type="text" id="endereco" name="endereco" value="{{ $item->endereco }}"
+                                            class="form-control telefone" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div role="group" aria-labelledby="label-cidade" class="m-0 form-group">
+                                <div class="form-row">
+                                    <label id="label-cidade" for="cidade"
+                                        class="col-md-2 col-form-label form-label">Cidade</label>
+                                    <div class="col-md-5">
+                                        <input type="text" id="cidade" name="cidade" placeholder="Informe sua cidade"
+                                            class="form-control" value="{{ $item->cidade }}">
+                                    </div>
+                                    <label id="label-estado" for="estado"
+                                        class="col-md-2 col-form-label form-label text-right">Estado</label>
+                                    <div class="col-md-3">
+                                        <select id="estado" name="estado" class="form-control">
+                                            <option value="" @if ($item->estado == '') selected @endif>-</option>
+                                            <option value="AC" @if ($item->estado == 'AC') selected @endif>Acre</option>
+                                            <option value="AL" @if ($item->estado == 'AL') selected @endif>Alagoas</option>
+                                            <option value="AP" @if ($item->estado == 'AP') selected @endif>Amapá</option>
+                                            <option value="AM" @if ($item->estado == 'AM') selected @endif>Amazonas</option>
+                                            <option value="BA" @if ($item->estado == 'BA') selected @endif>Bahia</option>
+                                            <option value="CE" @if ($item->estado == 'CE') selected @endif>Ceará</option>
+                                            <option value="DF" @if ($item->estado == 'DF') selected @endif>Distrito Federal</option>
+                                            <option value="ES" @if ($item->estado == 'ES') selected @endif>Espírito Santo</option>
+                                            <option value="GO" @if ($item->estado == 'GO') selected @endif>Goiás</option>
+                                            <option value="MA" @if ($item->estado == 'MA') selected @endif>Maranhão</option>
+                                            <option value="MT" @if ($item->estado == 'MT') selected @endif>Mato Grosso</option>
+                                            <option value="MS" @if ($item->estado == 'MS') selected @endif>Mato Grosso do Sul</option>
+                                            <option value="MG" @if ($item->estado == 'MG') selected @endif>Minas Gerais</option>
+                                            <option value="PA" @if ($item->estado == 'PA') selected @endif>Pará</option>
+                                            <option value="PB" @if ($item->estado == 'PB') selected @endif>Paraíba</option>
+                                            <option value="PR" @if ($item->estado == 'PR') selected @endif>Paraná</option>
+                                            <option value="PE" @if ($item->estado == 'PE') selected @endif>Pernambuco</option>
+                                            <option value="PI" @if ($item->estado == 'PI') selected @endif>Piauí</option>
+                                            <option value="RJ" @if ($item->estado == 'RJ') selected @endif>Rio de Janeiro</option>
+                                            <option value="RN" @if ($item->estado == 'RN') selected @endif>Rio Grande do Norte</option>
+                                            <option value="RS" @if ($item->estado == 'RS') selected @endif>Rio Grande do Sul</option>
+                                            <option value="RO" @if ($item->estado == 'RO') selected @endif>Rondônia</option>
+                                            <option value="RR" @if ($item->estado == 'RR') selected @endif>Roraima</option>
+                                            <option value="SC" @if ($item->estado == 'SC') selected @endif>Santa Catarina</option>
+                                            <option value="SP" @if ($item->estado == 'SP') selected @endif>São Paulo</option>
+                                            <option value="SE" @if ($item->estado == 'SE') selected @endif>Sergipe</option>
+                                            <option value="TO" @if ($item->estado == 'TO') selected @endif>Tocantins</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div role="group" aria-labelledby="label-facebook" class="m-0 form-group">
+                                <div class="form-row">
+                                    <label id="label-facebook" for="facebook"
+                                        class="col-md-2 col-form-label form-label">Facebook</label>
+                                    <div class="col-md-10">
+                                        <input type="url" id="facebook" placeholder="Informe o seu facebook" class="form-control"
+                                            name="facebook" value="{{ $item->facebook }}" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div role="group" aria-labelledby="label-instagram" class="m-0 form-group">
+                                <div class="form-row">
+                                    <label id="label-instagram" for="instagram"
+                                        class="col-md-2 col-form-label form-label">Instagram</label>
+                                    <div class="col-md-10">
+                                        <input type="url" id="instagram" placeholder="Informe o seu instagram" class="form-control"
+                                            name="instagram" value="{{ $item->instagram }}" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item">
+                            <div role="group" aria-labelledby="label-site" class="m-0 form-group">
+                                <div class="form-row">
+                                    <label id="label-site" for="site"
+                                        class="col-md-2 col-form-label form-label">Site</label>
+                                    <div class="col-md-10">
+                                        <input type="url" id="site" placeholder="Informe o seu site" class="form-control"
+                                            name="site" value="{{ $item->site }}" required>
                                     </div>
                                 </div>
                             </div>
