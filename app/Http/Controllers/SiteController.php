@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aluno;
+use App\Models\AnexoAula;
 use App\Models\Aula;
 use App\Models\AulaAluno;
 use App\Models\CategoriaCurso;
@@ -10,7 +11,9 @@ use App\Models\Certificado;
 use App\Models\Curso;
 use App\Models\Matricula;
 use App\Models\Parceiro;
+use App\Models\Perguntas;
 use App\Models\Professor;
+use App\Models\Respostas;
 use App\Models\Unidade;
 use App\Models\Vendedor;
 use Illuminate\Http\Request;
@@ -366,6 +369,9 @@ class SiteController extends Controller
             return redirect()->back()->with('atencao', 'Curso não encontrado!')->withInput();
         }
 
+        $curso->estrelas = AulaAluno::where('curso_id', '=', $curso->id)->avg('avaliacao_aula');
+        $curso->alunos = Matricula::where('curso_id', '=', $curso->id)->count();
+
         $professor = Professor::where('status', '=', 1)->find($curso->professor_id);
         $categoria = CategoriaCurso::where('status', '=', 1)->find($curso->categoria_id);
 
@@ -394,6 +400,43 @@ class SiteController extends Controller
             'quantidadeAula' => count($aulas),
             'totalQuiz' => $totalQuiz
         ]);
+    }
+
+    public function aulaTeste($curso_id, $url = "")
+    {
+        $curso = Curso::where('status', '=', 1)->where('visibilidade', '=', 1)->find($curso_id);
+
+        if ($curso) {
+            $aulas = Aula::where('curso_id', '=', $curso->id)
+                ->where('status', '=', '1')
+                ->orderByRaw('-ordem desc')
+                ->orderby('ordem', 'desc')
+                ->get();
+
+            if (!$aulas) {
+                //Redirecionamento para a rota painelAluno, com mensagem de sucesso, com uma sessão ativa
+                return redirect()->back()->with('atencao', 'O curso não foi encontrado. Tente novamente!')->withInput();
+            }
+
+            $professor = Professor::where('status', '=', '1')->find($curso->professor_id);
+            $anexos = AnexoAula::where('aula_id', '=', $aulas[0]->id)->get();
+
+            $aula = $aulas[0];
+
+            //Exibe a view
+            return view(
+                'site.aulaTeste',
+                [
+                    'curso' => $curso,
+                    'aula' => $aula,
+                    'aulas' => $aulas,
+                    'professor' => $professor,
+                    'anexos' => $anexos,
+                ]
+            );
+        } else {
+            return redirect()->back()->with('atencao', 'O curso não foi encontrado. Tente novamente!')->withInput();
+        }
     }
 
     //Função de Suporte

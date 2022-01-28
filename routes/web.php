@@ -40,6 +40,7 @@ Route::get('/trocar-aluno-curso/{troca}', [AlunoController::class, 'trocarAlunoC
 Route::get('/como-ativar-codigo', [SiteController::class, 'comoAtivarCodigo'])->name('site.comoAtivarCodigo');
 Route::get('/cursos/{categoria?}/{nome?}', [SiteController::class, 'cursos'])->name('site.cursos');
 Route::get('/ler/curso/{item}/{url?}', [SiteController::class, 'lerCurso'])->name('site.lerCurso');
+Route::get('/aula-teste/{curso}/{url?}', [SiteController::class, 'aulaTeste'])->name('site.aulaTeste');
 Route::get('/suporte', [SiteController::class, 'suporte'])->name('site.suporte');
 
 

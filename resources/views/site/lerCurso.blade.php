@@ -1,8 +1,17 @@
 @extends('template.site')
-@section('title', 'Ler Curso')
+@section('title', $curso->nome)
 
 @section('header')
+    <style>
+        .dourado {
+            color: #ffd400 !important;
+        }
 
+        .prata {
+            color: #f2f1ea !important;
+        }
+
+    </style>
 @endsection
 
 @section('footer')
@@ -43,16 +52,19 @@
                                 <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}" style="width: 50px">
                             @endif
                             <span>{{ $professor->nome }}</span>
+                            <br>
                             <div class="course-reiew">
                                 <span class="ratting">
-                                    <i class="icofont-ui-rating"></i>
-                                    <i class="icofont-ui-rating"></i>
-                                    <i class="icofont-ui-rating"></i>
-                                    <i class="icofont-ui-rating"></i>
-                                    <i class="icofont-ui-rating"></i>
+                                    @for ($i = 1; $i < 6; $i++)
+                                        @if ($i <= $curso->estrelas)
+                                            <i class="icofont-ui-rating dourado"></i>
+                                        @else
+                                            <i class="icofont-ui-rating prata"></i>
+                                        @endif
+                                    @endfor
                                 </span>
                                 <span class="ratting-count">
-                                    03 reviews
+                                    {{ $curso->alunos }} aluno matrículados
                                 </span>
                             </div>
                         </div>
@@ -74,7 +86,7 @@
 
 
     <!-- course section start here -->
-    <div class="course-single-section padding-tb section-bg">
+    <div class="course-single-section padding-tb section-bg" style="background: #f8f8f8 !important">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
@@ -91,16 +103,13 @@
                         </div>
 
                         <div class="course-video">
-                            <div class="course-video-title">
-                                <h4>Conteúdo do curso</h4>
-                            </div>
                             <div class="course-video-content">
                                 <div class="accordion" id="accordionExample">
                                     <div class="accordion-item">
                                         <div class="accordion-header" id="accordion01">
                                             <button class="d-flex flex-wrap justify-content-between"
                                                 data-bs-toggle="collapse" data-bs-target="#videolist1" aria-expanded="true"
-                                                aria-controls="videolist1"><span>1.Contéudo de Prévia do Curso</span>
+                                                aria-controls="videolist1"><span>Contéudo Programático</span>
                                                 <span>{{ $quantidadeAula }} Aulas,
                                                     {{ app(App\Services\Services::class)->minuto_hora($tempoTotal) }}</span>
                                             </button>
@@ -110,7 +119,9 @@
                                             <ul class="lab-ul video-item-list">
                                                 @foreach ($aulas as $linha)
                                                     <li class=" d-flex flex-wrap justify-content-between">
-                                                        <div class="video-item-title">{{ $linha->nome }}</div>
+                                                        <div class="video-item-title">
+                                                            {!! app(App\Http\Controllers\AulaController::class)->tipo($linha->tipo, $linha->avaliacao) !!} |
+                                                            {{ $linha->nome }}</div>
                                                         <div class="video-item-icon">
                                                             {{ app(App\Services\Services::class)->minuto_hora($linha->duracao) }}
                                                         </div>
@@ -123,42 +134,34 @@
                             </div>
                         </div>
 
-                        <div id="respond" class="comment-respond mb-lg-0">
-                            <h4 class="title-border">Pedir mais detalhes do Curso de {{ $curso->nome }}</h4>
-                            <div class="add-comment">
-                                <form action="#" method="post" id="commentform" class="comment-form">
-                                    <input type="text" placeholder="review title">
-                                    <input type="text" placeholder="reviewer name">
-                                    <input type="email" placeholder="reviewer email">
-                                    <textarea rows="5" placeholder="review summary"></textarea>
-                                    <button type="submit" class="lab-btn"><span>Submit Review</span></button>
-                                </form>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
+                    <div class="course-side-detail">
+                        <div class="csd-content">
+                            <div class="row">
+                                <a class="btn btn-outline-success btn-lg btn-block" href="{{ route('site.aulaTeste', [$curso->id, Str::slug($curso->nome)]) }}"><span>VER AULA TESTE!</span></a>
+                            </div>
+                        </div>
+                    </div>
                     <div class="sidebar-part">
                         <div class="course-side-detail">
                             <div class="csd-title">
-                                <div class="csdt-left">
-                                    <h4 class="mb-0"><sup>$</sup>38</h4>
-                                </div>
                                 <div class="csdt-right">
-                                    <p class="mb-0"><i class="icofont-clock-time"></i>Limited time offer</p>
+                                    <p class="mb-0"><i class="icofont-attachment"></i>Informações Técnicas</p>
                                 </div>
                             </div>
                             <div class="csd-content">
                                 <div class="csdc-lists">
                                     <ul class="lab-ul">
                                         <li>
-                                            <div class="csdc-left"><i class="icofont-ui-alarm"></i>Nível do curso</div>
+                                            <div class="csdc-left"><i class="icofont-fire"></i>Nível do curso</div>
                                             <div class="csdc-right">
                                                 {{ app(App\Http\Controllers\CursoController::class)->tipo($curso->tipo, true) }}
                                             </div>
                                         </li>
                                         <li>
-                                            <div class="csdc-left"><i class="icofont-book-alt"></i>Duração do curso
+                                            <div class="csdc-left"><i class="icofont-clock-time"></i>Duração do curso
                                             </div>
                                             <div class="csdc-right">
                                                 {{ app(App\Services\Services::class)->minuto_hora($tempoTotal) }}</div>
@@ -168,101 +171,31 @@
                                             <div class="csdc-right">{{ $quantidadeAula }}x</div>
                                         </li>
                                         <li>
-                                            <div class="csdc-left"><i class="icofont-abacus-alt"></i>Quizzes</div>
+                                            <div class="csdc-left"><i class="icofont-listine-dots"></i>Quizzes</div>
                                             <div class="csdc-right">{{ $totalQuiz }}</div>
                                         </li>
                                         <li>
-                                            <div class="csdc-left"><i class="icofont-hour-glass"></i>Porcentagem de
-                                                Aprovação
-                                            </div>
-                                            <div class="csdc-right">
-                                                {{ $curso->porcentagem_solicitacao_certificado }}%</div>
-                                        </li>
-                                        <li>
-                                            <div class="csdc-left"><i class="icofont-certificate"></i>Certificado
+                                            <div class="csdc-left"><i class="icofont-certificate-alt-1"></i>Certificado
                                             </div>
                                             <div class="csdc-right">sim</div>
                                         </li>
                                     </ul>
                                 </div>
 
-                                <div class="sidebar-social">
-                                    <div class="ss-title">
-                                        <h6>Share This Course:</h6>
-                                    </div>
-                                    <div class="ss-content">
-                                        <ul class="lab-ul">
-                                            <li><a href="#" class="twitter"><i class="icofont-twitter"></i></a>
-                                            </li>
-                                            <li><a href="#" class="vimeo"><i class="icofont-vimeo"></i></a></li>
-                                            <li><a href="#" class="rss"><i class="icofont-rss"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="course-enroll">
-                                    <a href="#" class="lab-btn"><span>Enrolled Now</span></a>
+                                <div class="sidebar-social text-center">
+                                    <span class="ratting">
+                                        @for ($i = 1; $i < 6; $i++)
+                                            @if ($i <= $curso->estrelas)
+                                                <i class="icofont-ui-rating dourado"></i>
+                                            @else
+                                                <i class="icofont-ui-rating prata"></i>
+                                            @endif
+                                        @endfor
+                                    </span>
                                 </div>
                             </div>
                         </div>
-                        <div class="course-side-cetagory">
-                            <div class="csc-title">
-                                <h5 class="mb-0">Course Categories</h5>
-                            </div>
-                            <div class="csc-content">
-                                <div class="csdc-lists">
-                                    <ul class="lab-ul">
-                                        <li>
-                                            <div class="csdc-left"><a href="#">Personal Development</a></div>
-                                            <div class="csdc-right">30</div>
-                                        </li>
-                                        <li>
-                                            <div class="csdc-left"><a href="#">Photography</a></div>
-                                            <div class="csdc-right">20</div>
-                                        </li>
-                                        <li>
-                                            <div class="csdc-left"><a href="#">Teaching and Academics</a></div>
-                                            <div class="csdc-right">93</div>
-                                        </li>
-                                        <li>
-                                            <div class="csdc-left"><a href="#">Art and Design</a></div>
-                                            <div class="csdc-right">32</div>
-                                        </li>
-                                        <li>
-                                            <div class="csdc-left"><a href="#">Business</a></div>
-                                            <div class="csdc-right">26</div>
-                                        </li>
-                                        <li>
-                                            <div class="csdc-left"><a href="#">Data Science</a></div>
-                                            <div class="csdc-right">27</div>
-                                        </li>
-                                        <li>
-                                            <div class="csdc-left"><a href="#">Development</a></div>
-                                            <div class="csdc-right">28</div>
-                                        </li>
-                                        <li>
-                                            <div class="csdc-left"><a href="#">Finance</a></div>
-                                            <div class="csdc-right">36</div>
-                                        </li>
-                                        <li>
-                                            <div class="csdc-left"><a href="#">Health & Fitness</a></div>
-                                            <div class="csdc-right">39</div>
-                                        </li>
-                                        <li>
-                                            <div class="csdc-left"><a href="#">Lifestyle</a></div>
-                                            <div class="csdc-right">37</div>
-                                        </li>
-                                        <li>
-                                            <div class="csdc-left"><a href="#">Marketing</a></div>
-                                            <div class="csdc-right">18</div>
-                                        </li>
-                                        <li>
-                                            <div class="csdc-left"><a href="#">Music</a></div>
-                                            <div class="csdc-right">20</div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>

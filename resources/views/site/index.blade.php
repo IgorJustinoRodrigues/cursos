@@ -200,7 +200,7 @@
                                         @endif
                                     </div>
                                     <div class="category-content">
-                                        <a href="{{ route('site.cursos', [$item->id, $item->nome]) }}">
+                                        <a href="{{ route('site.cursos', [$item->id, Str::slug($item->nome)]) }}">
                                             <h6>{{ $item->nome }}</h6>
                                         </a>
                                         <span>{{ $item->quantCursoCategoria }} Cursos</span>
@@ -244,7 +244,7 @@
                                         <div class="course-content">
                                             <div class="course-category">
                                                 <div class="course-cate">
-                                                    <a href="{{ route('site.cursos', [$item->categoria_id, $item->categoria]) }}">{{ $item->categoria }}</a>
+                                                    <a href="{{ route('site.cursos', [$item->categoria_id, Str::slug($item->categoria)]) }}">{{ $item->categoria }}</a>
                                                 </div>
                                                 <div class="course-reiew">
                                                     <span class="ratting">
