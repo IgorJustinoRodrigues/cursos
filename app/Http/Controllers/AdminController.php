@@ -127,7 +127,7 @@ class AdminController extends Controller
         //Atribuição dos valores recebidos da váriavel $request
         $item->nome = $request->nome;
         $item->email = $request->email;
-        $item->senha = $request->senha;
+        $item->senha = md5($request->senha);
         $item->tipo = $request->tipo;
         $item->anotacoes = $request->anotacoes;
         $item->status = 1;
@@ -227,7 +227,7 @@ class AdminController extends Controller
             ]);
 
             //Atribuição dos valores recebidos da váriavel $request para o objeto $item
-            $item->senha = $request->senha;
+            $item->senha = md5($request->senha);
         }
 
         //Verificação se o tipo do administrador foi informado
@@ -358,7 +358,7 @@ class AdminController extends Controller
 
         //Atribuição dos valores recebidos da váriavel $request para o objeto $item
         $email = $request->email;
-        $senha = $request->senha;
+        $senha = md5($request->senha);
 
         //Seleciona o admin no banco de dados, usando as credencias de acesso
         $item = Admin::selectRaw("*, date_format(created_at, '%d/%m/%Y') as cadastro, date_format(updated_at, '%d/%m/%Y às %H:%i') as ultimo_acesso")->where('email', '=', $email)->where('senha', '=', $senha)->first();

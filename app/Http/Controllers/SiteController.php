@@ -28,6 +28,8 @@ class SiteController extends Controller
         $categorias = CategoriaCurso::join('cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
             ->selectRaw('categoria_cursos.id, categoria_cursos.imagem as imagemCategoria, categoria_cursos.nome, count(categoria_cursos.id) as quantCursoCategoria')
             ->groupBy('cursos.categoria_id')
+            ->inRandomOrder()
+            ->limit(5)
             ->get();
 
         $principaisCategorias = Matricula::join("cursos", "matriculas.curso_id", "=", "cursos.id")
@@ -43,12 +45,12 @@ class SiteController extends Controller
 
         //listagem de cursos 
         $cursos = Curso::join('categoria_cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
-            ->join('aulas', 'aulas.curso_id', '=', 'cursos.id')
-            ->leftjoin('professors', 'professors.id', '=', 'cursos.professor_id')
+            ->join('professors', 'professors.id', '=', 'cursos.professor_id')
+            ->leftjoin('aulas', 'aulas.curso_id', '=', 'cursos.id')
             ->where('cursos.visibilidade', '=', 1)
             ->where('cursos.status', '=', 1)
             ->selectRaw('count(aulas.curso_id) as soma, cursos.id,cursos.tipo, cursos.imagem, cursos.nome, categoria_cursos.nome as categoria, categoria_cursos.id as categoria_id, professors.nome as professor, professors.avatar')
-            ->groupBy('aulas.curso_id')
+            ->groupBy('cursos.id')
             ->limit(6)
             ->get();
 
@@ -296,8 +298,8 @@ class SiteController extends Controller
         $ordem = $request->ordem;
 
         $consulta = Curso::join('categoria_cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
-            ->join('aulas', 'aulas.curso_id', '=', 'cursos.id')
-            ->leftjoin('professors', 'professors.id', '=', 'cursos.professor_id')
+            ->join('professors', 'professors.id', '=', 'cursos.professor_id')
+            ->leftjoin('aulas', 'aulas.curso_id', '=', 'cursos.id')
             ->where('cursos.visibilidade', '=', 1)
             ->where('cursos.status', '=', 1);
 

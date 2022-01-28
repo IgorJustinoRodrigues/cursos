@@ -273,10 +273,10 @@
                                                 <div class="course-author">
                                                     @if ($item->avatar != '')
                                                         <img src="{{ URL::asset('storage/' . $item->avatar) }}"
-                                                            style="width: 30px" class="rounded-circle">
+                                                            style="width: 45px" class="rounded-circle">
                                                     @else
                                                         <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}"
-                                                        style="width: 50px" class="rounded-circle">
+                                                        style="width: 45px" class="rounded-circle">
                                                     @endif
                                                     <a href="team-single.html"
                                                         class="ca-name">{{ $item->professor }}</a>

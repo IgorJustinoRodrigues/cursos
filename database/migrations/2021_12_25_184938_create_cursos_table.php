@@ -27,6 +27,8 @@ class CreateCursosTable extends Migration
             $table->string('porcentagem_solicitacao_certificado', 3);
             $table->text('cooprodutor')->nullable();
 
+            $table->integer('aula_teste')->nullable();
+
             $table->unsignedBigInteger('categoria_id');
             $table->foreign('categoria_id')->references('id')->on('categoria_cursos');
 

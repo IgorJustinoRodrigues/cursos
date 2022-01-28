@@ -61,10 +61,6 @@
                                         <a href='{{ route('trocar', 'curso') }}' class="link mt-0">Trocar curso</a>
                                         @endif
                                         <div class="text-black-50">
-                                            @if ($curso->descricao != '<p><br></p>' and $curso->descricao != null)
-                                                {{ $curso->descricao }}
-                                                <br>
-                                            @endif
                                             {{ app(App\Http\Controllers\CursoController::class)->tipo($curso->tipo, true) }}
                                             <br>
                                             Aulas liberadas para acesso até {{ date('d/m/Y', strtotime('+90 days')) }}

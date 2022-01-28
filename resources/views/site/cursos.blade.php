@@ -150,10 +150,10 @@
                                             <div class="course-footer">
                                                 <div class="course-author">
                                                     @if ($item->avatar_professor != '')
-                                                        <img src="{{ URL::asset('storage/' . $item->avatar_professor) }}"
-                                                            class="avatar-img">
+                                                        <img src="{{ URL::asset('storage/' . $item->avatar_professor) }}" class="rounded-circle"
+                                                        style="width: 50px">
                                                     @else
-                                                        <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}"
+                                                        <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}" class="rounded-circle"
                                                             style="width: 50px">
                                                     @endif
                                                     <span class="ca-name">{{ $item->professor }}</span>
