@@ -43,7 +43,7 @@
                                 <div class="stu-feed-top">
                                     <div class="sft-left">
                                         <div class="sftl-content">
-                                            <h4>Video de auto ajuda:
+                                            <h4>Video de Auto Ajuda:
                                             </h4>
                                             <p>
                                                 A apresentação ao lado exibe todo o processo de como você ativará e acessará a plataforma!
