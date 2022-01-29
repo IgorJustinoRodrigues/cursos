@@ -153,21 +153,23 @@
                                                 </div>
                                             </div>
                                             <div class="course-footer">
+                                                
                                                 <div class="course-author">
                                                     @if ($item->avatar_professor != '')
-                                                        <a href="{{ route('site.Professor') }}">
+                                                        <a href="{{ route('site.Professor', [$item->id_professor, Str::slug($item->professor) . '.html']) }}">
                                                             <img src="{{ URL::asset('storage/' . $item->avatar_professor) }}"
                                                                 class="rounded-circle" style="width: 50px">
                                                         </a>
                                                     @else
-                                                        <a href="{{ route('site.Professor') }}">
+                                                        <a href="{{ route('site.Professor',  [$item->id_professor, Str::slug($item->professor) . '.html']) }}">
                                                             <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}"
                                                                 class="rounded-circle" style="width: 50px"></a>
                                                     @endif
-                                                    <a href="{{ route('site.Professor') }}">
+                                                    <a href="{{ route('site.Professor',  [$item->id_professor, Str::slug($item->professor) . '.html']) }}">
                                                         <span class="ca-name">{{ $item->professor }}</span>
                                                     </a>
                                                 </div>
+
                                                 <div class="course-btn">
                                                     <a href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}"
                                                         class="lab-btn-text">Ver Curso <i

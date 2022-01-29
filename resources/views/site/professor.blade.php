@@ -1,5 +1,5 @@
 @extends('template.site')
-@section('title', 'Cursos')
+@section('title', 'Professor')
 
 @section('header')
 
@@ -25,7 +25,7 @@
                 <div class="instructor-single-top">
                     <div class="instructor-single-item d-flex flex-wrap justify-content-between">
                         <div class="instructor-single-thumb">
-                            <img src="assets/images/instructor/single/01.jpg" alt="instructor">
+                            <img src="{{ URL::asset('site/images/instructor/single/01.jpg') }}" alt="instructor">
                         </div>
                         <div class="instructor-single-content">
                             <h4 class="title">Emilee Logan</h4>

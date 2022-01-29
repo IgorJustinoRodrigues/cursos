@@ -341,7 +341,7 @@ class SiteController extends Controller
                 break;
         }
 
-        $cursos = $consulta->selectRaw('cursos.*, count(aulas.id) as total_aula, professors.nome as professor, professors.avatar as avatar_professor, categoria_cursos.nome as categoria')
+        $cursos = $consulta->selectRaw('cursos.*, count(aulas.id) as total_aula, professors.nome as professor, professors.id as id_professor, professors.avatar as avatar_professor, categoria_cursos.nome as categoria')
             ->groupBy('cursos.id')
             ->paginate(9);
 
@@ -351,6 +351,9 @@ class SiteController extends Controller
         }
 
         $categorias = CategoriaCurso::where('status', '=', 1)->get();
+        
+
+        
         //listagem da categoria de cursos e contagem de Quantos cursos tem em uma categoria
         $categoriasMenu = CategoriaCurso::join('cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
             ->selectRaw('categoria_cursos.id, categoria_cursos.imagem as imagemCategoria, categoria_cursos.nome, count(categoria_cursos.id) as quantCursoCategoria')
@@ -421,13 +424,17 @@ class SiteController extends Controller
 
 
     //Funçao de Ativação do Código sub-aba de início
-    public function professor()
+    public function professor($id, $url)
     {
         $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();
         //Exibe a view 
-        
-        return view('site.professor', [
 
+        $professor = Professor::where('status', '=', 1)
+            ->find($id);
+
+
+        return view('site.professor', [
+            'professor' => $professor,
             'categoriasMenu' => $categoriasMenu
         ]);
     }
