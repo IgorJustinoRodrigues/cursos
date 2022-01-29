@@ -25,11 +25,15 @@
                 <div class="instructor-single-top">
                     <div class="instructor-single-item d-flex flex-wrap justify-content-between">
                         <div class="instructor-single-thumb">
-                            <img src="{{ URL::asset('site/images/instructor/single/01.jpg') }}" alt="instructor">
+                            @if ($professor->avatar != '')
+                                <img src="{{ URL::asset('storage/' . $professor->avatar) }}" class="avatar-img">
+                            @else
+                                <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}">
+                            @endif
                         </div>
                         <div class="instructor-single-content">
-                            <h4 class="title">Emilee Logan</h4>
-                            <p class="ins-dege">Master of Education Degree</p>
+                            <h4 class="title">{{ $professor->nome }}</h4>
+                            <p class="ins-dege"></p>
                             <span class="ratting">
                                 <i class="icofont-ui-rating"></i>
                                 <i class="icofont-ui-rating"></i>
@@ -37,47 +41,35 @@
                                 <i class="icofont-ui-rating"></i>
                                 <i class="icofont-ui-rating"></i>
                             </span>
-                            <p class="ins-desc">Infrastruct ntrinsicl grow optimal talers rather than efectve nformaon
-                                Collabora optimize partnersh and frictionles deliverables</p>
-                            <h6 class="subtitle">Personal Statement</h6>
-                            <p class="ins-desc">Enthusa expedte clent focused growth strateg wherea clent centered
-                                infrastruct ntrinsicl grow optimal talers rather than efectve nformaon Collabora optimize
-                                partnersh and frictionles deliverables infrastructs ntrinsicl grow optimal talers rather
-                                efectve</p>
+                            <h6 class="subtitle">Breve Currículo do Professor</h6>
+                            <p class="ins-desc">{{ $professor->curriculo }}</p>
                             <ul class="lab-ul">
                                 <li class="d-flex flex-wrap justify-content-start">
-                                    <span class="list-name">Adress</span>
-                                    <span class="list-attr">Suite 02 and 07 Melbourne, Australia</span>
-                                </li>
-                                <li class="d-flex flex-wrap justify-content-start">
                                     <span class="list-name">Email</span>
-                                    <span class="list-attr">emileelogan@gamil.com</span>
+                                    <span class="list-attr">{{ $professor->email }}</span>
                                 </li>
                                 <li class="d-flex flex-wrap justify-content-start">
-                                    <span class="list-name">Phone</span>
-                                    <span class="list-attr">+021 548 736 982 ,01236985</span>
+                                    <span class="list-name">Instagram</span>
+                                    <span class="list-attr">{{ $professor->instagram }}</span>
                                 </li>
                                 <li class="d-flex flex-wrap justify-content-start">
                                     <span class="list-name">website</span>
-                                    <span class="list-attr">www.adminEdukon.com</span>
+                                    <span class="list-attr">{{ $professor->site }}</span>
                                 </li>
                                 <li class="d-flex flex-wrap justify-content-start">
-                                    <span class="list-name">Follow Us</span>
+                                    <span class="list-name">Siga-nos</span>
                                     <ul class="lab-ul list-attr d-flex flex-wrap justify-content-start">
                                         <li>
-                                            <a class="twitter" href="#"><i class="icofont-twitter"></i></a>
+                                            <a class="twitter" href="{{ $professor->facebook }}"><i
+                                                    class="icofont-facebook"></i></a>
                                         </li>
                                         <li>
-                                            <a class="instagram" href="#"><i class="icofont-instagram"></i></a>
+                                            <a class="instagram" href="{{ $professor->instagram }}"><i
+                                                    class="icofont-instagram"></i></a>
                                         </li>
                                         <li>
-                                            <a class="basketball" href="#"><i class="icofont-basketball"></i></a>
-                                        </li>
-                                        <li>
-                                            <a class="vimeo" href="#"><i class="icofont-vimeo"></i></a>
-                                        </li>
-                                        <li>
-                                            <a class="beahnce" href="#"><i class="icofont-behance"></i></a>
+                                            <a class="basketball" href="{{ $professor->linkedin }}"><i
+                                                    class="icofont-linkedin"></i></a>
                                         </li>
                                     </ul>
                                 </li>

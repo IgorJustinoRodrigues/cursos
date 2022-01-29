@@ -112,7 +112,7 @@ class VendedorController extends Controller
             //Edição da imagem recebida com a Class Canva 
             $img->carrega(public_path('storage/' . $item->avatar))
                 ->hexa('#FFFFFF')
-                ->redimensiona(900, 600, 'preenchimento')
+                ->redimensiona(550, 550, 'preenchimento')
                 ->grava(public_path('storage/' . $item->avatar), 80);
         } else {
             //Atribuição de valor padrão para imagem avatar caso o mesmo não seja informado 
@@ -229,7 +229,7 @@ class VendedorController extends Controller
             //Edição da imagem recebida com a Class Canva 
             $img->carrega(public_path('storage/' . $item->avatar))
                 ->hexa('#FFFFFF')
-                ->redimensiona(900, 600, 'preenchimento')
+                ->redimensiona(550, 550, 'preenchimento')
                 ->grava(public_path('storage/' . $item->avatar), 80);
         }
 
@@ -459,7 +459,7 @@ class VendedorController extends Controller
             //Edição da imagem recebida com a Class Canva 
             $img->carrega(public_path('storage/' . $item->avatar))
                 ->hexa('#FFFFFF')
-                ->redimensiona(600, 600, 'preenchimento')
+                ->redimensiona(550, 550, 'preenchimento')
                 ->grava(public_path('storage/' . $item->avatar), 80);
         }
 

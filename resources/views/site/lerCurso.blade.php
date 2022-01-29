@@ -173,7 +173,7 @@
                                             </div>
                                             <div class="csdc-right">
                                                 {{ app(App\Services\Services::class)->minuto_hora($tempoTotal) }}</div>
-                                        </li>
+                          x'              </li>
                                         <li>
                                             <div class="csdc-left"><i class="icofont-video-alt"></i>Lições</div>
                                             <div class="csdc-right">{{ $quantidadeAula }}x</div>
