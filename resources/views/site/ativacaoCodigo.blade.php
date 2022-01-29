@@ -46,7 +46,7 @@
                                             <h4>Video de auto ajuda:
                                             </h4>
                                             <p>
-                                                A apresentação exibe todo o processo de como você ativará e acessará a plataforma!
+                                                A apresentação ao lado exibe todo o processo de como você ativará e acessará a plataforma!
                                             </p>
                                         </div>
                                     </div>
