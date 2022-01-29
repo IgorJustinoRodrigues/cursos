@@ -43,7 +43,11 @@
                                 <div class="stu-feed-top">
                                     <div class="sft-left">
                                         <div class="sftl-content">
-                                            <h6>Inserir o Código de Ativação aqui ?</h6>
+                                            <h4>Video de auto ajuda:
+                                            </h4>
+                                            <p>
+                                                A apresentação exibe todo o processo de como você ativará e acessará a plataforma!
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -58,7 +62,9 @@
                                             <button type="submit" class="bg-danger">Cancelar</button>
                                         </form>
                                     @else
-                                        <p class="desc">No campo abaixo insira o seu código de ativação do curso e começe a faze-lo agora mesmo.</p>
+                                        <h4>Ativar Código: </h4 >
+                                        <p class="desc">No campo abaixo insira o seu código de ativação do curso e
+                                            começe a faze-lo agora mesmo.</p>
                                         <form style="padding-top: 12px !important" class="newsletter-form"
                                             action="{{ route('site.ativacaoCodigo') }}" method="post">
                                             @csrf
