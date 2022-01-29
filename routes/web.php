@@ -33,6 +33,7 @@ ROTAS DE SITE
 Route::post('/ativacao-codigo', [SiteController::class, 'ativacaoCodigo'])->name('site.ativacaoCodigo');
 Route::post('/cancelar-ativacao-codigo', [SiteController::class, 'cancelarAtivacaoCodigo'])->name('site.cancelarAtivacao');
 Route::post('/ativacao-escolha-curso', [SiteController::class, 'escolhaCurso'])->name('site.escolhaCurso');
+Route::get('/info-professor', [SiteController::class, 'professor'])->name('site.Professor');
 Route::get('/como-ativar-codigo', [SiteController::class, 'comoAtivarCodigo'])->name('site.comoAtivarCodigo');
 Route::get('/cursos/{categoria?}/{nome?}', [SiteController::class, 'cursos'])->name('site.cursos');
 Route::get('/conhecer/curso/{item}/{url?}', [SiteController::class, 'lerCurso'])->name('site.lerCurso');

@@ -2,16 +2,16 @@
 @section('title', 'Cursos')
 
 @section('header')
-<style>
-    .dourado {
-        color: #ffd400 !important;
-    }
-    .prata{
-        color: #f2f1ea !important;
-    }
+    <style>
+        .dourado {
+            color: #ffd400 !important;
+        }
 
+        .prata {
+            color: #f2f1ea !important;
+        }
 
-</style>
+    </style>
 @endsection
 
 @section('footer')
@@ -112,12 +112,13 @@
                                 <div class="course-item">
                                     <div class="course-inner">
                                         <div class="course-thumb">
-                                            <a href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}">
-                                            @if ($item->imagem != '')
-                                                <img src="{{ URL::asset('storage/' . $item->imagem) }}" alt="">
-                                            @else
-                                                <img src="{{ URL::asset('storage/imagemCurso/padrao.png') }}" alt="">
-                                            @endif
+                                            <a
+                                                href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}">
+                                                @if ($item->imagem != '')
+                                                    <img src="{{ URL::asset('storage/' . $item->imagem) }}" alt="">
+                                                @else
+                                                    <img src="{{ URL::asset('storage/imagemCurso/padrao.png') }}" alt="">
+                                                @endif
                                             </a>
                                         </div>
                                         <div class="course-content">
@@ -129,12 +130,12 @@
                                                 <div class="course-reiew">
                                                     <span class="ratting">
                                                         @for ($i = 1; $i < 6; $i++)
-                                                        @if ($i <= $item->estrelas)
-                                                            <i class="icofont-ui-rating dourado"></i>
-                                                        @else
-                                                            <i class="icofont-ui-rating prata"></i>
-                                                        @endif
-                                                    @endfor
+                                                            @if ($i <= $item->estrelas)
+                                                                <i class="icofont-ui-rating dourado"></i>
+                                                            @else
+                                                                <i class="icofont-ui-rating prata"></i>
+                                                            @endif
+                                                        @endfor
                                                     </span>
                                                 </div>
                                             </div>
@@ -154,13 +155,18 @@
                                             <div class="course-footer">
                                                 <div class="course-author">
                                                     @if ($item->avatar_professor != '')
-                                                        <img src="{{ URL::asset('storage/' . $item->avatar_professor) }}" class="rounded-circle"
-                                                        style="width: 50px">
+                                                        <a href="{{ route('site.Professor') }}">
+                                                            <img src="{{ URL::asset('storage/' . $item->avatar_professor) }}"
+                                                                class="rounded-circle" style="width: 50px">
+                                                        </a>
                                                     @else
-                                                        <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}" class="rounded-circle"
-                                                            style="width: 50px">
+                                                        <a href="{{ route('site.Professor') }}">
+                                                            <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}"
+                                                                class="rounded-circle" style="width: 50px"></a>
                                                     @endif
-                                                    <span class="ca-name">{{ $item->professor }}</span>
+                                                    <a href="{{ route('site.Professor') }}">
+                                                        <span class="ca-name">{{ $item->professor }}</span>
+                                                    </a>
                                                 </div>
                                                 <div class="course-btn">
                                                     <a href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}"
@@ -180,21 +186,22 @@
         </div>
         <!-- course section ending here -->
     @else
-    
 
-    <div class="container mt-5 mb-5">
-        <div class="row justify-content-center">
-            <div class="col">
-                <div class="post-item style-2">
-                    <div class="post-inner">
-                        <div class="post-content">
-                            <h2 class="not-ruselt">Não encontramos nenhum curso com essas características de busca!</h2>
-                            <h2 class="opps">Oops!</h2>
+
+        <div class="container mt-5 mb-5">
+            <div class="row justify-content-center">
+                <div class="col">
+                    <div class="post-item style-2">
+                        <div class="post-inner">
+                            <div class="post-content">
+                                <h2 class="not-ruselt">Não encontramos nenhum curso com essas características de busca!
+                                </h2>
+                                <h2 class="opps">Oops!</h2>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     @endif
 @endsection
