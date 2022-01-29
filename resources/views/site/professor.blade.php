@@ -49,6 +49,10 @@
                                     <span class="list-attr">{{ $professor->email }}</span>
                                 </li>
                                 <li class="d-flex flex-wrap justify-content-start">
+                                    <span class="list-name">Facebook</span>
+                                    <span class="list-attr">{{ $professor->facebook }}</span>
+                                </li>
+                                <li class="d-flex flex-wrap justify-content-start">
                                     <span class="list-name">Instagram</span>
                                     <span class="list-attr">{{ $professor->instagram }}</span>
                                 </li>
@@ -68,8 +72,12 @@
                                                     class="icofont-instagram"></i></a>
                                         </li>
                                         <li>
-                                            <a class="basketball" href="{{ $professor->linkedin }}"><i
+                                            <a class="vimeo" href="{{ $professor->linkedin }}"><i
                                                     class="icofont-linkedin"></i></a>
+                                        </li>
+                                        <li>
+                                            <a class="beahnce" href="{{ $professor->site }}"><i
+                                                    class="icofont-globe"></i></a>
                                         </li>
                                     </ul>
                                 </li>
