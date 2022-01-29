@@ -13,8 +13,10 @@
 
         .pageheader-section.style-2 {
             padding-top: 250px;
-            background-image: url({{ URL::asset('storage/' . $curso->imagem) }});
-            
+            background: linear-gradient(rgb(255 255 255 / 90%), rgb(215 215 215 / 70%)), url({{ URL::asset('storage/' . $curso->imagem) }});
+            background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
         }
 
     </style>
@@ -58,7 +60,6 @@
                                 <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}" style="width: 50px">
                             @endif
                             <span>{{ $professor->nome }}</span>
-                            <span>{{ $curso->cooprodutor }}</span>
                             <br>
                             <div class="course-reiew">
                                 <span class="ratting">

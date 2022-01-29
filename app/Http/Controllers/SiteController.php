@@ -51,6 +51,7 @@ class SiteController extends Controller
             ->where('cursos.status', '=', 1)
             ->selectRaw('count(aulas.curso_id) as soma, cursos.id,cursos.tipo, cursos.imagem, cursos.nome, categoria_cursos.nome as categoria, categoria_cursos.id as categoria_id, professors.nome as professor, professors.avatar')
             ->groupBy('cursos.id')
+            ->inRandomOrder()
             ->limit(6)
             ->get();
 
