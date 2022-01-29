@@ -10,25 +10,14 @@
 @endsection
 
 @section('conteudo')
+    @php @session_start(); @endphp
+
     <!-- Page Header section start here -->
-    <div class="pageheader-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="pageheader-content text-center">
-                        <h2>Primeira Ativação do seu Código ?</h2>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb justify-content-center">
-                                <li class="breadcrumb-item"><a href="#">Início</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Ativar Código</li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="pageheader-section" style="padding: 55px 0 92px !important">
+
     </div>
     <!-- Page Header section ending here -->
+
 
     <!-- student feedbak section start here -->
     <div class="student-feedbak-section padding-tb shape-img">
@@ -53,63 +42,34 @@
                             <div class="stu-feed-inner">
                                 <div class="stu-feed-top">
                                     <div class="sft-left">
-                                        <div class="sftl-thumb">
-                                            <img src="{{ URL::asset('site/images/feedback/student/01.jpg') }}"
-                                                alt="student feedback">
-                                        </div>
                                         <div class="sftl-content">
-                                            <a href="#">
-                                                <h6>Oliver Beddows</h6>
-                                            </a>
-                                            <span>UX designer</span>
+                                            <h6>Inserir o Código de Ativação aqui ?</h6>
                                         </div>
-                                    </div>
-                                    <div class="sft-right">
-                                        <span class="ratting">
-                                            <i class="icofont-ui-rating"></i>
-                                            <i class="icofont-ui-rating"></i>
-                                            <i class="icofont-ui-rating"></i>
-                                            <i class="icofont-ui-rating"></i>
-                                            <i class="icofont-ui-rating"></i>
-                                        </span>
                                     </div>
                                 </div>
                                 <div class="stu-feed-bottom">
-                                    <p>Rapidiously buildcollaboration anden deas sharing viaing and with bleedng edgeing
-                                        nterfaces fnergstcally plagiarize teams anbuling paradgms whereas goingi forward
-                                        process and monetze</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="stu-feed-item">
-                            <div class="stu-feed-inner">
-                                <div class="stu-feed-top">
-                                    <div class="sft-left">
-                                        <div class="sftl-thumb">
-                                            <img src="{{ URL::asset('site/images/feedback/student/02.jpg') }}"
-                                                alt="student feedback">
-                                        </div>
-                                        <div class="sftl-content">
-                                            <a href="#">
-                                                <h6>Madley Pondor</h6>
-                                            </a>
-                                            <span>UX designer</span>
-                                        </div>
-                                    </div>
-                                    <div class="sft-right">
-                                        <span class="ratting">
-                                            <i class="icofont-ui-rating"></i>
-                                            <i class="icofont-ui-rating"></i>
-                                            <i class="icofont-ui-rating"></i>
-                                            <i class="icofont-ui-rating"></i>
-                                            <i class="icofont-ui-rating"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="stu-feed-bottom">
-                                    <p>Rapidiously buildcollaboration anden deas sharing viaing and with bleedng edgeing
-                                        nterfaces fnergstcally plagiarize teams anbuling paradgms whereas goingi forward
-                                        process and monetze</p>
+                                    @if (isset($_SESSION['ativacao_start']) and $_SESSION['ativacao_start']['matricula']->id != null)
+                                        <form style="padding-top: 12px !important" class="newsletter-form"
+                                            action="{{ route('site.cancelarAtivacao') }}" method="post">
+                                            @csrf
+                                            <input type="text" maxlength="15" minlength="15" name="codigo"
+                                                value="{{ $_SESSION['ativacao_start']['matricula']->ativacao }}" readonly
+                                                placeholder="Digite aqui o seu código de Ativação">
+                                            <button type="submit" class="bg-danger">Cancelar</button>
+                                        </form>
+                                    @else
+                                        <p class="desc">No campo abaixo insira o seu código de ativação do curso e começe a faze-lo agora mesmo.</p>
+                                        <form style="padding-top: 12px !important" class="newsletter-form"
+                                            action="{{ route('site.ativacaoCodigo') }}" method="post">
+                                            @csrf
+                                            <input type="text" maxlength="15" minlength="15" name="codigo"
+                                                value="{{ old('codigo') }}"
+                                                placeholder="Digite aqui o seu código de Ativação">
+                                            <button type="submit"
+                                                style="background: #66b54b !important; color: #fff !important;">Ativar
+                                                Código</button>
+                                        </form>
+                                    @endif
                                 </div>
                             </div>
                         </div>
