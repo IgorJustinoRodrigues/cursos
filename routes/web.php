@@ -33,13 +33,9 @@ ROTAS DE SITE
 Route::post('/ativacao-codigo', [SiteController::class, 'ativacaoCodigo'])->name('site.ativacaoCodigo');
 Route::post('/cancelar-ativacao-codigo', [SiteController::class, 'cancelarAtivacaoCodigo'])->name('site.cancelarAtivacao');
 Route::post('/ativacao-escolha-curso', [SiteController::class, 'escolhaCurso'])->name('site.escolhaCurso');
-Route::get('/confirmar-matricula', [AlunoController::class, 'confirmarMatricula'])->name('confirmarMatricula');
-Route::post('/ativar-matricula', [AlunoController::class, 'ativarMatricula'])->name('ativar');
-Route::get('/trocar-aluno-curso/{troca}', [AlunoController::class, 'trocarAlunoCurso'])->name('trocar');
-
 Route::get('/como-ativar-codigo', [SiteController::class, 'comoAtivarCodigo'])->name('site.comoAtivarCodigo');
 Route::get('/cursos/{categoria?}/{nome?}', [SiteController::class, 'cursos'])->name('site.cursos');
-Route::get('/ler/curso/{item}/{url?}', [SiteController::class, 'lerCurso'])->name('site.lerCurso');
+Route::get('/conhecer/curso/{item}/{url?}', [SiteController::class, 'lerCurso'])->name('site.lerCurso');
 Route::get('/aula-teste/{curso}/{url?}', [SiteController::class, 'aulaTeste'])->name('site.aulaTeste');
 Route::get('/suporte', [SiteController::class, 'suporte'])->name('site.suporte');
 
@@ -56,10 +52,11 @@ Route::post('/admin-inserir', [AdminController::class, 'inserir'])->name('adminI
 Route::get('/admin-editar/{item}', [AdminController::class, 'editar'])->name('adminEditar');
 Route::put('/admin-salvar/{item}', [AdminController::class, 'salvar'])->name('adminSalvar');
 Route::get('/admin-delete/{item}', [AdminController::class, 'deletar'])->name('adminDeletar');
+
 Route::post('/admin-valida-usuario', [AdminController::class, 'validaUsuario'])->name('adminValidaUsuario');
 
 /*
-ROTAS DE LOGIN E LOGOFF
+ROTAS DE LOGIN E LOGOFF ADMIN
 */
 Route::get('/acesso-admin', [AdminController::class, 'acessoAdmin'])->name('acessoAdmin');
 Route::post('/login-admin', [AdminController::class, 'login'])->name('loginAdmin');
@@ -72,7 +69,6 @@ Route::get('/verifica-email-admin', [AdminController::class, 'verificaEmailAdmin
 Route::get('/painel-aluno', [AlunoController::class, 'painel'])->name('painelAluno');
 Route::get('/minha-conta-aluno', [AlunoController::class, 'minhaConta'])->name('minhaConta');
 
-
 /*
 ROTAS DE ALUNO
 */
@@ -81,12 +77,17 @@ Route::get('/aluno-cadastro', [AlunoController::class, 'cadastro'])->name('aluno
 Route::post('/aluno-inserir', [AlunoController::class, 'inserir'])->name('alunoInserir');
 Route::get('/aluno-editar/{item}', [AlunoController::class, 'editar'])->name('alunoEditar');
 Route::put('/aluno-salvar/{item}', [AlunoController::class, 'salvar'])->name('alunoSalvar');
-Route::put('/aluno-salvar-minhas-informacoes', [AlunoController::class, 'salvarMinhasInformacoes'])->name('salvarMinhasInformacoes');
 Route::get('/aluno-delete/{item}', [AlunoController::class, 'deletar'])->name('alunoDeletar');
+
+Route::put('/aluno-salvar-minhas-informacoes', [AlunoController::class, 'salvarMinhasInformacoes'])->name('salvarMinhasInformacoes');
+
+Route::get('/confirmar-matricula', [AlunoController::class, 'confirmarMatricula'])->name('confirmarMatricula');
+Route::post('/ativar-matricula', [AlunoController::class, 'ativarMatricula'])->name('ativar');
+Route::get('/trocar-aluno-curso/{troca}', [AlunoController::class, 'trocarAlunoCurso'])->name('trocar');
 
 Route::get("/aulas-feitas", [AlunoController::class, 'aulasFeitas'])->name('aulasFeitas');
 Route::get("/minhas-anotacoes", [AlunoController::class, 'minhasAnotacoes'])->name('minhasAnotacoes');
-Route::get("/ver-cursos", [AlunoController::class, 'verCursos'])->name('alunoCursos');
+Route::get("/meus-cursos", [AlunoController::class, 'verCursos'])->name('alunoCursos');
 Route::get("/ver-aulas-curso/{curso}/{link?}", [CursoController::class, 'verAulas'])->name('verAulas');
 Route::get("/aula/{id_curso}/{urlCurso}/{id_aula}/{titulo?}", [AlunoController::class, 'verAula'])->name('aula');
 Route::post("/aula-concluir-quiz", [AlunoController::class, 'concluirAulaQuiz'])->name('concluirAulaQuiz');
@@ -103,7 +104,6 @@ Route::get('/sair-aluno', [AlunoController::class, 'sair'])->name('sairAluno');
 Route::get('/recuperar-senha-aluno', [AlunoController::class, 'recuperacaoAluno'])->name('recuperacaoAluno');
 Route::get('/verifica-email-aluno', [AlunoController::class, 'verificaEmailAluno'])->name('verificaEmailAluno');
 
-
 //Rota Painel Parceiro Raiz
 Route::get('/painel-parceiro', [ParceiroController::class, 'painel'])->name('painelParceiro');
 Route::get('/minha-conta-parceiro', [ParceiroController::class, 'minhaContaParceiro'])->name('minhaContaParceiro');
@@ -116,10 +116,11 @@ Route::get('/parceiro-cadastro', [ParceiroController::class, 'cadastro'])->name(
 Route::post('/parceiro-inserir', [ParceiroController::class, 'inserir'])->name('parceiroInserir');
 Route::get('/parceiro-editar/{item}', [ParceiroController::class, 'editar'])->name('parceiroEditar');
 Route::put('/parceiro-salvar/{item}', [ParceiroController::class, 'salvar'])->name('parceiroSalvar');
-Route::put('/parceiro-salvar-minhas-informacoes', [ParceiroController::class, 'salvarMinhasInformacoesParceiro'])->name('salvarMinhasInformacoesParceiro');
 Route::get('/parceiro-delete/{item}', [ParceiroController::class, 'deletar'])->name('parceiroDeletar');
 Route::get('/parceiro-resete-senha/{item}', [ParceiroController::class, 'reseteSenha'])->name('parceiroReseteSenha');
 Route::post('/parceiro-valida-usuario', [ParceiroController::class, 'validaUsuarioParceiro'])->name('validaUsuarioParceiro');
+
+Route::put('/parceiro-salvar-minhas-informacoes', [ParceiroController::class, 'salvarMinhasInformacoesParceiro'])->name('salvarMinhasInformacoesParceiro');
 
 
 /*
@@ -159,6 +160,7 @@ Route::get('/aula-editar/{curso}/{item}', [AulaController::class, 'editar'])->na
 Route::put('/aula-salvar/{curso}/{item}', [AulaController::class, 'salvar'])->name('aulaSalvar');
 Route::get('/aula-delete/{curso}/{item}', [AulaController::class, 'deletar'])->name('aulaDeletar');
 Route::post('/aula-reordenar/', [AulaController::class, 'ordenar'])->name('aulaOrdenar');
+//Ajax
 Route::post('/aula-inserir-anexo/', [AulaController::class, 'inserirAnexo'])->name('aulaInserirAnexo');
 Route::post('/aula-listar-anexo/', [AulaController::class, 'listarAnexo'])->name('aulaListarAnexo');
 Route::post('/aula-deletar-anexo/', [AulaController::class, 'deletarAnexo'])->name('aulaDeletarAnexo');
@@ -173,18 +175,9 @@ Route::get('/categoria-curso-editar/{item}', [CategoriaCursoController::class, '
 Route::put('/categoria-curso-salvar/{item}', [CategoriaCursoController::class, 'salvar'])->name('categoriaCursoSalvar');
 Route::get('/categoria-curso-delete/{item}', [CategoriaCursoController::class, 'deletar'])->name('categoriaCursoDeletar');
 
-
-
 //Rota Painel Unidade Raiz
 Route::get('/painel-unidade', [UnidadeController::class, 'painel'])->name('painelUnidade');
 Route::get('/minha-conta-unidade', [UnidadeController::class, 'minhaContaUnidade'])->name('minhaContaUnidade');
-
-/*
-ROTAS DE LOGIN E LOGOFF DE UNIDADE
-*/
-Route::get('/acesso-unidade', [UnidadeController::class, 'acessoUnidade'])->name('acessoUnidade');
-Route::post('/login-unidade', [UnidadeController::class, 'login'])->name('loginUnidade');
-Route::get('/sair-unidade', [UnidadeController::class, 'sair'])->name('sairUnidade');
 
 /*
 ROTAS DE UNIDADE
@@ -194,10 +187,17 @@ Route::get('/unidade-cadastro', [UnidadeController::class, 'cadastro'])->name('u
 Route::post('/unidade-inserir', [UnidadeController::class, 'inserir'])->name('unidadeInserir');
 Route::get('/unidade-editar/{item}', [UnidadeController::class, 'editar'])->name('unidadeEditar');
 Route::put('/unidade-salvar/{item}', [UnidadeController::class, 'salvar'])->name('unidadeSalvar');
-Route::put('/unidade-salvar-minhas-informacoes', [UnidadeController::class, 'salvarMinhasInformacoesUnidade'])->name('salvarMinhasInformacoesUnidade');
 Route::get('/unidade-delete/{item}', [UnidadeController::class, 'deletar'])->name('unidadeDeletar');
 Route::post('/unidade-valida-usuario', [UnidadeController::class, 'validaUsuarioUnidade'])->name('validaUsuarioUnidade');
 
+Route::put('/unidade-salvar-minhas-informacoes', [UnidadeController::class, 'salvarMinhasInformacoesUnidade'])->name('salvarMinhasInformacoesUnidade');
+
+/*
+ROTAS DE LOGIN E LOGOFF DE UNIDADE
+*/
+Route::get('/acesso-unidade', [UnidadeController::class, 'acessoUnidade'])->name('acessoUnidade');
+Route::post('/login-unidade', [UnidadeController::class, 'login'])->name('loginUnidade');
+Route::get('/sair-unidade', [UnidadeController::class, 'sair'])->name('sairUnidade');
 
 /*
 ROTAS DE MATRICULA
@@ -209,10 +209,10 @@ Route::get('/matricula-editar/{item}', [MatriculaController::class, 'editar'])->
 Route::put('/matricula-salvar/{item}', [MatriculaController::class, 'salvar'])->name('matriculaSalvar');
 Route::get('/matricula-delete/{item}', [MatriculaController::class, 'deletar'])->name('matriculaDeletar');
 
-
 //Rota Painel Vendedor Raiz
 Route::get('/painel-vendedor', [VendedorController::class, 'painel'])->name('painelVendedor');
 Route::get('/minha-conta-vendedor', [VendedorController::class, 'minhaContaVendedor'])->name('minhaContaVendedor');
+
 /*
 ROTAS DE VENDEDOR
 */
@@ -221,18 +221,14 @@ Route::get('/vendedor-cadastro', [VendedorController::class, 'cadastro'])->name(
 Route::post('/vendedor-inserir', [VendedorController::class, 'inserir'])->name('vendedorInserir');
 Route::get('/vendedor-editar/{item}', [VendedorController::class, 'editar'])->name('vendedorEditar');
 Route::put('/vendedor-salvar/{item}', [VendedorController::class, 'salvar'])->name('vendedorSalvar');
-Route::put('/vendedor-salvar-minhas-informacoes', [VendedorController::class, 'salvarMinhasInformacoesVendedor'])->name('salvarMinhasInformacoesVendedor');
 Route::get('/vendedor-delete/{item}', [VendedorController::class, 'deletar'])->name('vendedorDeletar');
 Route::post('/vendedor-valida-usuario', [VendedorController::class, 'validaUsuarioVendedor'])->name('validaUsuarioVendedor');
+
+Route::put('/vendedor-salvar-minhas-informacoes', [VendedorController::class, 'salvarMinhasInformacoesVendedor'])->name('salvarMinhasInformacoesVendedor');
+
 /*
-ROTAS DE LOGIN E LOGOFF DE PARCEIRO
+ROTAS DE LOGIN E LOGOFF DE VENDEDOR
 */
 Route::get('/acesso-vendedor', [VendedorController::class, 'acessoVendedor'])->name('acessoVendedor');
 Route::post('/login-vendedor', [VendedorController::class, 'login'])->name('loginVendedor');
 Route::get('/sair-vendedor', [VendedorController::class, 'sair'])->name('sairVendedor');
-
-Route::get("/dlogin-aluno", [SiteController::class, 'login']);
-Route::get("/dver-curso", [SiteController::class, 'ver'])->name('verd');
-Route::get("/dver-quiz", [SiteController::class, 'quiz'])->name('quizd');
-Route::get("/dinfo-aluno", [SiteController::class, 'info'])->name('info-alunod');
-Route::get("/dpainel-aluno", [SiteController::class, 'painel'])->name('painel-alunod');

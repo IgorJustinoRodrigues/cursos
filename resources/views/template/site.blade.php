@@ -34,12 +34,6 @@
         }
 
 
-        .pageheader-section.style-2 {
-            padding-top: 250px;
-            background-image: url({{ URL::asset('site/images/pageheader/bg/02.jpg') }})
-        }
-
-
         .newsletters-section {
             background: #2073b3 !important;
         }
@@ -128,7 +122,7 @@
                                 <li>
                                     <a href="{{ route('inicio') }}">Início</a>
                                     <ul class="lab-ul">
-                                        <li><a href="{{ route('site.ativacaoCodigo') }}">Primeira Ativação do
+                                        <li><a href="{{ route('site.comoAtivarCodigo') }}">Primeira Ativação do
                                                 código?</a></li>
                                     </ul>
                                 </li>
@@ -153,7 +147,9 @@
                                         <li><a href="{{ route('acessoVendedor') }}" target="_blank">Acesso
                                                 Vendedor</a>
                                         </li>
-
+                                        <li><a href="{{ route('acessoUnidade') }}" target="_blank">Acesso
+                                                Unidade</a>
+                                        </li>
                                         <li><a href="{{ route('acessoParceiro') }}" target="_blank">Acesso
                                                 Parceiro</a></li>
                                         <li><a href="{{ route('acessoAdmin') }}" target="_blank">Acesso
@@ -319,7 +315,7 @@
                     <div class="col-md-6 link-rodape">
                         <a href="{{ route('acessoAdmin') }}">Administrador</a>
                         <a href="{{ route('acessoParceiro') }}">Parceiro</a>
-                        <a href="{{ route('acessoParceiro') }}">Unidade</a>
+                        <a href="{{ route('acessoUnidade') }}">Unidade</a>
                         <a href="{{ route('acessoVendedor') }}">Vendedor</a>
                         <a href="{{ route('acessoAluno') }}">Aluno</a>
                     </div>

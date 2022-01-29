@@ -9,6 +9,8 @@
     .prata{
         color: #f2f1ea !important;
     }
+
+
 </style>
 @endsection
 
@@ -52,7 +54,7 @@
                                     <div class="select-item">
                                         <select name="categoria" onchange="$('#form-busca').submit();">
                                             <option value="">Selecione a Categoria</option>
-                                            @foreach ($categoriasMenu as $linha)
+                                            @foreach ($categorias as $linha)
                                                 <option value="{{ $linha->id }}" @if ($categoria == $linha->id) selected @endif>
                                                     {{ $linha->nome }}</option>
                                             @endforeach
@@ -110,11 +112,13 @@
                                 <div class="course-item">
                                     <div class="course-inner">
                                         <div class="course-thumb">
+                                            <a href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}">
                                             @if ($item->imagem != '')
                                                 <img src="{{ URL::asset('storage/' . $item->imagem) }}" alt="">
                                             @else
                                                 <img src="{{ URL::asset('storage/imagemCurso/padrao.png') }}" alt="">
                                             @endif
+                                            </a>
                                         </div>
                                         <div class="course-content">
                                             <div class="course-category">
@@ -175,5 +179,22 @@
             </div>
         </div>
         <!-- course section ending here -->
+    @else
+    
+
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="post-item style-2">
+                    <div class="post-inner">
+                        <div class="post-content">
+                            <h2 class="not-ruselt">Não encontramos nenhum curso com essas características de busca!</h2>
+                            <h2 class="opps">Oops!</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     @endif
 @endsection

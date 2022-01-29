@@ -65,12 +65,6 @@
     <!-- App JS -->
     <script src="{{ URL::asset('template/js/app.js') }}"></script>
 
-    <!-- Highlight.js -->
-    <script src="{{ URL::asset('template/js/hljs.js') }}"></script>
-
-    <!-- App Settings (safe to remove) -->
-    <script src="{{ URL::asset('template/js/app-settings.js') }}"></script>
-
     <script src="{{ URL::asset('telas/ini.js') }}"></script>
     @yield('footer')
     <script>

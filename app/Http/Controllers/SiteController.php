@@ -349,12 +349,20 @@ class SiteController extends Controller
             $cursos[$i]->alunos = Matricula::where('curso_id', '=', $cursos[$i]->id)->count();
         }
 
-        $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();
+        $categorias = CategoriaCurso::where('status', '=', 1)->get();
+            //listagem da categoria de cursos e contagem de Quantos cursos tem em uma categoria
+        $categoriasMenu = CategoriaCurso::join('cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
+            ->selectRaw('categoria_cursos.id, categoria_cursos.imagem as imagemCategoria, categoria_cursos.nome, count(categoria_cursos.id) as quantCursoCategoria')
+            ->groupBy('cursos.categoria_id')
+            ->inRandomOrder()
+            ->limit(5)
+            ->get();
 
         //Exibe a view 
         return view('site.cursos', [
             'curso' => $cursos,
             'categoriasMenu' => $categoriasMenu,
+            'categorias' => $categorias,
             'busca' => $busca,
             'categoria' => $categoria,
             'ordem' => $ordem,
@@ -389,7 +397,13 @@ class SiteController extends Controller
         }
 
         //Categorias Menu cabeçalho do site
-        $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();
+        $categoriasMenu = CategoriaCurso::join('cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
+            ->selectRaw('categoria_cursos.id, categoria_cursos.imagem as imagemCategoria, categoria_cursos.nome, count(categoria_cursos.id) as quantCursoCategoria')
+            ->groupBy('cursos.categoria_id')
+            ->inRandomOrder()
+            ->limit(5)
+            ->get();
+
 
         //Exibe a view
         return view('site.lerCurso', [

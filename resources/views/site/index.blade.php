@@ -235,11 +235,13 @@
                                 <div class="course-item">
                                     <div class="course-inner">
                                         <div class="course-thumb">
+                                            <a href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}">
                                             @if ($item->imagem != '')
                                                 <img src="{{ URL::asset('storage/' . $item->imagem) }}" alt="">
                                             @else
                                                 <img src="{{ URL::asset('storage/imagemCurso/padrao.png') }}" alt="">
                                             @endif
+                                            </a>
                                         </div>
                                         <div class="course-content">
                                             <div class="course-category">

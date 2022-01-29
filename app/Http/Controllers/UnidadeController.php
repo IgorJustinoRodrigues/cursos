@@ -28,7 +28,7 @@ class UnidadeController extends Controller
             //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-        $consulta = Unidade::join('unidades', 'unidades.unidade_id', '=', 'unidades.id')
+        $consulta = Unidade::join('parceiros', 'unidades.parceiro_id', '=', 'parceiros.id')
             ->orderby('unidades.nome', 'asc')
             ->where('unidades.status', '<>', '0');
 
@@ -39,7 +39,7 @@ class UnidadeController extends Controller
         }
 
 
-        $items = $consulta->selectRaw('unidades.*, unidades.nome as unidade')
+        $items = $consulta->selectRaw('unidades.*, parceiros.nome as parceiro')
             ->paginate();
 
         //Exibe a tela de listagem de unidade passando parametros para view
@@ -57,10 +57,15 @@ class UnidadeController extends Controller
             //Redirecionamento para a rota acessoUnidade, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-        $unidade = Parceiro::where('status', '=', '1')->get();
+        $parceiro = Parceiro::where('status', '=', '1')->get();
+
+        if (count($parceiro) <= 0) {
+            //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
+            return redirect()->route('parceiroCadastro')->with('atencao', 'Para cadastrar uma nova Unidade antes cadastre um Parceiro')->withInput();
+        }
 
         //Exibe a tela de cadastro de unidadeistradores
-        return view('painelAdmin.unidade.cadastro', ['unidade' => $unidade]);
+        return view('painelAdmin.unidade.cadastro', ['parceiro' => $parceiro]);
     }
 
     /*
@@ -88,7 +93,7 @@ class UnidadeController extends Controller
         //Atribuição dos valores recebidos da váriavel $request
         $item->nome = $request->nome;
         $item->usuario = $request->usuario;
-        $item->senha = $request->senha;
+        $item->senha = md5($request->senha);
         $item->email = $request->email;
         $item->whatsapp = $request->whatsapp;
         $item->contato = $request->contato;
@@ -98,7 +103,7 @@ class UnidadeController extends Controller
         $item->facebook = $request->facebook;
         $item->instagram = $request->instagram;
         $item->site = $request->site;
-        $item->unidade_id = $request->unidade_id;
+        $item->parceiro_id = $request->parceiro_id;
         $item->status = $request->status;
 
         //Verificação se imagem de logo foi informado, caso seja verifica-se sua integridade
@@ -150,10 +155,10 @@ class UnidadeController extends Controller
             //Redirecionamento para a rota acessoUnidade, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionar();
 
-        $item = Unidade::join('unidades', 'unidades.unidade_id', '=', 'unidades.id')
+        $item = Unidade::join('parceiros', 'unidades.parceiro_id', '=', 'parceiros.id')
             ->orderby('unidades.nome', 'asc')
             ->where('unidades.status', '<>', '0')
-            ->selectRaw('unidades.*, unidades.nome as unidade')
+            ->selectRaw('unidades.*, parceiros.nome as parceiro')
             ->find($id);
 
         //Verifica se há algum unidade selecionado
@@ -302,7 +307,7 @@ class UnidadeController extends Controller
             return (new Services())->redirecionar();
 
 
-        $item->senha = '123456';
+        $item->senha = md5('123456');
 
         //Deleta o unidadei informado
         if ($item->save()) {
@@ -447,7 +452,7 @@ class UnidadeController extends Controller
         $item->estado = $request->estado;
         $item->facebook = $request->facebook;
         $item->instagram = $request->instagram;
-        $item->site = $request->site;      
+        $item->site = $request->site;
         $item->usuario = $request->usuario;
 
         if (@$request->senha != '') {

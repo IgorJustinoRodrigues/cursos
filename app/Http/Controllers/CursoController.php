@@ -117,8 +117,8 @@ class CursoController extends Controller
         if (@$request->busca != '') {
             //Paginação dos registros com busca busca
             $consulta->where('cursos.nome', 'like', '%' . $request->busca . '%');
-            $consulta->where('professors.nome', 'like', '%' . $request->busca . '%');
-            $consulta->where('categoria_cursos.nome', 'like', '%' . $request->busca . '%');
+            $consulta->orWhere('professors.nome', 'like', '%' . $request->busca . '%');
+            $consulta->orWhere('categoria_cursos.nome', 'like', '%' . $request->busca . '%');
         }
 
         $items = $consulta->selectRaw('cursos.*, categoria_cursos.nome as categoria, professors.nome as professor')
