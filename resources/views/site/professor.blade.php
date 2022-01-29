@@ -123,19 +123,21 @@
                         <h4 class="subtitle">Recognitions Award</h4>
                         <div class="skill-item text-center">
                             <div class="skill-thumb">
-                                <img src="assets/images/instructor/single/icon/01.png" alt="instructor">
+                                <img src="{{ URL::asset('site/images/instructor/single/icon/01.png') }}"
+                                    alt="instructor">
                             </div>
                             <p>Award 2018</p>
                         </div>
                         <div class="skill-item text-center">
                             <div class="skill-thumb">
-                                <img src="assets/images/instructor/single/icon/02.png" alt="instructor">
+                                <img src="{{ URL::asset('site/images/instructor/single/icon/02.png') }}"
+                                    alt="instructor">
                             </div>
                             <p>Award 2019</p>
                         </div>
                         <div class="skill-item text-center">
                             <div class="skill-thumb">
-                                <img src="assets/images/instructor/single/icon/03.png" alt="instructor">
+                                <img src="{{ URL::asset('site/images/instructor/single/icon/03.png') }}" alt="instructor">
                             </div>
                             <p>Award 2020</p>
                         </div>
