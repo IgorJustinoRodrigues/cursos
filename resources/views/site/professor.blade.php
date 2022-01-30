@@ -86,65 +86,123 @@
                     </div>
                 </div>
                 <div class="instructor-single-bottom d-flex flex-wrap mt-4">
-                    <div class="col-xl-6 pb-5 pb-xl-0 d-flex flex-wrap justify-content-lg-start justify-content-between">
-                        <h4 class="subtitle">Personal Language Skill</h4>
-                        <div class="text-center skill-item">
-                            <div class="skill-thumb">
-                                <div class="circles text-center">
-                                    <div class="circle first" data-percent="80">
-                                        <strong>80<i>%</i></strong>
+                    <!-- Course Section Start Here -->
+
+
+
+                    <!-- Course Section Start Here -->
+                    <div
+                        class="course-section style-2 col-xl-12 pb-5 pb-xl-0 d-flex flex-wrap justify-content-lg-start justify-content-between">
+                        <div class="container">
+                            <span class="title"><h5> Cursos do Professor(a): {{ $professor->nome }}</h5></span>
+                            <div class="section-header">
+
+                                <div class="course-navigations">
+                                    <div class="course-navi course-navi-next"><i class="icofont-double-left"></i>
+                                    </div>
+                                    <div class="course-navi course-navi-prev"><i class="icofont-double-right"></i>
                                     </div>
                                 </div>
                             </div>
-                            <p>English</p>
-                        </div>
-                        <div class="text-center skill-item">
-                            <div class="skill-thumb">
-                                <div class="circles text-center">
-                                    <div class="circle second" data-percent="70">
-                                        <strong>70<i>%</i></strong>
+                            <div class="section-wrapper">
+                                <div class="course-slider p-2">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide">
+                                            <div class="course-item style-3">
+                                                <div class="course-inner text-center">
+                                                    <div class="course-thumb">
+                                                        <img src="{{ URL::asset('site/images/course/13.jpg') }}"
+                                                            alt="course">
+                                                        <ul class="course-info lab-ul">
+                                                            <li>
+                                                                <span class="ratting">
+                                                                    <i class="icofont-ui-rate-blank"></i>
+                                                                    <i class="icofont-ui-rate-blank"></i>
+                                                                    <i class="icofont-ui-rate-blank"></i>
+                                                                    <i class="icofont-ui-rate-blank"></i>
+                                                                    <i class="icofont-ui-rate-blank"></i>
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="course-content">
+                                                        <a href="course-single.html">
+                                                            <h6>Learn Basic Web Design with HTML & CSS</h6>
+                                                        </a>
+                                                        <a href="course-single.html" class="lab-btn"><span>Read
+                                                                More</span></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <div class="course-item style-3">
+                                                <div class="course-inner text-center">
+                                                    <div class="course-thumb">
+                                                        <img src="{{ URL::asset('site/images/course/14.jpg') }}"
+                                                            alt="course">
+                                                        <ul class="course-info lab-ul">
+                                                            <li>
+                                                                <span class="ratting">
+                                                                    <i class="icofont-ui-rate-blank"></i>
+                                                                    <i class="icofont-ui-rate-blank"></i>
+                                                                    <i class="icofont-ui-rate-blank"></i>
+                                                                    <i class="icofont-ui-rate-blank"></i>
+                                                                    <i class="icofont-ui-rate-blank"></i>
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="course-content">
+                                                        <a href="course-single.html">
+                                                            <h6>Learn Basic Web Design with HTML & CSS</h6>
+                                                        </a>
+                                                        <a href="course-single.html" class="lab-btn"><span>Read
+                                                                More</span></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <div class="course-item style-3">
+                                                <div class="course-inner text-center">
+                                                    <div class="course-thumb">
+                                                        <img src="{{ URL::asset('site/images/course/15.jpg') }}"
+                                                            alt="course">
+                                                        <ul class="course-info lab-ul">
+                                                            <li>
+                                                                <span class="ratting">
+                                                                    <i class="icofont-ui-rate-blank"></i>
+                                                                    <i class="icofont-ui-rate-blank"></i>
+                                                                    <i class="icofont-ui-rate-blank"></i>
+                                                                    <i class="icofont-ui-rate-blank"></i>
+                                                                    <i class="icofont-ui-rate-blank"></i>
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="course-content">
+                                                        <a href="course-single.html">
+                                                            <h6>Learn Basic Web Design with HTML & CSS</h6>
+                                                        </a>
+                                                        <a href="course-single.html" class="lab-btn"><span>Read
+                                                                More</span></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <p>Hindi</p>
-                        </div>
-                        <div class="text-center skill-item">
-                            <div class="skill-thumb">
-                                <div class="circles text-center">
-                                    <div class="circle third" data-percent="60">
-                                        <strong>60<i>%</i></strong>
-                                    </div>
-                                </div>
-                            </div>
-                            <p>Bangla</p>
                         </div>
                     </div>
-                    <div class="col-xl-6 d-flex flex-wrap justify-content-lg-start justify-content-between">
-                        <h4 class="subtitle">Recognitions Award</h4>
-                        <div class="skill-item text-center">
-                            <div class="skill-thumb">
-                                <img src="{{ URL::asset('site/images/instructor/single/icon/01.png') }}"
-                                    alt="instructor">
-                            </div>
-                            <p>Award 2018</p>
-                        </div>
-                        <div class="skill-item text-center">
-                            <div class="skill-thumb">
-                                <img src="{{ URL::asset('site/images/instructor/single/icon/02.png') }}"
-                                    alt="instructor">
-                            </div>
-                            <p>Award 2019</p>
-                        </div>
-                        <div class="skill-item text-center">
-                            <div class="skill-thumb">
-                                <img src="{{ URL::asset('site/images/instructor/single/icon/03.png') }}" alt="instructor">
-                            </div>
-                            <p>Award 2020</p>
-                        </div>
-                    </div>
+                    <!-- Course Section Ending Here -->
+
                 </div>
             </div>
         </div>
+
     </section>
     <!-- instructor Single Section Ends Here -->
+
 @endsection
