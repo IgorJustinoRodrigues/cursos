@@ -15,8 +15,8 @@
             padding-top: 250px;
             background: linear-gradient(rgb(255 255 255 / 90%), rgb(215 215 215 / 70%)), url({{ URL::asset('storage/' . $curso->imagem) }});
             background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
     </style>
@@ -55,11 +55,21 @@
                         <p class="phs-desc"></p>
                         <div class="phs-thumb">
                             @if ($professor->avatar != '')
-                                <img src="{{ URL::asset('storage/' . $professor->avatar) }}" class="avatar-img">
+                                <a
+                                    href="{{ route('site.Professor', [$professor->id, Str::slug($professor->nome) . '.html']) }}">
+                                    <img src="{{ URL::asset('storage/' . $professor->avatar) }}" class="rounded-circle"
+                                        style="width: 50px">
+                                </a>
                             @else
-                                <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}" style="width: 50px">
+                                <a
+                                    href="{{ route('site.Professor', [$professor->id, Str::slug($professor->nome) . '.html']) }}">
+                                    <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}"
+                                        class="rounded-circle" style="width: 50px"></a>
                             @endif
-                            <span>{{ $professor->nome }}</span>
+                            <a
+                                href="{{ route('site.Professor', [$professor->id, Str::slug($professor->nome) . '.html']) }}">
+                                <span class="ca-name">{{ $professor->nome }}</span>
+                            </a>
                             <br>
                             <div class="course-reiew">
                                 <span class="ratting">
@@ -148,7 +158,9 @@
                     <div class="course-side-detail">
                         <div class="csd-content">
                             <div class="row">
-                                <a class="btn btn-outline-success btn-lg btn-block" href="{{ route('site.aulaTeste', [$curso->id, Str::slug($curso->nome)]) }}"><span>VER AULA TESTE!</span></a>
+                                <a class="btn btn-outline-success btn-lg btn-block"
+                                    href="{{ route('site.aulaTeste', [$curso->id, Str::slug($curso->nome)]) }}"><span>VER
+                                        AULA TESTE!</span></a>
                             </div>
                         </div>
                     </div>
@@ -173,7 +185,7 @@
                                             </div>
                                             <div class="csdc-right">
                                                 {{ app(App\Services\Services::class)->minuto_hora($tempoTotal) }}</div>
-                          x'              </li>
+                                        </li>
                                         <li>
                                             <div class="csdc-left"><i class="icofont-video-alt"></i>Lições</div>
                                             <div class="csdc-right">{{ $quantidadeAula }}x</div>
