@@ -43,10 +43,11 @@
                                 <div class="stu-feed-top">
                                     <div class="sft-left">
                                         <div class="sftl-content">
-                                            <h4>Video de Auto Ajuda:
+                                            <h4><i class="icofont-star" style="color: #dfc625 !important"></i> Video de Auto Ajuda:
                                             </h4>
                                             <p>
-                                                A apresentação ao lado exibe todo o processo de como você ativará e acessará a plataforma!
+                                                A apresentação ao lado exibe todo o processo de como você ativará e acessará
+                                                a plataforma!
                                             </p>
                                         </div>
                                     </div>
@@ -62,7 +63,7 @@
                                             <button type="submit" class="bg-danger">Cancelar</button>
                                         </form>
                                     @else
-                                        <h4>Ativar Código: </h4 >
+                                        <h4><i class="icofont-star" style="color: #dfc625 !important"></i> Ativar Código: </h4>
                                         <p class="desc">No campo abaixo insira o seu código de ativação do curso e
                                             começe a faze-lo agora mesmo.</p>
                                         <form style="padding-top: 12px !important" class="newsletter-form"
@@ -85,4 +86,6 @@
         </div>
     </div>
     <!-- student feedbak section ending here -->
+
+
 @endsection
