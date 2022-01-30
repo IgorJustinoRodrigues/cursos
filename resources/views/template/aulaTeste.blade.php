@@ -73,7 +73,7 @@
                     <div style="margin: auto">
 
                         <!-- Brand -->
-                        <a href="{{ route('painelAluno') }}" class="navbar-brand">
+                        <a href="{{ route('inicio') }}" class="navbar-brand">
                             <img src="{{ URL::asset('imagem/Logo.svg') }}" style="width: 200px;"
                                 class="mr-2">
                         </a>
