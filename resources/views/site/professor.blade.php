@@ -61,7 +61,7 @@
                                     <span class="list-attr">{{ $professor->site }}</span>
                                 </li>
                                 <li class="d-flex flex-wrap justify-content-start">
-                                    <span class="list-name">Siga-nos</span>
+                                    <span class="list-name">Siga-o</span>
                                     <ul class="lab-ul list-attr d-flex flex-wrap justify-content-start">
                                         <li>
                                             <a class="twitter" href="{{ $professor->facebook }}"><i
