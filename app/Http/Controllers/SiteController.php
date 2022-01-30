@@ -65,7 +65,7 @@ class SiteController extends Controller
         $metricas['cursos'] = Curso::where('status', '=', 1)->where('visibilidade', '=', 1)->count();
         $metricas['alunos'] = Aluno::count();
         $metricas['certificados'] = Certificado::count();
-        $metricas['horas_aulas_assistidas'] = number_format(ceil(AulaAluno::join('aulas', 'aula_alunos.aula_id', '=', 'aulas.id')->sum('aulas.duracao') / 60), 0);
+        $metricas['horas_aulas_assistidas'] = intval(ceil(AulaAluno::join('aulas', 'aula_alunos.aula_id', '=', 'aulas.id')->sum('aulas.duracao') / 60));
 
         //Exibe a view 
         return view('site.index', [

@@ -149,7 +149,8 @@ class CursoSeed extends Seeder
         $ids_professor = array();
         $ids_categoria = array();
         $ids_curso = array();
-
+        $ids_aulas_curso = array();
+        $cpf_usado = array();
         for ($i = 0; $i < 20; $i++) {
             $parceiro = Parceiro::create([
                 'nome' => $faker->name,
@@ -188,22 +189,28 @@ class CursoSeed extends Seeder
                 $ids_vendedor = array();
 
                 for ($t = 0; $t < 15; $t++) {
+                    $cpf = $faker->cpf;
+                    if(in_array($cpf, $cpf_usado)){
+                        $t--;
+                    } else {
+                        $cpf_usado[] = $cpf;
 
-                    $vendedor = Vendedor::create([
-                        'nome' => $faker->name,
-                        'cpf' => $faker->cpf,
-                        'avatar' => null,
-                        'email' => $faker->email,
-                        'whatsapp' => $faker->cellphoneNumber,
-                        'usuario' => Str::random(8),
-                        'senha' => md5(123456),
-                        'status' => 1,
-                        'unidade_id' => $unidade->id,
-                        'created_at' => $faker->dateTime($max = 'now', $timezone = null),
-                        'updated_at' => $faker->dateTime($max = 'now', $timezone = null)
-                    ]);
-
-                    $ids_vendedor[] = $vendedor;
+                        $vendedor = Vendedor::create([
+                            'nome' => $faker->name,
+                            'cpf' => $faker->cpf,
+                            'avatar' => null,
+                            'email' => $faker->email,
+                            'whatsapp' => $faker->cellphoneNumber,
+                            'usuario' => Str::random(8),
+                            'senha' => md5(123456),
+                            'status' => 1,
+                            'unidade_id' => $unidade->id,
+                            'created_at' => $faker->dateTime($max = 'now', $timezone = null),
+                            'updated_at' => $faker->dateTime($max = 'now', $timezone = null)
+                        ]);
+    
+                        $ids_vendedor[] = $vendedor;
+                    }
                 }
 
                 $unidade->vendedores = $ids_vendedor;
@@ -287,19 +294,27 @@ class CursoSeed extends Seeder
                 'updated_at' => $faker->dateTime($max = 'now', $timezone = null)
             ]);
             $ids_curso[] = $curso->id;
+            $array_aux_ids = array();
 
-            for ($y = 0; $y < 3; $y++) {
+            for ($y = 0; $y < rand(2, 5); $y++) {
                 $id_aula = aula_video($curso->id);
+                $array_aux_ids[] = $id_aula;
+
                 anexo($id_aula);
                 anexo($id_aula);
-                $id_aula = aula_texto($curso->id);
+                $id_aula = $id_aula = aula_texto($curso->id);
+                $array_aux_ids[] = $id_aula;
+
                 anexo($id_aula);
                 anexo($id_aula);
-                $id_aula = aula_quiz($curso->id);
+                $id_aula = $id_aula = aula_quiz($curso->id);
+                $array_aux_ids[] = $id_aula;
             }
+
+            $ids_aulas_curso[$curso->id] = $array_aux_ids;
         }
 
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 1500; $i++) {
             $info = [
                 0 => [
                     'tipo' => 1,
@@ -313,27 +328,48 @@ class CursoSeed extends Seeder
                 ]
             ];
 
+            $x_parceiro = $ids_parceiro[array_rand($ids_parceiro)];
+
+            $x_unidade = $x_parceiro->unidades[array_rand($x_parceiro->unidades)];
+            $x_vendedor = $x_unidade->vendedores[array_rand($x_unidade->vendedores)];
+
             $ativado = [
                 0 => [
                     'data_ativacao' => null,
                     'status' => 2,
                     'aluno_id' => null,
-                    'unidade_id' => rand(1, 400),
+                    'unidade_id' => $x_unidade->id,
+                    'vendedor_id' => $x_vendedor->id,
                     'curso_id' => null,
-                    'vendedor_id' => null,
                 ],
                 1 => [
-                    'data_ativacao' => $faker->dateTimeBetween($startDate = '-60 years', $endDate = 'now', $timezone = null),
+                    'data_ativacao' => $faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now', $timezone = null),
                     'status' => 1,
-                    'aluno_id' => array_rand($ids_aluno),
-                    'unidade_id' => rand(1, 400),
-                    'curso_id' => array_rand($ids_curso),
+                    'aluno_id' => $ids_aluno[array_rand($ids_aluno)],
+                    'unidade_id' => $x_unidade->id,
+                    'vendedor_id' => $x_vendedor->id,
+                    'curso_id' => $ids_curso[array_rand($ids_curso)],
+                ],
+                2 => [
+                    'data_ativacao' => $faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now', $timezone = null),
+                    'status' => 1,
+                    'aluno_id' => null,
+                    'unidade_id' => $x_unidade->id,
+                    'vendedor_id' => $x_vendedor->id,
+                    'curso_id' => $ids_curso[array_rand($ids_curso)],
+                ],
+                3 => [
+                    'data_ativacao' => $faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now', $timezone = null),
+                    'status' => 1,
+                    'aluno_id' => null,
+                    'unidade_id' => $x_unidade->id,
                     'vendedor_id' => null,
+                    'curso_id' => null,
                 ],
             ];
 
             $n = rand(0, 1);
-            $m = rand(0, 1);
+            $m = rand(0, 3);
 
             $matricula = Matricula::create([
                 'ativacao' => Str::random(15),
@@ -351,6 +387,54 @@ class CursoSeed extends Seeder
                 'created_at' => $faker->dateTime($max = 'now', $timezone = null),
                 'updated_at' => $faker->dateTime($max = 'now', $timezone = null)
             ]);
+
+            if (isset($ativado[$m]['curso_id']) and isset($ativado[$m]['aluno_id'])) {
+                foreach ($ids_aulas_curso[$ativado[$m]['curso_id']] as $linha) {
+
+                    $infoAulaAluno = [
+                        0 => [
+                            'nota' => rand(60, 100),
+                            'abertura' => $faker->dateTimeBetween($startDate = '-1 years', $endDate = '-3 months', $timezone = null),
+                            'conclusao' => $faker->dateTimeBetween($startDate = '-3 month', $endDate = 'now', $timezone = null),
+                            'avaliacao_aula' => rand(1, 5),
+                            'anotacao' => $faker->text
+                        ], 1 => [
+                            'nota' => rand(60, 100),
+                            'abertura' => $faker->dateTimeBetween($startDate = '-1 years', $endDate = '-3 months', $timezone = null),
+                            'conclusao' => $faker->dateTimeBetween($startDate = '-3 month', $endDate = 'now', $timezone = null),
+                            'avaliacao_aula' => null,
+                            'anotacao' => null
+                        ], 2 => [
+                            'nota' => null,
+                            'abertura' => $faker->dateTimeBetween($startDate = '-1 years', $endDate = '-3 months', $timezone = null),
+                            'conclusao' => null,
+                            'avaliacao_aula' => rand(1, 5),
+                            'anotacao' => $faker->text
+                        ], 3 => [
+                            'nota' => null,
+                            'abertura' => $faker->dateTimeBetween($startDate = '-1 years', $endDate = '-3 months', $timezone = null),
+                            'conclusao' => null,
+                            'anotacao' => null,
+                            'avaliacao_aula' => null
+                        ]
+                    ];
+
+                    $l = rand(0, 3);
+
+                    $aula_aluno = AulaAluno::create([
+                        'nota' => $infoAulaAluno[$l]['nota'],
+                        'abertura' => $infoAulaAluno[$l]['abertura'],
+                        'conclusao' => $infoAulaAluno[$l]['conclusao'],
+                        'avaliacao_aula' => $infoAulaAluno[$l]['avaliacao_aula'],
+                        'anotacao' => $infoAulaAluno[$l]['anotacao'],
+                        'aluno_id' => $ativado[$m]['aluno_id'],
+                        'curso_id' => $ativado[$m]['curso_id'],
+                        'aula_id' => $linha,
+                        'created_at' => $faker->dateTime($max = 'now', $timezone = null),
+                        'updated_at' => $faker->dateTime($max = 'now', $timezone = null)
+                    ]);
+                }
+            }
         }
     }
 }
