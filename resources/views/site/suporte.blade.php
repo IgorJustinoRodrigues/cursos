@@ -32,7 +32,7 @@
                         <div class="feature-item">
                             <div class="feature-inner">
                                 <div class="feature-thumb">
-                                    <img src="{{ URL::asset('site/images/feature/01.png') }}" alt="feature">
+                                    <i class="icofont-learn" style="font-size: 50px;"></i>
                                 </div>
                                 <div class="feature-content">
                                     <a href="#">
@@ -47,7 +47,7 @@
                         <div class="feature-item">
                             <div class="feature-inner">
                                 <div class="feature-thumb">
-                                    <img src="{{ URL::asset('site/images/feature/01.png') }}" alt="feature">
+                                    <i class="icofont-certificate" style="font-size: 50px;"></i>
                                 </div>
                                 <div class="feature-content">
                                     <a href="#">
@@ -62,7 +62,7 @@
                         <div class="feature-item">
                             <div class="feature-inner">
                                 <div class="feature-thumb">
-                                    <img src="{{ URL::asset('site/images/feature/01.png') }}" alt="feature">
+                                    <i class="icofont-graduate-alt" style="font-size: 50px;"></i>
                                 </div>
                                 <div class="feature-content">
                                     <a href="#">
@@ -77,7 +77,7 @@
                         <div class="feature-item">
                             <div class="feature-inner">
                                 <div class="feature-thumb">
-                                    <img src="{{ URL::asset('site/images/feature/01.png') }}" alt="feature">
+                                    <i class="icofont-business-man-alt-3" style="font-size: 50px;"></i>
                                 </div>
                                 <div class="feature-content">
                                     <a href="#">
@@ -92,7 +92,7 @@
                         <div class="feature-item">
                             <div class="feature-inner">
                                 <div class="feature-thumb">
-                                    <img src="{{ URL::asset('site/images/feature/01.png') }}" alt="feature">
+                                    <i class="icofont-business-man-alt-1" style="font-size: 50px;"></i>
                                 </div>
                                 <div class="feature-content">
                                     <a href="#">
@@ -107,7 +107,7 @@
                         <div class="feature-item">
                             <div class="feature-inner">
                                 <div class="feature-thumb">
-                                    <img src="{{ URL::asset('site/images/feature/01.png') }}" alt="feature">
+                                    <i class="icofont-man-in-glasses" style="font-size: 50px;"></i>
                                 </div>
                                 <div class="feature-content">
                                     <a href="#">
@@ -123,5 +123,5 @@
         </div>
     </div>
     <!-- features section ending here -->
-   
+
 @endsection
