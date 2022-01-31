@@ -167,7 +167,7 @@
                             <div class="col-9 col-md-4 mb-3">
                                 <label class="form-label" for="pontuacao">Pontuação</label>
                                 <input type="number" class="form-control" id="pontuacao" name="pontuacao"
-                                    placeholder="Estado" value="{{ $item->pontuacao }}" maxlength="2" required="">
+                                    placeholder="Pontuação" value="{{ $item->pontuacao }}" maxlength="2" >
                             </div>
 
                             <div class="col-12 col-md-4 mb-3">

@@ -112,7 +112,7 @@
                             <div class="col-12 col-md-5 mb-3">
                                 <label class="form-label" for="nascimento">Data de Nascimento</label>
                                 <input type="date" class="form-control" id="nascimento" name="nascimento"
-                                    value="{{ old('nascimento') }}" required="">
+                                    value="{{ old('nascimento') }}" >
                             </div>
 
                             <div class="col-12 col-md-4 mb-3">
