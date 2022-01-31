@@ -197,6 +197,16 @@ class ParceiroController extends Controller
         //Atribuição dos valores recebidos da váriavel $request
         $item->nome = $request->nome;
         $item->usuario = $request->usuario;
+        //Verificação se uma nova senha foi informada
+        if (@$request->senha != '') {
+            //Validação das informações recebidas
+            $validated = $request->validate([
+                'senha' => 'required|min:6',
+            ]);
+
+            //Atribuição dos valores recebidos da váriavel $request para o objeto $item
+            $item->senha = md5($request->senha);
+        }
         $item->status = $request->status;
         $item->visibilidade = $request->visibilidade;
         $item->sobre = $request->sobre;
