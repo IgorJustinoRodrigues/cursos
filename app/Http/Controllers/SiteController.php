@@ -460,8 +460,8 @@ class SiteController extends Controller
                 ->inRandomOrder()
                 ->limit(5)
                 ->get();
-            //Exibe a view 
 
+            //Exibe a view 
             return view('site.professor', [
                 'professor' => $professor,
                 'categoriasMenu' => $categoriasMenu,
