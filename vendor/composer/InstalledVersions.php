@@ -561,6 +561,15 @@ private static $installed = array (
       ),
       'reference' => 'fd4380d6fc37626e2f799f29d91195040137eba9',
     ),
+    'mpdf/mpdf' => 
+    array (
+      'pretty_version' => 'v8.0.17',
+      'version' => '8.0.17.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5f64118317c8145c0abc606b310aa0a66808398a',
+    ),
     'mtdowling/cron-expression' => 
     array (
       'replaced' => 
@@ -634,6 +643,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '06e2ebd25f2869e54a306dda991f7db58066f7f6',
+    ),
+    'paragonie/random_compat' => 
+    array (
+      'pretty_version' => 'v9.99.100',
+      'version' => '9.99.100.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '996434e5492cb4c3edcb9168db6fbb1359ef965a',
     ),
     'phar-io/manifest' => 
     array (
@@ -1051,6 +1069,15 @@ private static $installed = array (
       array (
       ),
       'reference' => 'c6c1022351a901512170118436c764e473f6de8c',
+    ),
+    'setasign/fpdi' => 
+    array (
+      'pretty_version' => 'v2.3.6',
+      'version' => '2.3.6.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '6231e315f73e4f62d72b73f3d6d78ff0eed93c31',
     ),
     'swiftmailer/swiftmailer' => 
     array (

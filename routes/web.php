@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlunoController;
 use App\Http\Controllers\AulaController;
 use App\Http\Controllers\CategoriaCursoController;
+use App\Http\Controllers\CertificadoController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\MatriculaController;
 use App\Http\Controllers\ParceiroController;
@@ -26,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 
 //Rota Diretório Raiz
 Route::get('/', [SiteController::class, 'index'])->name('inicio');
+Route::get('/pdf', [CertificadoController::class, 'pdf']);
 
 /*
 ROTAS DE SITE
