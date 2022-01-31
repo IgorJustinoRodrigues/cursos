@@ -426,17 +426,45 @@ class SiteController extends Controller
     //Funçao de Ativação do Código sub-aba de início
     public function professor($id, $url)
     {
-        $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();
-        //Exibe a view 
+
 
         $professor = Professor::where('status', '=', 1)
             ->find($id);
 
+        if ($professor) {
+            $mediaprofessor = AulaAluno::join('cursos', 'cursos.id', '=', 'aula_alunos.curso_id')
+                ->where('cursos.professor_id', '=', $id)
+                ->avg('aula_alunos.avaliacao_aula');
 
-        return view('site.professor', [
-            'professor' => $professor,
-            'categoriasMenu' => $categoriasMenu
-        ]);
+            //listagem de cursos 
+            $cursos = Curso::join('categoria_cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
+                ->join('professors', 'professors.id', '=', 'cursos.professor_id')
+                ->leftjoin('aulas', 'aulas.curso_id', '=', 'cursos.id')
+                ->where('cursos.visibilidade', '=', 1)
+                ->where('cursos.status', '=', 1)
+                ->where('cursos.professor_id', '=', $id)
+                ->selectRaw('count(aulas.curso_id) as soma, cursos.id,cursos.tipo, cursos.imagem, cursos.nome, categoria_cursos.nome as categoria, categoria_cursos.id as categoria_id, professors.nome as professor, professors.id as id_professor, professors.avatar')
+                ->groupBy('cursos.id')
+                ->inRandomOrder()
+                ->get();
+
+            for ($i = 0; $i < count($cursos); $i++) {
+                $cursos[$i]->estrelas = AulaAluno::where('curso_id', '=', $cursos[$i]->id)->avg('avaliacao_aula');
+                $cursos[$i]->alunos = Matricula::where('curso_id', '=', $cursos[$i]->id)->count();
+            }
+
+            $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();
+            //Exibe a view 
+
+            return view('site.professor', [
+                'professor' => $professor,
+                'categoriasMenu' => $categoriasMenu,
+                'mediaProfessor' => (ceil($mediaprofessor)),
+                'cursos' => $cursos
+            ]);
+        } else {
+            return redirect()->route('inicio')->with('atencao', 'O Professor não foi encontrado. Tente novamente!')->withInput();
+        }
     }
 
     public function aulaTeste($curso_id, $url = "")

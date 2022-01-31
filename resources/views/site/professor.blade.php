@@ -2,7 +2,16 @@
 @section('title', 'Professor')
 
 @section('header')
+    <style>
+        .dourado {
+            color: #ffd400 !important;
+        }
 
+        .prata {
+            color: #f2f1ea !important;
+        }
+
+    </style>
 @endsection
 
 @section('footer')
@@ -35,11 +44,13 @@
                             <h4 class="title">{{ $professor->nome }}</h4>
                             <p class="ins-dege"></p>
                             <span class="ratting">
-                                <i class="icofont-ui-rating"></i>
-                                <i class="icofont-ui-rating"></i>
-                                <i class="icofont-ui-rating"></i>
-                                <i class="icofont-ui-rating"></i>
-                                <i class="icofont-ui-rating"></i>
+                                @for ($i = 1; $i < 6; $i++)
+                                    @if ($i <= $mediaProfessor)
+                                        <i class="icofont-ui-rating dourado"></i>
+                                    @else
+                                        <i class="icofont-ui-rating prata"></i>
+                                    @endif
+                                @endfor
                             </span>
                             <h6 class="subtitle">Breve Currículo do Professor</h6>
                             <p class="ins-desc">{{ $professor->curriculo }}</p>
@@ -94,7 +105,10 @@
                     <div
                         class="course-section style-2 col-xl-12 pb-5 pb-xl-0 d-flex flex-wrap justify-content-lg-start justify-content-between">
                         <div class="container">
-                            <span class="title"><h5> Cursos do Professor(a): {{ $professor->nome }}</h5></span>
+                            <span class="title">
+                                <h5> Cursos do Professor(a): {{ $professor->nome }}</h5>
+                            </span>
+                            <span class="subtitle">{{ count($cursos) }} cursos</span>
                             <div class="section-header">
 
                                 <div class="course-navigations">
@@ -105,92 +119,53 @@
                                 </div>
                             </div>
                             <div class="section-wrapper">
+
                                 <div class="course-slider p-2">
                                     <div class="swiper-wrapper">
-                                        <div class="swiper-slide">
-                                            <div class="course-item style-3">
-                                                <div class="course-inner text-center">
-                                                    <div class="course-thumb">
-                                                        <img src="{{ URL::asset('site/images/course/13.jpg') }}"
+                                        @foreach ($cursos as $item)
+                                            <div class="swiper-slide">
+                                                <div class="course-item style-3">
+                                                    <div class="course-inner text-center">
+                                                        <div class="course-thumb">
+                                                            @if ($item->imagem != '')
+                                                                <img src="{{ URL::asset('storage/' . $item->imagem) }}"
+                                                                    alt="">
+                                                            @else
+                                                                <img src="{{ URL::asset('storage/imagemCurso/padrao.png') }}"
+                                                                    alt="">
+                                                            @endif
                                                             alt="course">
-                                                        <ul class="course-info lab-ul">
-                                                            <li>
-                                                                <span class="ratting">
-                                                                    <i class="icofont-ui-rate-blank"></i>
-                                                                    <i class="icofont-ui-rate-blank"></i>
-                                                                    <i class="icofont-ui-rate-blank"></i>
-                                                                    <i class="icofont-ui-rate-blank"></i>
-                                                                    <i class="icofont-ui-rate-blank"></i>
-                                                                </span>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="course-content">
-                                                        <a href="course-single.html">
-                                                            <h6>Learn Basic Web Design with HTML & CSS</h6>
-                                                        </a>
-                                                        <a href="course-single.html" class="lab-btn"><span>Read
-                                                                More</span></a>
+                                                            <ul class="course-info lab-ul">
+                                                                <li>
+                                                                    <span class="ratting">
+                                                                        @for ($i = 1; $i < 6; $i++)
+                                                                            @if ($i <= $item->estrelas)
+                                                                                <i class="icofont-ui-rating dourado"></i>
+                                                                            @else
+                                                                                <i class="icofont-ui-rating prata"></i>
+                                                                            @endif
+                                                                        @endfor
+                                                                    </span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="course-content">
+                                                            <a
+                                                                href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}">
+                                                                <h6>{{ $item->nome }}</h6>
+                                                            </a>
+                                                            <br>
+                                                            <span>
+                                                                {{$item->alunos}} alunos matrículados
+                                                            </span>
+                                                            <br>
+                                                            <a href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}"
+                                                                class="lab-btn"><span>Conhecer</span></a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="course-item style-3">
-                                                <div class="course-inner text-center">
-                                                    <div class="course-thumb">
-                                                        <img src="{{ URL::asset('site/images/course/14.jpg') }}"
-                                                            alt="course">
-                                                        <ul class="course-info lab-ul">
-                                                            <li>
-                                                                <span class="ratting">
-                                                                    <i class="icofont-ui-rate-blank"></i>
-                                                                    <i class="icofont-ui-rate-blank"></i>
-                                                                    <i class="icofont-ui-rate-blank"></i>
-                                                                    <i class="icofont-ui-rate-blank"></i>
-                                                                    <i class="icofont-ui-rate-blank"></i>
-                                                                </span>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="course-content">
-                                                        <a href="course-single.html">
-                                                            <h6>Learn Basic Web Design with HTML & CSS</h6>
-                                                        </a>
-                                                        <a href="course-single.html" class="lab-btn"><span>Read
-                                                                More</span></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="course-item style-3">
-                                                <div class="course-inner text-center">
-                                                    <div class="course-thumb">
-                                                        <img src="{{ URL::asset('site/images/course/15.jpg') }}"
-                                                            alt="course">
-                                                        <ul class="course-info lab-ul">
-                                                            <li>
-                                                                <span class="ratting">
-                                                                    <i class="icofont-ui-rate-blank"></i>
-                                                                    <i class="icofont-ui-rate-blank"></i>
-                                                                    <i class="icofont-ui-rate-blank"></i>
-                                                                    <i class="icofont-ui-rate-blank"></i>
-                                                                    <i class="icofont-ui-rate-blank"></i>
-                                                                </span>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="course-content">
-                                                        <a href="course-single.html">
-                                                            <h6>Learn Basic Web Design with HTML & CSS</h6>
-                                                        </a>
-                                                        <a href="course-single.html" class="lab-btn"><span>Read
-                                                                More</span></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
