@@ -456,7 +456,7 @@ class AlunoController extends Controller
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required',
-            'email' => 'required|email|max:100|unique:alunos,email',
+            'email' => "required|email|max:100|unique:alunos,email,{$item->id}",
             'pontuacao' => 'required'
         ]);
 
