@@ -514,7 +514,14 @@ class SiteController extends Controller
     public function suporte()
     {
 
-        $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();
+        //listagem da categoria de cursos e contagem de Quantos cursos tem em uma categoria
+        $categoriasMenu = CategoriaCurso::join('cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
+            ->selectRaw('categoria_cursos.id, categoria_cursos.imagem as imagemCategoria, categoria_cursos.nome, count(categoria_cursos.id) as quantCursoCategoria')
+            ->groupBy('cursos.categoria_id')
+            ->inRandomOrder()
+            ->limit(5)
+            ->get();
+
         //Exibe a view 
         return view('site.suporte', [
             'categoriasMenu' => $categoriasMenu
