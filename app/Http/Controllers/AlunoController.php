@@ -372,7 +372,7 @@ class AlunoController extends Controller
         $item->cidade = $request->cidade;
         $item->estado = $request->estado;
         $item->email = $request->email;
-        $item->senha = $request->senha;
+        $item->senha = md5($request->senha);
         //pontuação resolver ainda...
         $item->pontuacao = $request->pontuacao;
 
@@ -471,7 +471,7 @@ class AlunoController extends Controller
             ]);
 
             //Atribuição dos valores recebidos da váriavel $request para o objeto $item
-            $item->senha = $request->senha;
+            $item->senha = md5($request->senha);
         }
 
         $item->nascimento = $request->nascimento;

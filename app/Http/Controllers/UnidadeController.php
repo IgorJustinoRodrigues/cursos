@@ -210,7 +210,7 @@ class UnidadeController extends Controller
             ]);
 
             //Atribuição dos valores recebidos da váriavel $request para o objeto $item
-            $item->senha = $request->senha;
+            $item->senha = md5($request->senha);
         }
 
         $item->email = $request->email;
