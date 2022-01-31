@@ -104,9 +104,8 @@
     <div class="course-section style-2 padding-tb">
         <div class="container">
             <span class="title">
-                <h5> Cursos do Professor(a): {{ $professor->nome }}</h5>
+                <h5>Conheça os " {{ count($cursos) }} " Cursos do Professor(a): {{ $professor->nome }}</h5>
             </span>
-            <span class="subtitle">{{ count($cursos) }} cursos</span>
             <div class="section-header">
 
                 <div class="course-navigations">
