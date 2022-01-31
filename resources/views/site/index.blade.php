@@ -2,14 +2,16 @@
 @section('title', 'Início')
 
 @section('header')
-<style>
-    .dourado {
-        color: #ffd400 !important;
-    }
-    .prata{
-        color: #f2f1ea !important;
-    }
-</style>
+    <style>
+        .dourado {
+            color: #ffd400 !important;
+        }
+
+        .prata {
+            color: #f2f1ea !important;
+        }
+
+    </style>
 @endsection
 
 @section('conteudo')
@@ -52,7 +54,9 @@
                                 <p>Categorias mais Acessados: </p>
                                 <ul class="lab-ul d-flex flex-wrap">
                                     @foreach ($principaisCategorias as $linha)
-                                    <li><a href="{{ route('site.cursos', [$linha->id, $linha->nome]) }}">{{ $linha->nome }}</a></li>                                        
+                                        <li><a
+                                                href="{{ route('site.cursos', [$linha->id, $linha->nome]) }}">{{ $linha->nome }}</a>
+                                        </li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -111,7 +115,8 @@
             <div class="section-wrapper text-center">
                 <h3>Já conhece o Faça Mais Brasil?</h3>
                 <div class="video-thumb">
-                    <a href="https://www.youtube-nocookie.com/embed/7BeGmVo6ZJY" class="video-button " data-rel="lightcase"><i class="icofont-ui-play"></i></a>
+                    <a href="https://www.youtube-nocookie.com/embed/7BeGmVo6ZJY" class="video-button "
+                        data-rel="lightcase"><i class="icofont-ui-play"></i></a>
                 </div>
             </div>
         </div>
@@ -164,7 +169,8 @@
                             <div class="count-item">
                                 <div class="count-inner">
                                     <div class="count-content">
-                                        <h2><span class="count" data-to="{{ $metricas['horas_aulas_assistidas'] }}"
+                                        <h2><span class="count"
+                                                data-to="{{ $metricas['horas_aulas_assistidas'] }}"
                                                 data-speed="1500"></span><span>+</span></h2>
                                         <p>Horas de aulas assistidas</p>
                                     </div>
@@ -176,48 +182,48 @@
             </div>
         </div>
     </div>
-    
+
     @if (count($categoria) > 0)
-    <!-- category section start here -->
-    <div class="category-section"  style="padding-bottom: 80px;">
-        <div class="container">
-            <div class="section-header text-center">
-                <span class="subtitle">Categoria Popular</span>
-                <h2 class="title">Categoria popular para aprender</h2>
-            </div>
-            <div class="section-wrapper">
-                <div class="row g-2 justify-content-center row-cols-xl-6 row-cols-md-3 row-cols-sm-2 row-cols-1">
-                    @foreach ($categoria as $item)
-                        <div class="col">
-                            <div class="category-item text-center">
-                                <div class="category-inner">
-                                    <div class="category-thumb">
-                                        @if ($item->imagemCategoria != '')
-                                            <img src="{{ URL::asset('storage/' . $item->imagemCategoria) }}"
-                                                class="avatar-img">
-                                        @else
-                                            <img src="{{ URL::asset('storage/imagemCategoriaCurso/padrao.png') }}">
-                                        @endif
-                                    </div>
-                                    <div class="category-content">
-                                        <a href="{{ route('site.cursos', [$item->id, Str::slug($item->nome)]) }}">
-                                            <h6>{{ $item->nome }}</h6>
-                                        </a>
-                                        <span>{{ $item->quantCursoCategoria }} Cursos</span>
+        <!-- category section start here -->
+        <div class="category-section" style="padding-bottom: 80px;">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="subtitle">Categoria Popular</span>
+                    <h2 class="title">Categoria popular para aprender</h2>
+                </div>
+                <div class="section-wrapper">
+                    <div class="row g-2 justify-content-center row-cols-xl-6 row-cols-md-3 row-cols-sm-2 row-cols-1">
+                        @foreach ($categoria as $item)
+                            <div class="col">
+                                <div class="category-item text-center">
+                                    <div class="category-inner">
+                                        <div class="category-thumb">
+                                            @if ($item->imagemCategoria != '')
+                                                <img src="{{ URL::asset('storage/' . $item->imagemCategoria) }}"
+                                                    class="avatar-img">
+                                            @else
+                                                <img src="{{ URL::asset('storage/imagemCategoriaCurso/padrao.png') }}">
+                                            @endif
+                                        </div>
+                                        <div class="category-content">
+                                            <a href="{{ route('site.cursos', [$item->id, Str::slug($item->nome)]) }}">
+                                                <h6>{{ $item->nome }}</h6>
+                                            </a>
+                                            <span>{{ $item->quantCursoCategoria }} Cursos</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
-                </div>
-                <div class="text-center mt-5">
-                    <a href="{{ route('site.cursos') }}" class="lab-btn"><span>Navegar em todas as
-                            categorias</span></a>
+                        @endforeach
+                    </div>
+                    <div class="text-center mt-5">
+                        <a href="{{ route('site.cursos') }}" class="lab-btn"><span>Navegar em todas as
+                                categorias</span></a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- category section start here -->
+        <!-- category section start here -->
     @endif
 
     @if (count($curso) > 0)
@@ -235,32 +241,35 @@
                                 <div class="course-item">
                                     <div class="course-inner">
                                         <div class="course-thumb">
-                                            <a href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}">
-                                            @if ($item->imagem != '')
-                                                <img src="{{ URL::asset('storage/' . $item->imagem) }}" alt="">
-                                            @else
-                                                <img src="{{ URL::asset('storage/imagemCurso/padrao.png') }}" alt="">
-                                            @endif
+                                            <a
+                                                href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}">
+                                                @if ($item->imagem != '')
+                                                    <img src="{{ URL::asset('storage/' . $item->imagem) }}" alt="">
+                                                @else
+                                                    <img src="{{ URL::asset('storage/imagemCurso/padrao.png') }}" alt="">
+                                                @endif
                                             </a>
                                         </div>
                                         <div class="course-content">
                                             <div class="course-category">
                                                 <div class="course-cate">
-                                                    <a href="{{ route('site.cursos', [$item->categoria_id, Str::slug($item->categoria)]) }}">{{ $item->categoria }}</a>
+                                                    <a
+                                                        href="{{ route('site.cursos', [$item->categoria_id, Str::slug($item->categoria)]) }}">{{ $item->categoria }}</a>
                                                 </div>
                                                 <div class="course-reiew">
                                                     <span class="ratting">
                                                         @for ($i = 1; $i < 6; $i++)
-                                                        @if ($i <= $item->estrelas)
-                                                            <i class="icofont-ui-rating dourado"></i>
-                                                        @else
-                                                            <i class="icofont-ui-rating prata"></i>
-                                                        @endif
-                                                    @endfor
+                                                            @if ($i <= $item->estrelas)
+                                                                <i class="icofont-ui-rating dourado"></i>
+                                                            @else
+                                                                <i class="icofont-ui-rating prata"></i>
+                                                            @endif
+                                                        @endfor
                                                     </span>
                                                 </div>
                                             </div>
-                                            <a href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}">
+                                            <a
+                                                href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}">
                                                 <h5>{{ $item->nome }}</h5>
                                             </a>
                                             <div class="course-details">
@@ -268,23 +277,32 @@
                                                     {{ $item->soma }}
                                                     @if ($item->soma == 1) Aula @else Aulas @endif
                                                 </div>
-                                                <div class="couse-topic"><span class="ratting-count">{{ $item->alunos }} alunos</span>
+                                                <div class="couse-topic"><span
+                                                        class="ratting-count">{{ $item->alunos }} alunos</span>
                                                 </div>
                                             </div>
                                             <div class="course-footer">
                                                 <div class="course-author">
-                                                    @if ($item->avatar != '')
-                                                        <img src="{{ URL::asset('storage/' . $item->avatar) }}"
-                                                            style="width: 45px" class="rounded-circle">
+                                                    @if ($item->avatar_professor != '')
+                                                        <a
+                                                            href="{{ route('site.Professor', [$item->id_professor, Str::slug($item->professor) . '.html']) }}">
+                                                            <img src="{{ URL::asset('storage/' . $item->avatar_professor) }}"
+                                                                class="rounded-circle" style="width: 50px">
+                                                        </a>
                                                     @else
-                                                        <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}"
-                                                        style="width: 45px" class="rounded-circle">
+                                                        <a
+                                                            href="{{ route('site.Professor', [$item->id_professor, Str::slug($item->professor) . '.html']) }}">
+                                                            <img src="{{ URL::asset('storage/avatarProfessor/padrao.png') }}"
+                                                                class="rounded-circle" style="width: 50px"></a>
                                                     @endif
-                                                    <a href="team-single.html"
-                                                        class="ca-name">{{ $item->professor }}</a>
+                                                    <a
+                                                        href="{{ route('site.Professor', [$item->id_professor, Str::slug($item->professor) . '.html']) }}">
+                                                        <span class="ca-name">{{ $item->professor }}</span>
+                                                    </a>
                                                 </div>
                                                 <div class="course-btn">
-                                                    <a href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}" class="lab-btn-text">Conhecer <i
+                                                    <a href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}"
+                                                        class="lab-btn-text">Conhecer <i
                                                             class="icofont-external-link"></i></a>
                                                 </div>
                                             </div>

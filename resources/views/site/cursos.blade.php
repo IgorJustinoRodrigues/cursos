@@ -172,7 +172,7 @@
 
                                                 <div class="course-btn">
                                                     <a href="{{ route('site.lerCurso', [$item->id, Str::slug($item->nome) . '.html']) }}"
-                                                        class="lab-btn-text">Ver Curso <i
+                                                        class="lab-btn-text">Conhecer <i
                                                             class="icofont-external-link"></i></a>
                                                 </div>
                                             </div>
