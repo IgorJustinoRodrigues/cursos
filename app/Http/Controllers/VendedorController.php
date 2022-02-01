@@ -78,7 +78,7 @@ class VendedorController extends Controller
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required',
-            'cpf' => 'required|max:11|unique:vendedors,cpf',
+            'cpf' => 'required|max:14|unique:vendedors,cpf',
             'usuario' => 'required|max:20|unique:vendedors,usuario',
             'senha' => 'required'
         ]);
@@ -184,7 +184,7 @@ class VendedorController extends Controller
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required',
-            'cpf' => "required|max:11|unique:vendedors,cpf,{$item->id}",
+            'cpf' => "required|max:14|unique:vendedors,cpf,{$item->id}",
             'usuario' => "required|max:20|unique:vendedors,usuario,{$item->id}",
         ]);
 

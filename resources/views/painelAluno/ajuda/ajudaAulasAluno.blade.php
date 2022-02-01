@@ -1,5 +1,6 @@
 @extends('template.aluno')
-@section('title', 'Suporte')
+@section('title', 'Tela de Ajuda')
+@section('menu-ajuda', 'true')
 
 @section('footer')
 
@@ -9,12 +10,12 @@
     <div class="page ">
         <div class="container page__container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="fixed-student-dashboard.html">Home</a></li>
-                <li class="breadcrumb-item active">Help center</li>
+                <li class="breadcrumb-item"><a href="{{ route('painelAluno') }}">Inicio</a></li>
+                <li class="breadcrumb-item active">Aulas</li>
             </ol>
             <div class="media mb-headings align-items-center">
                 <div class="media-body">
-                    <h1 class="h2">Help center</h1>
+                    <h1 class="h2">Aulas</h1>
                 </div>
                 <div class="media-right">
                     <a href="fixed-student-forum-ask.html" class="btn btn-success">

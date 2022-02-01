@@ -334,22 +334,24 @@
                                         </a>
                                         <ul class="sidebar-submenu sm-indent collapse" id="ajuda_menu">
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="student-account-edit.html">
+                                                <a class="sidebar-menu-button"
+                                                    href="{{ route('ajudaProfessorAluno') }}">
                                                     <span class="sidebar-menu-text">Contatar Professor</span>
                                                 </a>
                                             </li>
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('ajudaAulas') }}">
+                                                <a class="sidebar-menu-button" href="{{ route('ajudaAulasAluno') }}">
                                                     <span class="sidebar-menu-text">Como acessar as Aulas ?</span>
                                                 </a>
                                             </li>
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="student-account-edit.html">
+                                                <a class="sidebar-menu-button"
+                                                    href="{{ route('ajudaCertificadoAluno') }}">
                                                     <span class="sidebar-menu-text">Solicitar Certificados</span>
                                                 </a>
                                             </li>
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="student-account-edit.html">
+                                                <a class="sidebar-menu-button" href="{{route('ajudaPlataformaAluno')}}">
                                                     <span class="sidebar-menu-text">Conhecendo a Plataforma</span>
                                                 </a>
                                             </li>

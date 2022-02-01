@@ -1086,9 +1086,24 @@ class AlunoController extends Controller
         );
     }
 
+       /*
+    Função Tela de Ajuda de Professor ao Aluno
+    - Responsável por mostrar a tela de ajudaProfessorAluno de aluno
+    */
+    public function ajudaProfessorAluno()
+    {
+            //Validação de acesso
+            if (!(new Services())->validarAluno())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarAluno();
+
+        //Exibe a tela de cadastro de ajudaAulas
+        return view('painelAluno.ajuda.ajudaProfessorAluno');
+    }
+
 
   /*
-    Função Cadastro de Aluno
+    Função Tela de Ajuda de Aulas Aluno
     - Responsável por mostrar a tela de ajudaAulasAluno de aluno
     */
     public function ajudaAulasAluno()
@@ -1102,6 +1117,35 @@ class AlunoController extends Controller
         return view('painelAluno.ajuda.ajudaAulasAluno');
     }
 
+      /*
+    Função Tela de Ajuda de Certificados Aluno
+    - Responsável por mostrar a tela de ajudaCertificadoAluno de aluno
+    */
+    public function ajudaCertificadoAluno()
+    {
+            //Validação de acesso
+            if (!(new Services())->validarAluno())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarAluno();
+
+        //Exibe a tela de cadastro de ajudaAulas
+        return view('painelAluno.ajuda.ajudaCertificadoAluno');
+    }
+
+  /*
+    Função Tela de Ajuda de Certificados Aluno
+    - Responsável por mostrar a tela de ajudaPlataformaAluno de aluno
+    */
+    public function ajudaPlataformaAluno()
+    {
+            //Validação de acesso
+            if (!(new Services())->validarAluno())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarAluno();
+
+        //Exibe a tela de cadastro de ajudaAulas
+        return view('painelAluno.ajuda.ajudaPlataformaAluno');
+    }
 
     /*
     Função Login de Aluno

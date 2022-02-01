@@ -1,5 +1,6 @@
 @extends('template.aluno')
-@section('title', 'Suporte')
+@section('title', 'Tela de Ajuda')
+@section('menu-ajuda', 'true')
 
 @section('footer')
     
