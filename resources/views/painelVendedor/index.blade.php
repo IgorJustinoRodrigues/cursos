@@ -6,7 +6,7 @@
 @endsection
 
 @section('conteudo')
-    <h1 class="h2">Olá {{$_SESSION['vendedor_cursos_start']->nome}}</h1>
+    <h1 class="h2">Olá Vendedor(a){{$_SESSION['vendedor_cursos_start']->nome}}</h1>
 
     <div class="row">
         <div class="col-lg-7">
