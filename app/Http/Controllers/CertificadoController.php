@@ -11,7 +11,6 @@ class CertificadoController extends Controller
 {
     public function pdf()
     {
-
         $mpdf = new \Mpdf\Mpdf([
             'mode' => 'utf-8',
             'default_font' => 'Padaukbook'
@@ -158,7 +157,7 @@ class CertificadoController extends Controller
                 </style>
 
                 <div id="frente">
-                    <h1>Igor Justino Rodrigues fasdf asdf asdfsds ds fsd </h1>
+                    <h1>Igor Justino Rodrigues</h1>
                     <h2 class="curso-frente">Segurança Digitals</h2>
                         <div class="logo-parceiro">
                             <img src="' . $logo_parceiro . '" alt="' . $alt . '" width="150px"/>

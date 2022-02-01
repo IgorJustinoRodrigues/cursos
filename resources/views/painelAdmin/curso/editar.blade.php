@@ -145,6 +145,21 @@
                                 </div>
 
                                 <div class="col-12 col-md-6 mb-3">
+                                    <label class="form-label" for="aula_teste">Aula Grátis</label>
+                                    <select id="aula_teste" class="form-control custom-select" name="aula_teste">
+                                        @foreach ($aulas as $linha)
+                                        <option @if ($linha->id == $item->aula_teste) selected @endif value="{{ $linha->id }}">{{ $linha->nome }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-12 col-md-6 mb-3">
+                                    <label class="form-label" for="porcentagem_solicitacao_certificado">Porcentagem para Solicitação do Certificado %</label>
+                                    <input type="number" min="0" max="100" step="5" id="porcentagem_solicitacao_certificado" name="porcentagem_solicitacao_certificado" class="form-control"
+                                        value="{{ $item->porcentagem_solicitacao_certificado }}">
+                                </div>
+
+                                <div class="col-12 col-md-6 mb-3">
                                     <label class="form-label" for="visibilidade">Visibilidade</label>
                                     <select id="visibilidade" class="form-control custom-select" name="visibilidade">
                                         <option @if ($item->visibilidade == 1) selected @endif value="1">Visível</option>

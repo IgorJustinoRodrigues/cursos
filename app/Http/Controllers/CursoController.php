@@ -283,7 +283,8 @@ class CursoController extends Controller
         $item->aula_travada = $request->aula_travada;
         $item->status = $request->status;
         $item->visibilidade = $request->visibilidade;
-        $item->porcentagem_solicitacao_certificado = '100';
+        $item->aula_teste = $request->aula_teste;
+        $item->porcentagem_solicitacao_certificado = $request->porcentagem_solicitacao_certificado;
 
         //Verificação se uma nova imagem de imagem foi informado, caso seja verifica-se sua integridade
         if (@$request->file('imagem') and $request->file('imagem')->isValid()) {
