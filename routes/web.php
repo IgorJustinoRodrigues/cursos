@@ -242,6 +242,7 @@ ROTAS DA ABA DE AJUDA DE VENDEDOR
 */
 Route::get('/abrir-chamado-vendedor', [VendedorController::class, 'abrirChamadoVendedor'])->name('abrirChamadoVendedor');
 Route::get('/meus-chamados-vendedor', [VendedorController::class, 'chamadosVendedor'])->name('chamadosVendedor');
+Route::get('/ajuda-plataforma-vendedor', [VendedorController::class, 'ajudaPlataformaVendedor'])->name('ajudaPlataformaVendedor');
 
 /*
 ROTAS DE LOGIN E LOGOFF DE VENDEDOR

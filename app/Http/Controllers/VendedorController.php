@@ -524,6 +524,22 @@ class VendedorController extends Controller
         return view('painelVendedor.ajuda.chamadosVendedor');
     }
 
+    
+    /*
+    Função Tela de Ajuda da Plataforma de Vendedor
+    - Responsável por mostrar a tela de  ajuda Plataforma de Vendedor
+    */
+    public function ajudaPlataformaVendedor()
+    {
+        //Validação de acesso
+        if (!(new Services())->validarVendedor())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarVendedor();
+
+        //Exibe a tela de ajuda da Plataforma de Vendedor
+        return view('painelVendedor.ajuda.ajudaPlataformaVendedor');
+    }
+
     /*
     Função Sair de Vendedor
     - Responsável pelo avatarff do painel do vendedor

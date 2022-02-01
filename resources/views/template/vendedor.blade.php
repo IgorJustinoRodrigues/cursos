@@ -304,18 +304,17 @@
                                             <li class="sidebar-menu-item">
                                                 <a class="sidebar-menu-button"
                                                     href="{{ route('abrirChamadoVendedor') }}">
-                                                    <span class="sidebar-menu-text">Abrir Chamados</span>
+                                                    <span class="sidebar-menu-text">Abrir Chamado</span>
                                                 </a>
                                             </li>
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button"
-                                                    href="{{route('chamadosVendedor')}}">
+                                                <a class="sidebar-menu-button" href="{{ route('chamadosVendedor') }}">
                                                     <span class="sidebar-menu-text">Meus Chamados</span>
                                                 </a>
                                             </li>
                                             <li class="sidebar-menu-item">
                                                 <a class="sidebar-menu-button"
-                                                    href="">
+                                                    href="{{ route('ajudaPlataformaVendedor') }}">
                                                     <span class="sidebar-menu-text">Conhecendo a Plataforma</span>
                                                 </a>
                                             </li>
