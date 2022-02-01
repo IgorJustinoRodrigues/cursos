@@ -1087,6 +1087,20 @@ class AlunoController extends Controller
     }
 
 
+  /*
+    Função Cadastro de Aluno
+    - Responsável por mostrar a tela de ajudaAulasAluno de aluno
+    */
+    public function ajudaAulasAluno()
+    {
+            //Validação de acesso
+            if (!(new Services())->validarAluno())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarAluno();
+
+        //Exibe a tela de cadastro de ajudaAulas
+        return view('painelAluno.ajuda.ajudaAulasAluno');
+    }
 
 
     /*

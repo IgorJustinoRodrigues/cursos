@@ -83,6 +83,13 @@ Route::put('/aluno-salvar/{item}', [AlunoController::class, 'salvar'])->name('al
 Route::get('/aluno-delete/{item}', [AlunoController::class, 'deletar'])->name('alunoDeletar');
 
 Route::put('/aluno-salvar-minhas-informacoes', [AlunoController::class, 'salvarMinhasInformacoes'])->name('salvarMinhasInformacoes');
+/* 
+ROTAS DA ABA DE AJUDA DE ALUNOS
+*/
+Route::get('/contato-ajuda-professor', [AlunoController::class, 'contatoAjudaProfessorAluno'])->name('contatoAjudaProfessorAluno');
+Route::get('/ajuda-aulas', [AlunoController::class, 'ajudaAulasAluno'])->name('ajudaAulasAluno');
+Route::get('/ajuda-certificado', [AlunoController::class, 'ajudaCertificadoAluno'])->name('ajudaCertificadoAluno');
+Route::get('/ajuda-plataforma', [AlunoController::class, 'ajudaPlataformaAluno'])->name('ajudaPlataformaAluno');
 
 Route::get('/confirmar-matricula', [AlunoController::class, 'confirmarMatricula'])->name('confirmarMatricula');
 Route::post('/ativar-matricula', [AlunoController::class, 'ativarMatricula'])->name('ativar');

@@ -302,13 +302,15 @@
                                     <li class="sidebar-menu-item @hasSection('menu-informacoes') active @endif">
                                         <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
                                             href="#informacoes_menu">
-                                            <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">list</i>
+                                            <i
+                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">list</i>
                                             Informações
                                             <span class="ml-auto sidebar-menu-toggle-icon"></span>
                                         </a>
                                         <ul class="sidebar-submenu sm-indent collapse" id="informacoes_menu">
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('minhasAnotacoes') }}">
+                                                <a class="sidebar-menu-button"
+                                                    href="{{ route('minhasAnotacoes') }}">
                                                     <span class="sidebar-menu-text">Minhas Anotações</span>
                                                 </a>
                                             </li>
@@ -325,7 +327,8 @@
                                     <li class="sidebar-menu-item @hasSection('menu-ajuda') active @endif">
                                         <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
                                             href="#ajuda_menu">
-                                            <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">help</i>
+                                            <i
+                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">help</i>
                                             Preciso de ajuda
                                             <span class="ml-auto sidebar-menu-toggle-icon"></span>
                                         </a>
@@ -336,7 +339,7 @@
                                                 </a>
                                             </li>
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="student-account-edit.html">
+                                                <a class="sidebar-menu-button" href="{{ route('ajudaAulas') }}">
                                                     <span class="sidebar-menu-text">Como acessar as Aulas ?</span>
                                                 </a>
                                             </li>
