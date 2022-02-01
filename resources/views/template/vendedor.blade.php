@@ -279,15 +279,49 @@
                                         </a>
                                         <ul class="sidebar-submenu sm-indent collapse" id="account_menu">
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('minhaContaVendedor') }}">
+                                                <a class="sidebar-menu-button"
+                                                    href="{{ route('minhaContaVendedor') }}">
                                                     <span class="sidebar-menu-text">Editar Informações</span>
                                                 </a>
                                             </li>
                                         </ul>
                                     </li>
                                 </ul>
-                                <div class="sidebar-heading">Cursos</div>
+                                <!-- <div class="sidebar-heading">Cursos</div>  -->
 
+
+                                <div class="sidebar-heading">Ajuda</div>
+                                <ul class="sidebar-menu sm-active-button-bg">
+                                    <li class="sidebar-menu-item @hasSection('menu-ajuda') active @endif">
+                                        <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
+                                            href="#ajuda_menu">
+                                            <i
+                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">help</i>
+                                            Preciso de ajuda
+                                            <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                                        </a>
+                                        <ul class="sidebar-submenu sm-indent collapse" id="ajuda_menu">
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button"
+                                                    href="{{ route('abrirChamadoVendedor') }}">
+                                                    <span class="sidebar-menu-text">Abrir Chamados</span>
+                                                </a>
+                                            </li>
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button"
+                                                    href="{{route('chamadosVendedor')}}">
+                                                    <span class="sidebar-menu-text">Meus Chamados</span>
+                                                </a>
+                                            </li>
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button"
+                                                    href="">
+                                                    <span class="sidebar-menu-text">Conhecendo a Plataforma</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>

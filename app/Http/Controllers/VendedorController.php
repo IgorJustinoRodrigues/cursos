@@ -492,6 +492,38 @@ class VendedorController extends Controller
         }
     }
 
+
+    /*
+    Função Tela de Ajuda de Abrir Chamado Vendedor
+    - Responsável por mostrar a tela de abrir chamado de Vendedor
+    */
+    public function abrirChamadoVendedor()
+    {
+        //Validação de acesso
+        if (!(new Services())->validarVendedor())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarVendedor();
+
+        //Exibe a tela de cadastro de ajudaAulas
+        return view('painelVendedor.ajuda.abrirChamadoVendedor');
+    }
+
+
+    /*
+    Função Tela de Ajuda de  Chamado Vendedor
+    - Responsável por mostrar a tela de  chamado de Vendedor
+    */
+    public function chamadosVendedor()
+    {
+        //Validação de acesso
+        if (!(new Services())->validarVendedor())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarVendedor();
+
+        //Exibe a tela de cadastro de ajudaAulas
+        return view('painelVendedor.ajuda.chamadosVendedor');
+    }
+
     /*
     Função Sair de Vendedor
     - Responsável pelo avatarff do painel do vendedor
@@ -564,43 +596,42 @@ class VendedorController extends Controller
             return (new Services())->redirecionarVendedor();
 
         //Atribuição dos valores
-      
+
         $usuario = $request->usuario;
         $id = @$request->id;
 
         //Verificação do tamanho do usuário informado
         if (Str::length($usuario) >= 3) {
-                       
-                    //Consulta que busca se já existe um usuario no banco com o mesmo usuario
-                    $resultado = Vendedor::where('usuario', '=', $usuario)->first();
 
-                    //Verifica se existe
-                    if ($resultado) {
-                        //Verifica se o id informado é igual ao da consulta
-                        if ($resultado->id == $id) {
-                            //Retorno de usuário atual 
-                            $retorno = [
-                                'msg' => 'Usuário atual!',
-                                'tipo' => '3',
-                                'status' => 1
-                            ];
-                        } else {
-                            //Retorno de usuário não disponível
-                            $retorno = [
-                                'msg' => 'Usuário "' . $usuario . '", não está disponível!',
-                                'tipo' => '2',
-                                'status' => 1
-                            ];
-                        }
-                    } else {
-                        //Retorno do usuário disponível
-                        $retorno = [
-                            'msg' => 'Usuário disponível!',
-                            'tipo' => '1',
-                            'status' => 1
-                        ];
-                    }   
-           
+            //Consulta que busca se já existe um usuario no banco com o mesmo usuario
+            $resultado = Vendedor::where('usuario', '=', $usuario)->first();
+
+            //Verifica se existe
+            if ($resultado) {
+                //Verifica se o id informado é igual ao da consulta
+                if ($resultado->id == $id) {
+                    //Retorno de usuário atual 
+                    $retorno = [
+                        'msg' => 'Usuário atual!',
+                        'tipo' => '3',
+                        'status' => 1
+                    ];
+                } else {
+                    //Retorno de usuário não disponível
+                    $retorno = [
+                        'msg' => 'Usuário "' . $usuario . '", não está disponível!',
+                        'tipo' => '2',
+                        'status' => 1
+                    ];
+                }
+            } else {
+                //Retorno do usuário disponível
+                $retorno = [
+                    'msg' => 'Usuário disponível!',
+                    'tipo' => '1',
+                    'status' => 1
+                ];
+            }
         } else {
             $retorno = [
                 'msg' => 'O usuário deve ter no mínimo 3 caracteres!',

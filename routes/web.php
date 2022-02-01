@@ -83,6 +83,7 @@ Route::put('/aluno-salvar/{item}', [AlunoController::class, 'salvar'])->name('al
 Route::get('/aluno-delete/{item}', [AlunoController::class, 'deletar'])->name('alunoDeletar');
 
 Route::put('/aluno-salvar-minhas-informacoes', [AlunoController::class, 'salvarMinhasInformacoes'])->name('salvarMinhasInformacoes');
+
 /* 
 ROTAS DA ABA DE AJUDA DE ALUNOS
 */
@@ -235,6 +236,12 @@ Route::get('/vendedor-delete/{item}', [VendedorController::class, 'deletar'])->n
 Route::post('/vendedor-valida-usuario', [VendedorController::class, 'validaUsuarioVendedor'])->name('validaUsuarioVendedor');
 
 Route::put('/vendedor-salvar-minhas-informacoes', [VendedorController::class, 'salvarMinhasInformacoesVendedor'])->name('salvarMinhasInformacoesVendedor');
+
+/* 
+ROTAS DA ABA DE AJUDA DE VENDEDOR
+*/
+Route::get('/abrir-chamado-vendedor', [VendedorController::class, 'abrirChamadoVendedor'])->name('abrirChamadoVendedor');
+Route::get('/meus-chamados-vendedor', [VendedorController::class, 'chamadosVendedor'])->name('chamadosVendedor');
 
 /*
 ROTAS DE LOGIN E LOGOFF DE VENDEDOR
