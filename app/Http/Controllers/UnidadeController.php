@@ -515,6 +515,38 @@ class UnidadeController extends Controller
             return redirect()->back()->with('atencao', 'Algo deu errado, tente novamente!');
         }
     }
+
+    /*
+    Função Tela de Ajuda de Abrir Chamado Unidade
+    - Responsável por mostrar a tela de abrir chamado de Unidade
+    */
+    public function abrirChamadoUnidade()
+    {
+        //Validação de acesso
+        if (!(new Services())->validarUnidade())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarUnidade();
+
+        //Exibe a tela de cadastro de ajudaAulas
+        return view('painelUnidade.ajuda.abrirChamadoUnidade');
+    }
+
+
+    /*
+    Função Tela de Ajuda de  Chamado Unidade
+    - Responsável por mostrar a tela de  chamado de Unidade
+    */
+    public function chamadosUnidade()
+    {
+        //Validação de acesso
+        if (!(new Services())->validarUnidade())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarUnidade();
+
+        //Exibe a tela de cadastro de ajudaAulas
+        return view('painelUnidade.ajuda.chamadosUnidade');
+    }
+
     /*
     Função Sair de Unidade
     - Responsável pelo logoff do painel do unidade

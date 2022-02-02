@@ -203,6 +203,12 @@ Route::post('/unidade-valida-usuario', [UnidadeController::class, 'validaUsuario
 
 Route::put('/unidade-salvar-minhas-informacoes', [UnidadeController::class, 'salvarMinhasInformacoesUnidade'])->name('salvarMinhasInformacoesUnidade');
 
+/* 
+ROTAS DA ABA DE AJUDA DE UNIDADE
+*/
+Route::get('/abrir-chamado-unidade', [UnidadeController::class, 'abrirChamadoUnidade'])->name('abrirChamadoUnidade');
+Route::get('/meus-chamados-unidade', [UnidadeController::class, 'chamadosUnidade'])->name('chamadosUnidade');
+
 /*
 ROTAS DE LOGIN E LOGOFF DE UNIDADE
 */
