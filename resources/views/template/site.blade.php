@@ -215,7 +215,7 @@
                             <form class="newsletter-form">
                                 <input type="text" placeholder="Informe o seu nome" required>
                                 <input type="email" placeholder="Informe o seu e-mail" required>
-                                <button type="submit" class="lab-btn"><span>Me inscrever agora!</span></button>
+                                <button type="submit" onclick="InserirNewsletter()" class="lab-btn"><span>Me inscrever agora!</span></button>
                             </form>
                         </div>
                     </div>
@@ -334,6 +334,46 @@
     <script src="{{ URL::asset('site/js/functions.js') }}"></script>
 
     @yield('footer')
+
+    <script>
+        function InserirNewsletter();
+        
+         function InserirNewsletter() {
+            var email = $("#email").val();
+            var nome = $("#nome").val();
+
+            $.ajax({
+                type: 'post',
+                url: "{{ route('InserirNewsletter') }}",
+                data: {
+                    aula_aluno: email: email,
+                    nome: nome,
+                    _token: $("input[name='_token']").val()
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if (data.status == '1') {
+                        Lobibox.notify('success', {
+                            size: 'mini',
+                            sound: false,
+                            icon: false,
+                            position: 'top right',
+                            msg: data.msg
+                        });
+                    } else {
+                        Lobibox.notify('warning', {
+                            size: 'mini',
+                            sound: false,
+                            icon: false,
+                            position: 'top right',
+                            msg: data.msg
+                        });
+                    }
+                }
+            });
+        }
+    </script>
+
     <script>
         @if (session('padrao'))
             Lobibox.notify('info', {

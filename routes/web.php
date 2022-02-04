@@ -256,3 +256,9 @@ ROTAS DE LOGIN E LOGOFF DE VENDEDOR
 Route::get('/acesso-vendedor', [VendedorController::class, 'acessoVendedor'])->name('acessoVendedor');
 Route::post('/login-vendedor', [VendedorController::class, 'login'])->name('loginVendedor');
 Route::get('/sair-vendedor', [VendedorController::class, 'sair'])->name('sairVendedor');
+
+
+/*
+ROTAS DE NEWSLETTER
+*/
+Route::post("/inscrever-newsletter", [AlunoController::class, 'InserirNewsletter'])->name('InserirNewsletter');
