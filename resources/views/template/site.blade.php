@@ -212,10 +212,12 @@
                     <div class="col-lg-6 col-12">
                         <div class="section-wrapper">
                             <h5 class="texto-branco">Informe o seu nome e e-mail</h5>
-                            <form class="newsletter-form">
-                                <input type="text" placeholder="Informe o seu nome" required>
-                                <input type="email" placeholder="Informe o seu e-mail" required>
-                                <button type="submit" onclick="InserirNewsletter()" class="lab-btn"><span>Me inscrever agora!</span></button>
+
+                            <form class="newsletter-form" method="POST">
+                                <input type="text" id="nome" placeholder="Informe o seu nome" required>
+                                <input type="email" id="email" placeholder="Informe o seu e-mail" required>
+                                <a class="lab-btn" onclick="InserirNewsletter()"><span>Me
+                                        inscrever agora!</span></a>
                             </form>
                         </div>
                     </div>
@@ -336,9 +338,7 @@
     @yield('footer')
 
     <script>
-        function InserirNewsletter();
-        
-         function InserirNewsletter() {
+        function InserirNewsletter() {
             var email = $("#email").val();
             var nome = $("#nome").val();
 
@@ -346,7 +346,7 @@
                 type: 'post',
                 url: "{{ route('InserirNewsletter') }}",
                 data: {
-                    aula_aluno: email: email,
+                    email: email,
                     nome: nome,
                     _token: $("input[name='_token']").val()
                 },
@@ -371,6 +371,7 @@
                     }
                 }
             });
+            
         }
     </script>
 

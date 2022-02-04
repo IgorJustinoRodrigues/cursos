@@ -17,6 +17,7 @@ class NewsletterController extends Controller
         $item->nome = $request->nome;
         $item->email = $request->email;
         $item->hash = md5(123);
+        $item->status = 2;
 
         $resposta = $item->save();
 
@@ -33,6 +34,27 @@ class NewsletterController extends Controller
         }
 
         return response()->json($retorno);
+    }
+
+       /*
+    Função Status de Newsletter
+    - Responsável por exibir o Newsletter da Mensagem
+    - $status: Recebe o Id do Newsletter da Mensagem
+    */
+    public function status($status)
+    {
+        //Verifica o status do Mensagem
+        switch ($status) {
+            case 1:
+                //Retorna o status Mensagem
+                return 'Lido';
+                break;
+
+            case 2:
+                //Retorna o status da Mensagem 
+                return 'Não Lido';
+                break;
+        }
     }
 
 }

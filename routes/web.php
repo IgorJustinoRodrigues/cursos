@@ -7,11 +7,13 @@ use App\Http\Controllers\CategoriaCursoController;
 use App\Http\Controllers\CertificadoController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\MatriculaController;
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ParceiroController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UnidadeController;
 use App\Http\Controllers\VendedorController;
+use App\Models\Newsletter;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -261,4 +263,4 @@ Route::get('/sair-vendedor', [VendedorController::class, 'sair'])->name('sairVen
 /*
 ROTAS DE NEWSLETTER
 */
-Route::post("/inscrever-newsletter", [AlunoController::class, 'InserirNewsletter'])->name('InserirNewsletter');
+Route::post("/inscrever-newsletter", [NewsletterController::class, 'InserirNewsletter'])->name('InserirNewsletter');
