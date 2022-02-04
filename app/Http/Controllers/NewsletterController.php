@@ -14,6 +14,8 @@ class NewsletterController extends Controller
         //Recebe os dados Enviados do internauta. 
         $item = new Newsletter();
 
+        
+
         $item->nome = $request->nome;
         $item->email = $request->email;
         $item->hash = md5(123);

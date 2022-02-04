@@ -216,7 +216,7 @@
                             <form class="newsletter-form" method="POST">
                                 <input type="text" id="nome" placeholder="Informe o seu nome" required>
                                 <input type="email" id="email" placeholder="Informe o seu e-mail" required>
-                                <a class="lab-btn" onclick="InserirNewsletter()"><span>Me
+                                <a class="lab-btn" id="newletters" onclick="InserirNewsletter()"><span>Me
                                         inscrever agora!</span></a>
                             </form>
                         </div>
@@ -360,6 +360,8 @@
                             position: 'top right',
                             msg: data.msg
                         });
+
+
                     } else {
                         Lobibox.notify('warning', {
                             size: 'mini',
@@ -371,7 +373,6 @@
                     }
                 }
             });
-            
         }
     </script>
 
