@@ -156,7 +156,7 @@
                                                 Administrador</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="{{ route('site.ajuda') }}">Suporte</a></li>
+                                <li><a href="{{ route('site.ajuda') }}">Ajuda</a></li>
                             </ul>
                         </div>
 

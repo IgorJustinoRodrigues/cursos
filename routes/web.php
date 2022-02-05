@@ -267,6 +267,10 @@ Route::get('/sair-vendedor', [VendedorController::class, 'sair'])->name('sairVen
 ROTAS DE NEWSLETTER
 */
 Route::post("/inscrever-newsletter", [NewsletterController::class, 'InserirNewsletter'])->name('InserirNewsletter');
+Route::get('/newsletter-caixa-entrada', [NewsletterController::class, 'index'])->name('newsletterIndex');
+Route::get('/newsletter-editar/{item}', [NewsletterController::class, 'editar'])->name('newsletterEditar');
+Route::put('/newsletter-salvar/{item}', [NewsletterController::class, 'salvar'])->name('newsletterSalvar');
+Route::get('/newsletter-delete/{item}', [NewsletterController::class, 'deletar'])->name('newsletterDeletar');
 
 /*
 ROTAS DE AJUDA 

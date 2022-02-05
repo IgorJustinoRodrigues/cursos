@@ -23,7 +23,7 @@
     <link type="text/css" href="{{ URL::asset('template/css/material-icons.css') }}" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ URL::asset('site/css/icofont.min.css') }}">
-    
+
     <!-- Font Awesome Icons -->
     <link type="text/css" href="{{ URL::asset('template/css/fontawesome.css') }}" rel="stylesheet">
 
@@ -77,7 +77,8 @@
                         <!-- Menu -->
                         <ul class="nav navbar-nav flex-nowrap">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{route('inicio')}}" target="_blank">Site&nbsp;<i class="material-icons">remove_red_eye</i></a>
+                                <a class="nav-link" href="{{ route('inicio') }}" target="_blank">Site&nbsp;<i
+                                        class="material-icons">remove_red_eye</i></a>
                             </li>
                             <!-- Notifications dropdown -->
                             <li class="nav-item dropdown dropdown-notifications dropdown-menu-sm-full">
@@ -472,13 +473,32 @@
                                         </ul>
                                     </li>
                                 </ul>
+                                <div class="sidebar-heading">Newsletter</div>
+                                <ul class="sidebar-menu sm-active-button-bg">
+                                    <li class="sidebar-menu-item @hasSection('menu-newsletter') active @endif">
+                                        <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
+                                            href="#menuNewsletter">
+                                            <i
+                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">mail</i>
+                                            Newsletter
+                                            <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                                        </a>
+                                        <ul class="sidebar-submenu sm-indent collapse" id="menuNewsletter">
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button" href="{{ route('newsletterIndex') }}">
+                                                    <span class="sidebar-menu-text">Caixa de Entrada</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
                                 <div class="sidebar-heading">Ajuda</div>
                                 <ul class="sidebar-menu sm-active-button-bg">
                                     <li class="sidebar-menu-item  @hasSection('menu-ajuda') active @endif">
                                         <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
                                             href="#menuAjuda">
                                             <i
-                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">school</i>
+                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">lightbulb</i>
                                             Ajuda
                                             <span class="ml-auto sidebar-menu-toggle-icon"></span>
                                         </a>
@@ -499,18 +519,20 @@
                                         <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
                                             href="#menuCategoriaAjuda">
                                             <i
-                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">school</i>
+                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">info</i>
                                             Categoria de Ajuda
                                             <span class="ml-auto sidebar-menu-toggle-icon"></span>
                                         </a>
                                         <ul class="sidebar-submenu sm-indent collapse" id="menuCategoriaAjuda">
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('categoriaAjudaIndex') }}">
+                                                <a class="sidebar-menu-button"
+                                                    href="{{ route('categoriaAjudaIndex') }}">
                                                     <span class="sidebar-menu-text">Listar</span>
                                                 </a>
                                             </li>
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('categoriaAjudaCadastro') }}">
+                                                <a class="sidebar-menu-button"
+                                                    href="{{ route('categoriaAjudaCadastro') }}">
                                                     <span class="sidebar-menu-text">Cadastro</span>
                                                 </a>
                                             </li>
