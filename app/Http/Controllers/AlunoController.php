@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 //Dependências do controler
+
+use App\Models\Ajuda;
 use App\Services\Services;
 use App\Models\Aluno;
 use App\Models\AnexoAula;
 use App\Models\Aula;
 use App\Models\AulaAluno;
 use App\Models\Canvas;
+use App\Models\CategoriaAjuda;
 use App\Models\CategoriaCurso;
 use App\Models\Curso;
 use App\Models\Matricula;
@@ -1102,50 +1105,70 @@ class AlunoController extends Controller
     }
 
 
-  /*
-    Função Tela de Ajuda de Aulas Aluno
-    - Responsável por mostrar a tela de ajudaAulasAluno de aluno
-    */
-    public function ajudaAulasAluno()
+    //Função de Suporte
+    public function ajuda()
     {
-            //Validação de acesso
-            if (!(new Services())->validarAluno())
-            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
-            return (new Services())->redirecionarAluno();
+     
+        $categoriasAjuda = CategoriaAjuda::join('ajudas', 'ajudas.categoria_id', '=', 'categoria_ajudas.id')
+            ->where('ajudas.local', '=', 2)
+            ->where('ajudas.status', '=', 1)
+            ->where('categoria_ajudas.status', '=', 1)
+            ->selectRaw('categoria_ajudas.*')
+            ->groupBy('categoria_ajudas.id')
+            ->get();
 
-        //Exibe a tela de cadastro de ajudaAulas
-        return view('painelAluno.ajuda.ajudaAulasAluno');
+        for ($i = 0; $i < count($categoriasAjuda); $i++) {
+            $categoriasAjuda[$i]->telas = Ajuda::where('categoria_id', '=', $categoriasAjuda[$i]->id)->where('local', '=', 2)->get();
+        }
+
+        //Exibe a view 
+        return view('painelAluno.ajuda.ajuda', [
+            'categoriasAjuda' => $categoriasAjuda
+        ]);
     }
 
-      /*
-    Função Tela de Ajuda de Certificados Aluno
-    - Responsável por mostrar a tela de ajudaCertificadoAluno de aluno
-    */
-    public function ajudaCertificadoAluno()
-    {
-            //Validação de acesso
-            if (!(new Services())->validarAluno())
-            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
-            return (new Services())->redirecionarAluno();
 
-        //Exibe a tela de cadastro de ajudaAulas
-        return view('painelAluno.ajuda.ajudaCertificadoAluno');
+
+    //Função de Suporte
+    public function verAjuda($id, $url = '')
+    {
+        $ajuda = Ajuda::join('categoria_ajudas', 'ajudas.categoria_id', '=', 'categoria_ajudas.id')
+            ->where('categoria_ajudas.status', '=', 1)
+            ->where('ajudas.status', '=', 1)
+            ->where('ajudas.local', '=', 2)
+            ->where('ajudas.id', '=', $id)
+            ->selectRaw('ajudas.*, categoria_ajudas.nome as categoria')
+            ->first();
+
+        if (!$ajuda) {
+            return redirect()->route('aluno.ajuda')->with('atencao', 'Tela não encontrada!');
+        }
+
+        $categoriasAjuda = CategoriaAjuda::join('ajudas', 'ajudas.categoria_id', '=', 'categoria_ajudas.id')
+            ->where('ajudas.local', '=', 2)
+            ->where('ajudas.status', '=', 1)
+            ->where('categoria_ajudas.status', '=', 1)
+            ->selectRaw('categoria_ajudas.*')
+            ->groupBy('categoria_ajudas.id')
+            ->get();
+
+        for ($i = 0; $i < count($categoriasAjuda); $i++) {
+            $categoriasAjuda[$i]->telas = Ajuda::where('categoria_id', '=', $categoriasAjuda[$i]->id)->where('local', '=', 2)->get();
+
+            if($categoriasAjuda[$i]->id == $ajuda->categoria_id){
+                $telasAtual = $categoriasAjuda[$i]->telas;
+            }
+
+        }
+
+        //Exibe a view 
+        return view('painelAluno.ajuda.verAjuda', [
+            'ajuda' => $ajuda,
+            'telasAtual' => $telasAtual,
+            'categoriasAjuda' => $categoriasAjuda
+        ]);
     }
 
-  /*
-    Função Tela de Ajuda de Certificados Aluno
-    - Responsável por mostrar a tela de ajudaPlataformaAluno de aluno
-    */
-    public function ajudaPlataformaAluno()
-    {
-            //Validação de acesso
-            if (!(new Services())->validarAluno())
-            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
-            return (new Services())->redirecionarAluno();
-
-        //Exibe a tela de cadastro de ajudaAulas
-        return view('painelAluno.ajuda.ajudaPlataformaAluno');
-    }
 
     /*
     Função Login de Aluno

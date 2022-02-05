@@ -223,7 +223,7 @@
                     {{ $aula->descricao }}
                 </div>
             </div>
-           
+
             <!-- Lessons -->
             <textarea id="anotacao" placeholder="Suas anotações desta aula" rows="4"
                 class="form-control">{{ $atual->anotacao }}</textarea>
@@ -245,17 +245,17 @@
             </div>
             <div class="card" id="div-aula-concluida">
                 <div class="card-body text-center">
-                    @if(isset($proxima))
-                    <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $proxima->id, Str::slug($proxima->nome, '-') . '.html']) }}"
-                        class="btn btn-dark btn-block">
-                        Próxima Aula <i class="material-icons mr-1">trending_flat</i>
-                    </a>
+                    @if (isset($proxima))
+                        <a href="{{ route('aula', [$curso->id,Str::slug($curso->nome, '-'),$proxima->id,Str::slug($proxima->nome, '-') . '.html']) }}"
+                            class="btn btn-dark btn-block">
+                            Próxima Aula <i class="material-icons mr-1">trending_flat</i>
+                        </a>
                     @else
-                    <a href="{{ route('verAulas', [$curso->id, Str::slug($curso->nome, '-') . '.html']) }}"
-                        class="btn btn-dark btn-block">
-                        <i class="material-icons mr-1">dvr</i> 
-                        Ver todas as aulas
-                    </a>
+                        <a href="{{ route('verAulas', [$curso->id, Str::slug($curso->nome, '-') . '.html']) }}"
+                            class="btn btn-dark btn-block">
+                            <i class="material-icons mr-1">dvr</i>
+                            Ver todas as aulas
+                        </a>
                     @endif
                 </div>
             </div>
@@ -273,7 +273,8 @@
                                         <div class="text-muted-light">{{ $linha->nome }}</div>
                                     </div>
                                     <div class="media-right">
-                                        <a href="{{ URL::asset('storage/' . $linha->arquivo) }}" download="{{ $linha->nome }}" class="btn btn-success">
+                                        <a href="{{ URL::asset('storage/' . $linha->arquivo) }}"
+                                            download="{{ $linha->nome }}" class="btn btn-success">
                                             <i class="material-icons mr-1">file_download</i> Baixar
                                         </a>
                                     </div>
