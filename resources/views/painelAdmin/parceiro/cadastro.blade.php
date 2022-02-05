@@ -118,7 +118,7 @@
                                 <label class="form-label" for="senha">Senha</label>
                                 <input type="text" class="form-control" id="senha" value="123456" readonly>
                             </div>
-                            <!-- deixar para o Igor me mostrar -->
+                            
                             <div class="col-12 col-md-12 mb-3">
                                 <label class="form-label">Sobre</label>
                                 <div class="form-control" id="sobre" data-toggle="quill"

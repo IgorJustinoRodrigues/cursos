@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AjudaController;
 use App\Http\Controllers\AlunoController;
 use App\Http\Controllers\AulaController;
+use App\Http\Controllers\CategoriaAjudaController;
 use App\Http\Controllers\CategoriaCursoController;
 use App\Http\Controllers\CertificadoController;
 use App\Http\Controllers\CursoController;
@@ -264,3 +266,23 @@ Route::get('/sair-vendedor', [VendedorController::class, 'sair'])->name('sairVen
 ROTAS DE NEWSLETTER
 */
 Route::post("/inscrever-newsletter", [NewsletterController::class, 'InserirNewsletter'])->name('InserirNewsletter');
+
+/*
+ROTAS DE AJUDA 
+*/
+Route::get('/ajuda-listar', [AjudaController::class, 'index'])->name('ajudaIndex');
+Route::get('/ajuda-cadastro', [AjudaController::class, 'cadastro'])->name('ajudaCadastro');
+Route::post('/ajuda-inserir', [AjudaController::class, 'inserir'])->name('ajudaInserir');
+Route::get('/ajuda-editar/{item}', [AjudaController::class, 'editar'])->name('ajudaEditar');
+Route::put('/ajuda-salvar/{item}', [AjudaController::class, 'salvar'])->name('ajudaSalvar');
+Route::get('/ajuda-delete/{item}', [AjudaController::class, 'deletar'])->name('ajudaDeletar');
+
+/*
+ROTAS DE CATEGORIA DE AJUDA 
+*/
+Route::get('/categoria-ajuda', [CategoriaAjudaController::class, 'index'])->name('categoriaAjudaIndex');
+Route::get('/categoria-ajuda-cadastro', [CategoriaAjudaController::class, 'cadastro'])->name('categoriaAjudaCadastro');
+Route::post('/categoria-ajuda-inserir', [CategoriaAjudaController::class, 'inserir'])->name('categoriaAjudaInserir');
+Route::get('/categoria-ajuda-editar/{item}', [CategoriaAjudaController::class, 'editar'])->name('categoriaAjudaEditar');
+Route::put('/categoria-ajuda-salvar/{item}', [CategoriaAjudaController::class, 'salvar'])->name('categoriaAjudaSalvar');
+Route::get('/categoria-ajuda-delete/{item}', [CategoriaAjudaController::class, 'deletar'])->name('categoriaAjudaDeletar');
