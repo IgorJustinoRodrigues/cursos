@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ajuda;
 use App\Models\Aluno;
 use App\Models\AnexoAula;
 use App\Models\Aula;
 use App\Models\AulaAluno;
+use App\Models\CategoriaAjuda;
 use App\Models\CategoriaCurso;
 use App\Models\Certificado;
 use App\Models\Curso;
@@ -511,7 +513,7 @@ class SiteController extends Controller
     }
 
     //Função de Suporte
-    public function suporte()
+    public function ajuda()
     {
 
         //listagem da categoria de cursos e contagem de Quantos cursos tem em uma categoria
@@ -522,9 +524,73 @@ class SiteController extends Controller
             ->limit(5)
             ->get();
 
+        $categoriasAjuda = CategoriaAjuda::join('ajudas', 'ajudas.categoria_id', '=', 'categoria_ajudas.id')
+            ->where('ajudas.local', '=', 1)
+            ->where('ajudas.status', '=', 1)
+            ->where('categoria_ajudas.status', '=', 1)
+            ->selectRaw('categoria_ajudas.*')
+            ->groupBy('categoria_ajudas.id')
+            ->get();
+
+        for ($i = 0; $i < count($categoriasAjuda); $i++) {
+            $categoriasAjuda[$i]->telas = Ajuda::where('categoria_id', '=', $categoriasAjuda[$i]->id)->where('local', '=', 1)->get();
+        }
+
         //Exibe a view 
-        return view('site.suporte', [
-            'categoriasMenu' => $categoriasMenu
+        return view('site.ajuda', [
+            'categoriasMenu' => $categoriasMenu,
+            'categoriasAjuda' => $categoriasAjuda
+        ]);
+    }
+
+
+
+    //Função de Suporte
+    public function verAjuda($id, $url = '')
+    {
+        $ajuda = Ajuda::join('categoria_ajudas', 'ajudas.categoria_id', '=', 'categoria_ajudas.id')
+            ->where('categoria_ajudas.status', '=', 1)
+            ->where('ajudas.status', '=', 1)
+            ->where('ajudas.local', '=', 1)
+            ->where('ajudas.id', '=', $id)
+            ->selectRaw('ajudas.*, categoria_ajudas.nome as categoria')
+            ->first();
+
+        if (!$ajuda) {
+            return redirect()->route('site.ajuda')->with('atencao', 'Tela não encontrada!');
+        }
+
+        //listagem da categoria de cursos e contagem de Quantos cursos tem em uma categoria
+        $categoriasMenu = CategoriaCurso::join('cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
+            ->selectRaw('categoria_cursos.id, categoria_cursos.imagem as imagemCategoria, categoria_cursos.nome, count(categoria_cursos.id) as quantCursoCategoria')
+            ->groupBy('cursos.categoria_id')
+            ->inRandomOrder()
+            ->limit(5)
+            ->get();
+
+        $categoriasAjuda = CategoriaAjuda::join('ajudas', 'ajudas.categoria_id', '=', 'categoria_ajudas.id')
+            ->where('ajudas.local', '=', 1)
+            ->where('ajudas.status', '=', 1)
+            ->where('categoria_ajudas.status', '=', 1)
+            ->selectRaw('categoria_ajudas.*')
+            ->groupBy('categoria_ajudas.id')
+            ->get();
+
+        for ($i = 0; $i < count($categoriasAjuda); $i++) {
+            $categoriasAjuda[$i]->telas = Ajuda::where('categoria_id', '=', $categoriasAjuda[$i]->id)->where('local', '=', 1)->get();
+
+            if($categoriasAjuda[$i]->id == $ajuda->categoria_id){
+                $telasAtual = $categoriasAjuda[$i]->telas;
+            }
+
+        }
+
+        //Exibe a view 
+        return view('site.verAjuda', [
+            'ajuda' => $ajuda,
+            'telasAtual' => $telasAtual,
+            'categoriasMenu' => $categoriasMenu,
+            'categoriasAjuda' => $categoriasAjuda
         ]);
     }
 

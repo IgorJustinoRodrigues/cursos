@@ -36,7 +36,7 @@
                             <div class="col-5 mb-3">
                                 <label class="form-label" for="icone">Ícone</label>
                                 <input type="text" class="form-control" id="icone" name="icone" placeholder="Código HTML"
-                                    value="{{ $item->icone }}" required="">
+                                    value="{{ $item->icone }}">
                             </div>
 
                             <div class="col-12 col-md-4 mb-3">

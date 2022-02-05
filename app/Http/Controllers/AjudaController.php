@@ -176,7 +176,7 @@ class AjudaController extends Controller
 
         //Atribuição dos valores recebidos da váriavel $request
         $item->nome = $request->nome;
-        $item->texto = $request->texto;
+        $item->texto = html_entity_decode($request->texto);
         $item->local = $request->local;
         $item->categoria_id = $request->categoria_id;
         $item->status = $request->status;
