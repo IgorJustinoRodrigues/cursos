@@ -354,7 +354,7 @@ class AlunoController extends Controller
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required',
-            'email' => 'required|email|max:100|unique:alunos,email',
+            'email' => 'required|email|max:200|unique:alunos,email',
             'senha' => 'required|min:6',
             'pontuacao' => 'required'
         ]);
@@ -456,7 +456,7 @@ class AlunoController extends Controller
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required',
-            'email' => "required|email|max:100|unique:alunos,email,{$item->id}",
+            'email' => "required|email|max:200|unique:alunos,email,{$item->id}",
             'pontuacao' => 'required'
         ]);
 
@@ -545,7 +545,7 @@ class AlunoController extends Controller
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required',
-            'email' => "required|email|max:100|unique:alunos,email,{$id}",
+            'email' => "required|email|max:200|unique:alunos,email,{$id}",
         ]);
 
         $item = Aluno::selectRaw("*, date_format(created_at, '%d/%m/%Y') as cadastro, date_format(updated_at, '%d/%m/%Y às %H:%i') as ultimo_acesso")
@@ -1181,7 +1181,7 @@ class AlunoController extends Controller
             //Validação das informações recebidas
             $validated = $request->validate([
                 'nome' => 'required',
-                'email' => 'required|email|max:100|unique:alunos,email',
+                'email' => 'required|email|max:200|unique:alunos,email',
                 'senha' => 'required|min:6'
             ]);
 

@@ -213,12 +213,12 @@
                         <div class="section-wrapper">
                             <h5 class="texto-branco">Informe o seu nome e e-mail</h5>
 
-                            <form class="newsletter-form" method="POST">
-                                <input type="text" id="nome" placeholder="Informe o seu nome" required>
-                                <input type="email" id="email" placeholder="Informe o seu e-mail" required>
-                                <a class="lab-btn" id="newletters" onclick="InserirNewsletter()"><span>Me
-                                        inscrever agora!</span></a>
-                            </form>
+                            <div class="newsletter-form">
+                                <input type="text" id="nome-newletters" placeholder="Informe o seu nome" required>
+                                <input type="email" id="email-newletters" placeholder="Informe o seu e-mail" required>
+                                <button class="btn lab-btn" id="btn-newletters" onclick="InserirNewsletter()" ><span>Me
+                                        inscrever agora!</span></button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -339,8 +339,42 @@
 
     <script>
         function InserirNewsletter() {
-            var email = $("#email").val();
-            var nome = $("#nome").val();
+            $("#btn-newletters").attr('disabled', true);
+
+            var email = $("#email-newletters").val();
+            var nome = $("#nome-newletters").val();
+
+            if(nome == ''){
+                Lobibox.notify('error', {
+                    size: 'mini',
+                    sound: false,
+                    icon: false,
+                    position: 'top right',
+                    msg: "O campo nome é obrigatório."
+                });
+                
+                $("#nome-newletters").focus();
+
+                $("#btn-newletters").attr('disabled', false);
+            
+                return null;
+            }
+
+            
+            if(email == ''){
+                Lobibox.notify('error', {
+                    size: 'mini',
+                    sound: false,
+                    icon: false,
+                    position: 'top right',
+                    msg: "O campo e-mail é obrigatório."
+                });
+
+                $("#email-newletters").focus();
+                $("#btn-newletters").attr('disabled', false);
+                
+                return null;
+            }
 
             $.ajax({
                 type: 'post',
@@ -361,7 +395,20 @@
                             msg: data.msg
                         });
 
+                        $("#email-newletters").val('');
+                        $("#nome-newletters").val('');
 
+                    } else if(data.status == '2'){
+                        Lobibox.notify('info', {
+                            size: 'mini',
+                            sound: false,
+                            icon: false,
+                            position: 'top right',
+                            msg: data.msg
+                        });
+                        
+                        $("#email-newletters").val('');
+                        $("#nome-newletters").val('');
                     } else {
                         Lobibox.notify('warning', {
                             size: 'mini',
@@ -371,12 +418,27 @@
                             msg: data.msg
                         });
                     }
+
+                    
+                    $("#btn-newletters").attr('disabled', false);
+                },
+                error: function(error) {
+                    
+                    $.each(error.responseJSON['errors'], function(index, value) {
+                        Lobibox.notify('error', {
+                            size: 'mini',
+                            sound: false,
+                            icon: false,
+                            position: 'top right',
+                            msg: value
+                        });
+                    });
+                    
+                    $("#btn-newletters").attr('disabled', false);
                 }
             });
         }
-    </script>
-
-    <script>
+        
         @if (session('padrao'))
             Lobibox.notify('info', {
             size: 'mini',
