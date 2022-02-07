@@ -219,7 +219,7 @@
                                         <img src="{{ URL::asset('storage/logoParceiro/padrao.png') }}" alt="Avatar"
                                             class="rounded-circle" width="40">
                                     @endif
-                                    </a>
+                                </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <p class="dropdown-item">
                                         {{ $_SESSION['parceiro_cursos_start']->nome }}
@@ -291,8 +291,27 @@
                                         </ul>
                                     </li>
                                 </ul>
-                                <div class="sidebar-heading">Cursos</div>
+                               <!-- <div class="sidebar-heading">Cursos</div> -->
 
+                                <div class="sidebar-heading">Ajuda</div>
+                                <ul class="sidebar-menu sm-active-button-bg">
+                                    <li class="sidebar-menu-item @hasSection('menu-ajuda') active @endif">
+                                        <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
+                                            href="#ajuda_menu">
+                                            <i
+                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">help</i>
+                                            Preciso de ajuda
+                                            <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                                        </a>
+                                        <ul class="sidebar-submenu sm-indent collapse" id="ajuda_menu">
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button" href="{{ route('parceiro.ajuda') }}">
+                                                    <span class="sidebar-menu-text">Ajuda</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>

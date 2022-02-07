@@ -137,6 +137,11 @@ Route::post('/parceiro-valida-usuario', [ParceiroController::class, 'validaUsuar
 
 Route::put('/parceiro-salvar-minhas-informacoes', [ParceiroController::class, 'salvarMinhasInformacoesParceiro'])->name('salvarMinhasInformacoesParceiro');
 
+/* 
+ROTAS DA ABA DE AJUDA DE PARCEIRO
+*/
+Route::get('/ajuda-parceiro', [ParceiroController::class, 'ajuda'])->name('parceiro.ajuda');
+Route::get('/ajuda-parceiro/{ajuda}/{url?}', [ParceiroController::class, 'verAjuda'])->name('parceiro.verAjuda');
 
 /*
 ROTAS DE LOGIN E LOGOFF DE PARCEIRO
@@ -210,8 +215,8 @@ Route::put('/unidade-salvar-minhas-informacoes', [UnidadeController::class, 'sal
 /* 
 ROTAS DA ABA DE AJUDA DE UNIDADE
 */
-Route::get('/abrir-chamado-unidade', [UnidadeController::class, 'abrirChamadoUnidade'])->name('abrirChamadoUnidade');
-Route::get('/meus-chamados-unidade', [UnidadeController::class, 'chamadosUnidade'])->name('chamadosUnidade');
+Route::get('/ajuda-unidade', [UnidadeController::class, 'ajuda'])->name('unidade.ajuda');
+Route::get('/ajuda-unidade/{ajuda}/{url?}', [UnidadeController::class, 'verAjuda'])->name('unidade.verAjuda');
 
 /*
 ROTAS DE LOGIN E LOGOFF DE UNIDADE

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ajuda;
 use App\Models\Canvas;
+use App\Models\CategoriaAjuda;
 use App\Models\Parceiro;
 use App\Models\Unidade;
 use App\Models\Vendedor;
@@ -456,6 +458,69 @@ class ParceiroController extends Controller
             //Redirecionamento para tela anterior com mensagem de erro
             return redirect()->back()->with('atencao', 'Algo deu errado, tente novamente!');
         }
+    }
+
+    //Função de Suporte
+    public function ajuda()
+    {
+
+        $categoriasAjuda = CategoriaAjuda::join('ajudas', 'ajudas.categoria_id', '=', 'categoria_ajudas.id')
+            ->where('ajudas.local', '=', 5)
+            ->where('ajudas.status', '=', 1)
+            ->where('categoria_ajudas.status', '=', 1)
+            ->selectRaw('categoria_ajudas.*')
+            ->groupBy('categoria_ajudas.id')
+            ->get();
+
+        for ($i = 0; $i < count($categoriasAjuda); $i++) {
+            $categoriasAjuda[$i]->telas = Ajuda::where('categoria_id', '=', $categoriasAjuda[$i]->id)->where('local', '=', 5)->get();
+        }
+
+        //Exibe a view 
+        return view('painelParceiro.ajuda.ajuda', [
+            'categoriasAjuda' => $categoriasAjuda
+        ]);
+    }
+
+
+
+    //Função de Suporte
+    public function verAjuda($id, $url = '')
+    {
+        $ajuda = Ajuda::join('categoria_ajudas', 'ajudas.categoria_id', '=', 'categoria_ajudas.id')
+            ->where('categoria_ajudas.status', '=', 1)
+            ->where('ajudas.status', '=', 1)
+            ->where('ajudas.local', '=', 5)
+            ->where('ajudas.id', '=', $id)
+            ->selectRaw('ajudas.*, categoria_ajudas.nome as categoria')
+            ->first();
+
+        if (!$ajuda) {
+            return redirect()->route('aluno.ajuda')->with('atencao', 'Tela não encontrada!');
+        }
+
+        $categoriasAjuda = CategoriaAjuda::join('ajudas', 'ajudas.categoria_id', '=', 'categoria_ajudas.id')
+            ->where('ajudas.local', '=', 5)
+            ->where('ajudas.status', '=', 1)
+            ->where('categoria_ajudas.status', '=', 1)
+            ->selectRaw('categoria_ajudas.*')
+            ->groupBy('categoria_ajudas.id')
+            ->get();
+
+        for ($i = 0; $i < count($categoriasAjuda); $i++) {
+            $categoriasAjuda[$i]->telas = Ajuda::where('categoria_id', '=', $categoriasAjuda[$i]->id)->where('local', '=', 5)->get();
+
+            if ($categoriasAjuda[$i]->id == $ajuda->categoria_id) {
+                $telasAtual = $categoriasAjuda[$i]->telas;
+            }
+        }
+
+        //Exibe a view 
+        return view('painelParceiro.ajuda.verAjuda', [
+            'ajuda' => $ajuda,
+            'telasAtual' => $telasAtual,
+            'categoriasAjuda' => $categoriasAjuda
+        ]);
     }
 
 

@@ -572,8 +572,6 @@ class VendedorController extends Controller
         return redirect()->route('acessoVendedor')->with('sucesso', 'Sessão encerrada com sucesso!');
     }
 
-
-
     /*
     Função status de Vendedor
     - Responsável por exibir o status do vendedor
