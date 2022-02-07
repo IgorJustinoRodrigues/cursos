@@ -250,9 +250,8 @@ Route::put('/vendedor-salvar-minhas-informacoes', [VendedorController::class, 's
 /* 
 ROTAS DA ABA DE AJUDA DE VENDEDOR
 */
-Route::get('/abrir-chamado-vendedor', [VendedorController::class, 'abrirChamadoVendedor'])->name('abrirChamadoVendedor');
-Route::get('/meus-chamados-vendedor', [VendedorController::class, 'chamadosVendedor'])->name('chamadosVendedor');
-Route::get('/ajuda-plataforma-vendedor', [VendedorController::class, 'ajudaPlataformaVendedor'])->name('ajudaPlataformaVendedor');
+Route::get('/ajuda-vendedor', [VendedorController::class, 'ajuda'])->name('vendedor.ajuda');
+Route::get('/ajuda-vendedor/{ajuda}/{url?}', [VendedorController::class, 'verAjuda'])->name('vendedor.verAjuda');
 
 /*
 ROTAS DE LOGIN E LOGOFF DE VENDEDOR
