@@ -124,7 +124,7 @@
                                     <ul class="lab-ul">
                                         <li><a href="{{ route('site.comoAtivarCodigo') }}">Primeira Ativação do
                                                 código?</a></li>
-                                        <li><a href="{{ route('site.certificado') }}">Dúvidas sobre o Certificado?</a></li>
+                                        <li><a href="{{ route('site.certificado') }}">Conheça a nossa certificação</a></li>
                                     </ul>
                                 </li>
 
