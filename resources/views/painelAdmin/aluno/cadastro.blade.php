@@ -100,8 +100,8 @@
                             </div>
                             <div class="col-6 col-md-4 mb-3">
                                 <label class="form-label" for="email">Email</label>
-                                <input type="email" class="form-control" onchange="validaUsuario()" id="email" name="email"
-                                    placeholder="Email" value="{{ old('email') }}" required="">
+                                <input type="email" class="form-control" onchange="validaUsuario()" id="email"
+                                    name="email" placeholder="Email" value="{{ old('email') }}" required="">
                                 <small id="retorno-usuario" class="form-text"></small>
                             </div>
                             <div class="col-12 col-md-3 mb-3">
@@ -112,7 +112,7 @@
                             <div class="col-12 col-md-5 mb-3">
                                 <label class="form-label" for="nascimento">Data de Nascimento</label>
                                 <input type="date" class="form-control" id="nascimento" name="nascimento"
-                                    value="{{ old('nascimento') }}" >
+                                    value="{{ old('nascimento') }}">
                             </div>
 
                             <div class="col-12 col-md-4 mb-3">
@@ -148,13 +148,6 @@
                                 <input type="text" class="form-control" id="estado" name="estado" placeholder="Estado"
                                     value="{{ old('estado') }}">
                             </div>
-
-                            <div class="col-12 col-md-4 mb-3">
-                                <label class="form-label" for="pontuacao">Pontuação</label>
-                                <input type="number" class="form-control" id="pontuacao" name="pontuacao"
-                                    placeholder="Pontuação" value="{{ old('pontuacao') }}">
-                            </div>
-
 
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label" for="status">Status</label>

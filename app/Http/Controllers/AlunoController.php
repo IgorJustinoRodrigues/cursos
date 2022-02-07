@@ -359,7 +359,6 @@ class AlunoController extends Controller
             'nome' => 'required',
             'email' => 'required|email|max:200|unique:alunos,email',
             'senha' => 'required|min:6',
-            'pontuacao' => 'required'
         ]);
 
         //Nova instância do Model Aluno
@@ -377,7 +376,7 @@ class AlunoController extends Controller
         $item->email = $request->email;
         $item->senha = md5($request->senha);
         //pontuação resolver ainda...
-        $item->pontuacao = $request->pontuacao;
+        $item->pontuacao = 1;
 
         $item->status = $request->status;
 
@@ -460,7 +459,6 @@ class AlunoController extends Controller
         $validated = $request->validate([
             'nome' => 'required',
             'email' => "required|email|max:200|unique:alunos,email,{$item->id}",
-            'pontuacao' => 'required'
         ]);
 
         //Atribuição dos valores recebidos da váriavel $request
@@ -485,7 +483,7 @@ class AlunoController extends Controller
         $item->cidade = $request->cidade;
         $item->estado = $request->estado;
         //pontuação resolver ainda...
-        $item->pontuacao = $request->pontuacao;
+        $item->pontuacao = 1;
 
         $item->status = $request->status;
 
@@ -1089,14 +1087,14 @@ class AlunoController extends Controller
         );
     }
 
-       /*
+    /*
     Função Tela de Ajuda de Professor ao Aluno
     - Responsável por mostrar a tela de ajudaProfessorAluno de aluno
     */
     public function ajudaProfessorAluno()
     {
-            //Validação de acesso
-            if (!(new Services())->validarAluno())
+        //Validação de acesso
+        if (!(new Services())->validarAluno())
             //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionarAluno();
 
@@ -1108,7 +1106,7 @@ class AlunoController extends Controller
     //Função de Suporte
     public function ajuda()
     {
-     
+
         $categoriasAjuda = CategoriaAjuda::join('ajudas', 'ajudas.categoria_id', '=', 'categoria_ajudas.id')
             ->where('ajudas.local', '=', 2)
             ->where('ajudas.status', '=', 1)
@@ -1155,10 +1153,9 @@ class AlunoController extends Controller
         for ($i = 0; $i < count($categoriasAjuda); $i++) {
             $categoriasAjuda[$i]->telas = Ajuda::where('categoria_id', '=', $categoriasAjuda[$i]->id)->where('local', '=', 2)->get();
 
-            if($categoriasAjuda[$i]->id == $ajuda->categoria_id){
+            if ($categoriasAjuda[$i]->id == $ajuda->categoria_id) {
                 $telasAtual = $categoriasAjuda[$i]->telas;
             }
-
         }
 
         //Exibe a view 
