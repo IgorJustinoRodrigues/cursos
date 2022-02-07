@@ -494,8 +494,6 @@ class VendedorController extends Controller
         }
     }
 
-
-
     //Função de Suporte
     public function ajuda()
     {
@@ -558,7 +556,6 @@ class VendedorController extends Controller
             'categoriasAjuda' => $categoriasAjuda
         ]);
     }
-
 
     /*
     Função Sair de Vendedor
