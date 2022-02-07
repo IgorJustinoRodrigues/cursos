@@ -124,6 +124,7 @@
                                     <ul class="lab-ul">
                                         <li><a href="{{ route('site.comoAtivarCodigo') }}">Primeira Ativação do
                                                 código?</a></li>
+                                        <li><a href="{{ route('site.certificado') }}">Dúvidas sobre o Certificado?</a></li>
                                     </ul>
                                 </li>
 
@@ -216,7 +217,8 @@
                             <div class="newsletter-form">
                                 <input type="text" id="nome-newletters" placeholder="Informe o seu nome" required>
                                 <input type="email" id="email-newletters" placeholder="Informe o seu e-mail" required>
-                                <button class="btn lab-btn" id="btn-newletters" onclick="InserirNewsletter()" ><span>Me
+                                <button class="btn lab-btn" id="btn-newletters"
+                                    onclick="InserirNewsletter()"><span>Me
                                         inscrever agora!</span></button>
                             </div>
                         </div>
@@ -344,7 +346,7 @@
             var email = $("#email-newletters").val();
             var nome = $("#nome-newletters").val();
 
-            if(nome == ''){
+            if (nome == '') {
                 Lobibox.notify('error', {
                     size: 'mini',
                     sound: false,
@@ -352,16 +354,16 @@
                     position: 'top right',
                     msg: "O campo nome é obrigatório."
                 });
-                
+
                 $("#nome-newletters").focus();
 
                 $("#btn-newletters").attr('disabled', false);
-            
+
                 return null;
             }
 
-            
-            if(email == ''){
+
+            if (email == '') {
                 Lobibox.notify('error', {
                     size: 'mini',
                     sound: false,
@@ -372,7 +374,7 @@
 
                 $("#email-newletters").focus();
                 $("#btn-newletters").attr('disabled', false);
-                
+
                 return null;
             }
 
@@ -398,7 +400,7 @@
                         $("#email-newletters").val('');
                         $("#nome-newletters").val('');
 
-                    } else if(data.status == '2'){
+                    } else if (data.status == '2') {
                         Lobibox.notify('info', {
                             size: 'mini',
                             sound: false,
@@ -406,7 +408,7 @@
                             position: 'top right',
                             msg: data.msg
                         });
-                        
+
                         $("#email-newletters").val('');
                         $("#nome-newletters").val('');
                     } else {
@@ -419,11 +421,11 @@
                         });
                     }
 
-                    
+
                     $("#btn-newletters").attr('disabled', false);
                 },
                 error: function(error) {
-                    
+
                     $.each(error.responseJSON['errors'], function(index, value) {
                         Lobibox.notify('error', {
                             size: 'mini',
@@ -433,12 +435,12 @@
                             msg: value
                         });
                     });
-                    
+
                     $("#btn-newletters").attr('disabled', false);
                 }
             });
         }
-        
+
         @if (session('padrao'))
             Lobibox.notify('info', {
             size: 'mini',

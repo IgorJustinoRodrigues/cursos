@@ -46,6 +46,7 @@ Route::get('/conhecer/curso/{item}/{url?}', [SiteController::class, 'lerCurso'])
 Route::get('/aula-teste/{curso}/{url?}', [SiteController::class, 'aulaTeste'])->name('site.aulaTeste');
 Route::get('/ajuda', [SiteController::class, 'ajuda'])->name('site.ajuda');
 Route::get('/ajuda/{ajuda}/{url?}', [SiteController::class, 'verAjuda'])->name('site.verAjuda');
+Route::get('/certificado', [SiteController::class, 'certificado'])->name('site.certificado');
 
 
 //Rota Painel Admin Raiz
