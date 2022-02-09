@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ajuda;
 use App\Models\Canvas;
+use App\Models\CategoriaAjuda;
 use App\Models\Parceiro;
 use App\Models\Unidade;
 use App\Services\Services;
@@ -516,36 +518,70 @@ class UnidadeController extends Controller
         }
     }
 
-    /*
-    Função Tela de Ajuda de Abrir Chamado Unidade
-    - Responsável por mostrar a tela de abrir chamado de Unidade
-    */
-    public function abrirChamadoUnidade()
+   
+    //Função de Suporte
+    public function ajuda()
     {
-        //Validação de acesso
-        if (!(new Services())->validarUnidade())
-            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
-            return (new Services())->redirecionarUnidade();
 
-        //Exibe a tela de cadastro de ajudaAulas
-        return view('painelUnidade.ajuda.abrirChamadoUnidade');
+        $categoriasAjuda = CategoriaAjuda::join('ajudas', 'ajudas.categoria_id', '=', 'categoria_ajudas.id')
+            ->where('ajudas.local', '=', 4)
+            ->where('ajudas.status', '=', 1)
+            ->where('categoria_ajudas.status', '=', 1)
+            ->selectRaw('categoria_ajudas.*')
+            ->groupBy('categoria_ajudas.id')
+            ->get();
+
+        for ($i = 0; $i < count($categoriasAjuda); $i++) {
+            $categoriasAjuda[$i]->telas = Ajuda::where('categoria_id', '=', $categoriasAjuda[$i]->id)->where('local', '=', 4)->get();
+        }
+
+        //Exibe a view 
+        return view('painelUnidade.ajuda.ajuda', [
+            'categoriasAjuda' => $categoriasAjuda
+        ]);
     }
 
 
-    /*
-    Função Tela de Ajuda de  Chamado Unidade
-    - Responsável por mostrar a tela de  chamado de Unidade
-    */
-    public function chamadosUnidade()
-    {
-        //Validação de acesso
-        if (!(new Services())->validarUnidade())
-            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
-            return (new Services())->redirecionarUnidade();
 
-        //Exibe a tela de cadastro de ajudaAulas
-        return view('painelUnidade.ajuda.chamadosUnidade');
+    //Função de Suporte
+    public function verAjuda($id, $url = '')
+    {
+        $ajuda = Ajuda::join('categoria_ajudas', 'ajudas.categoria_id', '=', 'categoria_ajudas.id')
+            ->where('categoria_ajudas.status', '=', 1)
+            ->where('ajudas.status', '=', 1)
+            ->where('ajudas.local', '=', 4)
+            ->where('ajudas.id', '=', $id)
+            ->selectRaw('ajudas.*, categoria_ajudas.nome as categoria')
+            ->first();
+
+        if (!$ajuda) {
+            return redirect()->route('aluno.ajuda')->with('atencao', 'Tela não encontrada!');
+        }
+
+        $categoriasAjuda = CategoriaAjuda::join('ajudas', 'ajudas.categoria_id', '=', 'categoria_ajudas.id')
+            ->where('ajudas.local', '=', 4)
+            ->where('ajudas.status', '=', 1)
+            ->where('categoria_ajudas.status', '=', 1)
+            ->selectRaw('categoria_ajudas.*')
+            ->groupBy('categoria_ajudas.id')
+            ->get();
+
+        for ($i = 0; $i < count($categoriasAjuda); $i++) {
+            $categoriasAjuda[$i]->telas = Ajuda::where('categoria_id', '=', $categoriasAjuda[$i]->id)->where('local', '=', 4)->get();
+
+            if ($categoriasAjuda[$i]->id == $ajuda->categoria_id) {
+                $telasAtual = $categoriasAjuda[$i]->telas;
+            }
+        }
+
+        //Exibe a view 
+        return view('painelUnidade.ajuda.verAjuda', [
+            'ajuda' => $ajuda,
+            'telasAtual' => $telasAtual,
+            'categoriasAjuda' => $categoriasAjuda
+        ]);
     }
+
 
     /*
     Função Sair de Unidade

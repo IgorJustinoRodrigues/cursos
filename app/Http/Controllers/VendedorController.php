@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ajuda;
 use App\Models\Canvas;
+use App\Models\CategoriaAjuda;
 use App\Models\Unidade;
 use App\Models\Vendedor;
 use App\Services\Services;
@@ -492,52 +494,67 @@ class VendedorController extends Controller
         }
     }
 
-
-    /*
-    Função Tela de Ajuda de Abrir Chamado Vendedor
-    - Responsável por mostrar a tela de abrir chamado de Vendedor
-    */
-    public function abrirChamadoVendedor()
+    //Função de Suporte
+    public function ajuda()
     {
-        //Validação de acesso
-        if (!(new Services())->validarVendedor())
-            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
-            return (new Services())->redirecionarVendedor();
 
-        //Exibe a tela de cadastro de ajudaAulas
-        return view('painelVendedor.ajuda.abrirChamadoVendedor');
+        $categoriasAjuda = CategoriaAjuda::join('ajudas', 'ajudas.categoria_id', '=', 'categoria_ajudas.id')
+            ->where('ajudas.local', '=', 3)
+            ->where('ajudas.status', '=', 1)
+            ->where('categoria_ajudas.status', '=', 1)
+            ->selectRaw('categoria_ajudas.*')
+            ->groupBy('categoria_ajudas.id')
+            ->get();
+
+        for ($i = 0; $i < count($categoriasAjuda); $i++) {
+            $categoriasAjuda[$i]->telas = Ajuda::where('categoria_id', '=', $categoriasAjuda[$i]->id)->where('local', '=', 3)->get();
+        }
+
+        //Exibe a view 
+        return view('painelVendedor.ajuda.ajuda', [
+            'categoriasAjuda' => $categoriasAjuda
+        ]);
     }
 
 
-    /*
-    Função Tela de Ajuda de  Chamado Vendedor
-    - Responsável por mostrar a tela de  chamado de Vendedor
-    */
-    public function chamadosVendedor()
+
+    //Função de Suporte
+    public function verAjuda($id, $url = '')
     {
-        //Validação de acesso
-        if (!(new Services())->validarVendedor())
-            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
-            return (new Services())->redirecionarVendedor();
+        $ajuda = Ajuda::join('categoria_ajudas', 'ajudas.categoria_id', '=', 'categoria_ajudas.id')
+            ->where('categoria_ajudas.status', '=', 1)
+            ->where('ajudas.status', '=', 1)
+            ->where('ajudas.local', '=', 3)
+            ->where('ajudas.id', '=', $id)
+            ->selectRaw('ajudas.*, categoria_ajudas.nome as categoria')
+            ->first();
 
-        //Exibe a tela de cadastro de ajudaAulas
-        return view('painelVendedor.ajuda.chamadosVendedor');
-    }
+        if (!$ajuda) {
+            return redirect()->route('aluno.ajuda')->with('atencao', 'Tela não encontrada!');
+        }
 
-    
-    /*
-    Função Tela de Ajuda da Plataforma de Vendedor
-    - Responsável por mostrar a tela de  ajuda Plataforma de Vendedor
-    */
-    public function ajudaPlataformaVendedor()
-    {
-        //Validação de acesso
-        if (!(new Services())->validarVendedor())
-            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
-            return (new Services())->redirecionarVendedor();
+        $categoriasAjuda = CategoriaAjuda::join('ajudas', 'ajudas.categoria_id', '=', 'categoria_ajudas.id')
+            ->where('ajudas.local', '=', 3)
+            ->where('ajudas.status', '=', 1)
+            ->where('categoria_ajudas.status', '=', 1)
+            ->selectRaw('categoria_ajudas.*')
+            ->groupBy('categoria_ajudas.id')
+            ->get();
 
-        //Exibe a tela de ajuda da Plataforma de Vendedor
-        return view('painelVendedor.ajuda.ajudaPlataformaVendedor');
+        for ($i = 0; $i < count($categoriasAjuda); $i++) {
+            $categoriasAjuda[$i]->telas = Ajuda::where('categoria_id', '=', $categoriasAjuda[$i]->id)->where('local', '=', 3)->get();
+
+            if ($categoriasAjuda[$i]->id == $ajuda->categoria_id) {
+                $telasAtual = $categoriasAjuda[$i]->telas;
+            }
+        }
+
+        //Exibe a view 
+        return view('painelVendedor.ajuda.verAjuda', [
+            'ajuda' => $ajuda,
+            'telasAtual' => $telasAtual,
+            'categoriasAjuda' => $categoriasAjuda
+        ]);
     }
 
     /*
@@ -554,8 +571,6 @@ class VendedorController extends Controller
         //Redirecionamento para a rota inicio, com mensagem de sucesso, sem uma sessão ativa
         return redirect()->route('acessoVendedor')->with('sucesso', 'Sessão encerrada com sucesso!');
     }
-
-
 
     /*
     Função status de Vendedor

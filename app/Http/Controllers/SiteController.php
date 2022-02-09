@@ -83,13 +83,42 @@ class SiteController extends Controller
     //Funçao de Ativação do Código sub-aba de início
     public function comoAtivarCodigo()
     {
-        $categoriasMenu = CategoriaCurso::where('status', '=', 1)->get();
-        //Exibe a view 
+
+        //listagem da categoria de cursos e contagem de Quantos cursos tem em uma categoria
+        $categoriasMenu = CategoriaCurso::join('cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
+            ->selectRaw('categoria_cursos.id, categoria_cursos.imagem as imagemCategoria, categoria_cursos.nome, count(categoria_cursos.id) as quantCursoCategoria')
+            ->groupBy('cursos.categoria_id')
+            ->inRandomOrder()
+            ->limit(5)
+            ->get();
+        
+            //Exibe a view 
         return view('site.ativacaoCodigo', [
 
             'categoriasMenu' => $categoriasMenu
         ]);
     }
+
+    
+    //Funçao de Ativação do Código sub-aba de início
+    public function certificado()
+    {
+
+        //listagem da categoria de cursos e contagem de Quantos cursos tem em uma categoria
+        $categoriasMenu = CategoriaCurso::join('cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
+            ->selectRaw('categoria_cursos.id, categoria_cursos.imagem as imagemCategoria, categoria_cursos.nome, count(categoria_cursos.id) as quantCursoCategoria')
+            ->groupBy('cursos.categoria_id')
+            ->inRandomOrder()
+            ->limit(5)
+            ->get();
+        
+            //Exibe a view 
+        return view('site.certificado', [
+
+            'categoriasMenu' => $categoriasMenu
+        ]);
+    }
+
 
     public function ativacaoCodigo(Request $request)
     {
@@ -579,10 +608,9 @@ class SiteController extends Controller
         for ($i = 0; $i < count($categoriasAjuda); $i++) {
             $categoriasAjuda[$i]->telas = Ajuda::where('categoria_id', '=', $categoriasAjuda[$i]->id)->where('local', '=', 1)->get();
 
-            if($categoriasAjuda[$i]->id == $ajuda->categoria_id){
+            if ($categoriasAjuda[$i]->id == $ajuda->categoria_id) {
                 $telasAtual = $categoriasAjuda[$i]->telas;
             }
-
         }
 
         //Exibe a view 

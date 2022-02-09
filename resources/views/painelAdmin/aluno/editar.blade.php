@@ -113,8 +113,8 @@
 
                             <div class="col-9 col-md-4 mb-3">
                                 <label class="form-label" for="email">Email</label>
-                                <input type="email" class="form-control" onchange="validaUsuario()" id="email" name="email"
-                                    placeholder="Email" value="{{ $item->email }}" required="">
+                                <input type="email" class="form-control" onchange="validaUsuario()" id="email"
+                                    name="email" placeholder="Email" value="{{ $item->email }}" required="">
                                 <small id="retorno-usuario" class="form-text"></small>
                             </div>
                             <div class="col-9 col-md-4 mb-3">
@@ -160,14 +160,38 @@
 
                             <div class="col-9 col-md-4 mb-3">
                                 <label class="form-label" for="estado">Estado</label>
-                                <input type="text" class="form-control" id="estado" name="estado" placeholder="Estado"
-                                    value="{{ $item->estado }}" maxlength="2">
-                            </div>
-
-                            <div class="col-9 col-md-4 mb-3">
-                                <label class="form-label" for="pontuacao">Pontuação</label>
-                                <input type="number" class="form-control" id="pontuacao" name="pontuacao"
-                                    placeholder="Pontuação" value="{{ $item->pontuacao }}" maxlength="2" >
+                                <div class="col-md-12">
+                                    <select id="estado" name="estado" class="form-control">
+                                        <option value="" @if ($item->estado == '') selected @endif>-</option>
+                                        <option value="AC" @if ($item->estado == 'AC') selected @endif>Acre</option>
+                                        <option value="AL" @if ($item->estado == 'AL') selected @endif>Alagoas</option>
+                                        <option value="AP" @if ($item->estado == 'AP') selected @endif>Amapá</option>
+                                        <option value="AM" @if ($item->estado == 'AM') selected @endif>Amazonas</option>
+                                        <option value="BA" @if ($item->estado == 'BA') selected @endif>Bahia</option>
+                                        <option value="CE" @if ($item->estado == 'CE') selected @endif>Ceará</option>
+                                        <option value="DF" @if ($item->estado == 'DF') selected @endif>Distrito Federal</option>
+                                        <option value="ES" @if ($item->estado == 'ES') selected @endif>Espírito Santo</option>
+                                        <option value="GO" @if ($item->estado == 'GO') selected @endif>Goiás</option>
+                                        <option value="MA" @if ($item->estado == 'MA') selected @endif>Maranhão</option>
+                                        <option value="MT" @if ($item->estado == 'MT') selected @endif>Mato Grosso</option>
+                                        <option value="MS" @if ($item->estado == 'MS') selected @endif>Mato Grosso do Sul</option>
+                                        <option value="MG" @if ($item->estado == 'MG') selected @endif>Minas Gerais</option>
+                                        <option value="PA" @if ($item->estado == 'PA') selected @endif>Pará</option>
+                                        <option value="PB" @if ($item->estado == 'PB') selected @endif>Paraíba</option>
+                                        <option value="PR" @if ($item->estado == 'PR') selected @endif>Paraná</option>
+                                        <option value="PE" @if ($item->estado == 'PE') selected @endif>Pernambuco</option>
+                                        <option value="PI" @if ($item->estado == 'PI') selected @endif>Piauí</option>
+                                        <option value="RJ" @if ($item->estado == 'RJ') selected @endif>Rio de Janeiro</option>
+                                        <option value="RN" @if ($item->estado == 'RN') selected @endif>Rio Grande do Norte</option>
+                                        <option value="RS" @if ($item->estado == 'RS') selected @endif>Rio Grande do Sul</option>
+                                        <option value="RO" @if ($item->estado == 'RO') selected @endif>Rondônia</option>
+                                        <option value="RR" @if ($item->estado == 'RR') selected @endif>Roraima</option>
+                                        <option value="SC" @if ($item->estado == 'SC') selected @endif>Santa Catarina</option>
+                                        <option value="SP" @if ($item->estado == 'SP') selected @endif>São Paulo</option>
+                                        <option value="SE" @if ($item->estado == 'SE') selected @endif>Sergipe</option>
+                                        <option value="TO" @if ($item->estado == 'TO') selected @endif>Tocantins</option>
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="col-12 col-md-4 mb-3">

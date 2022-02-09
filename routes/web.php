@@ -46,6 +46,7 @@ Route::get('/conhecer/curso/{item}/{url?}', [SiteController::class, 'lerCurso'])
 Route::get('/aula-teste/{curso}/{url?}', [SiteController::class, 'aulaTeste'])->name('site.aulaTeste');
 Route::get('/ajuda', [SiteController::class, 'ajuda'])->name('site.ajuda');
 Route::get('/ajuda/{ajuda}/{url?}', [SiteController::class, 'verAjuda'])->name('site.verAjuda');
+Route::get('/certificado', [SiteController::class, 'certificado'])->name('site.certificado');
 
 
 //Rota Painel Admin Raiz
@@ -137,6 +138,11 @@ Route::post('/parceiro-valida-usuario', [ParceiroController::class, 'validaUsuar
 
 Route::put('/parceiro-salvar-minhas-informacoes', [ParceiroController::class, 'salvarMinhasInformacoesParceiro'])->name('salvarMinhasInformacoesParceiro');
 
+/* 
+ROTAS DA ABA DE AJUDA DE PARCEIRO
+*/
+Route::get('/ajuda-parceiro', [ParceiroController::class, 'ajuda'])->name('parceiro.ajuda');
+Route::get('/ajuda-parceiro/{ajuda}/{url?}', [ParceiroController::class, 'verAjuda'])->name('parceiro.verAjuda');
 
 /*
 ROTAS DE LOGIN E LOGOFF DE PARCEIRO
@@ -210,8 +216,8 @@ Route::put('/unidade-salvar-minhas-informacoes', [UnidadeController::class, 'sal
 /* 
 ROTAS DA ABA DE AJUDA DE UNIDADE
 */
-Route::get('/abrir-chamado-unidade', [UnidadeController::class, 'abrirChamadoUnidade'])->name('abrirChamadoUnidade');
-Route::get('/meus-chamados-unidade', [UnidadeController::class, 'chamadosUnidade'])->name('chamadosUnidade');
+Route::get('/ajuda-unidade', [UnidadeController::class, 'ajuda'])->name('unidade.ajuda');
+Route::get('/ajuda-unidade/{ajuda}/{url?}', [UnidadeController::class, 'verAjuda'])->name('unidade.verAjuda');
 
 /*
 ROTAS DE LOGIN E LOGOFF DE UNIDADE
@@ -250,9 +256,8 @@ Route::put('/vendedor-salvar-minhas-informacoes', [VendedorController::class, 's
 /* 
 ROTAS DA ABA DE AJUDA DE VENDEDOR
 */
-Route::get('/abrir-chamado-vendedor', [VendedorController::class, 'abrirChamadoVendedor'])->name('abrirChamadoVendedor');
-Route::get('/meus-chamados-vendedor', [VendedorController::class, 'chamadosVendedor'])->name('chamadosVendedor');
-Route::get('/ajuda-plataforma-vendedor', [VendedorController::class, 'ajudaPlataformaVendedor'])->name('ajudaPlataformaVendedor');
+Route::get('/ajuda-vendedor', [VendedorController::class, 'ajuda'])->name('vendedor.ajuda');
+Route::get('/ajuda-vendedor/{ajuda}/{url?}', [VendedorController::class, 'verAjuda'])->name('vendedor.verAjuda');
 
 /*
 ROTAS DE LOGIN E LOGOFF DE VENDEDOR

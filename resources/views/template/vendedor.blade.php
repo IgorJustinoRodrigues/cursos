@@ -303,19 +303,8 @@
                                         <ul class="sidebar-submenu sm-indent collapse" id="ajuda_menu">
                                             <li class="sidebar-menu-item">
                                                 <a class="sidebar-menu-button"
-                                                    href="{{ route('abrirChamadoVendedor') }}">
-                                                    <span class="sidebar-menu-text">Abrir Chamado</span>
-                                                </a>
-                                            </li>
-                                            <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('chamadosVendedor') }}">
-                                                    <span class="sidebar-menu-text">Meus Chamados</span>
-                                                </a>
-                                            </li>
-                                            <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button"
-                                                    href="{{ route('ajudaPlataformaVendedor') }}">
-                                                    <span class="sidebar-menu-text">Conhecendo a Plataforma</span>
+                                                    href="{{ route('vendedor.ajuda') }}">
+                                                    <span class="sidebar-menu-text">Ajuda</span>
                                                 </a>
                                             </li>
                                         </ul>
