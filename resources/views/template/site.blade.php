@@ -215,6 +215,7 @@
                             <h5 class="texto-branco">Informe o seu nome e e-mail</h5>
 
                             <div class="newsletter-form">
+                                @csrf
                                 <input type="text" id="nome-newletters" placeholder="Informe o seu nome" required>
                                 <input type="email" id="email-newletters" placeholder="Informe o seu e-mail" required>
                                 <button class="btn lab-btn" id="btn-newletters"
