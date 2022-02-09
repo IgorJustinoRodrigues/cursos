@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0" name="viewport">
+  <title>Shopify | Email Template Documentation </title>
+  <link rel="shortcut icon" type="image/x-icon" href="../images/theme-mountain-favicon.ico">
+
+  <!-- Css -->
+  <link rel="stylesheet" href="../css/core.min.css" />
+
+  <!-- Font -->
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700%7CLato:300,400,700' rel='stylesheet' type='text/css'>
+
+  <!--[if lt IE 9]>
+      <script type="text/javascript" src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+
+  <!-- Mobile Menu -->
+  <aside class="side-navigation-wrapper enter-right" data-no-scrollbar data-animation="push-in">
+    <div class="side-navigation-scroll-pane">
+      <div class="side-navigation-inner">
+        <div class="side-navigation-header">
+          <div class="logo">
+            <a class="weight-light" href="../index.html"><strong>Email Template</strong> Docs</a>
+          </div>
+          <div class="navigation-hide side-nav-hide">
+            <a href="#">
+              <span class="icon-cancel medium"></span>
+            </a>
+          </div>
+        </div>
+        <nav class="side-navigation">
+          <ul>
+            <li>
+              <a class="contains-sub-menu" href="../index.html">Home</a>
+            </li>
+            <li>
+              <a href="../intro/introduction.html">Introduction</a>
+            </li>
+            <li>
+              <a href="../intro/file-structure.html">File Structure</a>
+            </li>
+            <li>
+              <a href="../intro/sections-reference.html">Sections Quick Reference</a>
+            </li>
+            <li>
+              <a class="contains-sub-menu" href="#">Sections</a>
+              <ul class="sub-menu">
+                <li>
+                  <a href="../sections/preheaders.html">Preheaders</a>
+                </li>
+                <li>
+                  <a href="../sections/headers.html">Headers</a>
+                </li>
+                <li>
+                  <a href="../sections/hero.html">Hero</a>
+                </li>
+                <li>
+                  <a href="../sections/intro.html">Intro</a>
+                </li>
+                <li>
+                  <a href="../sections/feature.html">Feature</a>
+                </li>
+                <li>
+                  <a href="../sections/blog.html">Blog</a>
+                </li>
+                <li>
+                  <a href="../sections/portfolio.html">Portfolio</a>
+                </li>
+                <li>
+                  <a href="../sections/call-to-action.html">Call to Action</a>
+                </li>
+                <li>
+                  <a href="../sections/coupon.html">Coupon</a>
+                </li>
+                <li>
+                  <a href="../sections/interactive.html">Interactive</a>
+                </li>
+                <li>
+                  <a href="../sections/team.html">Team</a>
+                </li>
+                <li>
+                  <a href="../sections/testimonial.html">Testimonial</a>
+                </li>
+                <li>
+                  <a href="../sections/timeline.html">Timeline</a>
+                </li>
+                <li>
+                  <a href="../sections/pricing-tables.html">Pricing Table</a>
+                </li>
+                <li>
+                  <a href="../sections/stats.html">Stats</a>
+                </li>
+                <li>
+                  <a href="../sections/social.html">Social</a>
+                </li>
+                <li>
+                  <a href="../sections/footers.html">Footers</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a class="contains-sub-menu" href="#">Templates</a>
+              <ul class="sub-menu">
+                <li>
+                  <a href="../templates/marketing.html">Marketing</a>
+                </li>
+                <li>
+                  <a href="../templates/notifications.html">Notifications</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a class="contains-sub-menu" href="#">Integrations</a>
+              <ul class="sub-menu">
+                <li>
+                  <a href="../integrations/mailchimp.html">MailChimp</a>
+                </li>
+                <li>
+                  <a href="../integrations/campaign-monitor.html">Campaign Monitor</a>
+                </li>
+                <li>
+                  <a href="../integrations/stampready.html">StampReady</a>
+                </li>
+                <li>
+                  <a href="../integrations/mailster.html">Mailster</a>
+                </li>
+                <li class="current">
+                  <a href="../integrations/shopify.html">Shopify</a>
+                </li>
+                <li>
+                  <a href="../integrations/others.html">Other ESPs</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#" class="contains-sub-menu">Other Docs</a>
+              <ul class="sub-menu">
+                <li>
+                  <a href="https://thememountain.github.io/pine/1.0.1">Framework Documentation</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+        <div class="side-navigation-footer">
+          <p class="copyright no-margin-bottom">&copy; 2018 THEMEMOUNTAIN.</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <!-- Mobile Menu End -->
+
+  <div class="wrapper">
+    <div class="wrapper-inner">
+
+      <!-- Header -->
+      <header class="nav-bar nav-main">
+        <div class="row">
+          <div class="column width-12">
+            <div class="logo">
+              <a class="weight-light" href="../index.html"><strong>Email Template</strong> Docs</a>
+            </div>
+            <nav class="navigation nav-block secondary-navigation nav-right no-margin-left">
+              <ul>
+                <li>
+                  <li class="aux-navigation hide">
+                  <!-- Aux Navigation -->
+                  <a href="#" class="navigation-show side-nav-show nav-icon">
+                    <span class="icon-menu"></span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+            <nav class="navigation nav-block primary-navigation nav-right">
+              <ul>
+                <li class="current">
+                  <a href="index.html">Email Template Docs</a>
+                </li>
+                <li>
+                  <a href="https://thememountain.github.io/pine/1.0.1">Framework Docs</a>
+                </li>
+                <li>
+                  <a href="http://thememountain.ticksy.com/" target="_blank">Support Forum</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </header>
+      <!-- Header End -->
+
+      <!-- Content -->
+      <div class="content clearfix">
+        <div class="section-block intro-title-1 small">
+          <div class="row">
+            <div class="column width-12">
+              <div class="title-container">
+                <div class="title-container-inner">
+                  <h1>Shopify</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row large">
+          <div class="column width-9 push-3 content-inner">
+            <p class="lead">Shopify Integration</p>
+            <p>
+              Our email templates include a Shopify version, which you can use for custom designed email notifications for your store. Included are templates for all 17 Shopify notifications.
+            </p>
+            <div class="box info">
+              <p>Note: currently, only our Kant Email Template includes Shopify notification templates.</p>
+            </div>
+            <h5 id="required-software">Required software</h5>
+            <p>Because Shopify only allows editing notification templates by pasting in your email's HTML code, you will need a text editor first. We recommend <a href="https://www.sublimetext.com/" target="_blank" rel="noopener">Sublime Text</a> or <a href="https://atom.io/" target="_blank" rel="noopener">Atom</a>.</p>
+            <hr>
+            <h3 id="uploading">Uploading to Shopify</h3>
+            <p>
+              Inside the <span class="label">/shopify</span> folder, you'll find HTML files for all Shopify notification emails. Read more about them <a href="#file-structure">below &darr;</a>
+            </p>
+            <ol class="no-padding-left">
+              <li>In your Shopify admin, click Settings on the bottom left.</li>
+              <li>
+                On the next page, select "Notifications" :
+                <img src="../images/examples/integrations/shopify/shopify-admin-edit-notifications-settings.jpg" alt="Shopify Notifications Emails Settings Admin">
+                <p>Next, you will be presented with a list of all types of notification emails Shopify sends.</p>
+              </li>
+              <li>
+                To edit a Notification, click its name in the list on the right-hand side:
+                <br>
+                <br>
+                <p>
+                  <img src="../images/examples/integrations/shopify/shopify-click-to-edit-notification-template.png" alt="Shopify click to edit a Notification template">
+                </p>
+                <p>You will then see a form where you can set the Email Subject and, what we're after here, the Email body (HTML).</p>
+              </li>
+              <li>Now open the corresponding HTML file from our template in the text editor of your choice.</li>
+              <li>Select all code with <kbd class="label">Ctrl + A</kbd> (Windows) or <kbd class="label">Cmd + A</kbd> (Mac). Copy it to clipboard with <kbd class="label">Ctrl + C</kbd> / <kbd class="label">Cmd + C</kbd></li>
+              <li>Go back to your Shopify admin, and paste the code you just copied, in the <strong>Email body (HTML)</strong> area.</li>
+              <li>Finally, click Save on the bottom right.</li>
+            </ol>
+            <p>
+              The new template will now be used for emails of that type that Shopify sends for your store.
+              If you want, you can test the template with real data from your store, by clicking "Send test email" or "Preview" at the top of this template editing page.
+            </p>
+            <hr>
+            <h3 id="customisation">Customisation</h3>
+            <p>There are several types of customisations you'll want to do. Let's go through each one.</p>
+            <h5 id="global-styling">Global notification styling</h5>
+            <p>Shopify has a few settings for your notification emails. You can:</p>
+            <ul class="disc">
+              <li>set an email logo image
+                <ul>
+                  <li>define the width of this image</li>
+                </ul>
+              </li>
+              <li>set an email accent colour</li>
+            </ul>
+            <p>Our templates support all of these settings:</p>
+            <p>
+              <img src="../images/examples/integrations/shopify/shopify-global-notification-styling.png" alt="Shopify global styling settings">
+            </p>
+            <h5 id="text-editing">Text editing</h5>
+            <p>This involves only customising the wording in the notification templates. Maybe you don't like our default text, or maybe you need it translated for your business.</p>
+            <p>At the very top of the code for almost all emails, you will see some Liquid tags wrapping some text. <a href="https://help.shopify.com/themes/liquid" target="_blank" rel="noopener">Liquid</a> is Shopify's templating language, and it is used to integrate custom websites and, well, email templates with their platform. While text editing is straightforward, the Liquid tags require a basic understanding of this language (or at least some basic experience with programming, as it uses universal concepts).</p>
+            <img src="../images/examples/integrations/shopify/shopify-edit-captures-text.png" alt="Shopify edit Liquid capture contents">
+            <br><br>
+            <p>We have tried providing some defaults in this location, so that you can see them immediately and change them there without scrolling down and hunting for text in the HTML. However, this isn't possible with all components, so you will need to edit wording inside the HTML, too. Which brings us to:</p>
+            <h5 id="html-liquid-editing">HTML/Liquid editing</h5>
+            <p>Since Shopify doesn't provide a visual editor for editing your notification templates, you will need to edit the source code of our templates, in order to do advanced customisations.</p>
+            <p>We recommend using a text editor capable of syntax highlighting for doing this (both Sublime and Atom have it), as it will be easier for you to find what you're looking for. Shopify doesn't provide such editing capabilities.</p>
+            <div class="box info">
+              <p>Editing the HTML source code is currently needed for some parts of the template, such as call to action button labels. Simply do a search (Ctrl/Cmd + F) for the text string you're looking to change, and the text editor will jump to it and highlight it.</p>
+            </div>
+            <p>If you want to change what product information is being pulled into the template from your store, you must have experience with Shopify's Liquid language.</p>
+            <h5 id="google-fonts-editing">Google Fonts editing</h5>
+            <p>While our default font pairing looks good, you might want to use different Google Fonts for your brand.</p>
+            <p>Unfortunately, because Shopify requires a complex workaround to enable web fonts in notification emails, changing them is not as easy as it is with the template's other versions. You'll need to go through a few steps.</p>
+            <ol>
+              <li>In <a href="https://fonts.google.com/" target="_blank" rel="noopener">Google Fonts</a>, search for the font that you'd like to use</li>
+              <li>Select it, and a small black bar will appear at the bottom of the screen. Click the bar to open it:
+                <br><br>
+                <p>
+                  <img src="../images/examples/integrations/shopify/google-fonts-selection.jpg" alt="Google Fonts Popup Window" width="500">
+                </p>
+              </li>
+              <li>Copy the web font URL ( as highlighted above), open a new tab in your browser, paste the URL in and hit Enter. You'll most likely see a list of many <code class="label">@font-face</code> declarations, each looking something like this:
+                <br><br>
+                <p>
+                  <img src="../images/examples/integrations/shopify/google-fonts-font-url-css.jpg" alt="Google Fonts Font URL CSS" width="500">
+                </p>
+                <p>Now, if you take a closer look, you'll notice that this block is very similar to what we have in the template. Each <code class="label">@font-face</code> block imports a specific font version, and its name is defined in that <code class="label">font-family: ''</code> code.</p>
+              </li>
+              <li>Copy the <code class="label">@font-face</code> block you need - there will most likely be many of them, for different character encodings. Only choose one encoding - the one that you need - as the more you use, the more it impacts the email load time.</li>
+              <li>Open up the notification template you want to change the fonts for, in your preferred text editor</li>
+              <li>Immediately inside the <code class="label">&lt;style&gt;</code> tag, you'll see something like:
+                <pre>
+                  <code>
+@media only screen and (min-width: 1px) {
+  @font-face {
+    ...
+  }
+
+  @font-face {
+    ...
+  }
+
+  ...
+}
+
+</code>
+                </pre>
+              </li>
+              <li>Replace the <code class="label">@font-face</code> block that corresponds in font-weight with the one you just copied, by deleting it and pasting from clipboard. Do this for all weights of the same font that you need.</li>
+              <li>Finally, after the last <code class="label">@font-face</code>, you will see this:
+                <br><br>
+<pre><code>
+.serif {font-family: 'Montserrat', Helvetica, Arial, sans-serif !important;}
+.sans-serif {font-family: 'Open Sans', Arial, sans-serif !important;}
+</code></pre>
+<br>
+              <p>Our template uses a <code class="label">.serif</code> and <code class="label">.sans-serif</code> class to define two different fonts.</p>
+              <p>Change the font's name inside the quotes in <code class="label">font-family: ''</code>, by using the same name that is defined in the <code class="label">@font-face</code> block.</p>
+              <div class="box warning">
+                  <p>Do not change the serif/sans-serif class name, as this is used throughout the template.</p>
+                  <p>Do not to change the <code class="label">src: local('Montserrat Regular'), local('Montserrat-Regular'),</code> part, as it will result in the font not working.</p>
+                </div>
+              </li>
+            </ol>
+            <p>That's it! All that's needed now is to replace the template in you Shopify Notifications settings as <a href="#uploading">explained above &uarr;</a></p>
+            <p> Make sure to test the email in the Shopify admin, in order to make sure your changes have been correctly applied.</p>
+            <hr>
+            <h3 id="supported-tags">Supported Liquid Template Tags</h3>
+            <p>
+              Our templates use all the tags and contain all the information that the default Shopify templates offer. In some cases, even more. There are many Liquid tags being used, so it's not practical to list them here. Instead, please have a look at the screenshots on the product's landing page.
+            </p>
+            <p>Related: see the <a href="https://help.shopify.com/themes/liquid" target="_blank" rel="noopener"> Liquid language reference</a>.</p>
+            <hr>
+            <h3 id="file-structure">Structure</h3>
+            <p>
+              Shopify templates can be found in the <span class="label">/shopify</span> folder.
+              There are 17 HTML files in total, each named exactly after the corresponding notification template in Shopify.
+              The following tables list the templates in the same order listed in your Shopify Notifications Settings.
+            </p>
+
+            <h4 id="customer-notifications">Customer notifications</h4>
+
+            <p>These notifications are automatically sent out to the customer.</p>
+
+            <table class="table non-responsive rounded large">
+              <thead>
+                <tr>
+                  <th id="customer-order-notifications" colspan="2">Orders</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>order_confirmation.html</td>
+                  <td>Sent automatically to the customer after they place their order.</td>
+                </tr>
+                <tr>
+                  <td>order_cancelled.html</td>
+                  <td>Sent automatically to the customer if their order is canceled (if you select this option).</td>
+                </tr>
+                <tr>
+                  <td>order_refund.html</td>
+                  <td>Sent automatically to the customer if their order is refunded (if you select this option).</td>
+                </tr>
+                <tr>
+                  <td>draft_order_invoice.html</td>
+                  <td>Sent to the customer when a draft order invoice is created. You can edit this email invoice before you send it.</td>
+                </tr>
+                <tr>
+                  <td>buy_online_for_Shopify_POS.html</td>
+                  <td>Sent to the customer when their order will be completed without the help of store staff. You can email a draft order to the customer using Shopify POS for iPad.</td>
+                </tr>
+                <tr>
+                  <td>abandoned_checkout</td>
+                  <td>Sent to the customer if they leave checkout before they buy the items in their cart. Configure options in checkout settings.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr>
+                  <th id="customer-shipping-notifications" colspan="2">Shipping</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>fulfillment_request.html</td>
+                  <td>Sent automatically to a third-party fulfillment service provider when order items are fulfilled.</td>
+                </tr>
+                <tr>
+                  <td>shipping_confirmation.html</td>
+                  <td>Sent automatically to the customer when their order is fulfilled (if you select this option).</td>
+                </tr>
+                <tr>
+                  <td>shipping_update.html</td>
+                  <td>Sent automatically to the customer if their fulfilled order’s tracking number is updated (if you select this option).</td>
+                </tr>
+                <tr>
+                  <td>shipment_out_for_delivery.html</td>
+                  <td>Sent automatically to the customer after the status of their fulfillment changes to out for delivery.</td>
+                </tr>
+                <tr>
+                  <td>shipment_delivered.html</td>
+                  <td>Sent automatically to the customer after the status of their fulfillment changes to delivered.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr>
+                  <th id="customer-account-notifications" colspan="2">Customer</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>customer_account_invite.html</td>
+                  <td>Sent to the customer with account activation instructions. You can edit this email before you send it.</td>
+                </tr>
+                <tr>
+                  <td>customer_account_welcome.html</td>
+                  <td>Sent automatically to the customer when they complete their account activation.</td>
+                </tr>
+                <tr>
+                  <td>customer_account_password_reset.html</td>
+                  <td>Sent automatically to the customer when they ask to reset their accounts password.</td>
+                </tr>
+                <tr>
+                  <td>contact_customer.html</td>
+                  <td>Sent to the customer when you contact them from the orders or customers page. You can edit this email before you send it.</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4 id="order-notifications">Order notifications</h4>
+
+            <p>These notifications are sent to order notification subscribers (i.e. shop owner) whenever a new order comes in.</p>
+
+            <table class="table non-responsive rounded large">
+              <thead>
+                <tr>
+                  <th>Template</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>new_order.html</td>
+                  <td>Sent to order notification subscribers when a customer places an order.</td>
+                </tr>
+                <tr>
+                  <td>new_order_mobile.html</td>
+                  <td>Sent to mobile notification subscribers when a customer places an order.</td>
+                </tr>
+              </tbody>
+            </table>
+            <hr>
+            Next Up: <a href="stampready.html">StampReady &rarr;</a>
+          </div>
+          <aside class="sidebar column width-3 pull-9">
+            <ul class="list-group width-11">
+              <li>
+                <a href="../intro/introduction.html">Introduction</a>
+              </li>
+              <li>
+                <a href="../intro/file-structure.html">File Structure</a>
+              </li>
+              <li>
+                <a href="../intro/sections-reference.html">Sections Quick Reference</a>
+              </li>
+            </ul>
+            <h3 class="widget-title">Sections</h3>
+            <ul class="list-group width-11">
+              <li>
+                <a href="../sections/preheaders.html">Preheaders</a>
+              </li>
+              <li>
+                <a href="../sections/headers.html">Headers</a>
+              </li>
+              <li>
+                <a href="../sections/hero.html">Hero</a>
+              </li>
+              <li>
+                <a href="../sections/intro.html">Intro</a>
+              </li>
+              <li>
+                <a href="../sections/feature.html">Feature</a>
+              </li>
+              <li>
+                <a href="../sections/blog.html">Blog</a>
+              </li>
+              <li>
+                <a href="../sections/portfolio.html">Portfolio</a>
+              </li>
+              <li>
+                <a href="../sections/call-to-action.html">Call to Action</a>
+              </li>
+              <li>
+                <a href="../sections/coupon.html">Coupon</a>
+              </li>
+              <li>
+                <a href="../sections/interactive.html">Interactive</a>
+              </li>
+              <li>
+                <a href="../sections/team.html">Team</a>
+              </li>
+              <li>
+                <a href="../sections/testimonial.html">Testimonial</a>
+              </li>
+              <li>
+                <a href="../sections/timeline.html">Timeline</a>
+              </li>
+              <li>
+                <a href="../sections/pricing-tables.html">Pricing Table</a>
+              </li>
+              <li>
+                <a href="../sections/stats.html">Stats</a>
+              </li>
+              <li>
+                <a href="../sections/social.html">Social</a>
+              </li>
+              <li>
+                <a href="../sections/footers.html">Footers</a>
+              </li>
+            </ul>
+            <h3 class="widget-title">Templates</h3>
+            <ul class="list-group dashed width-11">
+              <li>
+                <a href="../templates/marketing.html">Marketing</a>
+              </li>
+              <li>
+                <a href="../templates/notifications.html">Notifications</a>
+              </li>
+            </ul>
+            <h3 class="widget-title">Integrations</h3>
+            <ul class="list-group dashed width-11">
+              <li>
+                <a href="../integrations/mailchimp.html">MailChimp</a>
+              </li>
+              <li>
+                <a href="../integrations/campaign-monitor.html">Campaign Monitor</a>
+              </li>
+              <li>
+                <a href="../integrations/stampready.html">StampReady</a>
+              </li>
+              <li>
+                <a href="../integrations/mailster.html">Mailster</a>
+              </li>
+              <li class="current">
+                <span class="icon-right-open-mini"></span>
+                <a href="../integrations/shopify.html">Shopify</a>
+              </li>
+              <li>
+                <a href="../integrations/others.html">Other ESPs</a>
+              </li>
+            </ul>
+            <h3 class="widget-title">Other Docs</h3>
+            <ul class="list-group dashed width-11">
+              <li>
+                <a href="https://thememountain.github.io/pine/1.0.1">Framework Documentation</a>
+              </li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+      <!-- Content End -->
+
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="row large center">
+          <div class="column width-12">
+            <img src="../images/theme-mountain-logo.svg" alt="Theme Mountain" />
+            <p class="footer-text">Handcrafted with <span class="icon-heart"></span> in the mountains.</p>
+            <nav id="footer-navigation" class="navigation nav-center">
+              <ul>
+                <li class="current">
+                  <a href="../index.html">Template Docs</a>
+                </li>
+                <li>
+                  <a href="https://thememountain.github.io/pine/1.0.1" target="_blank">Framework Docs</a>
+                </li>
+                <li>
+                  <a href="http://thememountain.ticksy.com/" target="_blank">Support Forum</a>
+                </li>
+              </ul>
+            </nav>
+            <p class="copyright">&copy; 2018 THEMEMOUNTAIN. All rights reserved.</p>
+            <a href="#" class="scroll-to-top icon-up bkg-hover-white"></a>
+          </div>
+        </div>
+      </footer>
+      <!-- End Footer -->
+    </div>
+  </div>
+
+  <!-- Js -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="../js/timber.master.min.js"></script>
+</body>
+</html>
