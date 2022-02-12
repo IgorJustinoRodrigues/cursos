@@ -543,11 +543,11 @@ class AlunoController extends Controller
 
         $id = $_SESSION['aluno_cursos_start']->id;
 
-        //Validação das informações recebidas
-        $validated = $request->validate([
-            'nome' => 'required',
-            'email' => "required|email|max:200|unique:alunos,email,{$id}",
-        ]);
+            //Validação das informações recebidas
+            $validated = $request->validate([
+                'nome' => 'required',
+                'email' => "required|email|max:200|unique:alunos,email,{$id}",
+            ]);
 
         $item = Aluno::selectRaw("*, date_format(created_at, '%d/%m/%Y') as cadastro, date_format(updated_at, '%d/%m/%Y às %H:%i') as ultimo_acesso")
             ->find($id);

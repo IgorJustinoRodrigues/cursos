@@ -3,12 +3,122 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aluno;
+use App\Models\Aula;
+use App\Models\AulaAluno;
+use App\Models\Certificado;
+use App\Models\Curso;
+use App\Models\Matricula;
+use App\Models\Parceiro;
+use App\Services\Services;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Mpdf\Mpdf;
 
 class CertificadoController extends Controller
 {
+    public function solicitar(Request $request, $url = '')
+    {
+        //Validação de acesso
+        if (!(new Services())->validarAluno())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarAluno();
+
+        //Validação das informações recebidas
+        $validated = $request->validate([
+            'id_curso' => 'required'
+        ], [
+            'id_curso.required' => "O curso não foi informado corretamente!"
+        ]);
+
+        $curso = Curso::where("status", '=', 1)->find($request->id_curso);
+        if ($curso) {
+            //Inícia a Sessão
+            @session_start();
+
+            $certificado = Certificado::where('curso_id', '=', $curso->id)
+            ->where('aluno_id', '=', $_SESSION['aluno_cursos_start']->id)
+            ->where('status', '<>', '0')
+            ->first();
+
+            if($certificado){
+                //Redirecionamento para tela anterior com mensagem de erro
+                return redirect()->back()->with('padrao', 'Você já possui um certificado para o curso informado!');
+            }
+
+            $matricula = Matricula::where('curso_id', '=', $curso->id)
+            ->where('aluno_id', '=', $_SESSION['aluno_cursos_start']->id)
+            ->where('status', '<>', 0)
+            ->orderBy('updated_at', 'desc')
+            ->orderBy('status', 'desc')
+            ->first();
+
+            if ($matricula) {
+
+                $aulas = Aula::where('aulas.curso_id', '=', $curso->id)
+                    ->where('aulas.status', '=', '1')
+                    ->orderByRaw('-ordem desc')
+                    ->orderby('ordem', 'desc')
+                    ->get();
+
+                $aulas_feitas = AulaAluno::where('aluno_id', '=', $_SESSION['aluno_cursos_start']->id)
+                    ->where('curso_id', '=', $curso->id)
+                    ->whereNotNull('conclusao')
+                    ->get();
+
+                $minutos_feitos = 0;
+                $minutos_total = 0;
+                $ids_feitos = data_get($aulas_feitas, '*.aula_id');
+
+                for ($i = 0; $i < count($aulas); $i++) {
+                    if (in_array($aulas[$i]->id, $ids_feitos)) {
+                        $minutos_feitos += $aulas[$i]->duracao;
+                    }
+                    
+                    $minutos_total += $aulas[$i]->duracao;
+                }
+
+                if ($minutos_feitos > 0) {
+                    $porcentagem = ($minutos_feitos * 100) / $minutos_total;
+                } else {
+                    $porcentagem = 0;
+                }
+
+                if($porcentagem >= $curso->porcentagem_solicitacao_certificado){
+                    $total = 0;
+
+                    foreach($aulas_feitas as $linha){
+                        $total += $linha->nota;
+                    }
+
+                    $media = $total / (count($aulas_feitas));
+
+                    $parceiro = Parceiro::join('unidades', 'unidades.parceiro_id', '=', 'parceiros.id')
+                    ->where('unidades.id', '=', $matricula->unidade_id)
+                    ->first();
+
+                    //Exibe a view
+                    return view('painelAluno.certificado.solicitacao', [
+                        'curso' => $curso,
+                        'parceiro' => $parceiro,
+                        'minutos_feitos' => $minutos_feitos,
+                        'minutos_total' => $minutos_total,
+                        'porcentagem' => $porcentagem,
+                        'media' => $media
+                    ]);
+                } else {
+                    //Redirecionamento para tela anterior com mensagem de erro
+                    return redirect()->back()->with('atencao', 'Você ainda não atingiu a porcentagem necessária para solicitar o certificado!');
+                }
+            } else {
+                //Redirecionamento para tela anterior com mensagem de erro
+                return redirect()->back()->with('atencao', 'Você não está matrículado(a) neste curso!');
+            }
+        } else {
+            //Redirecionamento para tela anterior com mensagem de erro
+            return redirect()->back()->with('atencao', 'O curso informado não está disponível!');
+        }
+    }
+
     public function pdf()
     {
         $mpdf = new \Mpdf\Mpdf([

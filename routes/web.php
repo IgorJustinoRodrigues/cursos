@@ -48,6 +48,11 @@ Route::get('/ajuda', [SiteController::class, 'ajuda'])->name('site.ajuda');
 Route::get('/ajuda/{ajuda}/{url?}', [SiteController::class, 'verAjuda'])->name('site.verAjuda');
 Route::get('/certificado', [SiteController::class, 'certificado'])->name('site.certificado');
 
+/*
+ROTAS DE CERTIFICADO
+*/
+Route::post('/solicitar-certificado/{url?}', [CertificadoController::class, 'solicitar'])->name('solicitarCertificado');
+Route::post('/novo-certificado/{url?}', [CertificadoController::class, 'novo'])->name('novoCertificado');
 
 //Rota Painel Admin Raiz
 Route::get('/painel-admin', [AdminController::class, 'painel'])->name('painelAdmin');

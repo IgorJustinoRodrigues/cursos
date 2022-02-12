@@ -136,7 +136,7 @@ class SiteController extends Controller
                     return redirect()->redirect('acessoAluno')->with('atencao', 'Código já ativado, utilize o seu usuário e senha para acessar o curso!')->withInput();
                 }
 
-                if (strtotime($matricula->created_at) > date('d/m/Y', strtotime('-90 days'))) {
+                if (strtotime($matricula->created_at) < strtotime(date('Y-m-d', strtotime('-90 days')))) {
                     return redirect()->back()->with('atencao', 'O período para ativação do curso já se encerrou!')->withInput(['codigo']);
                 }
 

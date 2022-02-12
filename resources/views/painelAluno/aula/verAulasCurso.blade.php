@@ -41,10 +41,10 @@
                     </div>
                     <hr>
                 </div>
-            @else   
-            <div class="card-header">
-                <h4 class="card-title">Parabéns você concluiu o curso!</h4>
-            </div>
+            @else
+                <div class="card-header">
+                    <h4 class="card-title">Parabéns você concluiu o curso!</h4>
+                </div>
             @endif
             <div class="card-body">
                 <div class="d-flex align-items-center">
@@ -55,9 +55,18 @@
                     <small class="text-muted ml-2">{{ number_format($porcentagem, 2) }}%</small>
                 </div>
                 @if (isset($aulas[$atual]))
-                    <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $aulas[$atual]->id, Str::slug($aulas[$atual]->nome, '-') . '.html']) }}"
+                    <a href="{{ route('aula', [$curso->id,Str::slug($curso->nome, '-'),$aulas[$atual]->id,Str::slug($aulas[$atual]->nome, '-') . '.html']) }}"
                         class="btn btn-success mt-2">Continuar curso <i
                             class="material-icons btn__icon--right">play_arrow</i></a>
+                @endif
+
+                @if ($porcentagem >= $curso->porcentagem_solicitacao_certificado)
+                <form action="{{ route('solicitarCertificado', Str::slug($curso->nome))}}" method="POST">
+                    @csrf
+                    <input type="hidden" name="id_curso" value="{{$curso->id}}">
+                    <button type="submit" href="" class="btn btn-primary mt-2">Solicitar Certificado <i
+                        class="material-icons btn__icon--right">beenhere</i></button>
+                </form>
                 @endif
             </div>
         </div>
@@ -75,7 +84,7 @@
                             </div>
                             <div class="media-body">
                                 @if (in_array($linha->id, $ids_feitos))
-                                    <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
+                                    <a href="{{ route('aula', [$curso->id,Str::slug($curso->nome, '-'),$linha->id,Str::slug($linha->nome, '-') . '.html']) }}"
                                         class="text-success">
                                         {!! app(App\Http\Controllers\AulaController::class)->tipo($linha->tipo, $linha->avaliacao, true) !!}
                                         {{ $linha->nome }}
@@ -84,7 +93,7 @@
                                         {{ app(App\Http\Controllers\AulaController::class)->msgNota($linha->registro->nota) }}
                                     </small>
                                 @elseif($atual == $i - 1 or $curso->aula_travada == 2)
-                                    <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
+                                    <a href="{{ route('aula', [$curso->id,Str::slug($curso->nome, '-'),$linha->id,Str::slug($linha->nome, '-') . '.html']) }}"
                                         class="text-primary">
                                         {!! app(App\Http\Controllers\AulaController::class)->tipo($linha->tipo, $linha->avaliacao, true) !!}
                                         {{ $linha->nome }}
@@ -111,7 +120,7 @@
                                     <small class="text-muted-light mr-3">
                                         Nota obtida - {{ $linha->registro->nota }}
                                     </small>
-                                    <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
+                                    <a href="{{ route('aula', [$curso->id,Str::slug($curso->nome, '-'),$linha->id,Str::slug($linha->nome, '-') . '.html']) }}"
                                         class="btn btn-success btn-sm">
                                         Rever aula
                                         <i class="material-icons btn__icon--right">play_arrow</i>
@@ -122,7 +131,7 @@
                                             {{ app(App\Http\Controllers\AulaController::class)->msgNota($linha->registro->nota) }}
                                         </small>
                                     @endif
-                                    <a href="{{ route('aula', [$curso->id, Str::slug($curso->nome, '-'), $linha->id, Str::slug($linha->nome, '-') . '.html']) }}"
+                                    <a href="{{ route('aula', [$curso->id,Str::slug($curso->nome, '-'),$linha->id,Str::slug($linha->nome, '-') . '.html']) }}"
                                         class="btn btn-primary btn-sm">
                                         Acessar
                                         <i class="material-icons btn__icon--right">play_arrow</i>
