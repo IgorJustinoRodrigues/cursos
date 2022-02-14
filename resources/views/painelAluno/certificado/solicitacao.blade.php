@@ -79,11 +79,10 @@
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <form action="{{ route('ativar') }}" method="post">
+                                        <form action="{{ route('novoCertificado')}}" method="POST">
                                             @csrf
-                                            <button type="submit" id="btn-submit" class="btn btn-success btn-block btn-lg">
-                                                Gerar Certificado
-                                            </button>
+                                            <input type="hidden" name="id_curso" value="{{$curso->id}}">
+                                            <button type="submit" href="" class="btn btn-block btn-primary mt-2">Gerar Certificado</button>
                                         </form>
                                     </div>
                                 </div>

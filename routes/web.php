@@ -52,7 +52,7 @@ Route::get('/certificado', [SiteController::class, 'certificado'])->name('site.c
 ROTAS DE CERTIFICADO
 */
 Route::post('/solicitar-certificado/{url?}', [CertificadoController::class, 'solicitar'])->name('solicitarCertificado');
-Route::post('/novo-certificado/{url?}', [CertificadoController::class, 'novo'])->name('novoCertificado');
+Route::post('/novo-certificado', [CertificadoController::class, 'novo'])->name('novoCertificado');
 
 //Rota Painel Admin Raiz
 Route::get('/painel-admin', [AdminController::class, 'painel'])->name('painelAdmin');

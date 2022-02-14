@@ -68,9 +68,9 @@ class AjudaController extends Controller
 
         $categorias = CategoriaAjuda::where('status', '=', 1)->get();
 
-        if (count($categorias) <= 0) {
+        if (count($categorias) < 1) {
             //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
-            return redirect()->route('ajudaCadastro')->with('atencao', 'Para cadastrar uma nova tela de ajuda antes cadastre uma categoria')->withInput();
+            return redirect()->route('categoriaAjudaCadastro')->with('atencao', 'Para cadastrar uma nova tela de ajuda antes cadastre uma categoria');
         }
 
         //Exibe a tela de cadastro de professor

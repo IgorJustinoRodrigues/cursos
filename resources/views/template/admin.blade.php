@@ -68,8 +68,8 @@
                         </button>
 
                         <!-- Brand -->
-                        <a href="student-dashboard.html" class="navbar-brand">
-                            <img src="{{ URL::asset('imagem/logo.svg') }}" style="width: 170px;"
+                        <a href="{{ route('painelAdmin') }}" class="navbar-brand">
+                            <img src="{{ URL::asset('imagem/Logo.svg') }}" style="width: 170px;"
                                 class="mr-2" alt="LearnPlus">
                         </a>
                         <div class="flex"></div>
@@ -128,7 +128,7 @@
                                                     </span>
                                                     <span class="flex d-flex flex-column">
                                                         <strong>Michelle</strong>
-                                                        <span class="text-black-70">🔥 Superb job..</span>
+                                                        <span class="text-black-70">ðŸ”¥ Superb job..</span>
                                                     </span>
                                                 </span>
                                             </a>
@@ -225,7 +225,7 @@
                                         <i class="material-icons">lock</i> Sair
                                     </a>
                                     <p class="dropdown-item" style="font-size: 10px">
-                                        Último acesso
+                                        Ãšltimo acesso
                                         em:<br>{{ $_SESSION['admin_cursos_start']['ultimo_acesso_admin'] }}
                                     </p>
                                 </div>
@@ -360,7 +360,7 @@
                                             href="#menuMatricula">
                                             <i
                                                 class="sidebar-menu-icon sidebar-menu-icon--left material-icons">perm_contact_calendar</i>
-                                            Matrícula
+                                            MatrÃ­cula
                                             <span class="ml-auto sidebar-menu-toggle-icon"></span>
                                         </a>
                                         <ul class="sidebar-submenu sm-indent collapse" id="menuMatricula">
@@ -552,7 +552,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="confirmacaoLabel">Confirmação</h5>
+                    <h5 class="modal-title" id="confirmacaoLabel">ConfirmaÃ§Ã£o</h5>
                 </div>
                 <div class="modal-body" id="div-confirmacao">
                 </div>
