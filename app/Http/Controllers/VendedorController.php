@@ -725,7 +725,7 @@ class VendedorController extends Controller
     }
 
 
-    /*
+
     public function listarCursosAjax(Request $request)
     {
         //Validação de acesso
@@ -733,13 +733,13 @@ class VendedorController extends Controller
             //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionarVendedor();
 
-        $id = $request->id;
-
-        $nivel = Curso::where('tipo', '=', $request->tipo)
-            ->where('id', '=', $id)
+            $tipo = @$request->tipo;
+        
+        $nivel = Curso::where('tipo', '=', $tipo)
             ->get();
 
-        if ($nivel > 0) {
+            
+        if ($nivel != null) {
             $retorno = [
                 'status' => 1,
                 'retorno' => $nivel
@@ -754,5 +754,4 @@ class VendedorController extends Controller
         //Resposta JSON
         return response()->json($retorno);
     }
-    */
 }

@@ -21,11 +21,49 @@
 
 
         $("#nivel").change(function() {
+
             var nivel = $(this).val();
 
+
             $("#curso").val(null).trigger("change");
-            $(".nivel").prop("disabled", true);
-            $(".nivel" + nivel).prop("disabled", false);
+            $.ajax({
+                type: 'post',
+                url: "{{ route('listarCursosAjax') }}",
+                data: {
+                    nivel: nivel,
+                    _token: $("input[name='_token']").val()
+                },
+                dataType: 'json',
+                beforeSend: function() {
+                    $('#curso').append('<option>Buscando informações...</option>');
+                },
+                success: function(data) {
+                    $('#curso').text('');
+                    $('#curso').append('<option value="">-</option>');
+
+                    if (data.status == 1) {
+                        for (i = 0; i <= data.retorno.length; i++) {
+                            if (selected == data.retorno[i].id) {
+                                $('#curso').append('<option value="' + data.retorno[i].id +
+                                    '" selected>' + data.retorno[i].nome + '</option>');
+                            } else {
+                                $('#curso').append('<option value="' + data.retorno[i].id + '">' + data
+                                    .retorno[i].nome + '</option>');
+                            }
+                        }
+                    } else {
+                        $('#curso').html(data.msg);
+                    }
+
+                },
+                error: function() {
+                    $('#curso').text('');
+                    $('#curso').append(
+                        '<option>Nosso sistema está passando por instabilidades, aguarde alguns instantes e tente novamente!</option>'
+                    );
+                }
+
+            });
 
             $("#valor").val($(this).find(':selected').attr('data-valor'));
         });
@@ -42,54 +80,6 @@
             }
         }
         tipoPagamento();
-
-        /*
-                function listarCursosAjax() {
-
-                      var nivel = $(this).val(); 
-
-                        $.ajax({
-                            type: 'post',
-                            url: "{{ route('listarCursosAjax') }}",
-                            data: {
-                                nivel: nivel,
-                                _token: $("input[name='_token']").val()
-                            },
-                            dataType: 'json',
-                            beforeSend: function() {
-                                $('#' + id).append('<option>Buscando informações...</option>');
-                            },
-                            success: function(data) {
-                                $('#' + id).text('');
-                                $('#' + id).append('<option value="">-</option>');
-
-                                if (dados.status == 1) {
-                                    for (i = 0; i <= dados.retorno.length; i++) {
-                                        if (selected == dados.retorno[i].id) {
-                                            $('#' + id).append('<option value="' + dados.retorno[i].id + '" selected>' +
-                                                dados.retorno[i].nome + '</option>');
-                                        } else {
-                                            $('#' + id).append('<option value="' + dados.retorno[i].id + '">' + dados
-                                                .retorno[i].nome + '</option>');
-                                        }
-                                    }
-                                } else {
-                                    $('#' + id).html(dados.msg);
-                                }
-
-                            },
-                            error: function() {
-                                $('#' + id).text('');
-                                $('#' + id).append(
-                                    '<option>Nosso sistema está passando por instabilidades, aguarde alguns instantes e tente novamente!</option>'
-                                );
-                            }
-
-                        });
-                    }
-
-                    listarCursosAjax();
-                    */
     </script>
 
 @endsection
@@ -123,14 +113,9 @@
 
                             <div class="col-12 col-md-12 mb-3">
                                 <label class="form-label" for="curso">Cursos</label>
+                                @csrf
                                 <select class="form-control custom-select select2" id="curso" name="curso">
-                                    <option value=""></option>
-                                    @foreach ($cursos as $linha)
-                                        <option @if (old('curso') == $linha->id) selected @endif
-                                            value="{{ $linha->id }}" class="nivel nivel{{ $linha->tipo }}">
-                                            {{ $linha->nome }}</option>
-                                    @endforeach
-
+                                    <!--Ajax -->
                                 </select>
                             </div>
 
