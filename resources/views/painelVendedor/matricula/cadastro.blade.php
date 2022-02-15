@@ -1,5 +1,5 @@
 @extends('template.vendedor')
-@section('title', 'Nova Matrículas')
+@section('title', 'Nova Matrícula')
 @section('menu-matricula', 'true')
 
 
