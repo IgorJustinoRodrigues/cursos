@@ -24,8 +24,8 @@
             var nivel = $(this).val();
 
             $("#curso").val(null).trigger("change");
-            $(".nivel").prop("d-none", true);
-            $(".nivel" + nivel).prop("d-none", false);
+            $(".nivel").prop("disabled", true);
+            $(".nivel" + nivel).prop("disabled", false);
 
             $("#valor").val($(this).find(':selected').attr('data-valor'));
         });
