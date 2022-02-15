@@ -232,7 +232,7 @@ Route::post('/login-unidade', [UnidadeController::class, 'login'])->name('loginU
 Route::get('/sair-unidade', [UnidadeController::class, 'sair'])->name('sairUnidade');
 
 /*
-ROTAS DE MATRICULA
+ROTAS DE MATRICULA ADMIN
 */
 Route::get('/matricula', [MatriculaController::class, 'index'])->name('matriculaIndex');
 Route::get('/matricula-cadastro', [MatriculaController::class, 'cadastro'])->name('matriculaCadastro');
@@ -257,6 +257,16 @@ Route::get('/vendedor-delete/{item}', [VendedorController::class, 'deletar'])->n
 Route::post('/vendedor-valida-usuario', [VendedorController::class, 'validaUsuarioVendedor'])->name('validaUsuarioVendedor');
 
 Route::put('/vendedor-salvar-minhas-informacoes', [VendedorController::class, 'salvarMinhasInformacoesVendedor'])->name('salvarMinhasInformacoesVendedor');
+
+/* 
+ROTAS DA ABA DE MATRÍCULA VENDEDOR
+*/
+/*ROTA DE CADASTRO E LISTAR DE MATRÍCULA EM VENDEDOR*/
+Route::get('/matricula-vendedor', [VendedorController::class, 'matriculaVendedorIndex'])->name('matriculaVendedorIndex');
+Route::get('/matricula-cadastro-vendedor', [VendedorController::class, 'cadastroMatriculaVendedor'])->name('cadastroMatriculaVendedor');
+/*ROTA DE INSERIR EM MATRÍCULACONTROLLER DE VENDEDOR*/
+Route::post('/matricula-inserir-vendedor', [MatriculaController::class, 'inserirMatriculaVendedor'])->name('inserirMatriculaVendedor');
+
 
 /* 
 ROTAS DA ABA DE AJUDA DE VENDEDOR

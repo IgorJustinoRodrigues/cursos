@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ajuda;
+use App\Models\Aluno;
 use App\Models\Canvas;
 use App\Models\CategoriaAjuda;
+use App\Models\Curso;
+use App\Models\Matricula;
 use App\Models\Unidade;
 use App\Models\Vendedor;
 use App\Services\Services;
@@ -555,6 +558,53 @@ class VendedorController extends Controller
             'telasAtual' => $telasAtual,
             'categoriasAjuda' => $categoriasAjuda
         ]);
+    }
+
+    /*
+    Função Cadastro de Matricula
+    - Responsável por mostrar a tela de cadastro de professor
+    */
+    public function cadastroMatriculaVendedor()
+    {
+        //Validação de acesso
+        if (!(new Services())->validarAdmin())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionar();
+
+        $alunos = Aluno::where('status', '=', 1)->get();
+        $cursos = Curso::where('status', '=', 1)->get();
+
+        //Exibe a tela de cadastro de professor
+        return view('painelVendedor.matricula.cadastro', [
+            'alunos' => $alunos,
+            'cursos' => $cursos,
+        ]);
+    }
+
+    /*
+    Função Index de Matricula
+    - Responsável por mostrar a tela de listagem de matricula 
+    - $request: Recebe valores de busca e paginação
+    */
+    public function matriculaVendedorIndex(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarAdmin())
+            //Redirecionamento para a rota login de Administrador, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionar();
+
+        $consulta = Matricula::orderby('id', 'desc');
+
+        //Verifica se existe uma busca
+        if (@$request->busca != '') {
+            //Paginação dos registros com busca busca
+            $consulta->where('ativacao', 'like', '%' . $request->busca . '%');
+        }
+
+        $items = $consulta->paginate();
+
+        //Exibe a tela de listagem de categoria de Curso passando parametros para view
+        return view('painelVendedor.matricula.index', ['paginacao' => $items, 'busca' => @$request->busca]);
     }
 
     /*

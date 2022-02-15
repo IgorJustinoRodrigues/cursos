@@ -360,7 +360,7 @@
                                             href="#menuMatricula">
                                             <i
                                                 class="sidebar-menu-icon sidebar-menu-icon--left material-icons">perm_contact_calendar</i>
-                                            MatrÃ­cula
+                                            Matrícula
                                             <span class="ml-auto sidebar-menu-toggle-icon"></span>
                                         </a>
                                         <ul class="sidebar-submenu sm-indent collapse" id="menuMatricula">
