@@ -41,10 +41,55 @@
                 $(".parcelado").removeClass("d-none");
             }
         }
-
         tipoPagamento();
 
-        
+        /*
+                function listarCursosAjax() {
+
+                      var nivel = $(this).val(); 
+
+                        $.ajax({
+                            type: 'post',
+                            url: "{{ route('listarCursosAjax') }}",
+                            data: {
+                                nivel: nivel,
+                                _token: $("input[name='_token']").val()
+                            },
+                            dataType: 'json',
+                            beforeSend: function() {
+                                $('#' + id).append('<option>Buscando informações...</option>');
+                            },
+                            success: function(data) {
+                                $('#' + id).text('');
+                                $('#' + id).append('<option value="">-</option>');
+
+                                if (dados.status == 1) {
+                                    for (i = 0; i <= dados.retorno.length; i++) {
+                                        if (selected == dados.retorno[i].id) {
+                                            $('#' + id).append('<option value="' + dados.retorno[i].id + '" selected>' +
+                                                dados.retorno[i].nome + '</option>');
+                                        } else {
+                                            $('#' + id).append('<option value="' + dados.retorno[i].id + '">' + dados
+                                                .retorno[i].nome + '</option>');
+                                        }
+                                    }
+                                } else {
+                                    $('#' + id).html(dados.msg);
+                                }
+
+                            },
+                            error: function() {
+                                $('#' + id).text('');
+                                $('#' + id).append(
+                                    '<option>Nosso sistema está passando por instabilidades, aguarde alguns instantes e tente novamente!</option>'
+                                );
+                            }
+
+                        });
+                    }
+
+                    listarCursosAjax();
+                    */
     </script>
 
 @endsection
@@ -65,28 +110,37 @@
                             <div class="col-12 col-md-12 mb-3">
                                 <label class="form-label" for="nivel">Nível do Curso</label>
                                 <select id="nivel" class="form-control custom-select" name="nivel">
-                                    <option @if (old('nivel') == 1) selected @endif value="1" data-valor="45,00">Iniciante</option>
-                                    <option @if (old('nivel') == 2) selected @endif value="2" data-valor="65,00">Intermediario</option>
-                                    <option @if (old('nivel') == 3) selected @endif value="3" data-valor="95,00">Avançado</option>
-                                    <option @if (old('nivel') == 4) selected @endif value="4" data-valor="0,00">Treinamento</option>
+                                    <option @if (old('nivel') == 1) selected @endif value="1" data-valor="45,00">
+                                        Iniciante</option>
+                                    <option @if (old('nivel') == 2) selected @endif value="2" data-valor="65,00">
+                                        Intermediario</option>
+                                    <option @if (old('nivel') == 3) selected @endif value="3" data-valor="95,00">
+                                        Avançado</option>
+                                    <option @if (old('nivel') == 4) selected @endif value="4" data-valor="0,00">
+                                        Treinamento</option>
                                 </select>
                             </div>
+
                             <div class="col-12 col-md-12 mb-3">
                                 <label class="form-label" for="curso">Cursos</label>
-                                <select id="curso" class="form-control custom-select select2" name="curso">
+                                <select class="form-control custom-select select2" id="curso" name="curso">
                                     <option value=""></option>
                                     @foreach ($cursos as $linha)
-                                        <option @if (old('curso') == $linha->id) selected @endif value="{{ $linha->id }}"
-                                            class="nivel nivel{{ $linha->tipo }}">{{ $linha->nome }}</option>
+                                        <option @if (old('curso') == $linha->id) selected @endif
+                                            value="{{ $linha->id }}" class="nivel nivel{{ $linha->tipo }}">
+                                            {{ $linha->nome }}</option>
                                     @endforeach
+
                                 </select>
                             </div>
+
                             <div class="col-12 col-md-12 mb-3">
                                 <label class="form-label" for="aluno">Aluno</label>
                                 <select id="aluno" class="form-control custom-select select2" name="aluno">
                                     <option value=""></option>
                                     @foreach ($alunos as $linha)
-                                        <option @if (old('aluno') == $linha->id) selected @endif value="{{ $linha->id }}">{{ $linha->nome }}
+                                        <option @if (old('aluno') == $linha->id) selected @endif
+                                            value="{{ $linha->id }}">{{ $linha->nome }}
                                         </option>
                                     @endforeach
                                 </select>

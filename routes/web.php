@@ -264,6 +264,8 @@ ROTAS DA ABA DE MATRÍCULA VENDEDOR
 /*ROTA DE CADASTRO E LISTAR DE MATRÍCULA EM VENDEDOR*/
 Route::get('/matricula-vendedor', [VendedorController::class, 'matriculaVendedorIndex'])->name('matriculaVendedorIndex');
 Route::get('/matricula-cadastro-vendedor', [VendedorController::class, 'cadastroMatriculaVendedor'])->name('cadastroMatriculaVendedor');
+
+Route::post('/listar-cursos-ajax/', [VendedorController::class, 'listarCursosAjax'])->name('listarCursosAjax');
 /*ROTA DE INSERIR EM MATRÍCULACONTROLLER DE VENDEDOR*/
 Route::post('/matricula-inserir-vendedor', [MatriculaController::class, 'inserirMatriculaVendedor'])->name('inserirMatriculaVendedor');
 
