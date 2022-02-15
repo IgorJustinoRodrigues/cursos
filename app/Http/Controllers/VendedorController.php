@@ -566,10 +566,10 @@ class VendedorController extends Controller
     */
     public function cadastroMatriculaVendedor()
     {
-         //Validação de acesso
-         if (!(new Services())->validarVendedor())
-         //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
-         return (new Services())->redirecionarVendedor();
+        //Validação de acesso
+        if (!(new Services())->validarVendedor())
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarVendedor();
 
         $alunos = Aluno::where('status', '=', 1)->get();
         $cursos = Curso::where('status', '=', 1)->get();
@@ -588,10 +588,10 @@ class VendedorController extends Controller
     */
     public function matriculaVendedorIndex(Request $request)
     {
-         //Validação de acesso
-         if (!(new Services())->validarVendedor())
-         //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
-         return (new Services())->redirecionarVendedor();
+        //Validação de acesso
+        if (!(new Services())->validarVendedor())
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarVendedor();
 
         $consulta = Matricula::orderby('id', 'desc');
 
@@ -716,6 +716,33 @@ class VendedorController extends Controller
         } else {
             $retorno = [
                 'msg' => 'O usuário deve ter no mínimo 3 caracteres!',
+                'status' => 0
+            ];
+        }
+
+        //Resposta JSON
+        return response()->json($retorno);
+    }
+
+
+
+    public function listarCursosAjax(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarAdmin())
+            //Redirecionamento para a rota acessoAula, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionar();
+
+        $nivel = Curso::where('tipo', '=', $request->tipo)->get();
+
+        if ($nivel > 0) {
+            $retorno = [
+                'status' => 1,
+                'nivel' => $nivel
+            ];
+        } else {
+            $retorno = [
+                'msg' => 'Não há cursos para este nível!',
                 'status' => 0
             ];
         }
