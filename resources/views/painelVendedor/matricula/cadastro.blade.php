@@ -43,6 +43,8 @@
         }
 
         tipoPagamento();
+
+        
     </script>
 
 @endsection

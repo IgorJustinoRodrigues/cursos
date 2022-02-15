@@ -566,10 +566,10 @@ class VendedorController extends Controller
     */
     public function cadastroMatriculaVendedor()
     {
-        //Validação de acesso
-        if (!(new Services())->validarAdmin())
-            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
-            return (new Services())->redirecionar();
+         //Validação de acesso
+         if (!(new Services())->validarVendedor())
+         //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
+         return (new Services())->redirecionarVendedor();
 
         $alunos = Aluno::where('status', '=', 1)->get();
         $cursos = Curso::where('status', '=', 1)->get();
@@ -588,10 +588,10 @@ class VendedorController extends Controller
     */
     public function matriculaVendedorIndex(Request $request)
     {
-        //Validação de acesso
-        if (!(new Services())->validarAdmin())
-            //Redirecionamento para a rota login de Administrador, com mensagem de erro, sem uma sessão ativa
-            return (new Services())->redirecionar();
+         //Validação de acesso
+         if (!(new Services())->validarVendedor())
+         //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
+         return (new Services())->redirecionarVendedor();
 
         $consulta = Matricula::orderby('id', 'desc');
 
