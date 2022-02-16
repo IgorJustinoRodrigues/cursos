@@ -172,12 +172,38 @@ class MatriculaController extends Controller
 
         //Verificação do insert
         if ($resposta) {
-            //Redirecionamento para a rota matriculaVendedorIndex, com mensagem de sucesso
-            return redirect()->route('matriculaVendedorIndex')->with('sucesso', 'matrícula gerada!');
+            //Redirecionamento para a rota verMatriculaVendedor, com mensagem de sucesso
+            return redirect()->route('verMatriculaVendedor', [$item->id])->with('sucesso', 'matrícula gerada!');
         } else {
 
             //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
             return redirect()->back()->with('atencao', 'Não foi possível salvar as informações, tente novamente!')->withInput();
+        }
+    }
+
+    /*
+    Função Ver Matricula  de Vendedor
+    - Responsável por mostrar a tela de ver Matrícula Vendedor
+    - $item: Recebe o Id de matrícula que deverá ser editado
+    */
+    public function verMatriculaVendedor($id)
+    {
+        $item = Matricula::where('status', '<>', '0')
+            ->find($id);
+
+        //Verifica se há alguma matrícula selecionada
+        if (@$item) {
+
+
+            if ($item->status == 0) {
+                return redirect()->route('cadastroMatriculaVendedor')->with('atencao', 'Matrícula excluida!');
+            }
+
+            //Exibe a tela de edição de vendedoristradores passando parametros para view
+            return view('painelVendedor.matricula.verMatriculaVendedor', ['item' => $item]);
+        } else {
+            //Redirecionamento para a rota vendedorIndex, com mensagem de erro
+            return redirect()->route('cadastroMatriculaVendedor')->with('erro', 'Matrícula não encontrada!');
         }
     }
 

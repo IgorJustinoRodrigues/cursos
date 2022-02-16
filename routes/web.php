@@ -262,7 +262,7 @@ Route::put('/vendedor-salvar-minhas-informacoes', [VendedorController::class, 's
 ROTAS DA ABA DE MATRÍCULA VENDEDOR
 */
 /*ROTA DE CADASTRO E LISTAR DE MATRÍCULA EM VENDEDOR*/
-Route::get('/ver-matricula-vendedor', [MatriculaController::class, 'verMatriculaVendedor'])->name('verMatriculaVendedor');
+Route::get('/ver-matricula-vendedor/{item}', [MatriculaController::class, 'verMatriculaVendedor'])->name('verMatriculaVendedor');
 
 Route::get('/matricula-vendedor', [VendedorController::class, 'matriculaVendedorIndex'])->name('matriculaVendedorIndex');
 Route::get('/matricula-cadastro-vendedor', [VendedorController::class, 'cadastroMatriculaVendedor'])->name('cadastroMatriculaVendedor');
