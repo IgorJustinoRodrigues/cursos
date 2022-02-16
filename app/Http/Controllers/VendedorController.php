@@ -734,16 +734,20 @@ class VendedorController extends Controller
             return (new Services())->redirecionarVendedor();
 
             $tipo = @$request->tipo;
-        
+           
         $nivel = Curso::where('tipo', '=', $tipo)
             ->get();
 
-            
+       
+
         if ($nivel != null) {
             $retorno = [
                 'status' => 1,
                 'retorno' => $nivel
             ];
+
+          
+
         } else {
             $retorno = [
                 'msg' => 'Não há cursos para este nível!',

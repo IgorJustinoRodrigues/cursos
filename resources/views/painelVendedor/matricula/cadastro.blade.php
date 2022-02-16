@@ -24,13 +24,13 @@
 
             var nivel = $(this).val();
 
-
             $("#curso").val(null).trigger("change");
+
             $.ajax({
                 type: 'post',
                 url: "{{ route('listarCursosAjax') }}",
                 data: {
-                    nivel: nivel,
+                    tipo: nivel,
                     _token: $("input[name='_token']").val()
                 },
                 dataType: 'json',
@@ -43,7 +43,7 @@
 
                     if (data.status == 1) {
                         for (i = 0; i <= data.retorno.length; i++) {
-                            if (selected == data.retorno[i].id) {
+                            if ($('selected') == data.retorno[i].id) {
                                 $('#curso').append('<option value="' + data.retorno[i].id +
                                     '" selected>' + data.retorno[i].nome + '</option>');
                             } else {
