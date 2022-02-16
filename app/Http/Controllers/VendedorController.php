@@ -733,21 +733,18 @@ class VendedorController extends Controller
             //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionarVendedor();
 
-            $tipo = @$request->tipo;
-           
+        $tipo = @$request->tipo;
+
         $nivel = Curso::where('tipo', '=', $tipo)
             ->get();
 
-       
+
 
         if ($nivel != null) {
             $retorno = [
                 'status' => 1,
                 'retorno' => $nivel
             ];
-
-          
-
         } else {
             $retorno = [
                 'msg' => 'Não há cursos para este nível!',

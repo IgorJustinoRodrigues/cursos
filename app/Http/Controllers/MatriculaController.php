@@ -96,7 +96,7 @@ class MatriculaController extends Controller
 
         $item->ativacao = str_pad($request->unidade, 4, "X", STR_PAD_RIGHT) . strtoupper(bin2hex(random_bytes(4))) . (new CursoController())->codigo_tipo($request->nivel) . date("y");
         $item->tipo_pagamento = $request->tipo_pagamento;
-        if($item->tipo_pagamento == 2){
+        if ($item->tipo_pagamento == 2) {
             $item->quant_parcelas = $request->quant_parcelas_venda;
             $item->mes_inicio_pagamento = $request->mes_inicio_pagamento;
         }
@@ -123,7 +123,7 @@ class MatriculaController extends Controller
         }
     }
 
-     /*
+    /*
     Função Inserir de Matricula
     - Responsável por inserirMatriculaVendedor as informações de uma matricula
     - $request: Recebe valores da matricula
@@ -131,9 +131,9 @@ class MatriculaController extends Controller
     public function inserirMatriculaVendedor(Request $request)
     {
         //Validação de acesso
-        if (!(new Services())->validarAdmin())
+        if (!(new Services())->validarVendedor())
             //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
-            return (new Services())->redirecionar();
+            return (new Services())->redirecionarVendedor();
 
         //Validação das informações recebidas
         $validated = $request->validate([
@@ -155,7 +155,7 @@ class MatriculaController extends Controller
 
         $item->ativacao = str_pad($request->unidade, 4, "X", STR_PAD_RIGHT) . strtoupper(bin2hex(random_bytes(4))) . (new CursoController())->codigo_tipo($request->nivel) . date("y");
         $item->tipo_pagamento = $request->tipo_pagamento;
-        if($item->tipo_pagamento == 2){
+        if ($item->tipo_pagamento == 2) {
             $item->quant_parcelas = $request->quant_parcelas_venda;
             $item->mes_inicio_pagamento = $request->mes_inicio_pagamento;
         }
@@ -296,7 +296,4 @@ class MatriculaController extends Controller
                 break;
         }
     }
-
-
-    
 }

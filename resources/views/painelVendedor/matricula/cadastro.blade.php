@@ -106,14 +106,12 @@
                                         Intermediario</option>
                                     <option @if (old('nivel') == 3) selected @endif value="3" data-valor="95,00">
                                         Avançado</option>
-                                    <option @if (old('nivel') == 4) selected @endif value="4" data-valor="0,00">
-                                        Treinamento</option>
                                 </select>
                             </div>
 
                             <div class="col-12 col-md-12 mb-3">
                                 <label class="form-label" for="curso">Cursos</label>
-                                @csrf
+                              
                                 <select class="form-control custom-select select2" id="curso" name="curso">
                                     <!--Ajax -->
                                 </select>
