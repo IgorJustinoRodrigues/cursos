@@ -8,5 +8,5 @@
 
 
 @section('conteudo')
-    
+    {{$item->id}}
 @endsection
