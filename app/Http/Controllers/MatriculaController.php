@@ -139,7 +139,6 @@ class MatriculaController extends Controller
         $validated = $request->validate([
             'tipo_pagamento' => 'required',
             'nivel' => 'required',
-            'curso' => 'required'
         ]);
 
         //Nova instância do Model Matricula

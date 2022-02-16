@@ -41,8 +41,7 @@
 
                     if (data.status == 1) {
                         for (i = 0; i <= data.retorno.length; i++) {
-                            $('#curso').append('<option value="' + data.retorno[i].id + '">' + data
-                                .retorno[i].nome + '</option>');
+                            $('#curso').append('<option value="' + data.retorno[i].id + '">' + data.retorno[i].nome + '</option>');
                         }
                     } else {
                         $('#curso').html(data.msg);
@@ -110,6 +109,17 @@
                                 </select>
                             </div>
 
+                            <div class="col-12 col-md-12 mb-3">
+                                <label class="form-label" for="aluno">Aluno</label>
+                                <select id="aluno" class="form-control custom-select select2" name="aluno">
+                                    <option value=""></option>
+                                    @foreach ($alunos as $linha)
+                                        <option @if (old('aluno') == $linha->id) selected @endif
+                                            value="{{ $linha->id }}">{{ $linha->nome }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="col-12 col-md-3 mb-3">
                                 <label class="form-label" for="tipo_pagamento">Tipo de Pagamento</label>
                                 <select id="tipo_pagamento" class="form-control custom-select" name="tipo_pagamento"
