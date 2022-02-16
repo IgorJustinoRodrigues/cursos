@@ -138,8 +138,8 @@ class MatriculaController extends Controller
         //Validação das informações recebidas
         $validated = $request->validate([
             'tipo_pagamento' => 'required',
-            'unidade' => 'required',
             'nivel' => 'required',
+            'curso' => 'required'
         ]);
 
         //Nova instância do Model Matricula
@@ -164,17 +164,17 @@ class MatriculaController extends Controller
         $item->status = 2;
 
         $item->aluno_id = $request->aluno;
-        $item->unidade_id = $request->unidade;
+        $item->unidade_id = $_SESSION['vendedor_cursos_start']->unidade_id;
         $item->curso_id = $request->curso;
-        $item->vendedor_id = $request->vendedor;
+        $item->vendedor_id = $_SESSION['vendedor_cursos_start']->vendedor_id;
 
         //Envio das informações para o banco de dados
         $resposta = $item->save();
 
         //Verificação do insert
         if ($resposta) {
-            //Redirecionamento para a rota matriculaIndex, com mensagem de sucesso
-            return redirect()->route('matriculaIndex')->with('sucesso', '"' . $item->nome . '", inserido!');
+            //Redirecionamento para a rota matriculaVendedorIndex, com mensagem de sucesso
+            return redirect()->route('matriculaVendedorIndex')->with('sucesso', 'matrícula gerada!');
         } else {
 
             //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha

@@ -24,8 +24,6 @@
 
             var nivel = $(this).val();
 
-            $("#curso").val(null).trigger("change");
-
             $.ajax({
                 type: 'post',
                 url: "{{ route('listarCursosAjax') }}",
@@ -43,13 +41,7 @@
 
                     if (data.status == 1) {
                         for (i = 0; i <= data.retorno.length; i++) {
-                            if ($('selected') == data.retorno[i].id) {
-                                $('#curso').append('<option value="' + data.retorno[i].id +
-                                    '" selected>' + data.retorno[i].nome + '</option>');
-                            } else {
-                                $('#curso').append('<option value="' + data.retorno[i].id + '">' + data
-                                    .retorno[i].nome + '</option>');
-                            }
+                            $('#curso').append('<option value="' + data.retorno[i].id + '">' + data.retorno[i].nome + '</option>');
                         }
                     } else {
                         $('#curso').html(data.msg);
@@ -111,7 +103,7 @@
 
                             <div class="col-12 col-md-12 mb-3">
                                 <label class="form-label" for="curso">Cursos</label>
-                              
+
                                 <select class="form-control custom-select select2" id="curso" name="curso">
                                     <!--Ajax -->
                                 </select>

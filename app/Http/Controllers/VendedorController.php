@@ -736,9 +736,8 @@ class VendedorController extends Controller
         $tipo = @$request->tipo;
 
         $nivel = Curso::where('tipo', '=', $tipo)
+            ->where('status', '=', 1)
             ->get();
-
-
 
         if ($nivel != null) {
             $retorno = [
