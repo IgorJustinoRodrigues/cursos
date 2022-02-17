@@ -51,6 +51,7 @@
                         </div>
 
                         <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                             <a href="" class="btn btn-success">Confirmar</a>
                         </div>
 
