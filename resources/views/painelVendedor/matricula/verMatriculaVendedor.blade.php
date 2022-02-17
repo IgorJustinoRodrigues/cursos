@@ -4,20 +4,80 @@
 
 @section('footer')
 
+    <div class="modal fade" id="modalEnvio" tabindex="-1" aria-labelledby="envioLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="envioLabel">Enviar Código de matrícula</h5>
+                </div>
+                <div class="modal-body">
+                    <!-- código html-->
+                    <form action="#">
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email</label>
+                            <div class="input-group input-group-merge">
+                                <input type="email" class="form-control form-control-prepended" name="email"
+                                    placeholder="Email do Aluno">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-paper-plane"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="email">WhatsApp</label>
+                            <div class="input-group input-group-merge">
+                                <input type="email" class="form-control form-control-prepended" name="whatsapp"
+                                    placeholder="Whatsapp do Aluno">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-whatsapp"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="email">Telefone</label>
+                            <div class="input-group input-group-merge">
+                                <input type="email" class="form-control form-control-prepended" name="contato"
+                                    placeholder="Enviar matrícula por SMS">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-phone-square"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <a href="" class="btn btn-success">Confirmar</a>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
 @endsection
 
 
 @section('conteudo')
+
     <div class="card border-left-3 border-left-success">
         <div class="card-body">
             <div class="list-group list-group-fit">
                 <div class="card-header media align-items-center">
                     <div class="media-body">
                         <h1 class="card-title h2">Dados de Acesso a Matrícula </h1>
-                        <div class="card-subtitle">Matrícula gerada em {{$item->data}}</div>
+                        <div class="card-subtitle">Matrícula gerada em {{ $item->data }}</div>
                     </div>
                     <div class="media-right d-flex align-items-center">
-                        <a href="javascript:window.print()" id="print" class="btn btn-flush text-muted d-print-none mr-3"><i class="material-icons font-size-24pt">print</i></a>
+                        <a href="javascript:window.print()" id="print" class="btn btn-flush text-muted d-print-none mr-3"><i
+                                class="material-icons font-size-24pt">print</i></a>
+                        <button type="button" onclick="$('#modalEnvio').modal('show');"
+                            class="btn btn-success btn-rounded">Copiar Informações</button>
                     </div>
                 </div>
 
@@ -103,11 +163,11 @@
                                 @endif
                             </div>
                             <!--
-                                                            <a href="fixed-student-account-billing-payment-information.html" class="text-secondary">
-                                                                <font style="vertical-align: inherit;">
-                                                                    <font style="vertical-align: inherit;">Alterar método</font>
-                                                                </font>
-                                                            </a> -->
+                                                                                                                        <a href="fixed-student-account-billing-payment-information.html" class="text-secondary">
+                                                                                                                            <font style="vertical-align: inherit;">
+                                                                                                                                <font style="vertical-align: inherit;">Alterar método</font>
+                                                                                                                            </font>
+                                                                                                                        </a> -->
                         </div>
                     </div>
                 </div>
@@ -120,9 +180,9 @@
                             </font>
                         </label>
                         <div class="col-sm-9">
-                            <a href="" class="btn btn-outline-secondary">
-                                <font style="vertical-align: inherit;">
-                                    <font style="vertical-align: inherit;">Solicitar cancelamento</font>
+                            <a class="btn btn-outline-secondary"
+                                onclick="confirmacao('{{ route('cursoDeletar', $item->id) }}', '<h3>Realmente deseja solicitar cancelamento de matrícula ?</h3><p>{{ $item->nome }}</p>')"
+                                <font style="vertical-align: inherit;">Solicitar cancelamento</font>
                                 </font>
                             </a>
                         </div>
