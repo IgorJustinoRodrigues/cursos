@@ -13,7 +13,7 @@
             <div class="list-group list-group-fit">
                 <div class="card-header media align-items-center">
                     <div class="media-body">
-                        <h1 class="card-title h2">Dados de Acesso Matrícula</h1>
+                        <h1 class="card-title h2">Dados de Acesso a Matrícula </h1>
                         <div class="card-subtitle">Matrícula gerada em {{$item->data}}</div>
                     </div>
                     <div class="media-right d-flex align-items-center">
