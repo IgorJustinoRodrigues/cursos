@@ -188,7 +188,10 @@ class MatriculaController extends Controller
     */
     public function verMatriculaVendedor($id)
     {
-        $item = Matricula::where('status', '<>', '0')
+        $item = Matricula::leftjoin('cursos', 'matriculas.curso_id', '=', 'cursos.id')
+            ->leftJoin('alunos', 'matriculas.aluno_id', '=', 'alunos.id')
+            ->where('matriculas.status', '<>', '0')
+            ->selectRaw('matriculas.*, cursos.nome as curso, alunos.nome as aluno')
             ->find($id);
 
         //Verifica se há alguma matrícula selecionada
@@ -293,6 +296,32 @@ class MatriculaController extends Controller
         } else {
             //Redirecionamento para a rota matriculaIndex, com mensagem de erro
             return redirect()->route('matriculaIndex')->with('erro', 'Matricula não excluido!');
+        }
+    }
+
+     /*
+    Função tipoPagamento de Matricula
+    - Responsável por exibir o status do Matricula
+    - $status: Recebe o Id do status do Matricula
+    */
+    public function tipoPagamento($tipoPagamento)
+    {
+        //Verifica o status do Matricula
+        switch ($tipoPagamento) {
+            case 1:
+                //Retorna o status Ativo
+                return 'A Vista';
+                break;
+
+            case 2:
+                //Retorna o status Inativo
+                return 'A Prazo';
+                break;
+
+            case 0:
+                //Retorna o status Excluido
+                return 'Outros';
+                break;
         }
     }
 
