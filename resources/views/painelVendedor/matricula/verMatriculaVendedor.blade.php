@@ -11,6 +11,16 @@
     <div class="card border-left-3 border-left-success">
         <div class="card-body">
             <div class="list-group list-group-fit">
+                <div class="card-header media align-items-center">
+                    <div class="media-body">
+                        <h1 class="card-title h2">Dados de Acesso Matrícula</h1>
+                        <div class="card-subtitle">Matrícula gerada em {{$item->data}}</div>
+                    </div>
+                    <div class="media-right d-flex align-items-center">
+                        <a href="javascript:window.print()" id="print" class="btn btn-flush text-muted d-print-none mr-3"><i class="material-icons font-size-24pt">print</i></a>
+                    </div>
+                </div>
+
                 <div class="list-group-item">
                     <div class="form-group row mb-0">
                         <label class="col-form-label form-label col-sm-3">
@@ -93,16 +103,16 @@
                                 @endif
                             </div>
                             <!--
-                                <a href="fixed-student-account-billing-payment-information.html" class="text-secondary">
-                                    <font style="vertical-align: inherit;">
-                                        <font style="vertical-align: inherit;">Alterar método</font>
-                                    </font>
-                                </a> -->
+                                                            <a href="fixed-student-account-billing-payment-information.html" class="text-secondary">
+                                                                <font style="vertical-align: inherit;">
+                                                                    <font style="vertical-align: inherit;">Alterar método</font>
+                                                                </font>
+                                                            </a> -->
                         </div>
                     </div>
                 </div>
 
-                <div class="list-group-item">
+                <div class="list-group-item" id="solicitar">
                     <div class="form-group row mb-0">
                         <label class="col-form-label form-label col-sm-3">
                             <font style="vertical-align: inherit;">

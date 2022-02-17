@@ -191,7 +191,7 @@ class MatriculaController extends Controller
         $item = Matricula::leftjoin('cursos', 'matriculas.curso_id', '=', 'cursos.id')
             ->leftJoin('alunos', 'matriculas.aluno_id', '=', 'alunos.id')
             ->where('matriculas.status', '<>', '0')
-            ->selectRaw('matriculas.*, cursos.nome as curso, alunos.nome as aluno')
+            ->selectRaw('matriculas.*,  date_format(matriculas.created_at, "%d/%m/%H às %H:%i") as data, cursos.nome as curso, alunos.nome as aluno')
             ->find($id);
 
         //Verifica se há alguma matrícula selecionada
