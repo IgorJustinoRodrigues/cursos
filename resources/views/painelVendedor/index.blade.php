@@ -41,7 +41,7 @@
 @section('conteudo')
 
     <div class="row">
-        <div class="col-lg-7">
+        <div class="col-lg-5">
             <div class="card">
                 <div class="card-header d-flex align-items-center">
                     <div class="flex">
