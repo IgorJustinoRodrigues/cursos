@@ -392,7 +392,7 @@ class VendedorController extends Controller
 
         $grafico7dias = Matricula::
             groupByRaw('date_format(created_at, "%Y-%m-%d")')
-           
+            ->selectRaw('count(*) as total')
             ->whereRaw("date(created_at) > date(date_sub(CurDate(), interval 7 day))")
             ->limit(7)
             ->get();
