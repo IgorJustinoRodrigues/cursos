@@ -389,16 +389,14 @@ class VendedorController extends Controller
             //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionarVendedor();
 
+        //
 
-        $grafico7dias = Matricula::
-            groupByRaw('date_format(created_at, "%Y-%m-%d")')
-            ->selectRaw('count(*) as total')
-            ->whereRaw("date(created_at) > date(date_sub(CurDate(), interval 7 day))")
-            ->limit(7)
-            ->get();
-
-        dd($grafico7dias);
-
+        $grafico7dias = Matricula::selectRaw("created_at, count(*) as total")
+        ->where('vendedor_id', '=', $_SESSION['vendedor_cursos_start']->id)
+        ->groupByRaw('date_format(created_at, "%Y-%m-%d")')
+        ->orderBy('created_at', "desc")
+        ->limit(7)
+        ->get();
 
         //Exibe a tela inícial do painel de vendedor passando parametros para view
         return view('painelVendedor.index', ['grafico7dias' => $grafico7dias]);

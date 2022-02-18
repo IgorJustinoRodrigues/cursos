@@ -165,7 +165,7 @@ class MatriculaController extends Controller
         $item->aluno_id = $request->aluno;
         $item->unidade_id = $_SESSION['vendedor_cursos_start']->unidade_id;
         $item->curso_id = $request->curso;
-        $item->vendedor_id = $_SESSION['vendedor_cursos_start']->vendedor_id;
+        $item->vendedor_id = $_SESSION['vendedor_cursos_start']->id;
 
         //Envio das informações para o banco de dados
         $resposta = $item->save();

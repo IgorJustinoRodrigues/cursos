@@ -13,34 +13,21 @@
     <script src="{{ URL::asset('template/vendor/Chart.min.js') }}"></script>
     <script src="{{ URL::asset('template/js/chartjs.js') }}"></script>
 
-   
+
 
     <script>
         var data = {
             labels: [
-                @for ($i = 6; $i >= 0; $i--)
-                    "{{ Carbon\Carbon::now()->subDays($i)->format('d/m') }}",
+                @for($i = count($grafico7dias) - 1 ; $i >= 0; $i--)
+                    "{{ $grafico7dias[$i]->created_at->format('d/m') }}",
                 @endfor
             ],
             datasets: [{
                 label: "Performance",
                 data: [
-                    @for ($i = 6; $i >= 0; $i--)
-                        @php $aux = false; @endphp
-                    
-                        @foreach ($grafico7dias as $dia)
-                            @if ($dia->created_at->format('d') ===
-    Carbon\Carbon::now()->subDays($i)->format('d'))
-                                {{ $dia->total }},
-                                @php $aux = true; @endphp
-                                @php break; @endphp
-                            @endif
-                        @endforeach
-                    
-                        @if (!$aux)
-                            0,
-                        @endif
-                    @endfor
+                    @for($i = count($grafico7dias) - 1 ; $i >= 0; $i--)
+                        {{ $grafico7dias[$i]->total }},
+                        @endfor
 
                 ]
             }]
@@ -52,7 +39,7 @@
 @endsection
 
 @section('conteudo')
-  
+
     <div class="row">
         <div class="col-lg-7">
             <div class="card">
