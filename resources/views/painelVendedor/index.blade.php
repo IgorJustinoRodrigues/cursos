@@ -14,34 +14,35 @@
     <script src="{{ URL::asset('template/js/chartjs.js') }}"></script>
 
 
+ 
+                            <script>
+                                var data = {
+                                    labels: [
+                                        @for ($i = count($grafico7dias) - 1; $i >= 0; $i--)
+                                            "{{ $grafico7dias[$i]->created_at->format('d/m') }}",
+                                        @endfor
+                                    ],
+                                    datasets: [{
+                                        label: "Performance",
+                                        data: [
+                                            @for ($i = count($grafico7dias) - 1; $i >= 0; $i--)
+                                                {{ $grafico7dias[$i]->total }},
+                                            @endfor
 
-    <script>
-        var data = {
-            labels: [
-                @for($i = count($grafico7dias) - 1 ; $i >= 0; $i--)
-                    "{{ $grafico7dias[$i]->created_at->format('d/m') }}",
-                @endfor
-            ],
-            datasets: [{
-                label: "Performance",
-                data: [
-                    @for($i = count($grafico7dias) - 1 ; $i >= 0; $i--)
-                        {{ $grafico7dias[$i]->total }},
-                        @endfor
+                                        ]
+                                    }]
+                                }
 
-                ]
-            }]
-        }
-
-        Charts.create('#performanceChart', 'line', '', data)
-    </script>
-
+                                Charts.create('#performanceChart', 'line', '', data)
+                            </script>
+                            
+                      
 @endsection
 
 @section('conteudo')
 
     <div class="row">
-        <div class="col-lg-5">
+        <div class="col-lg-6">
             <div class="card">
                 <div class="card-header d-flex align-items-center">
                     <div class="flex">
@@ -58,8 +59,42 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-5">
-
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header d-flex align-items-center">
+                    <div class="flex">
+                        <h4 class="card-title">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Ranking dos Cursos Mais Vendidos</font>
+                            </font>
+                        </h4>
+                    </div>
+                </div>
+                <ul class="list-group list-group-fit mb-0">
+                    @foreach ($ranking as $Ranklinha)
+                        <li class="list-group-item">
+                            <div class="media align-items-center">
+                                <div class="media-body">
+                                    <a href="fixed-instructor-course-edit.html" class="text-body"><strong>
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">{{$Ranklinha->curso}}</font>
+                                            </font>
+                                        </strong></a>
+                                </div>
+                                <div class="media-right">
+                                    <div class="text-center">
+                                        <span class="badge badge-pill badge-dark">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">{{$Ranklinha->total}}</font>
+                                            </font>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
         </div>
     </div>
 

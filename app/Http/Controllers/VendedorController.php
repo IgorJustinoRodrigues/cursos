@@ -391,15 +391,31 @@ class VendedorController extends Controller
 
         //
 
+
+        //Grafico de vendas dos ultimos 7 Dias 
         $grafico7dias = Matricula::selectRaw("created_at, count(*) as total")
-        ->where('vendedor_id', '=', $_SESSION['vendedor_cursos_start']->id)
-        ->groupByRaw('date_format(created_at, "%Y-%m-%d")')
-        ->orderBy('created_at', "desc")
-        ->limit(7)
-        ->get();
+            ->where('vendedor_id', '=', $_SESSION['vendedor_cursos_start']->id)
+            ->groupByRaw('date_format(created_at, "%Y-%m-%d")')
+            ->orderBy('created_at', "desc")
+            ->limit(7)
+            ->get();
+
+
+        $ranking = Matricula::join('cursos', 'matriculas.curso_id', '=', 'cursos.id')
+            ->selectRaw('cursos.nome as curso, count(cursos.id) as total')
+            ->where('matriculas.status', '<>', 0)
+            ->where('matriculas.unidade_id', '=', $_SESSION['vendedor_cursos_start']->unidade_id)
+            ->whereRaw('date(matriculas.created_at) >= date_sub(now(), INTERVAL 1 MONTH)')
+            ->groupBy('cursos.id')
+            ->orderByRaw('count(cursos.id) desc')
+            ->limit(4)
+            ->get();
 
         //Exibe a tela inícial do painel de vendedor passando parametros para view
-        return view('painelVendedor.index', ['grafico7dias' => $grafico7dias]);
+        return view('painelVendedor.index', [
+            'grafico7dias' => $grafico7dias,
+            'ranking' => $ranking
+        ]);
     }
 
 
