@@ -78,7 +78,7 @@
                         <a href="javascript:window.print()" id="print" class="btn btn-flush text-muted d-print-none mr-3"><i
                                 class="material-icons font-size-24pt">print</i></a>
                         <button type="button" onclick="$('#modalEnvio').modal('show');"
-                            class="btn btn-success btn-rounded">Copiar Informações</button>
+                            class="btn btn-success btn-rounded">Enviar Código</button>
                     </div>
                 </div>
 

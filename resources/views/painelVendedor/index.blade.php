@@ -46,8 +46,8 @@
             <div class="card">
                 <div class="card-header d-flex align-items-center">
                     <div class="flex">
-                        <h4 class="card-title">Vendas da Semana</h4>
-                        <p class="card-subtitle">vendas nos últimos 7 dias</p>
+                        <h4 class="card-title">VENDAS DOS ULTIMOS 7 DIAS</h4>
+                        <p class="card-subtitle"></p>
                     </div>
                     <i class="material-icons text-muted ml-2">trending_up</i>
                 </div>
@@ -64,8 +64,8 @@
                 <div class="card-header d-flex align-items-center">
                     <div class="flex">
                         <h4 class="card-title">
-                            <font style="vertical-align: inherit;">
-                                <font style="vertical-align: inherit;">Ranking dos Cursos Mais Vendidos</font>
+                            <font style="vertical-align: inherit;"> 
+                                <font style="vertical-align: inherit;">CURSOS MAIS VENDIDOS DO MÊS</font>
                             </font>
                         </h4>
                     </div>
