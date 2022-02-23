@@ -219,6 +219,12 @@ Route::post('/unidade-valida-usuario', [UnidadeController::class, 'validaUsuario
 Route::put('/unidade-salvar-minhas-informacoes', [UnidadeController::class, 'salvarMinhasInformacoesUnidade'])->name('salvarMinhasInformacoesUnidade');
 
 /* 
+ROTAS DE CADASTRO DE VENDEDOR EM UNIDADE
+*/
+Route::get('/vendedor-unidade-cadastro', [UnidadeController::class, 'cadastroVendedorUnidade'])->name('cadastroVendedorUnidade');
+
+
+/* 
 ROTAS DA ABA DE AJUDA DE UNIDADE
 */
 Route::get('/ajuda-unidade', [UnidadeController::class, 'ajuda'])->name('unidade.ajuda');
@@ -259,7 +265,7 @@ Route::post('/vendedor-valida-usuario', [VendedorController::class, 'validaUsuar
 Route::put('/vendedor-salvar-minhas-informacoes', [VendedorController::class, 'salvarMinhasInformacoesVendedor'])->name('salvarMinhasInformacoesVendedor');
 
 /* 
-ROTAS DA ABA DE MATRÍCULA VENDEDOR
+ROTAS DA ABA DE MATRÍCULA PAINEL VENDEDOR
 */
 /*ROTA DE CADASTRO E LISTAR DE MATRÍCULA EM VENDEDOR*/
 Route::get('/ver-matricula-vendedor/{item}', [MatriculaController::class, 'verMatriculaVendedor'])->name('verMatriculaVendedor');
@@ -273,7 +279,7 @@ Route::post('/matricula-inserir-vendedor', [MatriculaController::class, 'inserir
 
 
 /* 
-ROTAS DA ABA DE AJUDA DE VENDEDOR
+ROTAS DA ABA DE AJUDA DE PAINEL VENDEDOR
 */
 Route::get('/ajuda-vendedor', [VendedorController::class, 'ajuda'])->name('vendedor.ajuda');
 Route::get('/ajuda-vendedor/{ajuda}/{url?}', [VendedorController::class, 'verAjuda'])->name('vendedor.verAjuda');

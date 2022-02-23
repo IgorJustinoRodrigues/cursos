@@ -552,7 +552,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="confirmacaoLabel">ConfirmaÃ§Ã£o</h5>
+                    <h5 class="modal-title" id="confirmacaoLabel">Confirmação</h5>
                 </div>
                 <div class="modal-body" id="div-confirmacao">
                 </div>

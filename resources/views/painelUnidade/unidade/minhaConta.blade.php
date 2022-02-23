@@ -90,6 +90,7 @@
         }
 
         function validaUsuario() {
+            var tabela = 'unidade';
             var usuario = $("#usuario").val();
             var id = $("#id").val();
 
@@ -103,6 +104,7 @@
                 url: "{{ route('validaUsuarioUnidade') }}",
                 data: {
                     usuario: usuario,
+                    tabela: tabela,
                     id: id,
                     _token: $("input[name='_token']").val()
                 },

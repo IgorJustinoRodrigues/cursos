@@ -291,8 +291,30 @@
                                         </ul>
                                     </li>
                                 </ul>
-                                <!-- <div class="sidebar-heading">Cursos</div>  -->
-
+                                <div class="sidebar-heading">Gerenciar</div>
+                                <ul class="sidebar-menu sm-active-button-bg">
+                                    <li class="sidebar-menu-item @hasSection('menu-vendedor') active @endif">
+                                        <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
+                                            href="#vendedor_menu">
+                                            <i
+                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">perm_contact_calendar</i>
+                                            Vendedor
+                                            <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                                        </a>
+                                        <ul class="sidebar-submenu sm-indent collapse" id="vendedor_menu">
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button" href="{{ route('unidade.ajuda') }}">
+                                                    <span class="sidebar-menu-text">Listar</span>
+                                                </a>
+                                            </li>
+                                            <li class="sidebar-menu-item">
+                                                <a class="sidebar-menu-button" href="{{ route('cadastroVendedorUnidade') }}">
+                                                    <span class="sidebar-menu-text">Cadastro</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
 
                                 <div class="sidebar-heading">Ajuda</div>
                                 <ul class="sidebar-menu sm-active-button-bg">
@@ -306,8 +328,7 @@
                                         </a>
                                         <ul class="sidebar-submenu sm-indent collapse" id="ajuda_menu">
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button"
-                                                    href="{{ route('unidade.ajuda') }}">
+                                                <a class="sidebar-menu-button" href="{{ route('unidade.ajuda') }}">
                                                     <span class="sidebar-menu-text">Ajuda</span>
                                                 </a>
                                             </li>

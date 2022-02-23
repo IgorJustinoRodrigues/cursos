@@ -8,6 +8,7 @@ use App\Models\Canvas;
 use App\Models\CategoriaAjuda;
 use App\Models\Parceiro;
 use App\Models\Unidade;
+use App\Models\Vendedor;
 use App\Services\Services;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
@@ -518,7 +519,7 @@ class UnidadeController extends Controller
         }
     }
 
-   
+
     //Função de Suporte
     public function ajuda()
     {
@@ -657,42 +658,87 @@ class UnidadeController extends Controller
             return (new Services())->redirecionarUnidade();
 
         //Atribuição dos valores
-
+        $tabela = $request->tabela;
         $usuario = $request->usuario;
         $id = @$request->id;
 
-
         //Verificação do tamanho do usuário informado
         if (Str::length($usuario) >= 3) {
+            //Direcionamento para a tabela desejada
+            switch ($tabela) {
 
-            //Consulta que busca se já existe um usuario no banco com o mesmo usuario
-            $resultado = Unidade::where('usuario', '=', $usuario)->first();
+                    //Caso de vendedor
+                case 'vendedor':
+                    //Consulta que busca se já existe um usuario no banco com o mesmo usuario
+                    $resultado = Vendedor::where('usuario', '=', $usuario)->first();
 
-            //Verifica se existe
-            if ($resultado) {
-                //Verifica se o id informado é igual ao da consulta
-                if ($resultado->id == $id) {
-                    //Retorno de usuário atual 
+                    //Verifica se existe
+                    if ($resultado) {
+                        //Verifica se o id informado é igual ao da consulta
+                        if ($resultado->id == $id) {
+                            //Retorno de usuário atual 
+                            $retorno = [
+                                'msg' => 'Usuário atual!',
+                                'tipo' => '3',
+                                'status' => 1
+                            ];
+                        } else {
+                            //Retorno de usuário não disponível
+                            $retorno = [
+                                'msg' => 'Usuário "' . $usuario . '", não está disponível!',
+                                'tipo' => '2',
+                                'status' => 1
+                            ];
+                        }
+                    } else {
+                        //Retorno do usuário disponível
+                        $retorno = [
+                            'msg' => 'Usuário disponível!',
+                            'tipo' => '1',
+                            'status' => 1
+                        ];
+                    }
+                    break;
+
+                    //Caso de unidade
+                case 'unidade':
+                    //Consulta que busca se já existe um usuario no banco com o mesmo usuario
+                    $resultado = Unidade::where('usuario', '=', $usuario)->first();
+
+                    //Verifica se existe
+                    if ($resultado) {
+                        //Verifica se o id informado é igual ao da consulta
+                        if ($resultado->id == $id) {
+                            //Retorno de usuário atual 
+                            $retorno = [
+                                'msg' => 'Usuário atual!',
+                                'tipo' => '3',
+                                'status' => 1
+                            ];
+                        } else {
+                            //Retorno de usuário não disponível
+                            $retorno = [
+                                'msg' => 'Usuário "' . $usuario . '", não está disponível!',
+                                'tipo' => '2',
+                                'status' => 1
+                            ];
+                        }
+                    } else {
+                        //Retorno do usuário disponível
+                        $retorno = [
+                            'msg' => 'Usuário disponível!',
+                            'tipo' => '1',
+                            'status' => 1
+                        ];
+                    }
+                    break;
+
+                default:
                     $retorno = [
-                        'msg' => 'Usuário atual!',
-                        'tipo' => '3',
-                        'status' => 1
+                        'msg' => 'Paramêtros incorretos!',
+                        'status' => 0
                     ];
-                } else {
-                    //Retorno de usuário não disponível
-                    $retorno = [
-                        'msg' => 'Usuário "' . $usuario . '", não está disponível!',
-                        'tipo' => '2',
-                        'status' => 1
-                    ];
-                }
-            } else {
-                //Retorno do usuário disponível
-                $retorno = [
-                    'msg' => 'Usuário disponível!',
-                    'tipo' => '1',
-                    'status' => 1
-                ];
+                    break;
             }
         } else {
             $retorno = [
@@ -704,6 +750,24 @@ class UnidadeController extends Controller
         //Resposta JSON
         return response()->json($retorno);
     }
+
+    /*
+    Função Cadastro de Vendedor
+    - Responsável por mostrar a tela de cadastro de vendedor
+    */
+    public function cadastroVendedorUnidade()
+    {
+        //Validação de acesso
+        if (!(new Services())->validarUnidade())
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarUnidade();
+
+        $unidade = Unidade::where('status', '=', '1')->get();
+
+        //Exibe a tela de cadastro de vendedor
+        return view('painelUnidade.vendedor.cadastro', ['unidade' => $unidade]);
+    }
+
     /*
     Função Tipo de Admin
     - Responsável por exibir o tipo do unidade
