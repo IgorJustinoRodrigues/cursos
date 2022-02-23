@@ -619,7 +619,7 @@ class VendedorController extends Controller
             //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionarVendedor();
 
-        $consulta = Matricula::orderby('id', 'desc');
+        $consulta = Matricula::where('vendedor_id', '=', $_SESSION['vendedor_cursos_start']->id)->orderby('id', 'desc');
 
         //Verifica se existe uma busca
         if (@$request->busca != '') {
