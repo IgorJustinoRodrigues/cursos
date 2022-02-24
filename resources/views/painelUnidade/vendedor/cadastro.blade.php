@@ -95,7 +95,7 @@
         <div class="card card-body">
             <div class="row">
                 <div class="col-lg-12">
-                    <form method="POST" action="{{ route('vendedorInserir') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('inserirVendedorUnidade') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-row">
 

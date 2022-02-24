@@ -769,6 +769,38 @@ class UnidadeController extends Controller
     }
 
     /*
+    Função Index de Vendedor
+    - Responsável por mostrar a tela de listagem de vendedor 
+    - $request: Recebe valores de busca e paginação
+    */
+    public function indexVendedorUnidade(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarUnidade())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarUnidade();
+
+        $consulta = Vendedor::join('unidades', 'vendedors.unidade_id', '=', 'unidades.id')
+            ->where('vendedors.unidade_id', '=', $_SESSION['unidade_cursos_start']->id)
+            ->where('vendedors.status', '<>', '0')
+            ->orderby('unidades.nome', 'asc');
+
+
+        //Verifica se existe uma busca
+        if (@$request->busca != '') {
+            //Paginação dos registros com busca busca
+            $consulta->where('vendedors.nome', 'like', '%' . $request->busca . '%');
+        }
+
+
+        $items = $consulta->selectRaw('vendedors.*, unidades.nome as unidade')
+            ->paginate();
+
+        //Exibe a tela de listagem de vendedor passando parametros para view
+        return view('painelUnidade.vendedor.index', ['paginacao' => $items, 'busca' => @$request->busca]);
+    }
+
+    /*
     Função Tipo de Admin
     - Responsável por exibir o tipo do unidade
     - $tipo: Recebe o Id do tipo do unidade

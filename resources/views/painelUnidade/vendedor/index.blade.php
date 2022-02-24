@@ -1,5 +1,5 @@
-@extends('template.admin')
-@section('title', 'Vendedores')
+@extends('template.unidade')
+@section('title', 'Unidade')
 @section('menu-vendedor', 'true')
 
 @section('footer')

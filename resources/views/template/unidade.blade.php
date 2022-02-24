@@ -303,7 +303,7 @@
                                         </a>
                                         <ul class="sidebar-submenu sm-indent collapse" id="vendedor_menu">
                                             <li class="sidebar-menu-item">
-                                                <a class="sidebar-menu-button" href="{{ route('unidade.ajuda') }}">
+                                                <a class="sidebar-menu-button" href="{{ route('indexVendedorUnidade') }}">
                                                     <span class="sidebar-menu-text">Listar</span>
                                                 </a>
                                             </li>
