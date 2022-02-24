@@ -1,5 +1,5 @@
-@extends('template.admin')
-@section('title', 'Vendedor')
+@extends('template.unidade')
+@section('title', 'Unidade')
 @section('menu-vendedor', 'true')
 
 @section('footer')
@@ -20,7 +20,7 @@
 
             $.ajax({
                 type: 'post',
-                url: "{{ route('adminValidaUsuario') }}",
+                url: "{{ route('validaUsuarioUnidade') }}",
                 data: {
                     usuario: usuario,
                     tabela: tabela,
@@ -86,16 +86,12 @@
         <div class="card card-body">
             <div class="row">
                 <div class="col-lg-12">
-                    <form method="POST" action="{{ route('vendedorSalvar', $item) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('salvarVendedorUnidade', $item) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="id" id="id" value="{{ $item->id }}">
                         <div class="form-row">
-                            <div class="col-9 col-md-5 mb-3">
-                                <label class="form-label" for="unidade">Unidade</label>
-                                <input type="text" class="form-control" id="unidade" value="{{ $item->unidade }}" readonly>
-                            </div>
-                            <div class="col-9 col-md-6 mb-3">
+                            <div class="col-9 col-md-11 mb-3">
                                 <label class="form-label" for="nome">Nome</label>
                                 <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome"
                                     value="{{ $item->nome }}" required="">
@@ -117,9 +113,9 @@
 
                             <div class="col-9 col-md-4 mb-3">
                                 <label class="form-label" for="usuario">Usuário</label>
-                                <input type="text" class="form-control"   onchange="validaUsuario()"  id="usuario" name="usuario" placeholder="Usuário"
-                                    value="{{ $item->usuario }}" required="">
-                                    <small id="retorno-usuario" class="form-text"></small>
+                                <input type="text" class="form-control" onchange="validaUsuario()" id="usuario"
+                                    name="usuario" placeholder="Usuário" value="{{ $item->usuario }}" required="">
+                                <small id="retorno-usuario" class="form-text"></small>
                             </div>
                             <div class="col-9 col-md-4 mb-3">
                                 <label class="form-label" for="senha">senha</label>
@@ -128,8 +124,8 @@
                             </div>
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label" for="cpf">CPF</label>
-                                <input type="text" class="form-control" id="cpf" name="cpf"
-                                    placeholder="CPF" value="{{ $item->cpf }}">
+                                <input type="text" class="form-control" id="cpf" name="cpf" placeholder="CPF"
+                                    value="{{ $item->cpf }}">
                             </div>
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label" for="email">E-mail</label>

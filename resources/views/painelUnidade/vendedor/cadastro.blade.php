@@ -13,7 +13,7 @@
     <script src="{{ URL::asset('template/js/select2.min.js') }}"></script>
 
     <script>
-         $(document).ready(function() {
+        $(document).ready(function() {
             $('.select2').select2();
         });
 
@@ -99,15 +99,6 @@
                         @csrf
                         <div class="form-row">
 
-                            <div class="col-12 col-md-4">
-                                <label class="form-label" for="unidade_id">Unidade</label>
-                                <select id="unidade_id" class="form-control custom-select select2" name="unidade_id">
-                                    <option></option>
-                                    @foreach ($unidade as $item)
-                                        <option value="{{ $item->id }}">{{ $item->nome }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
                             <div class="col-12 col-md-8 mb-3">
                                 <label class="form-label" for="nome">Nome</label>
                                 <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome"
@@ -120,8 +111,8 @@
                             </div>
                             <div class="col-6 col-md-4 mb-3">
                                 <label class="form-label" for="usuario">Usuário</label>
-                                <input type="text" class="form-control" onchange="validaUsuario()" id="usuario" name="usuario"  placeholder="Usuário"
-                                    value="{{ old('usuario') }}" required="">
+                                <input type="text" class="form-control" onchange="validaUsuario()" id="usuario"
+                                    name="usuario" placeholder="Usuário" value="{{ old('usuario') }}" required="">
                                 <small id="retorno-usuario" class="form-text"></small>
                             </div>
                             <div class="col-12 col-md-4 mb-3">
@@ -131,8 +122,8 @@
                             </div>
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label" for="cpf">CPF</label>
-                                <input type="text" class="form-control" id="cpf" name="cpf"
-                                    placeholder="CPF" value="{{ old('cpf') }}">
+                                <input type="text" class="form-control" id="cpf" name="cpf" placeholder="CPF"
+                                    value="{{ old('cpf') }}">
                             </div>
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label" for="email">E-mail</label>
@@ -144,7 +135,7 @@
                                 <input type="text" class="form-control" id="whatsapp" name="whatsapp"
                                     placeholder="WhatsApp" value="{{ old('whatsapp') }}">
                             </div>
-                            
+
                             <div class="col-12 col-md-4 mb-3">
                                 <label class="form-label" for="status">Status</label>
                                 <select id="status" class="form-control custom-select" name="status">

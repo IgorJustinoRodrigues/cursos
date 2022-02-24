@@ -214,10 +214,6 @@ class VendedorController extends Controller
 
         $item->status = $request->status;
 
-
-
-
-
         //Verificação se uma nova imagem de avatar foi informado, caso seja verifica-se sua integridade
         if (@$request->file('avatar') and $request->file('avatar')->isValid()) {
             //Validação das informações recebidas
@@ -661,6 +657,9 @@ class VendedorController extends Controller
             //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
             return (new Services())->redirecionarUnidade();
 
+        //Inícia a Sessão
+        @session_start();
+
         //Validação das informações recebidas
         $validated = $request->validate([
             'nome' => 'required',
@@ -680,7 +679,7 @@ class VendedorController extends Controller
         $item->usuario = $request->usuario;
         $item->senha = md5($request->senha);
         $item->status = $request->status;
-        $item->unidade_id = $request->unidade_id;
+        $item->unidade_id = $_SESSION['unidade_cursos_start']->id;
 
         //Verificação se imagem de avatar foi informado, caso seja verifica-se sua integridade
         if (@$request->file('avatar') and $request->file('avatar')->isValid()) {
@@ -711,7 +710,7 @@ class VendedorController extends Controller
         //Verificação do insert
         if ($resposta) {
             //Redirecionamento para a rota vendedorIndex, com mensagem de sucesso
-            return redirect()->route('vendedorIndex')->with('sucesso', '"' . $item->nome . '", inserido!');
+            return redirect()->route('indexVendedorUnidade')->with('sucesso', '"' . $item->nome . '", inserido!');
         } else {
 
             //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
@@ -719,8 +718,89 @@ class VendedorController extends Controller
         }
     }
 
+    /*
+    Função Salvar de Vendedor
+    - Responsável por editar as informações de um vendedoristrador já cadastrado
+    - $request: Recebe valores de um vendedoristrador
+    - $item: Recebe uma objeto de Vendedor vázio para edição
+    */
+    public function salvarVendedorUnidade(Request $request, Vendedor $item)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarUnidade())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarUnidade();
 
-   
+
+        //Validação das informações recebidas
+        $validated = $request->validate([
+            'nome' => 'required',
+            'cpf' => "required|max:14|unique:vendedors,cpf,{$item->id}",
+            'usuario' => "required|max:20|unique:vendedors,usuario,{$item->id}",
+        ]);
+
+        //Atribuição dos valores recebidos da váriavel $request
+        $item->nome = $request->nome;
+        $item->cpf = $request->cpf;
+        $item->email = $request->email;
+        $item->whatsapp = $request->whatsapp;
+        $item->usuario = $request->usuario;
+        //Verificação se uma nova senha foi informada
+        if (@$request->senha != '') {
+            //Validação das informações recebidas
+            $validated = $request->validate([
+                'senha' => 'required|min:6',
+            ]);
+
+            //Atribuição dos valores recebidos da váriavel $request para o objeto $item
+            $item->senha = md5($request->senha);
+        }
+
+        $item->status = $request->status;
+
+        //Verificação se uma nova imagem de avatar foi informado, caso seja verifica-se sua integridade
+        if (@$request->file('avatar') and $request->file('avatar')->isValid()) {
+            //Validação das informações recebidas
+            $validated = $request->validate([
+                'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5120'
+            ]);
+
+            //Salva o nome da antiga imagem para ser apagada em caso de sucesso
+            $avatarApagar = $item->avatar;
+            //Atribuição dos valores recebidos da váriavel $request após seu upload
+            $item->avatar = $request->avatar->store('avatarVendedor');
+
+            //Nova instância do Model Canvas
+            $img = new Canvas();
+
+            //Edição da imagem recebida com a Class Canva 
+            $img->carrega(public_path('storage/' . $item->avatar))
+                ->hexa('#FFFFFF')
+                ->redimensiona(550, 550, 'preenchimento')
+                ->grava(public_path('storage/' . $item->avatar), 80);
+        }
+
+        //Envio das informações para o banco de dados
+        $resposta = $item->save();
+
+        //Verifica se o Update foi bem sucedido
+        if ($resposta) {
+
+            //Verifica se há imagem antiga para ser apagada e se caso exista, se é diferente do padrão
+            if (@$avatarApagar and Storage::exists($avatarApagar)) {
+                //Deleta o arquivo físico da imagem antiga
+                Storage::delete($avatarApagar);
+            }
+
+            //Redirecionamento para a rota vendedorIndex, com mensagem de sucesso
+            return redirect()->route('indexVendedorUnidade')->with('sucesso', '"' . $item->nome . '", salvo!');
+        } else {
+            //Redirecionamento para tela anterior com mensagem de erro
+            return redirect()->back()->with('atencao', 'Não foi possível salvar as informações, tente novamente!');
+        }
+    }
+
+
     /*
     Função status de Vendedor
     - Responsável por exibir o status do vendedor

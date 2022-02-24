@@ -223,7 +223,10 @@ ROTAS DE CADASTRO DE VENDEDOR EM UNIDADE
 */
 Route::get('/vendedor-unidade-cadastro', [UnidadeController::class, 'cadastroVendedorUnidade'])->name('cadastroVendedorUnidade');
 Route::post('/vendedor-unidade-inserir', [VendedorController::class, 'inserirVendedorUnidade'])->name('inserirVendedorUnidade');
-Route::get('/vendedor-unidade', [UnidadeController::class, 'indexVendedorUnidade'])->name('indexVendedorUnidade');
+Route::get('/vendedor-unidade-editar/{item}', [UnidadeController::class, 'editarVendedorUnidade'])->name('editarVendedorUnidade');
+Route::put('/vendedor-unidade-salvar/{item}', [VendedorController::class, 'salvarVendedorUnidade'])->name('salvarVendedorUnidade');
+
+Route::get('/vendedor-unidade-index', [UnidadeController::class, 'indexVendedorUnidade'])->name('indexVendedorUnidade');
 
 /* 
 ROTAS DA ABA DE AJUDA DE UNIDADE

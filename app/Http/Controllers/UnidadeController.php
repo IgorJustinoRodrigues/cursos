@@ -801,6 +801,40 @@ class UnidadeController extends Controller
     }
 
     /*
+    Função Editar de Vendedor
+    - Responsável por mostrar a tela de edição de vendedoristradores
+    - $item: Recebe o Id do vendedor que deverá ser editado
+    */
+    public function editarVendedorUnidade($id)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarUnidade())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarUnidade();
+
+        $item = Vendedor::join('unidades', 'vendedors.unidade_id', '=', 'unidades.id')
+            ->orderby('unidades.nome', 'asc')
+            ->where('unidades.status', '<>', '0')
+            ->selectRaw('vendedors.*, unidades.nome as unidade')
+            ->find($id);
+
+        //Verifica se há algum vendedor selecionado
+        if (@$item) {
+
+
+            if ($item->status == 0) {
+                return redirect()->route('unidadeIndex')->with('atencao', 'Vendedor excluido!');
+            }
+
+            //Exibe a tela de edição de vendedoristradores passando parametros para view
+            return view('painelUnidade.vendedor.editar', ['item' => $item]);
+        } else {
+            //Redirecionamento para a rota vendedorIndex, com mensagem de erro
+            return redirect()->route('unidadeIndex')->with('erro', 'Vendedor não encontrado!');
+        }
+    }
+
+    /*
     Função Tipo de Admin
     - Responsável por exibir o tipo do unidade
     - $tipo: Recebe o Id do tipo do unidade

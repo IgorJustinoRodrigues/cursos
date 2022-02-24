@@ -11,7 +11,7 @@
 
         <div class="d-flex align-items-center mb-4">
             <h1 class="h2 flex mr-3 mb-0">Listagem de Vendedores</h1>
-            <a href="{{ route('vendedorCadastro') }}" class="btn btn-success">Cadastro</a>
+            <a href="{{ route('inserirVendedorUnidade') }}" class="btn btn-success">Cadastro</a>
         </div>
 
 
@@ -28,13 +28,13 @@
             </small>
             <!-- Search -->
             <form class="flex search-form form-control-rounded search-form--light mb-2 col-md-12"
-                action="{{ route('vendedorIndex') }}" method="GET" style="min-width: 200px;">
+                action="{{ route('indexVendedorUnidade') }}" method="GET" style="min-width: 200px;">
                 <input type="hidden" name="page" value="1" />
                 <input type="text" class="form-control" placeholder="Digite sua busca" id="busca"
                     value="{{ $busca }}" name="busca" required>
                 <button class="btn pr-3" type="submit" role="button"><i class="material-icons">search</i></button>
                 @if (@$busca)
-                    <a href="{{ route('vendedorIndex') }}" class="btn pr-3 text-danger" type="button" role="button"><i
+                    <a href="{{ route('indexVendedorUnidade') }}" class="btn pr-3 text-danger" type="button" role="button"><i
                             class="material-icons">close</i></a>
                 @endif
             </form>
@@ -54,7 +54,7 @@
                     @foreach ($paginacao as $item)
                         <tr>
                             <td class="text-center">
-                                <a href="{{ route('vendedorEditar', $item->id) }}">
+                                <a href="{{ route('editarVendedorUnidade', $item->id) }}">
                                     @if ($item->avatar != '')
                                         <img src="{{ URL::asset('storage/' . $item->avatar) }}" alt=""
                                             class="avatar-img">
@@ -65,13 +65,13 @@
                                 </a>
                             </td>
                             <td>
-                                <a href="{{ route('vendedorEditar', $item->id) }}">
+                                <a href="{{ route('editarVendedorUnidade', $item->id) }}">
                                     {{ $item->nome }}
                                 </a>
                             </td>
                             <td>{{ $item->unidade }}</td>
                             <td class="table-dropdown text-center">
-                                <a href="{{ route('vendedorEditar', $item->id) }}" class="btn btn-success">
+                                <a href="{{ route('editarVendedorUnidade', $item->id) }}" class="btn btn-success">
                                     <i class="fa fa-edit"></i>
                                 </a>
 
