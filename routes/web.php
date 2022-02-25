@@ -16,6 +16,7 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UnidadeController;
 use App\Http\Controllers\VendedorController;
 use App\Models\Newsletter;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,13 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+Route::get('/clear-cache', function() {
+    Artisan::call('cache:clear');
+    return "Cache is cleared";
+});
+
 
 //Rota Diretório Raiz
 Route::get('/', [SiteController::class, 'index'])->name('inicio');
@@ -225,7 +233,7 @@ Route::get('/vendedor-unidade-cadastro', [UnidadeController::class, 'cadastroVen
 Route::post('/vendedor-unidade-inserir', [VendedorController::class, 'inserirVendedorUnidade'])->name('inserirVendedorUnidade');
 Route::get('/vendedor-unidade-editar/{item}', [UnidadeController::class, 'editarVendedorUnidade'])->name('editarVendedorUnidade');
 Route::put('/vendedor-unidade-salvar/{item}', [VendedorController::class, 'salvarVendedorUnidade'])->name('salvarVendedorUnidade');
-
+Route::get('/vendedor-unidade-delete/{item}', [VendedorController::class, 'deletarVendedorUnidade'])->name('deletarVendedorUnidade');
 Route::get('/vendedor-unidade-index', [UnidadeController::class, 'indexVendedorUnidade'])->name('indexVendedorUnidade');
 
 /* 

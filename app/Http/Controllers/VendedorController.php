@@ -800,6 +800,32 @@ class VendedorController extends Controller
         }
     }
 
+        /*
+    Função Deletar de Vendedor
+    - Responsável por excluir as informações de um vendedor
+    - $request: Recebe o Id do um vendedor a ser excluido
+    */
+    public function deletarVendedorUnidade(Vendedor $item)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarUnidade())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarUnidade();
+
+
+        $item->status = 0;
+
+        //Deleta o vendedori informado
+        if ($item->save()) {
+
+            //Redirecionamento para a rota indexVendedorUnidade, com mensagem de sucesso
+            return redirect()->route('indexVendedorUnidade')->with('sucesso', 'Vendedor excluido!');
+        } else {
+            //Redirecionamento para a rota indexVendedorUnidade, com mensagem de erro
+            return redirect()->route('indexVendedorUnidade')->with('erro', 'Vendedor não excluido!');
+        }
+    }
+
 
     /*
     Função status de Vendedor

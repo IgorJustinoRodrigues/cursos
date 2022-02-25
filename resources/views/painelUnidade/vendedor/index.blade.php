@@ -34,8 +34,8 @@
                     value="{{ $busca }}" name="busca" required>
                 <button class="btn pr-3" type="submit" role="button"><i class="material-icons">search</i></button>
                 @if (@$busca)
-                    <a href="{{ route('indexVendedorUnidade') }}" class="btn pr-3 text-danger" type="button" role="button"><i
-                            class="material-icons">close</i></a>
+                    <a href="{{ route('indexVendedorUnidade') }}" class="btn pr-3 text-danger" type="button"
+                        role="button"><i class="material-icons">close</i></a>
                 @endif
             </form>
         </div>
@@ -46,7 +46,7 @@
                     <tr>
                         <th style="width: 5%">Logo</th>
                         <th style="width: 50%">Vendedor</th>
-                        <th style="width: 35%">Unidade</th>
+                        <th style="width: 35%">WhatsApp</th>
                         <th style="width: 10%">Opções</th>
                     </tr>
                 </thead>
@@ -59,7 +59,7 @@
                                         <img src="{{ URL::asset('storage/' . $item->avatar) }}" alt=""
                                             class="avatar-img">
                                     @else
-                                        <img src="{{ URL::asset('storage/avatarVendedores/padrao.png') }}" alt=""
+                                        <img src="{{ URL::asset('storage/avatarVendedor/padrao.png') }}" alt=""
                                             class="avatar-img">
                                     @endif
                                 </a>
@@ -69,13 +69,19 @@
                                     {{ $item->nome }}
                                 </a>
                             </td>
-                            <td>{{ $item->unidade }}</td>
+
+                            @if ($item->whatsapp != '')
+                                <td>{{ $item->whatsapp }}</td>
+                            @else
+                                <td>Não informado!</td>
+                            @endif
+
                             <td class="table-dropdown text-center">
                                 <a href="{{ route('editarVendedorUnidade', $item->id) }}" class="btn btn-success">
                                     <i class="fa fa-edit"></i>
                                 </a>
 
-                                <a onclick="confirmacao('{{ route('vendedorDeletar', $item->id) }}', '<h3>Realmente deseja excluir esse Vendedor?</h3><p>{{ $item->nome }}</p>')"
+                                <a onclick="confirmacao('{{ route('deletarVendedorUnidade', $item->id) }}', '<h3>Realmente deseja excluir esse Vendedor?</h3><p>{{ $item->nome }}</p>')"
                                     class="btn btn-danger">
                                     <i class="fa fa-trash"></i>
                                 </a>
