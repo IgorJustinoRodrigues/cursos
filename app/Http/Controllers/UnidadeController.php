@@ -382,7 +382,7 @@ class UnidadeController extends Controller
             $item->touch();
 
             //Redirecionamento para a rota painelUnidade, com mensagem de sucesso, com uma sessão ativa
-            return redirect()->route('painelUnidade')->with('sucesso', 'Olá ' . $item->nome . ', você acessou o sistema com o perfil de "' . $this->tipo($item->id) . '"');
+            return redirect()->route('painelUnidade')->with('sucesso', 'Olá ' . $item->nome . ', Seja Bem-vindo ao seu painel administrativo.');
         } else {
             //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
             return redirect()->route('acessoUnidade')->with('atencao', 'Usuário e/ou senha incorretos!')->withInput(
@@ -831,22 +831,6 @@ class UnidadeController extends Controller
         } else {
             //Redirecionamento para a rota vendedorIndex, com mensagem de erro
             return redirect()->route('unidadeIndex')->with('erro', 'Vendedor não encontrado!');
-        }
-    }
-
-    /*
-    Função Tipo de Admin
-    - Responsável por exibir o tipo do unidade
-    - $tipo: Recebe o Id do tipo do unidade
-    */
-    public function tipo($tipo)
-    {
-        //Verifica o tipo do unidade
-        switch ($tipo) {
-            case 1:
-                //Retorna o tipo Unidade
-                return 'Unidade';
-                break;
         }
     }
 }

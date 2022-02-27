@@ -366,7 +366,7 @@ class VendedorController extends Controller
             $item->touch();
 
             //Redirecionamento para a rota painelVendedor, com mensagem de sucesso, com uma sessão ativa
-            return redirect()->route('painelVendedor')->with('sucesso', 'Olá ' . $item->nome . ', você acessou o sistema com o perfil de "' . $this->tipo($item->id) . '"');
+            return redirect()->route('painelVendedor')->with('sucesso', 'Olá Vendedor' . $item->nome . '!');
         } else {
             //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
             return redirect()->route('acessoVendedor')->with('atencao', 'Usuário e/ou senha incorretos!')->withInput(
@@ -800,7 +800,7 @@ class VendedorController extends Controller
         }
     }
 
-        /*
+    /*
     Função Deletar de Vendedor
     - Responsável por excluir as informações de um vendedor
     - $request: Recebe o Id do um vendedor a ser excluido
@@ -849,22 +849,6 @@ class VendedorController extends Controller
             case 0:
                 //Retorna o status Excluido
                 return 'Excluido';
-                break;
-        }
-    }
-
-    /*
-    Função Tipo de Admin
-    - Responsável por exibir o tipo do vendedor
-    - $tipo: Recebe o Id do tipo do vendedor
-    */
-    public function tipo($tipo)
-    {
-        //Verifica o tipo do vendedor
-        switch ($tipo) {
-            case 1:
-                //Retorna o tipo Vendedor
-                return 'Vendedor';
                 break;
         }
     }
