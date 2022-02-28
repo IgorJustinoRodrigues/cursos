@@ -34,8 +34,8 @@
                     value="{{ $busca }}" name="busca" required>
                 <button class="btn pr-3" type="submit" role="button"><i class="material-icons">search</i></button>
                 @if (@$busca)
-                    <a href="{{ route('matriculaIndex') }}" class="btn pr-3 text-danger" type="button" role="button"><i
-                            class="material-icons">close</i></a>
+                    <a href="{{ route('matriculaIndex') }}" class="btn pr-3 text-danger" type="button"
+                        role="button"><i class="material-icons">close</i></a>
                 @endif
             </form>
         </div>
@@ -44,18 +44,30 @@
             <table class="table-responsive table">
                 <thead>
                     <tr>
-                        <th style="width: 80%">Ativação</th>
-                        <th style="width: 20%">Status</th>
-
+                        <th style="width: 50%">Ativação</th>
+                        <th style="width: 40%">Status</th>
+                        <th style="width: 10%">Opções</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($paginacao as $item)
                         <tr>
                             <td>
-                                {{ $item->ativacao }}
+                                <a href="{{ route('matriculaEditar', $item->id) }}">
+                                    {{ $item->ativacao }}
+                                </a>
                             </td>
                             <td>{{ app(App\Http\Controllers\MatriculaController::class)->status($item->status) }}</td>
+                            <td class="table-dropdown text-center">
+                                <a href="{{ route('matriculaEditar', $item->id) }}" class="btn btn-success">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+
+                                <a onclick="confirmacao('{{ route('matriculaDeletar', $item->id) }}', '<h3>Realmente deseja excluir esse matricula?</h3><p>{{ $item->ativacao }}</p>')"
+                                    class="btn btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
