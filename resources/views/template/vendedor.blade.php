@@ -295,7 +295,7 @@
                                         <a class="sidebar-menu-button sidebar-js-collapse" data-toggle="collapse"
                                             href="#menuMatricula">
                                             <i
-                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">perm_contact_calendar</i>
+                                                class="sidebar-menu-icon sidebar-menu-icon--left material-icons">how_to_reg</i>
                                             Matrícula
                                             <span class="ml-auto sidebar-menu-toggle-icon"></span>
                                         </a>
