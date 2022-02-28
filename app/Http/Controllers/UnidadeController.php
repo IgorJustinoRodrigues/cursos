@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ajuda;
+use App\Models\Aluno;
 use App\Models\Canvas;
 use App\Models\CategoriaAjuda;
+use App\Models\Curso;
+use App\Models\Matricula;
 use App\Models\Parceiro;
 use App\Models\Unidade;
 use App\Models\Vendedor;
@@ -832,5 +835,82 @@ class UnidadeController extends Controller
             //Redirecionamento para a rota vendedorIndex, com mensagem de erro
             return redirect()->route('unidadeIndex')->with('erro', 'Vendedor não encontrado!');
         }
+    }
+
+    /*
+    Função Cadastro de Matricula
+    - Responsável por mostrar a tela de cadastro de professor
+    */
+    public function cadastroMatriculaUnidade()
+    {
+        //Validação de acesso
+        if (!(new Services())->validarUnidade())
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarUnidade();
+
+        $alunos = Aluno::where('status', '=', 1)->get();
+        $cursos = Curso::where('status', '=', 1)->get();
+
+        //Exibe a tela de cadastro de professor
+        return view('painelUnidade.matricula.cadastro', [
+            'alunos' => $alunos,
+            'cursos' => $cursos,
+        ]);
+    }
+
+
+    public function listarCursosUnidadeAjax(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarUnidade())
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarUnidade();
+
+        $tipo = @$request->tipo;
+
+        $nivel = Curso::where('tipo', '=', $tipo)
+            ->where('status', '=', 1)
+            ->get();
+
+        if ($nivel != null) {
+            $retorno = [
+                'status' => 1,
+                'retorno' => $nivel
+            ];
+        } else {
+            $retorno = [
+                'msg' => 'Não há cursos para este nível!',
+                'status' => 0
+            ];
+        }
+
+        //Resposta JSON
+        return response()->json($retorno);
+    }
+
+    /*
+    Função Index de Matricula
+    - Responsável por mostrar a tela de listagem de matricula 
+    - $request: Recebe valores de busca e paginação
+    */
+    public function matriculaUnidadeIndex(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarUnidade())
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarUnidade();
+
+        $consulta = Matricula::where('unidade_id', '=', $_SESSION['unidade_cursos_start']->id)->orderby('id', 'desc');
+
+        //Verifica se existe uma busca
+        if (@$request->busca != '') {
+            //Paginação dos registros com busca busca
+            $consulta->where('ativacao', 'like', '%' . $request->busca . '%');
+        }
+
+        $items = $consulta->paginate();
+
+        //Exibe a tela de listagem de categoria de Curso passando parametros para view
+        return view('painelUnidade.matricula.index', ['paginacao' => $items, 'busca' => @$request->busca]);
     }
 }

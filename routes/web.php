@@ -276,10 +276,9 @@ Route::post('/vendedor-valida-usuario', [VendedorController::class, 'validaUsuar
 
 Route::put('/vendedor-salvar-minhas-informacoes', [VendedorController::class, 'salvarMinhasInformacoesVendedor'])->name('salvarMinhasInformacoesVendedor');
 
+
 /* 
-ROTAS DA ABA DE MATRÍCULA PAINEL VENDEDOR
-*/
-/*ROTA DE CADASTRO E LISTAR DE MATRÍCULA EM VENDEDOR*/
+ROTAS DA ABA DE MATRÍCULA PAINEL VENDEDOR - ROTA DE CADASTRO E LISTAR DE MATRÍCULA EM VENDEDOR*/
 Route::get('/ver-matricula-vendedor/{item}', [MatriculaController::class, 'verMatriculaVendedor'])->name('verMatriculaVendedor');
 
 Route::get('/matricula-vendedor', [VendedorController::class, 'matriculaVendedorIndex'])->name('matriculaVendedorIndex');
@@ -288,6 +287,27 @@ Route::get('/matricula-cadastro-vendedor', [VendedorController::class, 'cadastro
 Route::post('/listar-cursos-ajax/', [VendedorController::class, 'listarCursosAjax'])->name('listarCursosAjax');
 /*ROTA DE INSERIR EM MATRÍCULACONTROLLER DE VENDEDOR*/
 Route::post('/matricula-inserir-vendedor', [MatriculaController::class, 'inserirMatriculaVendedor'])->name('inserirMatriculaVendedor');
+
+/* 
+ROTAS DA ABA DE MATRÍCULA PAINEL UNiDADE - ROTA DE CADASTRO E LISTAR DE MATRÍCULA EM UNiDADE*/
+Route::get('/ver-matricula-vendedor/{item}', [MatriculaController::class, 'verMatriculaVendedor'])->name('verMatriculaVendedor');
+
+
+/* 
+ROTAS DA ABA DE MATRÍCULA PAINEL UNIDADE - ROTA DE CADASTRO E LISTAR DE MATRÍCULA EM UNIDADE*/
+Route::get('/ver-matricula-unidade/{item}', [MatriculaController::class, 'verMatriculaUnidade'])->name('verMatriculaUnidade');
+
+Route::get('/matricula-unidade', [UnidadeController::class, 'matriculaUnidadeIndex'])->name('matriculaUnidadeIndex');
+Route::get('/matricula-cadastro-unidade', [UnidadeController::class, 'cadastroMatriculaUnidade'])->name('cadastroMatriculaUnidade');
+
+Route::post('/listar-cursos-ajax-unidade/', [UnidadeController::class, 'listarCursosUnidadeAjax'])->name('listarCursosUnidadeAjax');
+/*ROTA DE INSERIR EM MATRÍCULACONTROLLER DE VENDEDOR*/
+Route::post('/matricula-inserir-unidade', [MatriculaController::class, 'inserirMatriculaUnidade'])->name('inserirMatriculaUnidade');
+
+/* 
+ROTAS DA ABA DE MATRÍCULA PAINEL UNiDADE - ROTA DE CADASTRO E LISTAR DE MATRÍCULA EM UNiDADE*/
+Route::get('/ver-matricula-unidade/{item}', [MatriculaController::class, 'verMatriculaUnidade'])->name('verMatriculaUnidade');
+
 
 
 /* 

@@ -182,6 +182,64 @@ class MatriculaController extends Controller
     }
 
     /*
+    Função Inserir de Matricula
+    - Responsável por inserirMatriculaVendedor as informações de uma matricula
+    - $request: Recebe valores da matricula
+    */
+    public function inserirMatriculaUnidade(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarUnidade())
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarUnidade();
+
+        //Validação das informações recebidas
+        $validated = $request->validate([
+            'tipo_pagamento' => 'required',
+            'nivel' => 'required',
+        ]);
+
+        //Nova instância do Model Matricula
+        $item = new Matricula();
+
+        //Atribuição dos valores recebidos da váriavel $request
+        //1 -> Código da Unidade
+        //2 -> Caracter aleatório
+        //3 -> Tipo do Curso -> I M A T
+        //4 -> Ano
+        // XXX1492FBDA3A22
+        // 111122222222344
+
+        $item->ativacao = str_pad($request->unidade, 4, "X", STR_PAD_RIGHT) . strtoupper(bin2hex(random_bytes(4))) . (new CursoController())->codigo_tipo($request->nivel) . date("y");
+        $item->tipo_pagamento = $request->tipo_pagamento;
+        if ($item->tipo_pagamento == 2) {
+            $item->quant_parcelas = $request->quant_parcelas_venda;
+            $item->mes_inicio_pagamento = $request->mes_inicio_pagamento;
+        }
+        $item->valor_venda = $request->valor_venda;
+        $item->nivel_curso = $request->nivel;
+        $item->status = 2;
+
+        $item->aluno_id = $request->aluno;
+        $item->unidade_id = $_SESSION['unidade_cursos_start']->id;
+        $item->curso_id = $request->curso;
+        $item->vendedor_id = $_SESSION['unidade_cursos_start']->vendedor_id;
+
+        //Envio das informações para o banco de dados
+        $resposta = $item->save();
+
+        //Verificação do insert
+        if ($resposta) {
+            //Redirecionamento para a rota verMatriculaUnidade, com mensagem de sucesso
+            return redirect()->route('verMatriculaUnidade', [$item->id])->with('sucesso', 'matrícula gerada!');
+        } else {
+
+            //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
+            return redirect()->back()->with('atencao', 'Não foi possível salvar as informações, tente novamente!')->withInput();
+        }
+    }
+
+    /*
     Função Ver Matricula  de Vendedor
     - Responsável por mostrar a tela de ver Matrícula Vendedor
     - $item: Recebe o Id de matrícula que deverá ser editado
@@ -207,6 +265,35 @@ class MatriculaController extends Controller
         } else {
             //Redirecionamento para a rota vendedorIndex, com mensagem de erro
             return redirect()->route('cadastroMatriculaVendedor')->with('erro', 'Matrícula não encontrada!');
+        }
+    }
+
+    /*
+    Função Ver Matricula  de Vendedor
+    - Responsável por mostrar a tela de ver Matrícula Vendedor
+    - $item: Recebe o Id de matrícula que deverá ser editado
+    */
+    public function verMatriculaUnidade($id)
+    {
+        $item = Matricula::leftjoin('cursos', 'matriculas.curso_id', '=', 'cursos.id')
+            ->leftJoin('alunos', 'matriculas.aluno_id', '=', 'alunos.id')
+            ->where('matriculas.status', '<>', '0')
+            ->selectRaw('matriculas.*,  date_format(matriculas.created_at, "%d/%m/%H às %H:%i") as data, cursos.nome as curso, alunos.nome as aluno')
+            ->find($id);
+
+        //Verifica se há alguma matrícula selecionada
+        if (@$item) {
+
+
+            if ($item->status == 0) {
+                return redirect()->route('cadastroMatriculaUnidade')->with('atencao', 'Matrícula excluida!');
+            }
+
+            //Exibe a tela de edição de vendedoristradores passando parametros para view
+            return view('painelUnidade.matricula.verMatriculaUnidade', ['item' => $item]);
+        } else {
+            //Redirecionamento para a rota vendedorIndex, com mensagem de erro
+            return redirect()->route('cadastroMatriculaUnidade')->with('erro', 'Matrícula não encontrada!');
         }
     }
 
@@ -299,7 +386,7 @@ class MatriculaController extends Controller
         }
     }
 
-     /*
+    /*
     Função tipoPagamento de Matricula
     - Responsável por exibir o status do Matricula
     - $status: Recebe o Id do status do Matricula
