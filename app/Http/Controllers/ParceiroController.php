@@ -843,22 +843,22 @@ class ParceiroController extends Controller
 
         $alunos = Aluno::where('status', '=', 1)->get();
         $cursos = Curso::where('status', '=', 1)->get();
-        
-        $unidades = Unidade::join('parceiros','unidades.parceiro_id', '=', 'parceiros.id')
-        ->where('parceiros.id', '=', $_SESSION['parceiro_cursos_start']->id)
-        ->where('unidades.status', '=', 1)
-        ->selectRaw('unidades.*, parceiros.nome as parceiro')
-        ->get();
- 
 
-        $vendedores = Vendedor::join('unidades', 'vendedors.unidade_id', '=','unidades.id')
-        ->join('parceiros','unidades.parceiro_id', '=', 'parceiros.id')
-        ->where('parceiros.id', '=', $_SESSION['parceiro_cursos_start']->id)
-        ->where('vendedors.status', '=', 1)
-        ->selectRaw('vendedors.*, parceiros.nome as parceiro, unidades.nome as unidade')
-        ->get();
-        
-        
+        $unidades = Unidade::join('parceiros', 'unidades.parceiro_id', '=', 'parceiros.id')
+            ->where('parceiros.id', '=', $_SESSION['parceiro_cursos_start']->id)
+            ->where('unidades.status', '=', 1)
+            ->selectRaw('unidades.*, parceiros.nome as parceiro')
+            ->get();
+
+
+        $vendedores = Vendedor::join('unidades', 'vendedors.unidade_id', '=', 'unidades.id')
+            ->join('parceiros', 'unidades.parceiro_id', '=', 'parceiros.id')
+            ->where('parceiros.id', '=', $_SESSION['parceiro_cursos_start']->id)
+            ->where('vendedors.status', '=', 1)
+            ->selectRaw('vendedors.*, parceiros.nome as parceiro, unidades.nome as unidade')
+            ->get();
+
+
 
         //Exibe a tela de cadastro de professor
         return view('painelParceiro.matricula.cadastro', [
@@ -913,17 +913,15 @@ class ParceiroController extends Controller
         $consulta = Matricula::join('unidades', 'matriculas.unidade_id', '=', 'unidades.id')
             ->join('parceiros', 'unidades.parceiro_id', '=', 'parceiros.id')
             ->where('parceiros.id', '=',  $_SESSION['parceiro_cursos_start']->id)
-            ->selectRaw('matriculas.*, unidades.nome as unidade, parceiros.nome as parceiro')
-            ->orderby('parceiros.id', 'desc')
-            ->get();
-
+            ->orderby('parceiros.id', 'desc');
+            
         //Verifica se existe uma busca
         if (@$request->busca != '') {
             //Paginação dos registros com busca busca
             $consulta->where('ativacao', 'like', '%' . $request->busca . '%');
         }
 
-        $items = $consulta->paginate();
+        $items = $consulta->selectRaw('matriculas.*, unidades.nome as unidade, parceiros.nome as parceiro')->paginate();
 
         //Exibe a tela de listagem de categoria de Curso passando parametros para view
         return view('painelParceiro.matricula.index', ['paginacao' => $items, 'busca' => @$request->busca]);
