@@ -754,13 +754,76 @@ class ParceiroController extends Controller
             return (new Services())->redirecionarParceiro();
 
         $unidade = Unidade::where('status', '=', '1')
-        ->where('parceiro_id','=', $_SESSION['parceiro_cursos_start']->id )
-        ->get();
+            ->where('parceiro_id', '=', $_SESSION['parceiro_cursos_start']->id)
+            ->get();
 
         //Exibe a tela de cadastro de vendedor
         return view('painelParceiro.vendedor.cadastro', ['unidade' => $unidade]);
     }
-    
-    
 
+    /*
+    Função Index de Vendedor
+    - Responsável por mostrar a tela de listagem de vendedor 
+    - $request: Recebe valores de busca e paginação
+    */
+    public function indexVendedorParceiro(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarParceiro())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarParceiro();
+
+        $consulta = Vendedor::join('unidades', 'vendedors.unidade_id', '=', 'unidades.id')
+            ->orderby('unidades.nome', 'asc')
+            ->where('parceiro_id', '=', $_SESSION['parceiro_cursos_start']->id)
+            ->where('vendedors.status', '<>', '0');
+
+        //Verifica se existe uma busca
+        if (@$request->busca != '') {
+            //Paginação dos registros com busca busca
+            $consulta->where('vendedors.nome', 'like', '%' . $request->busca . '%');
+        }
+
+
+        $items = $consulta->selectRaw('vendedors.*, unidades.nome as unidade')
+            ->paginate();
+
+        //Exibe a tela de listagem de vendedor passando parametros para view
+        return view('painelParceiro.vendedor.index', ['paginacao' => $items, 'busca' => @$request->busca]);
+    }
+
+    /*
+    Função Editar de Vendedor
+    - Responsável por mostrar a tela de edição de vendedoristradores
+    - $item: Recebe o Id do vendedor que deverá ser editado
+    */
+    public function editarVendedorParceiro($id)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarParceiro())
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarParceiro();
+
+        $item = Vendedor::join('unidades', 'vendedors.unidade_id', '=', 'unidades.id')
+            ->orderby('unidades.nome', 'asc')
+            ->where('parceiro_id', '=', $_SESSION['parceiro_cursos_start']->id)
+            ->where('unidades.status', '<>', '0')
+            ->selectRaw('vendedors.*, unidades.nome as unidade')
+            ->find($id);
+
+        //Verifica se há algum vendedor selecionado
+        if (@$item) {
+
+
+            if ($item->status == 0) {
+                return redirect()->route('indexVendedorParceiro')->with('atencao', 'Vendedor excluido!');
+            }
+
+            //Exibe a tela de edição de vendedoristradores passando parametros para view
+            return view('painelParceiro.vendedor.editar', ['item' => $item]);
+        } else {
+            //Redirecionamento para a rota vendedorIndex, com mensagem de erro
+            return redirect()->route('indexVendedorParceiro')->with('erro', 'Vendedor não encontrado!');
+        }
+    }
 }

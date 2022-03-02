@@ -1,4 +1,4 @@
-@extends('template.admin')
+@extends('template.parceiro')
 @section('title', 'Vendedor')
 @section('menu-vendedor', 'true')
 
@@ -20,7 +20,7 @@
 
             $.ajax({
                 type: 'post',
-                url: "{{ route('adminValidaUsuario') }}",
+                url: "{{ route('validaUsuarioParceiro') }}",
                 data: {
                     usuario: usuario,
                     tabela: tabela,
@@ -86,7 +86,7 @@
         <div class="card card-body">
             <div class="row">
                 <div class="col-lg-12">
-                    <form method="POST" action="{{ route('vendedorSalvar', $item) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('salvarVendedorParceiro', $item) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="id" id="id" value="{{ $item->id }}">
