@@ -239,7 +239,7 @@ class MatriculaController extends Controller
         }
     }
 
-       /*
+    /*
     Função Inserir de Matricula
     - Responsável por inserir as informações de uma matricula
     - $request: Recebe valores da matricula
@@ -290,7 +290,7 @@ class MatriculaController extends Controller
         //Verificação do insert
         if ($resposta) {
             //Redirecionamento para a rota matriculaIndex, com mensagem de sucesso
-            return redirect()->route('matriculaParceiroIndex')->with('sucesso', '"' . $item->nome . '", inserido!');
+            return redirect()->route('verMatriculaParceiro', [$item->id])->with('sucesso', 'Matrícula cadastrada!');
         } else {
 
             //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
@@ -353,6 +353,35 @@ class MatriculaController extends Controller
         } else {
             //Redirecionamento para a rota vendedorIndex, com mensagem de erro
             return redirect()->route('cadastroMatriculaUnidade')->with('erro', 'Matrícula não encontrada!');
+        }
+    }
+
+    /*
+    Função Ver Matricula  de Vendedor
+    - Responsável por mostrar a tela de ver Matrícula Vendedor
+    - $item: Recebe o Id de matrícula que deverá ser editado
+    */
+    public function verMatriculaParceiro($id)
+    {
+        $item = Matricula::leftjoin('cursos', 'matriculas.curso_id', '=', 'cursos.id')
+            ->leftJoin('alunos', 'matriculas.aluno_id', '=', 'alunos.id')
+            ->where('matriculas.status', '<>', '0')
+            ->selectRaw('matriculas.*,  date_format(matriculas.created_at, "%d/%m/%H às %H:%i") as data, cursos.nome as curso, alunos.nome as aluno')
+            ->find($id);
+
+        //Verifica se há alguma matrícula selecionada
+        if (@$item) {
+
+
+            if ($item->status == 0) {
+                return redirect()->route('cadastroMatriculaUnidade')->with('atencao', 'Matrícula excluida!');
+            }
+
+            //Exibe a tela de edição de vendedoristradores passando parametros para view
+            return view('painelParceiro.matricula.verMatriculaUnidade', ['item' => $item]);
+        } else {
+            //Redirecionamento para a rota vendedorIndex, com mensagem de erro
+            return redirect()->route('cadastroMatriculaParceiro')->with('erro', 'Matrícula não encontrada!');
         }
     }
 

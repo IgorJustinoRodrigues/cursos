@@ -124,7 +124,7 @@
                                 <select id="vendedor" class="form-control custom-select select2" name="vendedor">
                                     <option value=""></option>
                                     @foreach ($vendedores as $linha)
-                                        <option @if (old('vendedor') == $linha->id) selected @endif class="unidade unidade{{ $linha->unidade_id }}" value="{{ $linha->id }}">{{ $linha->nome }}</option>
+                                        <option @if (old('vendedor') == $linha->id) selected @endif value="{{ $linha->id }}">{{ $linha->nome }}</option>
                                     @endforeach
                                 </select>
                             </div>

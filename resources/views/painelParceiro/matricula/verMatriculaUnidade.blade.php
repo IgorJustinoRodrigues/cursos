@@ -1,4 +1,4 @@
-@extends('template.unidade')
+@extends('template.parceiro')
 @section('title', 'Matrículas')
 @section('menu-matricula', 'true')
 

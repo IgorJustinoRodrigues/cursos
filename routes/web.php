@@ -314,9 +314,6 @@ Route::post('/listar-cursos-ajax-unidade/', [UnidadeController::class, 'listarCu
 /*ROTA DE INSERIR EM MATRÍCULACONTROLLER DE VENDEDOR*/
 Route::post('/matricula-inserir-unidade', [MatriculaController::class, 'inserirMatriculaUnidade'])->name('inserirMatriculaUnidade');
 
-/* 
-ROTAS DA ABA DE MATRÍCULA PAINEL UNiDADE - ROTA DE CADASTRO E LISTAR DE MATRÍCULA EM UNiDADE*/
-Route::get('/ver-matricula-unidade/{item}', [MatriculaController::class, 'verMatriculaUnidade'])->name('verMatriculaUnidade');
 
 //
 /* 
@@ -329,10 +326,6 @@ Route::get('/matricula-cadastro-parceiro', [ParceiroController::class, 'cadastro
 Route::post('/listar-cursos-ajax-parceiro/', [ParceiroController::class, 'listarCursosParceiroAjax'])->name('listarCursosParceiroAjax');
 /*ROTA DE INSERIR EM MATRÍCULACONTROLLER DE VENDEDOR*/
 Route::post('/matricula-inserir-parceiro', [MatriculaController::class, 'inserirMatriculaParceiro'])->name('inserirMatriculaParceiro');
-
-/* 
-ROTAS DA ABA DE MATRÍCULA PAINEL UNiDADE - ROTA DE CADASTRO E LISTAR DE MATRÍCULA EM UNiDADE*/
-Route::get('/ver-matricula-parceiro/{item}', [MatriculaController::class, 'verMatriculaParceiro'])->name('verMatriculaParceiro');
 
 
 //
