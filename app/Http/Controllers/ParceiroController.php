@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ajuda;
+use App\Models\Aluno;
 use App\Models\Canvas;
 use App\Models\CategoriaAjuda;
+use App\Models\Curso;
+use App\Models\Matricula;
 use App\Models\Parceiro;
 use App\Models\Unidade;
 use App\Models\Vendedor;
@@ -347,7 +350,7 @@ class ParceiroController extends Controller
             $item->touch();
 
             //Redirecionamento para a rota painelParceiro, com mensagem de sucesso, com uma sessão ativa
-            return redirect()->route('painelParceiro')->with('sucesso', 'Olá ' . $item->nome . ', você acessou o sistema com o perfil de "' . $this->tipo($item->id) . '"');
+            return redirect()->route('painelParceiro')->with('sucesso', 'Olá ' . $item->nome . ', você acessou o sistema com o perfil de Parceiro');
         } else {
             //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
             return redirect()->route('acessoParceiro')->with('atencao', 'Usuário e/ou senha incorretos!')->withInput(
@@ -825,5 +828,104 @@ class ParceiroController extends Controller
             //Redirecionamento para a rota vendedorIndex, com mensagem de erro
             return redirect()->route('indexVendedorParceiro')->with('erro', 'Vendedor não encontrado!');
         }
+    }
+
+    /*
+    Função Cadastro de Matricula
+    - Responsável por mostrar a tela de cadastro de professor
+    */
+    public function cadastroMatriculaParceiro()
+    {
+        //Validação de acesso
+        if (!(new Services())->validarParceiro())
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarParceiro();
+
+        $alunos = Aluno::where('status', '=', 1)->get();
+        $cursos = Curso::where('status', '=', 1)->get();
+        
+        $unidades = Unidade::join('parceiros','unidades.parceiro_id', '=', 'parceiros.id')
+        ->where('parceiros.id', '=', $_SESSION['parceiro_cursos_start']->id)
+        ->where('unidades.status', '=', 1)
+        ->selectRaw('unidades.*, parceiros.nome as parceiro')
+        ->get();
+ 
+
+        $vendedores = Vendedor::join('unidades', 'vendedors.unidade_id', '=','unidades.id')
+        ->join('parceiros','unidades.parceiro_id', '=', 'parceiros.id')
+        ->where('parceiros.id', '=', $_SESSION['parceiro_cursos_start']->id)
+        ->where('vendedors.status', '=', 1)
+        ->selectRaw('vendedors.*, parceiros.nome as parceiro, unidades.nome as unidade')
+        ->get();
+        
+        
+
+        //Exibe a tela de cadastro de professor
+        return view('painelParceiro.matricula.cadastro', [
+            'alunos' => $alunos,
+            'cursos' => $cursos,
+            'unidades' => $unidades,
+            'vendedores' => $vendedores
+        ]);
+    }
+
+    public function listarCursosParceiroAjax(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarParceiro())
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarParceiro();
+
+        $tipo = @$request->tipo;
+
+        $nivel = Curso::where('tipo', '=', $tipo)
+            ->where('status', '=', 1)
+            ->get();
+
+        if ($nivel != null) {
+            $retorno = [
+                'status' => 1,
+                'retorno' => $nivel
+            ];
+        } else {
+            $retorno = [
+                'msg' => 'Não há cursos para este nível!',
+                'status' => 0
+            ];
+        }
+
+        //Resposta JSON
+        return response()->json($retorno);
+    }
+
+    /*
+    Função Index de Matricula
+    - Responsável por mostrar a tela de listagem de matricula 
+    - $request: Recebe valores de busca e paginação
+    */
+    public function matriculaParceiroIndex(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarParceiro())
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarParceiro();
+
+        $consulta = Matricula::join('unidades', 'matriculas.unidade_id', '=', 'unidades.id')
+            ->join('parceiros', 'unidades.parceiro_id', '=', 'parceiros.id')
+            ->where('parceiros.id', '=',  $_SESSION['parceiro_cursos_start']->id)
+            ->selectRaw('matriculas.*, unidades.nome as unidade, parceiros.nome as parceiro')
+            ->orderby('parceiros.id', 'desc')
+            ->get();
+
+        //Verifica se existe uma busca
+        if (@$request->busca != '') {
+            //Paginação dos registros com busca busca
+            $consulta->where('ativacao', 'like', '%' . $request->busca . '%');
+        }
+
+        $items = $consulta->paginate();
+
+        //Exibe a tela de listagem de categoria de Curso passando parametros para view
+        return view('painelParceiro.matricula.index', ['paginacao' => $items, 'busca' => @$request->busca]);
     }
 }

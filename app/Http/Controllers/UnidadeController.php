@@ -913,4 +913,7 @@ class UnidadeController extends Controller
         //Exibe a tela de listagem de categoria de Curso passando parametros para view
         return view('painelUnidade.matricula.index', ['paginacao' => $items, 'busca' => @$request->busca]);
     }
+
+   
+
 }

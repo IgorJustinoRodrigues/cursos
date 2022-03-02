@@ -239,6 +239,65 @@ class MatriculaController extends Controller
         }
     }
 
+       /*
+    Função Inserir de Matricula
+    - Responsável por inserir as informações de uma matricula
+    - $request: Recebe valores da matricula
+    */
+    public function inserirMatriculaParceiro(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarParceiro())
+            //Redirecionamento para a rota acessoAdmin, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarParceiro();
+
+        //Validação das informações recebidas
+        $validated = $request->validate([
+            'tipo_pagamento' => 'required',
+            'unidade' => 'required',
+            'nivel' => 'required',
+        ]);
+
+        //Nova instância do Model Matricula
+        $item = new Matricula();
+
+        //Atribuição dos valores recebidos da váriavel $request
+        //1 -> Código da Unidade
+        //2 -> Caracter aleatório
+        //3 -> Tipo do Curso -> I M A T
+        //4 -> Ano
+        // XXX1492FBDA3A22
+        // 111122222222344
+
+        $item->ativacao = str_pad($request->unidade, 4, "X", STR_PAD_RIGHT) . strtoupper(bin2hex(random_bytes(4))) . (new CursoController())->codigo_tipo($request->nivel) . date("y");
+        $item->tipo_pagamento = $request->tipo_pagamento;
+        if ($item->tipo_pagamento == 2) {
+            $item->quant_parcelas = $request->quant_parcelas_venda;
+            $item->mes_inicio_pagamento = $request->mes_inicio_pagamento;
+        }
+        $item->valor_venda = $request->valor_venda;
+        $item->nivel_curso = $request->nivel;
+        $item->status = 2;
+
+        $item->aluno_id = $request->aluno;
+        $item->unidade_id = $request->unidade;
+        $item->curso_id = $request->curso;
+        $item->vendedor_id = $request->vendedor;
+
+        //Envio das informações para o banco de dados
+        $resposta = $item->save();
+
+        //Verificação do insert
+        if ($resposta) {
+            //Redirecionamento para a rota matriculaIndex, com mensagem de sucesso
+            return redirect()->route('matriculaParceiroIndex')->with('sucesso', '"' . $item->nome . '", inserido!');
+        } else {
+
+            //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
+            return redirect()->back()->with('atencao', 'Não foi possível salvar as informações, tente novamente!')->withInput();
+        }
+    }
+
     /*
     Função Ver Matricula  de Vendedor
     - Responsável por mostrar a tela de ver Matrícula Vendedor

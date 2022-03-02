@@ -327,13 +327,13 @@
                                         <ul class="sidebar-submenu sm-indent collapse" id="menuMatricula">
                                             <li class="sidebar-menu-item">
                                                 <a class="sidebar-menu-button"
-                                                    href="{{ route('matriculaUnidadeIndex') }}">
+                                                    href="{{ route('matriculaParceiroIndex') }}">
                                                     <span class="sidebar-menu-text">Listar</span>
                                                 </a>
                                             </li>
                                             <li class="sidebar-menu-item">
                                                 <a class="sidebar-menu-button"
-                                                    href="{{ route('cadastroMatriculaUnidade') }}">
+                                                    href="{{ route('cadastroMatriculaParceiro') }}">
                                                     <span class="sidebar-menu-text">Cadastro</span>
                                                 </a>
                                             </li>
