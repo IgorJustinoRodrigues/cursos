@@ -237,6 +237,16 @@ Route::get('/vendedor-unidade-delete/{item}', [VendedorController::class, 'delet
 Route::get('/vendedor-unidade-index', [UnidadeController::class, 'indexVendedorUnidade'])->name('indexVendedorUnidade');
 
 /* 
+ROTAS DE CADASTRO DE VENDEDOR EM PARCEIRO
+*/
+Route::get('/vendedor-parceiro-cadastro', [ParceiroController::class, 'cadastroVendedorParceiro'])->name('cadastroVendedorParceiro');
+Route::post('/vendedor-parceiro-inserir', [VendedorController::class, 'inserirVendedorParceiro'])->name('inserirVendedorParceiro');
+Route::get('/vendedor-parceiro-editar/{item}', [ParceiroController::class, 'editarVendedorParceiro'])->name('editarVendedorParceiro');
+Route::put('/vendedor-parceiro-salvar/{item}', [VendedorController::class, 'salvarVendedorParceiro'])->name('salvarVendedorParceiro');
+Route::get('/vendedor-parceiro-delete/{item}', [VendedorController::class, 'deletarVendedorParceiro'])->name('deletarVendedorParceiro');
+Route::get('/vendedor-parceiro-index', [ParceiroController::class, 'indexVendedorParceiro'])->name('indexVendedorParceiro');
+
+/* 
 ROTAS DA ABA DE AJUDA DE UNIDADE
 */
 Route::get('/ajuda-unidade', [UnidadeController::class, 'ajuda'])->name('unidade.ajuda');

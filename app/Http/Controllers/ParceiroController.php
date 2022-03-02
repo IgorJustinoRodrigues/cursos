@@ -741,4 +741,26 @@ class ParceiroController extends Controller
         //Resposta JSON
         return response()->json($retorno);
     }
+
+    /*
+    Função Cadastro de Vendedor
+    - Responsável por mostrar a tela de cadastro de vendedor
+    */
+    public function cadastroVendedorParceiro()
+    {
+        //Validação de acesso
+        if (!(new Services())->validarParceiro())
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarParceiro();
+
+        $unidade = Unidade::where('status', '=', '1')
+        ->where('parceiro_id','=', $_SESSION['parceiro_cursos_start']->id )
+        ->get();
+
+        //Exibe a tela de cadastro de vendedor
+        return view('painelParceiro.vendedor.cadastro', ['unidade' => $unidade]);
+    }
+    
+    
+
 }
