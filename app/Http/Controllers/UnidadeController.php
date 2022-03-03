@@ -914,6 +914,193 @@ class UnidadeController extends Controller
         return view('painelUnidade.matricula.index', ['paginacao' => $items, 'busca' => @$request->busca]);
     }
 
-   
+    /*
+    Função Inserir de Unidade
+    - Responsável por inserir as informações de um novo unidade
+    - $request: Recebe valores do novo unidade
+    */
+    public function inserirUnidadeParceiro(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarParceiro())
+            //Redirecionamento para a rota acessoUnidade, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarParceiro();
 
+        //Validação das informações recebidas
+        $validated = $request->validate([
+            'nome' => 'required',
+            'usuario' => 'required|max:20|unique:unidades,usuario',
+            'senha' => 'required'
+        ]);
+
+        //Nova instância do Model Unidade
+        $item = new Unidade();
+
+        //Atribuição dos valores recebidos da váriavel $request
+        $item->nome = $request->nome;
+        $item->usuario = $request->usuario;
+        $item->senha = md5($request->senha);
+        $item->email = $request->email;
+        $item->whatsapp = $request->whatsapp;
+        $item->contato = $request->contato;
+        $item->endereco = $request->endereco;
+        $item->cidade = $request->cidade;
+        $item->estado = $request->estado;
+        $item->facebook = $request->facebook;
+        $item->instagram = $request->instagram;
+        $item->site = $request->site;
+        $item->parceiro_id = $_SESSION['parceiro_cursos_start']->id;
+        $item->status = $request->status;
+
+        //Verificação se imagem de logo foi informado, caso seja verifica-se sua integridade
+        if (@$request->file('logo') and $request->file('logo')->isValid()) {
+            //Validação das informações recebidas
+            $validated = $request->validate([
+                'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5120'
+            ]);
+
+            //Atribuição dos valores recebidos da váriavel $request após seu upload
+            $item->logo = $request->logo->store('logoUnidade');
+
+            //Nova instância do Model Canvas
+            $img = new Canvas();
+
+            //Edição da imagem recebida com a Class Canva 
+            $img->carrega(public_path('storage/' . $item->logo))
+                ->hexa('#FFFFFF')
+                ->redimensiona(900, 600, 'preenchimento')
+                ->grava(public_path('storage/' . $item->logo), 80);
+        } else {
+            //Atribuição de valor padrão para imagem logo caso o mesmo não seja informado 
+            $item->logo = null;
+        }
+
+        //Envio das informações para o banco de dados
+        $resposta = $item->save();
+
+        //Verificação do insert
+        if ($resposta) {
+            //Redirecionamento para a rota indexUnidadeParceiro, com mensagem de sucesso
+            return redirect()->route('indexUnidadeParceiro')->with('sucesso', '"' . $item->nome . '", inserido!');
+        } else {
+
+            //Redirecionamento para tela anterior com mensagem de erro e reenvio das informações preenchidas para correção, exceto as informações de senha
+            return redirect()->back()->with('atencao', 'Não foi possível salvar as informações, tente novamente!')->withInput();
+        }
+    }
+
+    /*
+    Função Salvar de Unidade
+    - Responsável por editar as informações de um unidadeistrador já cadastrado
+    - $request: Recebe valores de um unidadeistrador
+    - $item: Recebe uma objeto de Unidade vázio para edição
+    */
+    public function salvarUnidadeParceiro(Request $request, Unidade $item)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarParceiro())
+            //Redirecionamento para a rota acessoUnidade, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarParceiro();
+
+        //Validação das informações recebidas
+        $validated = $request->validate([
+            'nome' => 'required',
+            'usuario' => "required|max:20|unique:unidades,usuario,{$item->id}",
+            'nome' => 'required'
+        ]);
+
+
+        //Atribuição dos valores recebidos da váriavel $request
+        $item->nome = $request->nome;
+        $item->usuario = $request->usuario;
+
+        //Verificação se uma nova senha foi informada
+        if (@$request->senha != '') {
+            //Validação das informações recebidas
+            $validated = $request->validate([
+                'senha' => 'required|min:6',
+            ]);
+
+            //Atribuição dos valores recebidos da váriavel $request para o objeto $item
+            $item->senha = md5($request->senha);
+        }
+
+        $item->email = $request->email;
+        $item->whatsapp = $request->whatsapp;
+        $item->contato = $request->contato;
+        $item->endereco = $request->endereco;
+        $item->cidade = $request->cidade;
+        $item->estado = $request->estado;
+        $item->facebook = $request->facebook;
+        $item->instagram = $request->instagram;
+        $item->site = $request->site;
+        $item->status = $request->status;
+
+
+        //Verificação se uma nova imagem de logo foi informado, caso seja verifica-se sua integridade
+        if (@$request->file('logo') and $request->file('logo')->isValid()) {
+            //Validação das informações recebidas
+            $validated = $request->validate([
+                'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:5120'
+            ]);
+
+            //Salva o nome da antiga imagem para ser apagada em caso de sucesso
+            $logoApagar = $item->logo;
+            //Atribuição dos valores recebidos da váriavel $request após seu upload
+            $item->logo = $request->logo->store('logoUnidade');
+
+            //Nova instância do Model Canvas
+            $img = new Canvas();
+
+            //Edição da imagem recebida com a Class Canva 
+            $img->carrega(public_path('storage/' . $item->logo))
+                ->hexa('#FFFFFF')
+                ->redimensiona(900, 600, 'preenchimento')
+                ->grava(public_path('storage/' . $item->logo), 80);
+        }
+
+        //Envio das informações para o banco de dados
+        $resposta = $item->save();
+
+        //Verifica se o Update foi bem sucedido
+        if ($resposta) {
+
+            //Verifica se há imagem antiga para ser apagada e se caso exista, se é diferente do padrão
+            if (@$logoApagar and Storage::exists($logoApagar)) {
+                //Deleta o arquivo físico da imagem antiga
+                Storage::delete($logoApagar);
+            }
+
+            //Redirecionamento para a rota unidadeIndex, com mensagem de sucesso
+            return redirect()->route('indexUnidadeParceiro')->with('sucesso', '"' . $item->nome . '", salvo!');
+        } else {
+            //Redirecionamento para tela anterior com mensagem de erro
+            return redirect()->back()->with('atencao', 'Não foi possível salvar as informações, tente novamente!');
+        }
+    }
+
+     /*
+    Função Deletar de Unidade
+    - Responsável por excluir as informações de um unidade
+    - $request: Recebe o Id do um unidade a ser excluido
+    */
+    public function deletarUnidadeParceiro(Unidade $item)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarParceiro())
+            //Redirecionamento para a rota acessoUnidade, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarParceiro();
+
+        $item->status = 0;
+
+        //Deleta o unidadei informado
+        if ($item->save()) {
+
+            //Redirecionamento para a rota indexUnidadeParceiro, com mensagem de sucesso
+            return redirect()->route('indexUnidadeParceiro')->with('sucesso', 'Unidade excluido!');
+        } else {
+            //Redirecionamento para a rota indexUnidadeParceiro, com mensagem de erro
+            return redirect()->route('indexUnidadeParceiro')->with('erro', 'Unidade não excluido!');
+        }
+    }
 }

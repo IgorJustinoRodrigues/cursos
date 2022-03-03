@@ -914,7 +914,7 @@ class ParceiroController extends Controller
             ->join('parceiros', 'unidades.parceiro_id', '=', 'parceiros.id')
             ->where('parceiros.id', '=',  $_SESSION['parceiro_cursos_start']->id)
             ->orderby('parceiros.id', 'desc');
-            
+
         //Verifica se existe uma busca
         if (@$request->busca != '') {
             //Paginação dos registros com busca busca
@@ -925,5 +925,88 @@ class ParceiroController extends Controller
 
         //Exibe a tela de listagem de categoria de Curso passando parametros para view
         return view('painelParceiro.matricula.index', ['paginacao' => $items, 'busca' => @$request->busca]);
+    }
+
+
+    /*
+    Função Cadastro de Unidade
+    - Responsável por mostrar a tela de cadastroUnidadeParceiro de unidade
+    */
+    public function cadastroUnidadeParceiro()
+    {
+        //Validação de acesso
+        if (!(new Services())->validarParceiro())
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarParceiro();
+
+        //Exibe a tela de cadastro de unidadeistradores
+        return view('painelParceiro.unidade.cadastro');
+    }
+
+
+    /*
+    Função Index de Unidade
+    - Responsável por mostrar a tela de listagem de unidade 
+    - $request: Recebe valores de busca e paginação
+    */
+    public function indexUnidadeParceiro(Request $request)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarParceiro())
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarParceiro();
+
+        $consulta = Unidade::join('parceiros', 'unidades.parceiro_id', '=',  'parceiros.id')
+            ->orderby('unidades.nome', 'asc')
+            ->where('unidades.status', '<>', '0')
+            ->where('parceiros.id', '=', $_SESSION['parceiro_cursos_start']->id);
+
+        //Verifica se existe uma busca
+        if (@$request->busca != '') {
+            //Paginação dos registros com busca busca
+            $consulta->where('unidades.nome', 'like', '%' . $request->busca . '%');
+        }
+
+
+        $items = $consulta->selectRaw('unidades.*, parceiros.nome as parceiro')
+            ->paginate();
+
+        //Exibe a tela de listagem de unidade passando parametros para view
+        return view('painelParceiro.unidade.index', ['paginacao' => $items, 'busca' => @$request->busca]);
+    }
+
+    /*
+    Função Editar de Unidade
+    - Responsável por mostrar a tela de edição de unidadeistradores
+    - $item: Recebe o Id do unidade que deverá ser editado
+    */
+    public function editarUnidadeParceiro($id)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarParceiro())
+            //Redirecionamento para a rota acessoVendedor, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarParceiro();
+
+        $item = Unidade::join('parceiros', 'unidades.parceiro_id', '=', 'parceiros.id')
+            ->orderby('unidades.nome', 'asc')
+            ->where('unidades.status', '<>', '0')
+            ->where('parceiros.id', '=', $_SESSION['parceiro_cursos_start']->id)
+            ->selectRaw('unidades.*, parceiros.nome as parceiro')
+            ->find($id);
+
+        //Verifica se há algum unidade selecionado
+        if (@$item) {
+
+
+            if ($item->status == 0) {
+                return redirect()->route('indexUnidadeParceiro')->with('atencao', 'Unidade excluido!');
+            }
+
+            //Exibe a tela de edição de unidadeistradores passando parametros para view
+            return view('painelParceiro.unidade.editar', ['item' => $item]);
+        } else {
+            //Redirecionamento para a rota indexUnidadeParceiro, com mensagem de erro
+            return redirect()->route('indexUnidadeParceiro')->with('erro', 'Unidade não encontrado!');
+        }
     }
 }

@@ -226,6 +226,17 @@ Route::post('/unidade-valida-usuario', [UnidadeController::class, 'validaUsuario
 
 Route::put('/unidade-salvar-minhas-informacoes', [UnidadeController::class, 'salvarMinhasInformacoesUnidade'])->name('salvarMinhasInformacoesUnidade');
 
+/*
+ROTAS DE CADASTRO DE UNIDADE EM PARCEIRO
+*/
+Route::get('/unidade-parceiro-index', [ParceiroController::class, 'indexUnidadeParceiro'])->name('indexUnidadeParceiro');
+Route::get('/unidade-parceiro-cadastro', [ParceiroController::class, 'cadastroUnidadeParceiro'])->name('cadastroUnidadeParceiro');
+Route::post('/unidade-parceiro-inserir', [UnidadeController::class, 'inserirUnidadeParceiro'])->name('inserirUnidadeParceiro');
+Route::get('/unidade-parceiro-editar/{item}', [ParceiroController::class, 'editarUnidadeParceiro'])->name('editarUnidadeParceiro');
+Route::put('/unidade-parceiro-salvar/{item}', [UnidadeController::class, 'salvarUnidadeParceiro'])->name('salvarUnidadeParceiro');
+Route::get('/unidade-parceiro-delete/{item}', [UnidadeController::class, 'deletarUnidadeParceiro'])->name('deletarUnidadeParceiro');
+
+
 /* 
 ROTAS DE CADASTRO DE VENDEDOR EM UNIDADE
 */
