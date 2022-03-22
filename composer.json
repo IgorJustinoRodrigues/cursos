@@ -20,8 +20,7 @@
         "lucascudo/laravel-pt-br-localization": "^1.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
-        "phpunit/phpunit": "^9.5.10",
-        "reliese/laravel": "^1.1"
+        "phpunit/phpunit": "^9.5.10"
     },
     "autoload": {
         "psr-4": {

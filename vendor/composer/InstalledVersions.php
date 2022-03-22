@@ -76,42 +76,6 @@ private static $installed = array (
       ),
       'reference' => '0992cc19268b259a39e86f296da5f0677841f42c',
     ),
-    'doctrine/cache' => 
-    array (
-      'pretty_version' => '2.1.1',
-      'version' => '2.1.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '331b4d5dbaeab3827976273e9356b3b453c300ce',
-    ),
-    'doctrine/dbal' => 
-    array (
-      'pretty_version' => '3.3.3',
-      'version' => '3.3.3.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '82331b861727c15b1f457ef05a8729e508e7ead5',
-    ),
-    'doctrine/deprecations' => 
-    array (
-      'pretty_version' => 'v0.5.3',
-      'version' => '0.5.3.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '9504165960a1f83cc1480e2be1dd0a0478561314',
-    ),
-    'doctrine/event-manager' => 
-    array (
-      'pretty_version' => '1.1.1',
-      'version' => '1.1.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '41370af6a30faa9dc0368c4a6814d596e81aba7f',
-    ),
     'doctrine/inflector' => 
     array (
       'pretty_version' => '2.0.4',
@@ -806,15 +770,6 @@ private static $installed = array (
       ),
       'reference' => 'c814a05837f2edb0d1471d6e3f4ab3501ca3899a',
     ),
-    'psr/cache' => 
-    array (
-      'pretty_version' => '3.0.0',
-      'version' => '3.0.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'aa5030cfa5405eccfdcb1083ce040c2cb8d253bf',
-    ),
     'psr/container' => 
     array (
       'pretty_version' => '1.1.2',
@@ -963,15 +918,6 @@ private static $installed = array (
       array (
       ),
       'reference' => 'fc9bb7fb5388691fd7373cd44dcb4d63bbcf24df',
-    ),
-    'reliese/laravel' => 
-    array (
-      'pretty_version' => 'v1.1.5',
-      'version' => '1.1.5.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'fdd4d70bfa8dfed1455b7d1a52823172769e5116',
     ),
     'rhumsaa/uuid' => 
     array (
