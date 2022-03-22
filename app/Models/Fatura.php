@@ -1,11 +1,55 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Fatura
+ * 
+ * @property int $id
+ * @property string $mes_referencia
+ * @property int $unidade_id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * 
+ * @property Unidade $unidade
+ * @property Collection|Cobranca[] $cobrancas
+ * @property Collection|Pagamento[] $pagamentos
+ *
+ * @package App\Models
+ */
 class Fatura extends Model
 {
-    use HasFactory;
+	protected $table = 'faturas';
+
+	protected $casts = [
+		'unidade_id' => 'int'
+	];
+
+	protected $fillable = [
+		'mes_referencia',
+		'unidade_id'
+	];
+
+	public function unidade()
+	{
+		return $this->belongsTo(Unidade::class);
+	}
+
+	public function cobrancas()
+	{
+		return $this->hasMany(Cobranca::class);
+	}
+
+	public function pagamentos()
+	{
+		return $this->hasMany(Pagamento::class);
+	}
 }
