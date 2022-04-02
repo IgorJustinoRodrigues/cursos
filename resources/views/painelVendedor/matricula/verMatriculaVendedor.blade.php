@@ -61,11 +61,16 @@
             </div>
         </div>
     </div>
+
+    <script>
+
+       
+    </script>
 @endsection
 
 
 @section('conteudo')
-
+    <input type="hidden" id="input-copy" value="Esse conteúdo foi copiado!">
     <div class="card border-left-3 border-left-success">
         <div class="card-body">
             <div class="list-group list-group-fit">
@@ -77,6 +82,8 @@
                     <div class="media-right d-flex align-items-center">
                         <a href="javascript:window.print()" id="print" class="btn btn-flush text-muted d-print-none mr-3"><i
                                 class="material-icons font-size-24pt">print</i></a>
+                        <button type="button" onclick="copiar('input-copy')"
+                            class="btn btn-primary btn-rounded mr-3">Copiar</button>
                         <button type="button" onclick="$('#modalEnvio').modal('show');"
                             class="btn btn-success btn-rounded">Enviar Código</button>
                     </div>
@@ -164,11 +171,11 @@
                                 @endif
                             </div>
                             <!--
-                                                                                                                        <a href="fixed-student-account-billing-payment-information.html" class="text-secondary">
-                                                                                                                            <font style="vertical-align: inherit;">
-                                                                                                                                <font style="vertical-align: inherit;">Alterar método</font>
-                                                                                                                            </font>
-                                                                                                                        </a> -->
+                                                                                                                                        <a href="fixed-student-account-billing-payment-information.html" class="text-secondary">
+                                                                                                                                            <font style="vertical-align: inherit;">
+                                                                                                                                                <font style="vertical-align: inherit;">Alterar método</font>
+                                                                                                                                            </font>
+                                                                                                                                        </a> -->
                         </div>
                     </div>
                 </div>

@@ -152,7 +152,8 @@ class MatriculaController extends Controller
         // XXX1492FBDA3A22
         // 111122222222344
 
-        $item->ativacao = str_pad($request->unidade, 4, "X", STR_PAD_RIGHT) . strtoupper(bin2hex(random_bytes(4))) . (new CursoController())->codigo_tipo($request->nivel) . date("y");
+        $item->ativacao = str_pad($_SESSION['vendedor_cursos_start']->unidade_id, 4, "X", STR_PAD_RIGHT) . strtoupper(bin2hex(random_bytes(4))) . (new CursoController())->codigo_tipo($request->nivel) . date("y");
+
         $item->tipo_pagamento = $request->tipo_pagamento;
         if ($item->tipo_pagamento == 2) {
             $item->quant_parcelas = $request->quant_parcelas_venda;

@@ -26,6 +26,7 @@ class SiteController extends Controller
     //Função index/início do Site 
     public function index()
     {
+
         //listagem da categoria de cursos e contagem de Quantos cursos tem em uma categoria
         $categorias = CategoriaCurso::join('cursos', 'categoria_cursos.id', '=', 'cursos.categoria_id')
             ->selectRaw('categoria_cursos.id, categoria_cursos.imagem as imagemCategoria, categoria_cursos.nome, count(categoria_cursos.id) as quantCursoCategoria')

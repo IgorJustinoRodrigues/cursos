@@ -73,7 +73,7 @@ class Curso extends Model
 
 	public function professor()
 	{
-		return $this->belongsTo(Professor::class);
+		return $this->belongsTo(Professor::class, 'professor_id');
 	}
 
 	public function aula_alunos()
