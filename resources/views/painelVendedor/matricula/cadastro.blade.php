@@ -154,7 +154,7 @@
                         <hr>
                         <div class="d-flex">
                             <div class="flex">
-                                <a href="{{ route('matriculaIndex') }}" class="btn btn-default btn-wide">Voltar</a>
+                                <a href="{{ route('matriculaVendedorIndex') }}" class="btn btn-default btn-wide">Voltar</a>
                             </div>
                             <button class="btn btn-success" type="submit">Inserir</button>
                         </div>

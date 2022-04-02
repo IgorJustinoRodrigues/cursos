@@ -64,7 +64,7 @@
 
     <script>
 
-       
+
     </script>
 @endsection
 
@@ -171,11 +171,11 @@
                                 @endif
                             </div>
                             <!--
-                                                                                                                                        <a href="fixed-student-account-billing-payment-information.html" class="text-secondary">
-                                                                                                                                            <font style="vertical-align: inherit;">
-                                                                                                                                                <font style="vertical-align: inherit;">Alterar método</font>
-                                                                                                                                            </font>
-                                                                                                                                        </a> -->
+                                                                                                                                            <a href="fixed-student-account-billing-payment-information.html" class="text-secondary">
+                                                                                                                                                <font style="vertical-align: inherit;">
+                                                                                                                                                    <font style="vertical-align: inherit;">Alterar método</font>
+                                                                                                                                                </font>
+                                                                                                                                            </a> -->
                         </div>
                     </div>
                 </div>
