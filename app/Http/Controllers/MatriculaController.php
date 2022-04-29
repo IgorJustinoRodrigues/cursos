@@ -8,6 +8,7 @@ use App\Models\Matricula;
 use App\Models\Unidade;
 use App\Models\Vendedor;
 use App\Services\Services;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MatriculaController extends Controller
@@ -413,6 +414,46 @@ class MatriculaController extends Controller
         }
     }
 
+
+    /*
+    Função Pedido de Cancelamento de Matrícula 
+    - Responsável por cancelar uma matricula
+    - $request: Recebe valores de uma categoria de curso
+    - $item: Recebe uma objeto de matrícula 
+    */
+
+    public function pedidoCancelarMatricula($id)
+    {
+        //Validação de acesso
+        if (!(new Services())->validarParceiro())
+            //Redirecionamento para a rota acessoMatricula, com mensagem de erro, sem uma sessão ativa
+            return (new Services())->redirecionarParceiro();
+
+        $item = Matricula::find($id);
+
+        if ($item) {
+            $dataatual = Carbon::now();
+
+            if ($item->status == 2) {
+                if ($dataatual->diffInHours($item->created_at) <= 24) {
+
+                    $item->status = 3;
+                    if ($item->save()) {
+                        return redirect()->route('painelParceiro')->with('sucesso', 'Cancelamento solicitado!');
+                    } else {
+                        return redirect()->back()->with('erro', 'Não foi possível solicitar o cancelamento desta matrícula, tente novamente');
+                    }
+                } else {
+                    return redirect()->back()->with('erro', 'Só é possível cancelar uma matrícula antes das 24 horas de sua criaçao.');
+                }
+            } else {
+                return redirect()->back()->with('erro', 'Não é possível solicitar o cancelamento dessa matrícula!');
+            }
+        } else {
+            return redirect()->back()->with('erro', 'Informações incorretas!');
+        }
+    }
+
     /*
     Função Salvar de Categoria de Curso
     - Responsável por editar as informações de uma categoria de curso já cadastrado
@@ -518,6 +559,11 @@ class MatriculaController extends Controller
             case 2:
                 //Retorna o status Inativo
                 return 'Aguardando Ativação';
+                break;
+
+            case 3:
+                //Retorna o status Inativo
+                return 'Aguardando Cancelamento';
                 break;
 
             case 0:

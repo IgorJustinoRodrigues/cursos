@@ -11,7 +11,7 @@
 
         <div class="d-flex align-items-center mb-4">
             <h1 class="h2 flex mr-3 mb-0">Listagem de Matrículas</h1>
-            <a href="{{ route('cadastroMatriculaUnidade') }}" class="btn btn-success">Cadastro</a>
+            <a href="{{ route('cadastroMatriculaParceiro') }}" class="btn btn-success">Cadastro</a>
         </div>
 
 
@@ -34,8 +34,8 @@
                     value="{{ $busca }}" name="busca" required>
                 <button class="btn pr-3" type="submit" role="button"><i class="material-icons">search</i></button>
                 @if (@$busca)
-                    <a href="{{ route('matriculaIndex') }}" class="btn pr-3 text-danger" type="button"
-                        role="button"><i class="material-icons">close</i></a>
+                    <a href="{{ route('matriculaIndex') }}" class="btn pr-3 text-danger" type="button" role="button"><i
+                            class="material-icons">close</i></a>
                 @endif
             </form>
         </div>
@@ -53,19 +53,12 @@
                     @foreach ($paginacao as $item)
                         <tr>
                             <td>
-                                <a href="{{ route('matriculaEditar', $item->id) }}">
-                                    {{ $item->ativacao }}
-                                </a>
+                                {{ $item->ativacao }}
                             </td>
                             <td>{{ app(App\Http\Controllers\MatriculaController::class)->status($item->status) }}</td>
                             <td class="table-dropdown text-center">
-                                <a href="{{ route('matriculaEditar', $item->id) }}" class="btn btn-success">
-                                    <i class="fa fa-edit"></i>
-                                </a>
-
-                                <a onclick="confirmacao('{{ route('matriculaDeletar', $item->id) }}', '<h3>Realmente deseja excluir esse matricula?</h3><p>{{ $item->ativacao }}</p>')"
-                                    class="btn btn-danger">
-                                    <i class="fa fa-trash"></i>
+                                <a href="{{ route('verMatriculaParceiro', $item->id) }}" class="btn btn-success">
+                                    <i class="fa fa-eye-slash"></i>
                                 </a>
                             </td>
                         </tr>

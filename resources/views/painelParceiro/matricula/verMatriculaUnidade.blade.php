@@ -4,6 +4,15 @@
 
 @section('footer')
 
+    <script>
+        function abrirwhatsapp() {
+            var whatsapp = $("#whatsapp").val();
+
+            window.open("https://api.whatsapp.com/send?1=pt_br&phone=55" + whatsapp + '&text={{ $item->ativacao }}',
+                "minhaJanela", "height=600,width=600");
+        }
+    </script>
+
     <div class="modal fade" id="modalEnvio" tabindex="-1" aria-labelledby="envioLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -13,22 +22,22 @@
                 <div class="modal-body">
                     <!-- código html-->
                     <form action="#">
-                        <div class="form-group">
-                            <label class="form-label" for="email">Email</label>
-                            <div class="input-group input-group-merge">
-                                <input type="email" class="form-control form-control-prepended" name="email"
-                                    placeholder="Email do Aluno">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <i class="fa fa-paper-plane"></i>
+                        <!--  <div class="form-group">
+                                    <label class="form-label" for="email">Email</label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="email" class="form-control form-control-prepended" name="email"
+                                            placeholder="Email do Aluno">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fa fa-paper-plane"></i>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
+                                </div> -->
                         <div class="form-group">
                             <label class="form-label" for="email">WhatsApp</label>
                             <div class="input-group input-group-merge">
-                                <input type="email" class="form-control form-control-prepended" name="whatsapp"
+                                <input type="text" id="whatsapp" class="form-control form-control-prepended" name="whatsapp"
                                     placeholder="Whatsapp do Aluno">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
@@ -37,22 +46,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label" for="email">Telefone</label>
-                            <div class="input-group input-group-merge">
-                                <input type="email" class="form-control form-control-prepended" name="contato"
-                                    placeholder="Enviar matrícula por SMS">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <i class="fa fa-phone-square"></i>
+                        <!--  <div class="form-group">
+                                    <label class="form-label" for="email">Telefone</label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="email" class="form-control form-control-prepended" name="contato"
+                                            placeholder="Enviar matrícula por SMS">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fa fa-phone-square"></i>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
+                                </div> -->
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                            <a href="" class="btn btn-success">Confirmar</a>
+                            <button type="button" class="btn btn-success" onclick="abrirwhatsapp()">Confirmar</button>
                         </div>
 
                     </form>
@@ -86,6 +95,24 @@
                     <div class="form-group row mb-0">
                         <label class="col-form-label form-label col-sm-3">
                             <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">Status da Matrícula</font>
+                            </font>
+                        </label>
+                        <div class="col-sm-9 d-flex align-items-center">
+                            <div class="flex">
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;">
+                                        {{ app(App\Http\Controllers\MatriculaController::class)->status($item->status) }}
+                                    </font>
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group-item">
+                    <div class="form-group row mb-0">
+                        <label class="col-form-label form-label col-sm-3">
+                            <font style="vertical-align: inherit;">
                                 <font style="vertical-align: inherit;">N° Matrícula Gerada</font>
                             </font>
                         </label>
@@ -98,6 +125,9 @@
                         </div>
                     </div>
                 </div>
+
+
+
                 <div class="list-group-item">
                     <div class="form-group row mb-0">
                         <label class="col-form-label form-label col-sm-3">
@@ -108,7 +138,7 @@
                         <div class="col-sm-9 d-flex align-items-center">
                             <div class="flex">
                                 <font style="vertical-align: inherit;">
-                                    @if ($item->curso != null)
+                                    @if ($item->aluno != null)
                                         <font style="vertical-align: inherit;">{{ $item->aluno }}</font>
                                     @else
                                         <font style="vertical-align: inherit;">Aluno não Informado!</font>
@@ -153,7 +183,7 @@
                                     <font style="vertical-align: inherit;">
                                         <font style="vertical-align: inherit;">
                                             {{ app(App\Http\Controllers\MatriculaController::class)->tipoPagamento($item->tipo_pagamento) }}
-                                            | {{ $item->valor_venda }}</font>
+                                            | R$ {{ number_format($item->valor_venda, 2, ',', '.') }}</font>
                                     </font>
                                 @else
                                     <font style="vertical-align: inherit;">
@@ -164,31 +194,32 @@
                                 @endif
                             </div>
                             <!--
-                                                                                                                        <a href="fixed-student-account-billing-payment-information.html" class="text-secondary">
-                                                                                                                            <font style="vertical-align: inherit;">
-                                                                                                                                <font style="vertical-align: inherit;">Alterar método</font>
-                                                                                                                            </font>
-                                                                                                                        </a> -->
+                                                                                                                                <a href="fixed-student-account-billing-payment-information.html" class="text-secondary">
+                                                                                                                                    <font style="vertical-align: inherit;">
+                                                                                                                                        <font style="vertical-align: inherit;">Alterar método</font>
+                                                                                                                                    </font>
+                                                                                                                                </a> -->
                         </div>
                     </div>
                 </div>
-
-                <div class="list-group-item" id="solicitar">
-                    <div class="form-group row mb-0">
-                        <label class="col-form-label form-label col-sm-3">
-                            <font style="vertical-align: inherit;">
-                                <font style="vertical-align: inherit;">Solicitar Cancelamento de Matrícula</font>
-                            </font>
-                        </label>
-                        <div class="col-sm-9">
-                            <a class="btn btn-outline-secondary"
-                                onclick="confirmacao('{{ route('cursoDeletar', $item->id) }}', '<h3>Realmente deseja solicitar cancelamento de matrícula ?</h3><p>{{ $item->nome }}</p>')"
-                                <font style="vertical-align: inherit;">Solicitar cancelamento</font>
+                @if ($item->status == 2)
+                    <div class="list-group-item" id="solicitar">
+                        <div class="form-group row mb-0">
+                            <label class="col-form-label form-label col-sm-3">
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;">Solicitar Cancelamento de Matrícula</font>
                                 </font>
-                            </a>
+                            </label>
+                            <div class="col-sm-9">
+                                <a class="btn btn-outline-secondary"
+                                    onclick="confirmacao('{{ route('pedidoCancelarMatricula', $item->id) }}', '<h3>Realmente deseja solicitar cancelamento de matrícula ?</h3><p>{{ $item->nome }}</p>')"
+                                    <font style="vertical-align: inherit;">Solicitar cancelamento</font>
+                                    </font>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
             </div>
         </div>
     </div>

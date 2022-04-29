@@ -337,7 +337,8 @@ Route::get('/matricula-cadastro-parceiro', [ParceiroController::class, 'cadastro
 Route::post('/listar-cursos-ajax-parceiro/', [ParceiroController::class, 'listarCursosParceiroAjax'])->name('listarCursosParceiroAjax');
 /*ROTA DE INSERIR EM MATRÍCULACONTROLLER DE VENDEDOR*/
 Route::post('/matricula-inserir-parceiro', [MatriculaController::class, 'inserirMatriculaParceiro'])->name('inserirMatriculaParceiro');
-
+//ROTA DE CANCELAMENTO DE MATRÍCULA 
+Route::GET('/matricula-cancelar-parceiro/{id}', [MatriculaController::class, 'pedidoCancelarMatricula'])->name('pedidoCancelarMatricula');
 
 //
 
